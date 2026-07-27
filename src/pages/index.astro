@@ -1,0 +1,77 @@
+---
+// Ana sayfa. Hub görevi görür: her hizmet × ilçe sayfasına buradan link var,
+// böylece hiçbir para sayfası yetim kalmaz.
+import BaseLayout from '@/layouts/BaseLayout.astro';
+import StickyUstCubuk from '@/components/StickyUstCubuk.astro';
+import Hero from '@/components/Hero.astro';
+import GuvenRozetleri from '@/components/GuvenRozetleri.astro';
+import Surec from '@/components/Surec.astro';
+import Yorumlar from '@/components/Yorumlar.astro';
+import IletisimFormu from '@/components/IletisimFormu.astro';
+import AltCta from '@/components/AltCta.astro';
+import Footer from '@/components/Footer.astro';
+import MobilBar from '@/components/MobilBar.astro';
+
+import { aktifHizmetler, firma, gecerliIlceler } from '@/lib/veri';
+import { hvacBusiness } from '@/lib/schema';
+
+const hizmetler = aktifHizmetler();
+const ilceler = gecerliIlceler();
+
+const waMesaji = 'Merhaba, servis talebi için bilgi almak istiyorum.';
+---
+
+<BaseLayout
+  title={`${firma.sehir} Beyaz Eşya ve Klima Servisi — Aynı Gün`}
+  description={`${firma.sehir} genelinde klima ve beyaz eşya arızalarına aynı gün gidiyoruz. Yerinde arıza tespiti, şeffaf fiyat, kapıda ödeme. Hemen arayın.`}
+  yol="/"
+  schema={[hvacBusiness(Astro.site!)]}
+  sayfaKimligi="anasayfa"
+>
+  <StickyUstCubuk />
+  <Hero
+    h1={`${firma.sehir} Beyaz Eşya ve Klima Servisi`}
+    altBaslik="Aynı gün, 2 saat içinde kapınızda."
+    waMesaji={waMesaji}
+  />
+  <GuvenRozetleri />
+
+  <section class="mx-auto max-w-5xl px-4 py-10">
+    <h2 class="text-2xl font-bold text-marka-900">Hizmetlerimiz ve bölgeler</h2>
+
+    {
+      ilceler.length === 0 ? (
+        <p class="mt-4 rounded-lg border border-dashed border-marka-100 bg-marka-50 p-4 text-metin-soluk">
+          {'{PLACEHOLDER — Hiçbir ilçe için yerelNotlar doldurulmadı, bu yüzden ilçe sayfası üretilmedi. src/data/ilceler.json içindeki yerelNotlar alanlarını doldurun.}'}
+        </p>
+      ) : (
+        <div class="mt-5 grid gap-8 sm:grid-cols-2">
+          {hizmetler.map((h) => (
+            <nav aria-label={h.ad}>
+              <h3 class="font-semibold text-marka-900">{h.ad}</h3>
+              <ul class="mt-2 space-y-1.5">
+                {ilceler.map((i) => (
+                  <li>
+                    <a
+                      href={`/${h.slug}/${i.slug}/`}
+                      class="text-marka-700 underline hover:text-marka-900"
+                    >
+                      {i.ad} {h.ad}
+                    </a>
+                  </li>
+                ))}
+              </ul>
+            </nav>
+          ))}
+        </div>
+      )
+    }
+  </section>
+
+  <Surec />
+  <Yorumlar />
+  <IletisimFormu baglam="Ana sayfa servis talebi" />
+  <AltCta baslik="Arızayı bugün çözelim" waMesaji={waMesaji} />
+  <Footer />
+  <MobilBar waMesaji={waMesaji} />
+</BaseLayout>

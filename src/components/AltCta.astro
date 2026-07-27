@@ -1,0 +1,19 @@
+---
+// 13a — Alt CTA.
+import AraButonu from './AraButonu.astro';
+
+interface Props {
+  baslik: string;
+  waMesaji: string;
+}
+
+const { baslik, waMesaji } = Astro.props;
+---
+
+<section class="bg-marka-900">
+  <div class="mx-auto max-w-5xl px-4 py-10">
+    <h2 class="text-2xl font-bold text-white">{baslik}</h2>
+    <p class="mt-2 text-marka-100">Telefonda kısa bir tarif yeter, gerisini biz hallederiz.</p>
+    <AraButonu konum="footer" mesaj={waMesaji} boyut="buyuk" class="mt-6" />
+  </div>
+</section>

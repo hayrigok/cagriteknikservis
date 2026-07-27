@@ -1,0 +1,27 @@
+---
+// 2, 3, 4 — Tek H1 + somut vaat + ana CTA. Hepsi kaydırmadan görünen alanda.
+import AraButonu from './AraButonu.astro';
+
+interface Props {
+  h1: string;
+  altBaslik: string;
+  waMesaji: string;
+}
+
+const { h1, altBaslik, waMesaji } = Astro.props;
+---
+
+<section id="icerik" class="bg-marka-50">
+  <div class="mx-auto max-w-5xl px-4 py-8 sm:py-12">
+    <h1 class="text-3xl leading-tight font-bold text-marka-900 sm:text-4xl">
+      {h1}
+    </h1>
+    <p class="mt-3 text-lg text-metin sm:text-xl">{altBaslik}</p>
+
+    <AraButonu konum="hero" mesaj={waMesaji} boyut="buyuk" class="mt-6" />
+
+    <p class="mt-3 text-sm text-metin-soluk">
+      Fiyatı önce söyleriz, onayınızı almadan işleme başlamayız.
+    </p>
+  </div>
+</section>

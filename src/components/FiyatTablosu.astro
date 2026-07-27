@@ -1,0 +1,50 @@
+---
+// 6 — Fiyat aralığı tablosu. Rakam uydurulmaz: altTl/ustTl null ise {PLACEHOLDER} basılır.
+import type { FiyatSatiri } from '@/lib/types';
+
+interface Props {
+  satirlar: FiyatSatiri[];
+  baslik: string;
+}
+
+const { satirlar, baslik } = Astro.props;
+
+const tl = new Intl.NumberFormat('tr-TR');
+
+function aralik(s: FiyatSatiri): string {
+  if (s.altTl === null || s.ustTl === null) return '{PLACEHOLDER — fiyat aralığı}';
+  return `${tl.format(s.altTl)} – ${tl.format(s.ustTl)} TL`;
+}
+---
+
+<section class="mx-auto max-w-5xl px-4 py-10">
+  <h2 class="text-2xl font-bold text-marka-900">{baslik}</h2>
+  <p class="mt-2 text-metin-soluk">
+    Aşağıdaki aralıklar bilgi içindir. Kesin tutarı arızayı yerinde gördükten sonra,
+    işleme başlamadan önce söyleriz.
+  </p>
+
+  <div class="mt-5 overflow-x-auto">
+    <table class="w-full min-w-[32rem] border-collapse text-left">
+      <thead>
+        <tr class="border-b-2 border-marka-100">
+          <th scope="col" class="py-3 pr-4 font-semibold text-marka-900">İşlem</th>
+          <th scope="col" class="py-3 font-semibold text-marka-900">Aralık</th>
+        </tr>
+      </thead>
+      <tbody>
+        {
+          satirlar.map((s) => (
+            <tr class="border-b border-marka-100 align-top">
+              <td class="py-3 pr-4">
+                {s.islem}
+                {s.not && <span class="block text-sm text-metin-soluk">{s.not}</span>}
+              </td>
+              <td class="py-3 font-medium whitespace-nowrap">{aralik(s)}</td>
+            </tr>
+          ))
+        }
+      </tbody>
+    </table>
+  </div>
+</section>

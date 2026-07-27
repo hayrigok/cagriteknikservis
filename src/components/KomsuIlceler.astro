@@ -1,0 +1,60 @@
+---
+// İç link bloğu — yetim sayfa bırakmamak için. Her para sayfası hizmet hub'ına,
+// komşu ilçelere ve aynı ilçedeki diğer hizmetlere link verir.
+import type { Hizmet, Ilce } from '@/lib/types';
+import { aktifHizmetler, komsuIlceler } from '@/lib/veri';
+
+interface Props {
+  hizmet: Hizmet;
+  ilce: Ilce;
+}
+
+const { hizmet, ilce } = Astro.props;
+
+const komsular = komsuIlceler(ilce.slug);
+const digerHizmetler = aktifHizmetler().filter((h) => h.slug !== hizmet.slug);
+---
+
+<section class="mx-auto max-w-5xl px-4 py-10">
+  <div class="grid gap-8 sm:grid-cols-2">
+    {
+      komsular.length > 0 && (
+        <nav aria-label="Yakın bölgeler">
+          <h2 class="text-lg font-bold text-marka-900">Yakın bölgelerde {hizmet.ad.toLocaleLowerCase('tr-TR')}</h2>
+          <ul class="mt-3 space-y-1.5">
+            {komsular.map((k) => (
+              <li>
+                <a
+                  href={`/${hizmet.slug}/${k.slug}/`}
+                  class="text-marka-700 underline hover:text-marka-900"
+                >
+                  {k.ad} {hizmet.ad}
+                </a>
+              </li>
+            ))}
+          </ul>
+        </nav>
+      )
+    }
+
+    {
+      digerHizmetler.length > 0 && (
+        <nav aria-label="Diğer hizmetler">
+          <h2 class="text-lg font-bold text-marka-900">{ilce.ad}'de diğer hizmetlerimiz</h2>
+          <ul class="mt-3 space-y-1.5">
+            {digerHizmetler.map((h) => (
+              <li>
+                <a
+                  href={`/${h.slug}/${ilce.slug}/`}
+                  class="text-marka-700 underline hover:text-marka-900"
+                >
+                  {ilce.ad} {h.ad}
+                </a>
+              </li>
+            ))}
+          </ul>
+        </nav>
+      )
+    }
+  </div>
+</section>

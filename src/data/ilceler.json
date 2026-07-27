@@ -1,0 +1,38 @@
+[
+  {
+    "slug": "seyhan",
+    "ad": "Seyhan",
+    "sehir": "Adana",
+    "mahalleler": ["{PLACEHOLDER — mahalle adı}", "{PLACEHOLDER — mahalle adı}", "{PLACEHOLDER — mahalle adı}"],
+    "ulasimDk": 0,
+    "yerelNotlar": "{PLACEHOLDER — en az 200 karakter. Bu ilçeye özgü gerçek saha bilgisi yazın: hangi mahallelere ne kadar sürede gidiliyor, bina/site dokusu nasıl (yüksek katlı site mi, eski apartman mı), hangi cihaz veya arıza tipi burada daha sık çıkıyor, park/asansör gibi montajı etkileyen pratik kısıtlar var mı. Şablon cümle kopyalamayın; her ilçe için ayrı yazın.}",
+    "aktif": true
+  },
+  {
+    "slug": "cukurova",
+    "ad": "Çukurova",
+    "sehir": "Adana",
+    "mahalleler": ["{PLACEHOLDER — mahalle adı}", "{PLACEHOLDER — mahalle adı}", "{PLACEHOLDER — mahalle adı}"],
+    "ulasimDk": 0,
+    "yerelNotlar": "{PLACEHOLDER — en az 200 karakter. Bu ilçeye özgü gerçek saha bilgisi yazın: hangi mahallelere ne kadar sürede gidiliyor, bina/site dokusu nasıl (yüksek katlı site mi, eski apartman mı), hangi cihaz veya arıza tipi burada daha sık çıkıyor, park/asansör gibi montajı etkileyen pratik kısıtlar var mı. Şablon cümle kopyalamayın; her ilçe için ayrı yazın.}",
+    "aktif": true
+  },
+  {
+    "slug": "yuregir",
+    "ad": "Yüreğir",
+    "sehir": "Adana",
+    "mahalleler": ["{PLACEHOLDER — mahalle adı}", "{PLACEHOLDER — mahalle adı}", "{PLACEHOLDER — mahalle adı}"],
+    "ulasimDk": 0,
+    "yerelNotlar": "{PLACEHOLDER — en az 200 karakter. Bu ilçeye özgü gerçek saha bilgisi yazın: hangi mahallelere ne kadar sürede gidiliyor, bina/site dokusu nasıl (yüksek katlı site mi, eski apartman mı), hangi cihaz veya arıza tipi burada daha sık çıkıyor, park/asansör gibi montajı etkileyen pratik kısıtlar var mı. Şablon cümle kopyalamayın; her ilçe için ayrı yazın.}",
+    "aktif": true
+  },
+  {
+    "slug": "saricam",
+    "ad": "Sarıçam",
+    "sehir": "Adana",
+    "mahalleler": ["{PLACEHOLDER — mahalle adı}", "{PLACEHOLDER — mahalle adı}", "{PLACEHOLDER — mahalle adı}"],
+    "ulasimDk": 0,
+    "yerelNotlar": "{PLACEHOLDER — en az 200 karakter. Bu ilçeye özgü gerçek saha bilgisi yazın: hangi mahallelere ne kadar sürede gidiliyor, bina/site dokusu nasıl (yüksek katlı site mi, eski apartman mı), hangi cihaz veya arıza tipi burada daha sık çıkıyor, park/asansör gibi montajı etkileyen pratik kısıtlar var mı. Şablon cümle kopyalamayın; her ilçe için ayrı yazın.}",
+    "aktif": true
+  }
+]

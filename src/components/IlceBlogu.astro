@@ -1,0 +1,35 @@
+---
+// 9 — İlçeye özgü blok. Bu bloğun içeriği (yerelNotlar) sayfanın var olma
+// gerekçesi: boşsa build sayfayı zaten üretmez.
+import type { Ilce } from '@/lib/types';
+
+interface Props {
+  ilce: Ilce;
+  hizmetAdi: string;
+}
+
+const { ilce, hizmetAdi } = Astro.props;
+---
+
+<section class="bg-marka-50">
+  <div class="mx-auto max-w-5xl px-4 py-10">
+    <h2 class="text-2xl font-bold text-marka-900">
+      {ilce.ad}'de {hizmetAdi.toLocaleLowerCase('tr-TR')}
+    </h2>
+
+    <p class="mt-3 max-w-3xl leading-relaxed text-metin">{ilce.yerelNotlar}</p>
+
+    <dl class="mt-6 grid gap-5 sm:grid-cols-2">
+      <div>
+        <dt class="font-semibold text-marka-900">Ortalama ulaşım süresi</dt>
+        <dd class="mt-1 text-metin-soluk">
+          {ilce.ulasimDk > 0 ? `${ilce.ulasimDk} dakika` : '{PLACEHOLDER — ulaşım süresi}'}
+        </dd>
+      </div>
+      <div>
+        <dt class="font-semibold text-marka-900">Gittiğimiz mahalleler</dt>
+        <dd class="mt-1 text-metin-soluk">{ilce.mahalleler.join(', ')}</dd>
+      </div>
+    </dl>
+  </div>
+</section>

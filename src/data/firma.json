@@ -1,0 +1,15 @@
+{
+  "unvan": "{PLACEHOLDER — tam ticari ünvan}",
+  "kisaAd": "{PLACEHOLDER — sitede görünecek kısa ad}",
+  "telefon": "{PLACEHOLDER — 0XXX XXX XX XX}",
+  "whatsapp": "{PLACEHOLDER — 905XXXXXXXXX}",
+  "adres": "{PLACEHOLDER — açık adres}",
+  "sehir": "Adana",
+  "vergiDairesi": "{PLACEHOLDER — vergi dairesi}",
+  "vergiNo": "{PLACEHOLDER — vergi no}",
+  "calismaSaatleri": "{PLACEHOLDER — örn. Pazartesi-Cumartesi 08:00-20:00}",
+  "googleIsletmeUrl": "{PLACEHOLDER — Google işletme profili URL}",
+  "garantiSuresi": "{PLACEHOLDER — örn. 6 ay}",
+  "markalar": ["{PLACEHOLDER — marka}", "{PLACEHOLDER — marka}", "{PLACEHOLDER — marka}"],
+  "gaOlcumKimligi": "{PLACEHOLDER — G-XXXXXXXXXX}"
+}

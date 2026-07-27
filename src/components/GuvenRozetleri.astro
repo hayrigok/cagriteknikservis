@@ -1,0 +1,52 @@
+---
+// 5 — Üç güven rozeti. Inline SVG: ek istek yok, CLS yok.
+import { firma, doldurulmusMu } from '@/lib/veri';
+
+const garanti = doldurulmusMu(firma.garantiSuresi)
+  ? `${firma.garantiSuresi} garanti`
+  : '{PLACEHOLDER — garanti süresi}';
+
+const rozetler = [
+  {
+    baslik: garanti,
+    aciklama: 'İşçilik ve değişen parça garanti kapsamında.',
+    ikon:
+      'M12 2 4 5v6c0 5 3.4 9.4 8 11 4.6-1.6 8-6 8-11V5l-8-3Zm-1 13-3-3 1.4-1.4L11 12.2l4.6-4.6L17 9l-6 6Z',
+  },
+  {
+    baslik: 'Onarımda tespit ücretsiz',
+    aciklama: 'Arızayı yerinde belirler, fiyatı önce söyleriz. Onarımı yaptırırsanız tespit için ayrıca ücret almayız.',
+    ikon: 'M10 2a8 8 0 1 0 4.9 14.3l5.4 5.4 1.4-1.4-5.4-5.4A8 8 0 0 0 10 2Zm0 2a6 6 0 1 1 0 12 6 6 0 0 1 0-12Z',
+  },
+  {
+    baslik: 'Kapıda ödeme',
+    aciklama: 'Nakit veya kart. İşlem bitmeden ödeme istemeyiz.',
+    ikon: 'M3 6h18a1 1 0 0 1 1 1v10a1 1 0 0 1-1 1H3a1 1 0 0 1-1-1V7a1 1 0 0 1 1-1Zm1 4v6h16v-6H4Zm0-2h16V8H4Z',
+  },
+];
+---
+
+<section class="border-y border-marka-100 bg-white">
+  <ul class="mx-auto grid max-w-5xl gap-4 px-4 py-6 sm:grid-cols-3">
+    {
+      rozetler.map((r) => (
+        <li class="flex gap-3">
+          <svg
+            width="24"
+            height="24"
+            viewBox="0 0 24 24"
+            fill="currentColor"
+            class="mt-0.5 shrink-0 text-marka-600"
+            aria-hidden="true"
+          >
+            <path d={r.ikon} />
+          </svg>
+          <div>
+            <p class="font-semibold text-marka-900">{r.baslik}</p>
+            <p class="text-sm text-metin-soluk">{r.aciklama}</p>
+          </div>
+        </li>
+      ))
+    }
+  </ul>
+</section>

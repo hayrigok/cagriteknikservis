@@ -1,0 +1,139 @@
+---
+// 12 — Form. SADECE 3 alan + KVKK onayı.
+// Gönderim: backend yok, alanlar WhatsApp mesajına yazılıp wa.me'ye yönlendiriliyor.
+// form_submit olayı yönlendirmeden hemen önce tetiklenir; yani "WhatsApp açıldı"
+// anlamına gelir, "mesaj ulaştı" anlamına gelmez.
+import { firma, doldurulmusMu } from '@/lib/veri';
+
+interface Props {
+  baglam: string;
+}
+
+const { baglam } = Astro.props;
+const numara = doldurulmusMu(firma.whatsapp) ? firma.whatsapp.replace(/\D/g, '') : '';
+---
+
+<section class="mx-auto max-w-3xl px-4 py-10">
+  <h2 class="text-2xl font-bold text-marka-900">Sizi arayalım</h2>
+  <p class="mt-2 text-metin-soluk">
+    Üç bilgi yeterli. Formu gönderince WhatsApp açılır, mesajınız hazır gelir.
+  </p>
+
+  <form
+    data-form
+    data-numara={numara}
+    data-baglam={baglam}
+    class="mt-5 grid gap-4"
+    novalidate
+  >
+    <div>
+      <label for="f-ad" class="block font-medium text-marka-900">Adınız</label>
+      <input
+        id="f-ad"
+        name="ad"
+        type="text"
+        required
+        autocomplete="name"
+        class="mt-1.5 w-full rounded-lg border border-marka-100 px-3 py-2.5 text-base outline-none focus:border-marka-600"
+      />
+    </div>
+
+    <div>
+      <label for="f-tel" class="block font-medium text-marka-900">Telefonunuz</label>
+      <input
+        id="f-tel"
+        name="telefon"
+        type="tel"
+        required
+        inputmode="tel"
+        autocomplete="tel"
+        placeholder="05XX XXX XX XX"
+        class="mt-1.5 w-full rounded-lg border border-marka-100 px-3 py-2.5 text-base outline-none focus:border-marka-600"
+      />
+    </div>
+
+    <div>
+      <label for="f-ariza" class="block font-medium text-marka-900">Arıza</label>
+      <textarea
+        id="f-ariza"
+        name="ariza"
+        required
+        rows="3"
+        class="mt-1.5 w-full rounded-lg border border-marka-100 px-3 py-2.5 text-base outline-none focus:border-marka-600"
+      ></textarea>
+    </div>
+
+    <label class="flex items-start gap-2.5 text-sm text-metin-soluk">
+      <input
+        id="f-kvkk"
+        name="kvkk"
+        type="checkbox"
+        required
+        class="mt-0.5 h-5 w-5 shrink-0 rounded border-marka-100"
+      />
+      <span>
+        <a href="/kvkk/" class="underline">KVKK aydınlatma metnini</a> okudum; bilgilerimin
+        bana dönüş yapılması amacıyla işlenmesini onaylıyorum.
+      </span>
+    </label>
+
+    <p data-hata class="hidden text-sm font-medium text-aksiyon-700" role="alert"></p>
+
+    <button
+      type="submit"
+      class="justify-self-start rounded-lg bg-whatsapp-600 px-6 py-3.5 text-lg font-semibold text-white hover:bg-whatsapp-700 disabled:opacity-60"
+      disabled={!numara}
+    >
+      WhatsApp'tan Gönder
+    </button>
+
+    {
+      !numara && (
+        <p class="text-sm text-metin-soluk">
+          {'{PLACEHOLDER — firma.json içindeki whatsapp numarası doldurulunca form etkinleşir.}'}
+        </p>
+      )
+    }
+  </form>
+</section>
+
+<script>
+  import { izle } from '@/lib/analytics';
+
+  const form = document.querySelector<HTMLFormElement>('[data-form]');
+  const hata = form?.querySelector<HTMLElement>('[data-hata]');
+
+  form?.addEventListener('submit', (e) => {
+    e.preventDefault();
+    if (!form || !hata) return;
+
+    const veri = new FormData(form);
+    const ad = String(veri.get('ad') ?? '').trim();
+    const telefon = String(veri.get('telefon') ?? '').trim();
+    const ariza = String(veri.get('ariza') ?? '').trim();
+    const kvkk = veri.get('kvkk') === 'on';
+
+    let mesaj = '';
+    if (!ad || !telefon || !ariza) mesaj = 'Lütfen üç alanı da doldurun.';
+    else if (telefon.replace(/\D/g, '').length < 10) mesaj = 'Telefon numarası eksik görünüyor.';
+    else if (!kvkk) mesaj = 'Devam etmek için KVKK onayı gerekiyor.';
+
+    if (mesaj) {
+      hata.textContent = mesaj;
+      hata.classList.remove('hidden');
+      return;
+    }
+    hata.classList.add('hidden');
+
+    const numara = form.dataset.numara ?? '';
+    const baglam = form.dataset.baglam ?? '';
+    const sayfa = document.documentElement.dataset.sayfa ?? 'bilinmiyor';
+
+    const metin = `${baglam}\n\nAd: ${ad}\nTelefon: ${telefon}\nArıza: ${ariza}`;
+
+    // Yönlendirmeden ÖNCE tetikle: sayfa terk edilince olay gönderilemez.
+    izle({ ad: 'form_submit', sayfa });
+
+    window.location.href = `https://wa.me/${numara}?text=${encodeURIComponent(metin)}`;
+  });
+</script>

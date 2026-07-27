@@ -1,0 +1,84 @@
+---
+// 13b — Footer: ünvan, adres, vergi no, çalışma saatleri.
+import { firma, doldurulmusMu } from '@/lib/veri';
+import { aktifHizmetler, gecerliIlceler } from '@/lib/veri';
+
+const hizmetler = aktifHizmetler();
+const ilceler = gecerliIlceler();
+---
+
+<footer class="border-t border-marka-100 bg-white">
+  <div class="mx-auto grid max-w-5xl gap-8 px-4 py-10 sm:grid-cols-2">
+    <div>
+      <h2 class="font-semibold text-marka-900">{firma.unvan}</h2>
+      <address class="mt-2 space-y-1 text-sm text-metin-soluk not-italic">
+        <p>{firma.adres}</p>
+        <p>
+          Vergi dairesi: {firma.vergiDairesi} · Vergi no: {firma.vergiNo}
+        </p>
+        <p>Çalışma saatleri: {firma.calismaSaatleri}</p>
+        {
+          doldurulmusMu(firma.telefon) && (
+            <p>
+              <a
+                href={`tel:${firma.telefon.replace(/\s/g, '')}`}
+                data-olay="tel_click"
+                data-konum="footer"
+                class="font-semibold text-marka-700 underline"
+              >
+                {firma.telefon}
+              </a>
+            </p>
+          )
+        }
+      </address>
+    </div>
+
+    <div class="grid gap-6 sm:grid-cols-2">
+      <nav aria-label="Hizmetler">
+        <h2 class="font-semibold text-marka-900">Hizmetler</h2>
+        <ul class="mt-2 space-y-1 text-sm">
+          {
+            hizmetler.map((h) => (
+              <li>
+                <a href={`/${h.slug}/`} class="text-metin-soluk underline hover:text-marka-700">
+                  {h.ad}
+                </a>
+              </li>
+            ))
+          }
+          <li>
+            <a href="/fiyatlar/" class="text-metin-soluk underline hover:text-marka-700">Fiyatlar</a>
+          </li>
+          <li>
+            <a href="/iletisim/" class="text-metin-soluk underline hover:text-marka-700">İletişim</a>
+          </li>
+          <li>
+            <a href="/kvkk/" class="text-metin-soluk underline hover:text-marka-700">KVKK</a>
+          </li>
+        </ul>
+      </nav>
+
+      <nav aria-label="Bölgeler">
+        <h2 class="font-semibold text-marka-900">Bölgeler</h2>
+        <ul class="mt-2 space-y-1 text-sm">
+          {
+            ilceler.length > 0 ? (
+              ilceler.map((i) => (
+                <li class="text-metin-soluk">{i.ad}</li>
+              ))
+            ) : (
+              <li class="text-metin-soluk">{'{PLACEHOLDER — yerelNotlar girilince listelenecek}'}</li>
+            )
+          }
+        </ul>
+      </nav>
+    </div>
+  </div>
+
+  <p class="border-t border-marka-100 px-4 py-4 text-center text-xs text-metin-soluk">
+    Bağımsız bir servis firmasıyız ve hiçbir üreticiyle bayilik veya temsilcilik
+    ilişkimiz yoktur. Anılan markaların ürünlerinde tamir ve bakım hizmeti veriyoruz.
+    Marka adları yalnızca hizmet verdiğimiz ürünleri belirtmek için kullanılmıştır.
+  </p>
+</footer>

@@ -1,0 +1,46 @@
+---
+// 11 — SSS. <details>/<summary> kullanıyoruz: açılır-kapanır davranış tarayıcıdan
+// gelir, JS gerekmez. FAQPage şeması sayfa tarafından head'e ekleniyor.
+interface Props {
+  sorular: { soru: string; cevap: string }[];
+  baslik?: string;
+}
+
+const { sorular, baslik = 'Sık sorulan sorular' } = Astro.props;
+---
+
+<section class="bg-marka-50">
+  <div class="mx-auto max-w-3xl px-4 py-10">
+    <h2 class="text-2xl font-bold text-marka-900">{baslik}</h2>
+
+    <div class="mt-5 divide-y divide-marka-100 rounded-lg border border-marka-100 bg-white">
+      {
+        sorular.map((s) => (
+          <details class="group px-4">
+            <summary class="flex cursor-pointer list-none items-center justify-between gap-3 py-4 font-semibold text-marka-900">
+              {s.soru}
+              <svg
+                width="20"
+                height="20"
+                viewBox="0 0 24 24"
+                fill="currentColor"
+                class="shrink-0 transition-transform group-open:rotate-180"
+                aria-hidden="true"
+              >
+                <path d="M12 15.4 5.6 9 7 7.6l5 5 5-5L18.4 9 12 15.4Z" />
+              </svg>
+            </summary>
+            <p class="pb-4 text-metin-soluk">{s.cevap}</p>
+          </details>
+        ))
+      }
+    </div>
+  </div>
+</section>
+
+<style>
+  /* Safari'de varsayılan üçgeni gizle */
+  summary::-webkit-details-marker {
+    display: none;
+  }
+</style>

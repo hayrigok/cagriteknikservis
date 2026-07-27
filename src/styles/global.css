@@ -1,0 +1,76 @@
+@import 'tailwindcss';
+
+/*
+  FONT — {PLACEHOLDER}
+  Bütçe: 2 varyant, self-hosted, font-display:swap.
+  public/fonts/ içine iki woff2 dosyası (400 + 600) bırakılınca aşağıdaki blok
+  açılacak ve --font-sans başına eklenecek. Dosyalar gelene kadar sistem yazı
+  tipi yığını kullanılıyor: sıfır byte indirme, sıfır CLS, LCP'ye etki yok.
+
+  @font-face {
+    font-family: 'Site';
+    src: url('/fonts/site-400.woff2') format('woff2');
+    font-weight: 400;
+    font-display: swap;
+  }
+  @font-face {
+    font-family: 'Site';
+    src: url('/fonts/site-600.woff2') format('woff2');
+    font-weight: 600;
+    font-display: swap;
+  }
+*/
+
+@theme {
+  --font-sans:
+    system-ui, -apple-system, 'Segoe UI', Roboto, 'Helvetica Neue', Arial, sans-serif;
+
+  /* Güven rengi — başlıklar, çerçeveler */
+  --color-marka-50: #eff6fc;
+  --color-marka-100: #d8e9f7;
+  --color-marka-600: #0c5c96;
+  --color-marka-700: #0a4a7a;
+  --color-marka-900: #062f4e;
+
+  /* Birincil eylem — "Hemen Ara". Beyaz metinle 5.6:1 */
+  --color-aksiyon-600: #c2410c;
+  --color-aksiyon-700: #9a3412;
+
+  /* WhatsApp — beyaz metinle 4.6:1 */
+  --color-whatsapp-600: #128c7e;
+  --color-whatsapp-700: #0e6f64;
+
+  --color-metin: #14212b;
+  --color-metin-soluk: #4a5b68;
+}
+
+html {
+  scroll-behavior: smooth;
+  /* Mobil sabit alt çubuğun içeriği kapatmaması için */
+  scroll-padding-top: 4.5rem;
+}
+
+body {
+  color: var(--color-metin);
+  background: #fff;
+  /* 14. blok (mobil sabit çubuk) sayfa sonunu örtmesin */
+  padding-bottom: env(safe-area-inset-bottom);
+}
+
+@media (max-width: 767px) {
+  body {
+    padding-bottom: calc(3.5rem + env(safe-area-inset-bottom));
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  html {
+    scroll-behavior: auto;
+  }
+}
+
+/* Klavye erişilebilirliği — hepsi CSS, JS yok */
+:where(a, button, input, textarea, summary):focus-visible {
+  outline: 3px solid var(--color-marka-600);
+  outline-offset: 2px;
+}

@@ -1,0 +1,84 @@
+---
+// Para sayfası. Tek generic rota: hizmetler × geçerli ilçeler.
+// yerelNotlar kapısından geçemeyen ilçeler getStaticPaths'e hiç girmez,
+// dolayısıyla o kombinasyonlar için HTML üretilmez.
+import BaseLayout from '@/layouts/BaseLayout.astro';
+import StickyUstCubuk from '@/components/StickyUstCubuk.astro';
+import Hero from '@/components/Hero.astro';
+import GuvenRozetleri from '@/components/GuvenRozetleri.astro';
+import FiyatTablosu from '@/components/FiyatTablosu.astro';
+import ArizaCozum from '@/components/ArizaCozum.astro';
+import Surec from '@/components/Surec.astro';
+import IlceBlogu from '@/components/IlceBlogu.astro';
+import Yorumlar from '@/components/Yorumlar.astro';
+import Sss from '@/components/Sss.astro';
+import IletisimFormu from '@/components/IletisimFormu.astro';
+import KomsuIlceler from '@/components/KomsuIlceler.astro';
+import AltCta from '@/components/AltCta.astro';
+import Footer from '@/components/Footer.astro';
+import MobilBar from '@/components/MobilBar.astro';
+
+import type { Hizmet, Ilce } from '@/lib/types';
+import { aktifHizmetler, gecerliIlceler, h1Uret } from '@/lib/veri';
+import { paraSayfasiDescription, paraSayfasiTitle } from '@/lib/seo';
+import { breadcrumb, faqPage, serviceSchema } from '@/lib/schema';
+
+export function getStaticPaths() {
+  const hizmetler = aktifHizmetler();
+  const ilceler = gecerliIlceler();
+
+  return hizmetler.flatMap((hizmet) =>
+    ilceler.map((ilce) => ({
+      params: { hizmet: hizmet.slug, ilce: ilce.slug },
+      props: { hizmet, ilce },
+    }))
+  );
+}
+
+interface Props {
+  hizmet: Hizmet;
+  ilce: Ilce;
+}
+
+const { hizmet, ilce } = Astro.props;
+
+const yol = `/${hizmet.slug}/${ilce.slug}/`;
+const h1 = h1Uret(hizmet, ilce);
+const waMesaji = `Merhaba, ${ilce.ad} için ${hizmet.ad.toLocaleLowerCase('tr-TR')} hakkında bilgi almak istiyorum.`;
+
+const schema = [
+  serviceSchema(Astro.site!, hizmet, ilce, yol),
+  faqPage(hizmet.sss),
+  breadcrumb(Astro.site!, [
+    { ad: 'Ana sayfa', yol: '/' },
+    { ad: hizmet.ad, yol: `/${hizmet.slug}/` },
+    { ad: ilce.ad, yol },
+  ]),
+];
+---
+
+<BaseLayout
+  title={paraSayfasiTitle(hizmet, ilce)}
+  description={paraSayfasiDescription(hizmet, ilce)}
+  yol={yol}
+  schema={schema}
+  sayfaKimligi={`${hizmet.slug}/${ilce.slug}`}
+>
+  <StickyUstCubuk />
+  <Hero h1={h1} altBaslik={hizmet.altBaslik} waMesaji={waMesaji} />
+  <GuvenRozetleri />
+  <FiyatTablosu satirlar={hizmet.fiyatAraligi} baslik={`${ilce.ad} ${hizmet.ad} fiyatları`} />
+  <ArizaCozum
+    arizalar={hizmet.ariza}
+    baslik={`En sık çıkan ${hizmet.cihaz.toLocaleLowerCase('tr-TR')} arızaları`}
+  />
+  <Surec />
+  <IlceBlogu ilce={ilce} hizmetAdi={hizmet.ad} />
+  <Yorumlar />
+  <Sss sorular={hizmet.sss} />
+  <IletisimFormu baglam={`${h1} talebi`} />
+  <KomsuIlceler hizmet={hizmet} ilce={ilce} />
+  <AltCta baslik={`${ilce.ad} için hemen randevu alın`} waMesaji={waMesaji} />
+  <Footer />
+  <MobilBar waMesaji={waMesaji} />
+</BaseLayout>

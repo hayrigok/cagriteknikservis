@@ -1,0 +1,21 @@
+# bağımlılıklar
+node_modules/
+
+# build çıktısı — Cloudflare Pages kendi tarafında derliyor
+dist/
+.astro/
+
+# ortam değişkenleri
+.env
+.env.*
+!.env.example
+
+# editör / işletim sistemi
+.vscode/
+.idea/
+.DS_Store
+Thumbs.db
+
+# günlükler
+npm-debug.log*
+yarn-error.log*

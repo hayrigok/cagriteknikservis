@@ -1,0 +1,138 @@
+﻿[
+  {
+    "slug": "klima-servisi",
+    "ad": "Klima Servisi",
+    "h1Sablonu": "{ilce} Klima Servisi",
+    "altBaslik": "Aynı gün, 2 saat içinde kapınızda.",
+    "cihaz": "Klima",
+    "aktif": true,
+    "ariza": [
+      {
+        "baslik": "Klima çalışıyor ama soğutmuyor",
+        "cozum": "Çoğu durumda gaz kaçağı ya da kirlenmiş filtre söz konusudur. Basınç ölçümü yapar, kaçak varsa noktasını bulup onarır, sonra gazı yeniden şarj ederiz."
+      },
+      {
+        "baslik": "İç üniteden su damlıyor",
+        "cozum": "Tahliye hortumu tıkanmış veya eğimi bozulmuştur. Hortumu basınçlı hava ile açar, eğimi düzeltir ve tahliyeyi test ederek bırakırız."
+      },
+      {
+        "baslik": "Dış ünite ses yapıyor veya titriyor",
+        "cozum": "Fan yatağı aşınması, gevşemiş montaj kiti veya kompresör takozu bu sesin kaynağıdır. Ünite bağlantılarını sıkar, aşınan parçayı değiştirir ve titreşimi ölçerek kontrol ederiz."
+      },
+      {
+        "baslik": "Klima kısa sürede kendini kapatıyor",
+        "cozum": "Genellikle elektrik kartı hatası, aşırı ısınma koruması veya kirli eşanjör devreye girer. Hata kodunu okur, eşanjörü temizler, sorun kartta ise kartı yerinde onarır ya da değiştiririz."
+      },
+      {
+        "baslik": "Klimadan kötü koku geliyor",
+        "cozum": "İç ünitenin nem tutan yüzeylerinde bakteri ve küf oluşur. Petek, tahliye tavası ve fan çarkını sökerek antibakteriyel ürünle yıkar, kokunun kaynağını ortadan kaldırırız."
+      },
+      {
+        "baslik": "Uzaktan kumanda komut vermiyor",
+        "cozum": "Sorun kumandanın kendisinde ya da iç ünitenin alıcı sensöründe olabilir. Kumandayı test eder, arıza ünitedeyse alıcı kartı değiştirerek çalışmayı doğrularız."
+      }
+    ],
+    "fiyatAraligi": [
+      { "islem": "Arıza tespiti", "altTl": null, "ustTl": null, "not": "Onarım yaptırılırsa ücretsiz. Onarım kabul edilmezse {PLACEHOLDER — tutar}." },
+      { "islem": "Klima bakımı (iç + dış ünite)", "altTl": null, "ustTl": null },
+      { "islem": "Gaz dolumu (R410A / R32)", "altTl": null, "ustTl": null, "not": "{PLACEHOLDER — gaz tipine göre değişiyor mu?}" },
+      { "islem": "Gaz kaçağı tespiti ve onarımı", "altTl": null, "ustTl": null },
+      { "islem": "Elektronik kart onarımı / değişimi", "altTl": null, "ustTl": null },
+      { "islem": "Tahliye hattı açma", "altTl": null, "ustTl": null }
+    ],
+    "sss": [
+      {
+        "soru": "Aynı gün gelebiliyor musunuz?",
+        "cevap": "Evet. Sabah verilen randevularda çoğunlukla aynı gün, yoğun günlerde ertesi gün gideriz. Randevu saatini telefonda netleştiririz."
+      },
+      {
+        "soru": "Arıza tespiti ücretli mi?",
+        "cevap": "Onarımı yaptırırsanız arıza tespiti için ayrıca ücret almayız. Yalnızca tespit yaptırıp onarımı kabul etmezseniz {PLACEHOLDER — tespit/yol ücreti tutarı} servis ücreti alınır; bunu siz istemeden önce telefonda söyleriz."
+      },
+      {
+        "soru": "Yapılan işlemin garantisi var mı?",
+        "cevap": "İşçilik ve değişen parça için {PLACEHOLDER — garanti süresi} garanti veriyoruz. Garanti süresi içinde aynı arıza tekrarlarsa ücret almadan tekrar geliriz."
+      },
+      {
+        "soru": "Ödemeyi nasıl yapabilirim?",
+        "cevap": "Kapıda nakit veya kart ile ödeyebilirsiniz. İşlem bitmeden ödeme istemiyoruz."
+      },
+      {
+        "soru": "Hangi markalara bakıyorsunuz?",
+        "cevap": "{PLACEHOLDER — marka listesi} ürünlerinde tamir ve bakım hizmeti veriyoruz. Cihazınızın marka ve modelini telefonda söylerseniz uygun parçayla geliriz."
+      },
+      {
+        "soru": "Gaz dolumu öncesi kaçak kontrolü yapıyor musunuz?",
+        "cevap": "Evet, her zaman. Kaçak bulunmadan yapılan dolum kısa sürede boşalır, bu yüzden önce hattı basınç altında test ederiz."
+      }
+    ]
+  },
+  {
+    "slug": "camasir-makinesi-tamiri",
+    "ad": "Çamaşır Makinesi Tamiri",
+    "h1Sablonu": "{ilce} Çamaşır Makinesi Tamiri",
+    "altBaslik": "Aynı gün, 2 saat içinde kapınızda.",
+    "cihaz": "Çamaşır makinesi",
+    "aktif": true,
+    "ariza": [
+      {
+        "baslik": "Makine su almıyor",
+        "cozum": "Su giriş valfi arızalanmış ya da giriş filtresi kireç tutmuştur. Filtreyi temizler, valfi ölçer ve gerekiyorsa değiştirerek su alışını test ederiz."
+      },
+      {
+        "baslik": "Makine suyu boşaltmıyor",
+        "cozum": "Pompa pervanesine takılan yabancı cisim veya tıkalı tahliye hortumu en sık nedendir. Pompayı söküp temizler, hortumu açar ve tahliyeyi tam devirde deneriz."
+      },
+      {
+        "baslik": "Sıkma yapmıyor veya çamaşır ıslak kalıyor",
+        "cozum": "Kayış kopmuş, motor kömürleri bitmiş ya da yük dengesi sensörü hata veriyordur. Kayış ve kömürleri kontrol eder, aşınan parçayı değiştirip sıkma devrini ölçeriz."
+      },
+      {
+        "baslik": "Makine aşırı titriyor ve yürüyor",
+        "cozum": "Genellikle rulman aşınması, kırılmış amortisör veya nakliye cıvatalarının sökülmemiş olması buna yol açar. Tamburu elle kontrol eder, aşınan rulman ve amortisörü değiştirir, ayakları terazileriz."
+      },
+      {
+        "baslik": "Altından su sızıyor",
+        "cozum": "Kazan keçesi, pompa contası veya hortum kelepçesi sızdırıyordur. Sızıntının kaynağını boyayla işaretleyerek bulur, ilgili conta ya da keçeyi yenileriz."
+      },
+      {
+        "baslik": "Ekranda hata kodu çıkıyor",
+        "cozum": "Hata kodu arızanın hangi devrede olduğunu söyler ama tek başına parça değişimini gerektirmez. Kodu okur, ilgili sensör ve kartı ölçerek gerçek nedeni doğrular, sonra parça öneririz."
+      }
+    ],
+    "fiyatAraligi": [
+      { "islem": "Arıza tespiti", "altTl": null, "ustTl": null, "not": "Onarım yaptırılırsa ücretsiz. Onarım kabul edilmezse {PLACEHOLDER — tutar}." },
+      { "islem": "Tahliye pompası değişimi", "altTl": null, "ustTl": null },
+      { "islem": "Rulman ve keçe değişimi", "altTl": null, "ustTl": null },
+      { "islem": "Kayış değişimi", "altTl": null, "ustTl": null },
+      { "islem": "Motor kömürü değişimi", "altTl": null, "ustTl": null },
+      { "islem": "Elektronik kart onarımı / değişimi", "altTl": null, "ustTl": null }
+    ],
+    "sss": [
+      {
+        "soru": "Makineyi evden almanız gerekiyor mu?",
+        "cevap": "Arızaların çoğunu evde çözeriz. Rulman gibi tamburun sökülmesini gerektiren işlerde atölyeye almamız gerekebilir, bunu yerinde görüp size söyleriz."
+      },
+      {
+        "soru": "Arıza tespiti ücretli mi?",
+        "cevap": "Onarımı yaptırırsanız arıza tespiti için ayrıca ücret almayız. Yalnızca tespit yaptırıp onarımı kabul etmezseniz {PLACEHOLDER — tespit/yol ücreti tutarı} servis ücreti alınır; bunu siz istemeden önce telefonda söyleriz."
+      },
+      {
+        "soru": "Yapılan işlemin garantisi var mı?",
+        "cevap": "İşçilik ve değişen parça için {PLACEHOLDER — garanti süresi} garanti veriyoruz. Garanti süresi içinde aynı arıza tekrarlarsa ücret almadan tekrar geliriz."
+      },
+      {
+        "soru": "Orijinal parça mı kullanıyorsunuz?",
+        "cevap": "Parçanın orijinal mi yoksa muadil mi olduğunu takmadan önce söyler, fiyat farkını belirtiriz. Tercihi siz yaparsınız."
+      },
+      {
+        "soru": "Eski makineyi tamir ettirmek mantıklı mı?",
+        "cevap": "Onarım tutarı yeni cihazın önemli bir kısmına yaklaşıyorsa bunu açıkça söyleriz. Gereksiz tamir önermeyiz."
+      },
+      {
+        "soru": "Ödemeyi nasıl yapabilirim?",
+        "cevap": "Kapıda nakit veya kart ile ödeyebilirsiniz. İşlem bitmeden ödeme istemiyoruz."
+      }
+    ]
+  }
+]
