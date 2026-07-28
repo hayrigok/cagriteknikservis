@@ -1,5 +1,5 @@
 import type { Hizmet, Ilce } from './types';
-import { doldurulmusMu, firma } from './veri';
+import { doldurulmusMu, firma, tumIlceler } from './veri';
 
 // NOT: AggregateRating bilerek üretilmiyor. Google kendi sitesine gömülen
 // yerel işletme puanlarını göstermiyor; uydurma puan ise ceza riski taşıyor.
@@ -19,22 +19,92 @@ function temiz<T extends Record<string, unknown>>(nesne: T): T {
   return cikti as T;
 }
 
+/**
+ * "Her gün 08:00–20:00" → schema.org OpeningHoursSpecification.
+ *
+ * `openingHours` özelliği "Mo-Su 08:00-20:00" biçimini bekler; insan için
+ * yazılmış Türkçe metni oraya koymak biçimsel olarak GEÇERSİZ veri basmaktı.
+ * Kalıp tutmazsa undefined döner ve alan şemaya hiç girmez — yanlış biçimli
+ * veri basmaktansa hiç basmamak doğru (aynı ilke {PLACEHOLDER} sözleşmesinde).
+ */
+function calismaSaatiSemasi(metin: string) {
+  if (!doldurulmusMu(metin)) return undefined;
+  const kucuk = metin.toLocaleLowerCase('tr-TR');
+  const saat = /(\d{1,2}:\d{2})\s*[–—-]\s*(\d{1,2}:\d{2})/.exec(kucuk);
+  if (!saat || !kucuk.includes('her gün')) return undefined;
+  return {
+    '@type': 'OpeningHoursSpecification',
+    dayOfWeek: [
+      'Monday',
+      'Tuesday',
+      'Wednesday',
+      'Thursday',
+      'Friday',
+      'Saturday',
+      'Sunday',
+    ],
+    opens: saat[1],
+    closes: saat[2],
+  };
+}
+
 export function hvacBusiness(site: URL) {
+  const bolgeler = tumIlceler()
+    .filter((i) => i.aktif)
+    .map((i) => ({
+      '@type': 'AdministrativeArea',
+      name: i.ad,
+      containedInPlace: { '@type': 'City', name: i.sehir },
+    }));
+
   return temiz({
     '@context': 'https://schema.org',
     '@type': 'HVACBusiness',
     '@id': mutlak(site, '/#isletme'),
-    name: firma.unvan,
+    /*
+      name kısaAd'dan gelir, unvan'dan DEĞİL: unvan {PLACEHOLDER} olduğu için
+      temiz() onu siliyordu ve işletme şeması ADSIZ çıkıyordu — yerel işletme
+      şemasının en temel alanı. Ticari ünvan geldiğinde legalName olarak ayrıca
+      basılır; ikisi farklı şeydir.
+    */
+    name: firma.kisaAd,
+    legalName: firma.unvan,
     telephone: firma.telefon,
     url: site.href,
+    image: mutlak(site, '/og.png'),
     address: temiz({
       '@type': 'PostalAddress',
       streetAddress: firma.adres,
       addressLocality: firma.sehir,
       addressCountry: 'TR',
     }),
-    openingHours: firma.calismaSaatleri,
+    areaServed: bolgeler.length > 0 ? bolgeler : undefined,
+    openingHoursSpecification: calismaSaatiSemasi(firma.calismaSaatleri),
     sameAs: doldurulmusMu(firma.googleIsletmeUrl) ? [firma.googleIsletmeUrl] : undefined,
+  });
+}
+
+/** Arıza rehberi yazısı. Tarih basmıyoruz — bkz. CLAUDE.md "Arıza rehberi". */
+export function blogPosting(
+  site: URL,
+  yazi: { baslik: string; ozet: string },
+  yol: string
+) {
+  return temiz({
+    '@context': 'https://schema.org',
+    '@type': 'BlogPosting',
+    headline: yazi.baslik,
+    description: yazi.ozet,
+    url: mutlak(site, yol),
+    mainEntityOfPage: mutlak(site, yol),
+    image: mutlak(site, '/og.png'),
+    inLanguage: 'tr-TR',
+    author: { '@type': 'Organization', name: firma.kisaAd },
+    publisher: {
+      '@type': 'Organization',
+      name: firma.kisaAd,
+      logo: { '@type': 'ImageObject', url: mutlak(site, '/og.png') },
+    },
   });
 }
 

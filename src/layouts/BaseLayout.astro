@@ -8,6 +8,7 @@
 */
 import '@/styles/global.css';
 import CerezBandi from '@/components/CerezBandi.astro';
+import { firma } from '@/lib/veri';
 
 interface Props {
   title: string;
@@ -25,6 +26,14 @@ const { title, description, yol, schema = [], sayfaKimligi, dizinlenmesin = fals
 
 const canonical = new URL(yol, Astro.site).href;
 const semalar = schema.filter((s): s is Record<string, unknown> => s !== null);
+
+/*
+  Paylaşım görseli. Sayfa hızına etkisi YOK: bu dosyayı tarayıcı değil yalnızca
+  WhatsApp/Facebook/X'in önizleme robotları indirir. Görselsiz paylaşılan link
+  sohbette çıplak bir bağlantı olarak görünüyordu; form akışı WhatsApp'a gittiği
+  için bu doğrudan görünürlük kaybıydı. tools/og-uret.mjs ile üretiliyor.
+*/
+const ogGorsel = new URL('/og.png', Astro.site).href;
 ---
 
 <!doctype html>
@@ -49,9 +58,15 @@ const semalar = schema.filter((s): s is Record<string, unknown> => s !== null);
 
     <meta property="og:type" content="website" />
     <meta property="og:locale" content="tr_TR" />
+    <meta property="og:site_name" content={firma.kisaAd} />
     <meta property="og:title" content={title} />
     <meta property="og:description" content={description} />
     <meta property="og:url" content={canonical} />
+    <meta property="og:image" content={ogGorsel} />
+    <meta property="og:image:width" content="1200" />
+    <meta property="og:image:height" content="630" />
+    <meta property="og:image:alt" content={`${firma.kisaAd} — ${firma.telefon}`} />
+    <meta name="twitter:card" content="summary_large_image" />
 
     <meta name="theme-color" content="#0b2942" />
     <link rel="icon" href="/favicon.svg" type="image/svg+xml" />

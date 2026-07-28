@@ -24,7 +24,7 @@ import MobilBar from '@/components/MobilBar.astro';
 import Ikon from '@/components/Ikon.astro';
 
 import { firma, hizmetBul, hizmetIkonu } from '@/lib/veri';
-import { breadcrumb } from '@/lib/schema';
+import { blogPosting, breadcrumb } from '@/lib/schema';
 
 export const getStaticPaths: GetStaticPaths = async () => {
   const yazilar = await getCollection('yazilar');
@@ -53,6 +53,7 @@ const digerleri = [
   description={yazi.data.ozet}
   yol={`/blog/${yazi.id}/`}
   schema={[
+    blogPosting(Astro.site!, yazi.data, `/blog/${yazi.id}/`),
     breadcrumb(Astro.site!, [
       { ad: 'Ana sayfa', yol: '/' },
       { ad: 'Arıza rehberi', yol: '/blog/' },
