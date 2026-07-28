@@ -1,42 +1,61 @@
 ---
-// 11 — SSS. <details>/<summary> kullanıyoruz: açılır-kapanır davranış tarayıcıdan
-// gelir, JS gerekmez. FAQPage şeması sayfa tarafından head'e ekleniyor.
+// 11 — SSS. <details>/<summary>: açılır-kapanır davranış tarayıcıdan gelir,
+// JS gerekmez. FAQPage şeması sayfa tarafından head'e ekleniyor.
+import Bolum from './Bolum.astro';
+import Ikon from './Ikon.astro';
+import type { SssOgesi } from '@/lib/schema';
+import { deger } from '@/lib/veri';
+
 interface Props {
-  sorular: { soru: string; cevap: string }[];
+  sorular: SssOgesi[];
   baslik?: string;
+  zemin?: 'beyaz' | 'zemin';
 }
 
-const { sorular, baslik = 'Sık sorulan sorular' } = Astro.props;
+const { sorular, baslik = 'Sık sorulan sorular', zemin = 'zemin' } = Astro.props;
+
+// Cevabı doldurulmamış soru hiç sorulmaz. Aynı filtre schema.ts içinde de var,
+// yani gizlenen soru FAQPage şemasına da girmez — görünen sayfayla yapısal veri
+// ayrışmaz (Google'ın "şemada olup sayfada olmayan içerik" ihlali).
+const gorunur = sorular
+  .filter((s) => deger(s.cevap))
+  .map((s) => ({
+    ...s,
+    maddeler: s.maddeler?.filter((m) => deger(m.ad) && deger(m.detay)),
+  }));
 ---
 
-<section class="bg-marka-50">
-  <div class="mx-auto max-w-3xl px-4 py-10">
-    <h2 class="text-2xl font-bold text-marka-900">{baslik}</h2>
+<Bolum etiket="Sorular" baslik={baslik} zemin={zemin}>
+  <div class="max-w-3xl divide-y divide-lacivert-100 overflow-hidden rounded-md border border-lacivert-100 bg-white">
+    {
+      gorunur.map((s) => (
+        <details class="group">
+          <summary class="flex min-h-14 cursor-pointer list-none items-center justify-between gap-4 px-6 py-4 font-bold text-lacivert-900 transition-colors duration-150 hover:bg-zemin">
+            {s.soru}
+            <span class="flex h-8 w-8 shrink-0 items-center justify-center rounded-sm bg-zemin text-turuncu-600 transition-transform duration-150 group-open:rotate-180">
+              <Ikon ad="chevron" boyut={18} />
+            </span>
+          </summary>
 
-    <div class="mt-5 divide-y divide-marka-100 rounded-lg border border-marka-100 bg-white">
-      {
-        sorular.map((s) => (
-          <details class="group px-4">
-            <summary class="flex cursor-pointer list-none items-center justify-between gap-3 py-4 font-semibold text-marka-900">
-              {s.soru}
-              <svg
-                width="20"
-                height="20"
-                viewBox="0 0 24 24"
-                fill="currentColor"
-                class="shrink-0 transition-transform group-open:rotate-180"
-                aria-hidden="true"
-              >
-                <path d="M12 15.4 5.6 9 7 7.6l5 5 5-5L18.4 9 12 15.4Z" />
-              </svg>
-            </summary>
-            <p class="pb-4 text-metin-soluk">{s.cevap}</p>
-          </details>
-        ))
-      }
-    </div>
+          <div class="px-6 pb-6">
+            <p class="leading-relaxed text-metin-soluk">{s.cevap}</p>
+
+            {s.maddeler && s.maddeler.length > 0 && (
+              <ul class="mt-4 grid gap-2">
+                {s.maddeler.map((m) => (
+                  <li class="rounded-sm border-l-4 border-turuncu-400 bg-zemin px-4 py-3 leading-relaxed">
+                    <span class="font-bold text-lacivert-900">{m.ad}</span>
+                    <span class="text-metin-soluk"> — {m.detay}</span>
+                  </li>
+                ))}
+              </ul>
+            )}
+          </div>
+        </details>
+      ))
+    }
   </div>
-</section>
+</Bolum>
 
 <style>
   /* Safari'de varsayılan üçgeni gizle */

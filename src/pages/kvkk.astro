@@ -1,0 +1,209 @@
+---
+/*
+  KVKK aydınlatma metni.
+
+  DİKKAT — YAYINA ÇIKMADAN ÖNCE OKUYUN:
+
+  1. Bu metin 6698 sayılı kanunun aydınlatma yükümlülüğünde istenen başlıkları
+     karşılayan bir TASLAKTIR, hukuki mütalaa değildir. Bir avukata okutun;
+     özellikle saklama süresi ve aktarım bölümleri firmanın gerçek uygulamasına
+     göre düzeltilmeli.
+
+  2. Aydınlatma metninde VERİ SORUMLUSUNUN KİMLİĞİ zorunlu unsurdur. Ünvan,
+     adres ve vergi bilgisi firma.json'da boş olduğu sürece o satırlar sayfaya
+     basılmaz — yani bu sayfa ŞU AN EKSİKTİR. Build çıktısındaki [eksik-veri]
+     raporu bu alanları her seferinde listeler.
+*/
+import BaseLayout from '@/layouts/BaseLayout.astro';
+import Bolum from '@/components/Bolum.astro';
+import StickyUstCubuk from '@/components/StickyUstCubuk.astro';
+import AltCta from '@/components/AltCta.astro';
+import Footer from '@/components/Footer.astro';
+import MobilBar from '@/components/MobilBar.astro';
+import Ikon from '@/components/Ikon.astro';
+
+import { firma, deger } from '@/lib/veri';
+import { breadcrumb } from '@/lib/schema';
+
+const waMesaji = 'Merhaba, servis talebi için bilgi almak istiyorum.';
+
+const unvan = deger(firma.unvan);
+const adres = deger(firma.adres);
+const telefon = deger(firma.telefon);
+const vergiSatiri = [
+  deger(firma.vergiDairesi) && `Vergi dairesi: ${deger(firma.vergiDairesi)}`,
+  deger(firma.vergiNo) && `Vergi no: ${deger(firma.vergiNo)}`,
+]
+  .filter(Boolean)
+  .join(' · ');
+
+const veriler = [
+  { ad: 'Ad', neden: 'size hitap edebilmek için' },
+  { ad: 'Telefon numarası', neden: 'dönüş yapabilmek ve randevu verebilmek için' },
+  { ad: 'Arıza açıklaması', neden: 'doğru parça ve ekipmanla gelebilmek için' },
+];
+
+const haklar = [
+  'Kişisel verinizin işlenip işlenmediğini öğrenme',
+  'İşlenmişse buna ilişkin bilgi talep etme',
+  'İşlenme amacını ve amacına uygun kullanılıp kullanılmadığını öğrenme',
+  'Yurt içinde veya yurt dışında verinin aktarıldığı üçüncü kişileri bilme',
+  'Eksik veya yanlış işlenmişse düzeltilmesini isteme',
+  'Kanundaki şartlar çerçevesinde silinmesini veya yok edilmesini isteme',
+  'Düzeltme, silme ve yok etme işlemlerinin verinin aktarıldığı üçüncü kişilere bildirilmesini isteme',
+  'Münhasıran otomatik sistemlerle analiz edilmesi suretiyle aleyhinize bir sonuç çıkmasına itiraz etme',
+  'Kanuna aykırı işleme sebebiyle zarara uğramanız hâlinde zararın giderilmesini talep etme',
+];
+---
+
+<BaseLayout
+  title="KVKK Aydınlatma Metni"
+  description="Kişisel verilerinizin hangi amaçla işlendiği, kimlere aktarıldığı, ne kadar saklandığı ve KVKK kapsamındaki haklarınız."
+  yol="/kvkk/"
+  schema={[
+    breadcrumb(Astro.site!, [
+      { ad: 'Ana sayfa', yol: '/' },
+      { ad: 'KVKK Aydınlatma Metni', yol: '/kvkk/' },
+    ]),
+  ]}
+  sayfaKimligi="kvkk"
+>
+  <StickyUstCubuk />
+
+  <section id="icerik" class="koyu-blok bg-lacivert-900">
+    <div class="kap py-16 lg:py-20">
+      <p class="plaka text-turuncu-300">Yasal</p>
+      <h1 class="text-h1 mt-4 max-w-3xl leading-[1.05] font-bold tracking-tight text-white">
+        KVKK Aydınlatma Metni
+      </h1>
+      <p class="text-lead mt-5 max-w-2xl leading-relaxed text-lacivert-200">
+        6698 sayılı Kişisel Verilerin Korunması Kanunu kapsamında, sitemiz üzerinden
+        ilettiğiniz bilgilerin nasıl işlendiğini açıklıyoruz.
+      </p>
+    </div>
+  </section>
+
+  <Bolum etiket="1" baslik="Veri sorumlusu" zemin="zemin">
+    <div class="max-w-3xl rounded-md border border-lacivert-100 bg-white p-6 lg:p-8">
+      <p class="leading-relaxed text-metin">
+        Kişisel verileriniz, veri sorumlusu sıfatıyla aşağıdaki işletme tarafından işlenir:
+      </p>
+      {unvan && <p class="text-h3 mt-4 font-bold text-lacivert-900">{unvan}</p>}
+      <div class="mt-2 space-y-1.5 text-metin-soluk">
+        {adres && <p>{adres}</p>}
+        {vergiSatiri && <p>{vergiSatiri}</p>}
+        {telefon && <p>Telefon: <span class="rakam">{telefon}</span></p>}
+      </div>
+    </div>
+  </Bolum>
+
+  <Bolum
+    etiket="2"
+    baslik="İşlenen kişisel veriler"
+    aciklama="Sitedeki formu doldurduğunuzda yalnızca şu üç bilgiyi topluyoruz."
+  >
+    <ul class="grid max-w-3xl gap-3">
+      {
+        veriler.map((v) => (
+          <li class="flex items-start gap-3 rounded-sm border-l-4 border-turuncu-600 bg-zemin px-5 py-4">
+            <Ikon ad="onay" boyut={18} class="mt-1 shrink-0 text-turuncu-600" />
+            <span>
+              <span class="font-bold text-lacivert-900">{v.ad}</span>
+              <span class="text-metin-soluk"> — {v.neden}</span>
+            </span>
+          </li>
+        ))
+      }
+    </ul>
+    <p class="mt-6 max-w-3xl leading-relaxed text-metin-soluk">
+      Formda adres, kimlik numarası, e-posta veya ödeme bilgisi istemiyoruz. Sitede
+      üyelik veya hesap oluşturma yok.
+    </p>
+  </Bolum>
+
+  <Bolum etiket="3" baslik="İşleme amacı ve hukuki sebep" zemin="zemin">
+    <div class="max-w-3xl space-y-4 leading-relaxed text-metin">
+      <p>
+        Verileriniz yalnızca <strong class="text-lacivert-900">talebinize dönüş yapmak,
+        randevu oluşturmak ve servis hizmetini yürütmek</strong> amacıyla işlenir.
+        Pazarlama amacıyla kullanılmaz, size istemediğiniz mesaj gönderilmez.
+      </p>
+      <p>
+        Hukuki sebep, KVKK 5/2-c maddesi uyarınca <strong class="text-lacivert-900">bir
+        sözleşmenin kurulması veya ifasıyla doğrudan ilgili olması</strong> ve formu
+        gönderirken verdiğiniz <strong class="text-lacivert-900">açık rızadır</strong>.
+      </p>
+    </div>
+  </Bolum>
+
+  <Bolum etiket="4" baslik="Verinin aktarımı">
+    <div class="max-w-3xl space-y-4 leading-relaxed text-metin">
+      <p>
+        Formu gönderdiğinizde tarayıcınız WhatsApp'a yönlendirilir ve mesajınız WhatsApp
+        üzerinden bize ulaşır. Bu durumda mesaj içeriği ve telefon numaranız,
+        <strong class="text-lacivert-900"> WhatsApp'ın (Meta Platforms) kendi gizlilik
+        politikasına</strong> tabi olarak işlenir. Bu aktarımı siz başlatırsınız; formu
+        göndermeden hiçbir veri bize veya WhatsApp'a iletilmez.
+      </p>
+      <p>
+        Verilerinizi bunun dışında hiçbir üçüncü kişiye, kuruma veya reklam ağına
+        satmıyor, kiralamıyor ve devretmiyoruz.
+      </p>
+    </div>
+  </Bolum>
+
+  <Bolum etiket="5" baslik="Çerezler ve ölçümleme" zemin="zemin">
+    <div class="max-w-3xl space-y-4 leading-relaxed text-metin">
+      <p>
+        Sitenin çalışması için zorunlu olan tercih kaydı dışında, ölçümleme çerezleri
+        <strong class="text-lacivert-900"> yalnızca siz onay verirseniz</strong> çalışır.
+        Onay vermezseniz hiçbir ölçüm olayı gönderilmez; site aynı şekilde çalışmaya
+        devam eder.
+      </p>
+      <p>
+        Onayınızı verdiyseniz hangi butonlara tıklandığı gibi anonim kullanım verileri
+        Google Analytics ve Google Ads üzerinden ölçülür. Kararınızı istediğiniz zaman
+        tarayıcınızın site verilerini temizleyerek geri alabilirsiniz.
+      </p>
+    </div>
+  </Bolum>
+
+  <Bolum etiket="6" baslik="Saklama süresi">
+    <p class="max-w-3xl leading-relaxed text-metin">
+      Servis kaydınız, ilgili mevzuatta öngörülen zorunlu saklama süreleri boyunca
+      tutulur; bu sürelerin sonunda silinir veya anonim hâle getirilir. Onarım
+      yaptırmadıysanız iletişim bilgileriniz talebinizin sonuçlanmasının ardından makul
+      süre içinde silinir.
+    </p>
+  </Bolum>
+
+  <Bolum etiket="7" baslik="KVKK m.11 kapsamındaki haklarınız" zemin="zemin">
+    <ul class="max-w-3xl divide-y divide-lacivert-100 overflow-hidden rounded-md border border-lacivert-100 bg-white">
+      {
+        haklar.map((h) => (
+          <li class="flex items-start gap-3 px-6 py-4 leading-relaxed text-metin">
+            <Ikon ad="onay" boyut={18} class="mt-1 shrink-0 text-turuncu-600" />
+            {h}
+          </li>
+        ))
+      }
+    </ul>
+  </Bolum>
+
+  <Bolum etiket="8" baslik="Başvuru">
+    <div class="max-w-3xl space-y-4 leading-relaxed text-metin">
+      {/* Adres basılmıyorsa "yukarıdaki adrese" diye bir yere işaret edemeyiz;
+          cümle o zaman yalnızca telefon kanalını gösterir. */}
+      <p>
+        Yukarıdaki haklarınıza ilişkin taleplerinizi
+        {adres && <> birinci bölümdeki adrese yazılı olarak ya da</>}
+        {telefon && <span class="rakam"> {telefon}</span>} numarasını arayarak iletebilirsiniz.
+        Talebiniz en geç otuz gün içinde sonuçlandırılır.
+      </p>
+    </div>
+  </Bolum>
+
+  <AltCta baslik="Sorunuz mu var?" waMesaji={waMesaji} />
+  <Footer />
+  <MobilBar waMesaji={waMesaji} />
+</BaseLayout>

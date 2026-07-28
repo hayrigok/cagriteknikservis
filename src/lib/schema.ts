@@ -38,6 +38,20 @@ export function hvacBusiness(site: URL) {
   });
 }
 
+/** Hizmet hub sayfası için şehir düzeyinde Service şeması. */
+export function hubServiceSchema(site: URL, hizmet: Hizmet, sehir: string, yol: string) {
+  return temiz({
+    '@context': 'https://schema.org',
+    '@type': 'Service',
+    name: `${sehir} ${hizmet.ad}`,
+    serviceType: hizmet.ad,
+    description: hizmet.ozet,
+    url: mutlak(site, yol),
+    provider: { '@id': mutlak(site, '/#isletme') },
+    areaServed: { '@type': 'City', name: sehir },
+  });
+}
+
 export function serviceSchema(site: URL, hizmet: Hizmet, ilce: Ilce, yol: string) {
   return temiz({
     '@context': 'https://schema.org',
@@ -54,7 +68,27 @@ export function serviceSchema(site: URL, hizmet: Hizmet, ilce: Ilce, yol: string
   });
 }
 
-export function faqPage(sorular: { soru: string; cevap: string }[]) {
+export interface SssOgesi {
+  soru: string;
+  cevap: string;
+  /** Cevabın altında liste olarak basılır. Şemaya da düz metin olarak girer. */
+  maddeler?: { ad: string; detay: string }[];
+}
+
+/**
+ * Şema tek bir düz metin ister; listeyi cevabın arkasına ekleriz.
+ * Doldurulmamış maddeler atılır — Sss.astro da aynı filtreyi uyguluyor, yani
+ * şemadaki metin sayfada görünenle birebir aynı kalır.
+ */
+function cevapMetni(s: SssOgesi): string {
+  const maddeler = (s.maddeler ?? []).filter(
+    (m) => doldurulmusMu(m.ad) && doldurulmusMu(m.detay)
+  );
+  if (maddeler.length === 0) return s.cevap;
+  return `${s.cevap} ${maddeler.map((m) => `${m.ad}: ${m.detay}`).join(' ')}`;
+}
+
+export function faqPage(sorular: SssOgesi[]) {
   // Doldurulmamış cevaplar yapılandırılmış veriye girmemeli.
   const gecerli = sorular.filter((s) => doldurulmusMu(s.cevap));
   if (gecerli.length === 0) return null;
@@ -64,7 +98,7 @@ export function faqPage(sorular: { soru: string; cevap: string }[]) {
     mainEntity: gecerli.map((s) => ({
       '@type': 'Question',
       name: s.soru,
-      acceptedAnswer: { '@type': 'Answer', text: s.cevap },
+      acceptedAnswer: { '@type': 'Answer', text: cevapMetni(s) },
     })),
   };
 }

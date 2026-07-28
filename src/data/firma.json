@@ -1,15 +1,15 @@
 {
   "unvan": "{PLACEHOLDER — tam ticari ünvan}",
-  "kisaAd": "{PLACEHOLDER — sitede görünecek kısa ad}",
-  "telefon": "{PLACEHOLDER — 0XXX XXX XX XX}",
-  "whatsapp": "{PLACEHOLDER — 905XXXXXXXXX}",
+  "kisaAd": "Adana Klima & Beyaz Eşya Servisi",
+  "telefon": "0533 667 53 44",
+  "whatsapp": "905336675344",
   "adres": "{PLACEHOLDER — açık adres}",
   "sehir": "Adana",
   "vergiDairesi": "{PLACEHOLDER — vergi dairesi}",
   "vergiNo": "{PLACEHOLDER — vergi no}",
-  "calismaSaatleri": "{PLACEHOLDER — örn. Pazartesi-Cumartesi 08:00-20:00}",
+  "calismaSaatleri": "Her gün 08:00–20:00",
   "googleIsletmeUrl": "{PLACEHOLDER — Google işletme profili URL}",
-  "garantiSuresi": "{PLACEHOLDER — örn. 6 ay}",
+  "garantiIfadesi": "Değişen parça garantili",
   "markalar": ["{PLACEHOLDER — marka}", "{PLACEHOLDER — marka}", "{PLACEHOLDER — marka}"],
   "gaOlcumKimligi": "{PLACEHOLDER — G-XXXXXXXXXX}"
 }

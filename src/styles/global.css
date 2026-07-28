@@ -3,74 +3,263 @@
 /*
   FONT — {PLACEHOLDER}
   Bütçe: 2 varyant, self-hosted, font-display:swap.
-  public/fonts/ içine iki woff2 dosyası (400 + 600) bırakılınca aşağıdaki blok
-  açılacak ve --font-sans başına eklenecek. Dosyalar gelene kadar sistem yazı
-  tipi yığını kullanılıyor: sıfır byte indirme, sıfır CLS, LCP'ye etki yok.
+  Google Fonts CDN'i KULLANMIYORUZ: üçüncü taraf istek + KVKK riski + LCP'ye
+  ek RTT demek. Dosyalar public/fonts/ içine bırakılınca aşağıdaki blok açılıp
+  --font-sans başına 'Site' eklenecek. O güne kadar sistem yığını: sıfır byte,
+  sıfır CLS.
 
-  @font-face {
-    font-family: 'Site';
-    src: url('/fonts/site-400.woff2') format('woff2');
-    font-weight: 400;
-    font-display: swap;
-  }
-  @font-face {
-    font-family: 'Site';
-    src: url('/fonts/site-600.woff2') format('woff2');
-    font-weight: 600;
-    font-display: swap;
-  }
+  @font-face { font-family:'Site'; src:url('/fonts/site-400.woff2') format('woff2');
+               font-weight:400; font-display:swap; }
+  @font-face { font-family:'Site'; src:url('/fonts/site-700.woff2') format('woff2');
+               font-weight:700; font-display:swap; }
 */
 
 @theme {
   --font-sans:
     system-ui, -apple-system, 'Segoe UI', Roboto, 'Helvetica Neue', Arial, sans-serif;
 
-  /* Güven rengi — başlıklar, çerçeveler */
-  --color-marka-50: #eff6fc;
-  --color-marka-100: #d8e9f7;
-  --color-marka-600: #0c5c96;
-  --color-marka-700: #0a4a7a;
-  --color-marka-900: #062f4e;
+  /* Damgalı etiket sesi — beyaz eşya arkasındaki model/seri plakasının dili */
+  --font-plaka:
+    ui-monospace, 'Cascadia Mono', 'Segoe UI Mono', 'SF Mono', Menlo, Consolas, monospace;
 
-  /* Birincil eylem — "Hemen Ara". Beyaz metinle 5.6:1 */
-  --color-aksiyon-600: #c2410c;
-  --color-aksiyon-700: #9a3412;
+  /*
+    RENK — ui-ux-pro-max `Home Services` kaydı: Trust Blue + Safety Orange +
+    Professional grey. Bütün değerler WCAG oranı HESAPLANARAK seçildi, gözle
+    değil; oranlar yanlarında yazılı. design-system/MASTER.md'ye bakın.
 
-  /* WhatsApp — beyaz metinle 4.6:1 */
-  --color-whatsapp-600: #128c7e;
-  --color-whatsapp-700: #0e6f64;
+    Hiyerarşi çizgiyle değil RENK BLOĞUYLA kuruluyor (DB: "Color creates all
+    hierarchy — color-blocking sections, not borders"). Saç teli çizgilerle
+    kurulan önceki düzen zayıf görünüyordu.
+  */
 
-  --color-metin: #14212b;
-  --color-metin-soluk: #4a5b68;
+  /* Lacivert — güven. Koyu bloklar, başlıklar, ikon kapları */
+  --color-lacivert-50: #eef4f9;
+  --color-lacivert-100: #d8e7f2;
+  --color-lacivert-200: #b9d4e8; /* lacivert-900 üzerinde 9.68:1 */
+  --color-lacivert-300: #93bcd9; /* lacivert-900 üzerinde 7.40:1 */
+  --color-lacivert-600: #0c5c96; /* beyaz metinle 7.03:1 */
+  --color-lacivert-700: #0a4a7a; /* beyaz zeminde link 9.24:1 */
+  --color-lacivert-800: #103958;
+  --color-lacivert-900: #0b2942; /* beyaz metinle 14.89:1 */
+
+  /* Turuncu — birincil eylem. Tek vurgu rengi. */
+  --color-turuncu-300: #fb923c; /* lacivert-900 üzerinde METİN 6.58:1 */
+  --color-turuncu-400: #ea580c; /* yalnızca grafik/çizgi, beyazda 3.56:1 */
+  --color-turuncu-600: #9a3412; /* beyaz metinle 7.31:1 — CTA dolgusu */
+  --color-turuncu-700: #7c2d12; /* beyaz zeminde metin 9.37:1 */
+
+  /* WhatsApp — platform rengi, vurgu değil. Yalnızca WhatsApp öğelerinde. */
+  --color-yesil-600: #0e6f64; /* beyaz metinle 6.04:1 */
+  --color-yesil-700: #0a574e;
+
+  --color-zemin: #f4f7fa; /* açık blok */
+  --color-metin: #14212b; /* zeminde 15.23:1 */
+  --color-metin-soluk: #4a5b68; /* zeminde 6.54:1, beyazda 7.03:1 */
+
+  /*
+    TİPOGRAFİ — modüler ölçek. "Primary headlines much larger than body."
+    Başlıklar bilerek iri: sayfanın gücü tipografiden geliyor, görsel yok.
+  */
+  --text-plaka: 0.6875rem; /* 11 */
+  --text-kucuk: 0.875rem; /* 14 */
+  --text-govde: 1rem; /* 16 — taban, altına inilmez */
+  --text-lead: 1.125rem; /* 18 */
+  --text-h3: 1.25rem; /* 20 */
+  --text-h2: clamp(1.5rem, 3.4vw, 2.25rem); /* 24 → 36 */
+  --text-h1: clamp(2rem, 6vw, 3.5rem); /* 32 → 56 */
+  --text-numara: clamp(1.5rem, 4.4vw, 2.5rem); /* 24 → 40 */
+  --text-dev: clamp(2.25rem, 5vw, 3rem); /* istatistik rakamı */
+
+  /* Köşe — DB: 6 / 12. Üçüncü bir değer kullanılmaz. */
+  --radius-sm: 6px;
+  --radius-md: 12px;
+}
+
+/* Damgalı etiket: bölüm üstü, tablo başlığı, veri alanı adı */
+@utility plaka {
+  font-family: var(--font-plaka);
+  font-size: var(--text-plaka);
+  line-height: 1;
+  font-weight: 600;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+}
+
+/* Telefon ve fiyat gibi hizalanması gereken rakamlar */
+@utility rakam {
+  font-variant-numeric: tabular-nums;
+}
+
+/* Sayfa kabı — tek yerde tanımlı, elle max-w yazılmaz */
+@utility kap {
+  margin-inline: auto;
+  max-width: 75rem; /* 1200 px */
+  padding-inline: 1.25rem;
+}
+
+@media (min-width: 1024px) {
+  .kap {
+    padding-inline: 2rem;
+  }
 }
 
 html {
   scroll-behavior: smooth;
-  /* Mobil sabit alt çubuğun içeriği kapatmaması için */
-  scroll-padding-top: 4.5rem;
+  scroll-padding-top: 5rem; /* sticky çubuk çapayı örtmesin */
 }
 
 body {
   color: var(--color-metin);
   background: #fff;
-  /* 14. blok (mobil sabit çubuk) sayfa sonunu örtmesin */
   padding-bottom: env(safe-area-inset-bottom);
+  -webkit-text-size-adjust: 100%;
 }
 
 @media (max-width: 767px) {
   body {
+    /* mobil sabit alt çubuk sayfa sonunu örtmesin */
     padding-bottom: calc(3.5rem + env(safe-area-inset-bottom));
   }
 }
 
+/* Mobilde 300 ms dokunma gecikmesini kaldırır — acil aramada gecikme hissi
+   doğrudan dönüşüm kaybı. */
+a,
+button,
+summary,
+label,
+input,
+textarea,
+select {
+  touch-action: manipulation;
+}
+
+a,
+button,
+summary,
+[role='button'] {
+  -webkit-tap-highlight-color: rgb(12 92 150 / 0.15);
+}
+
+/* Hareket yalnızca renk geçişi, 150 ms. Konum/boyut animasyonu yok. */
 @media (prefers-reduced-motion: reduce) {
   html {
     scroll-behavior: auto;
   }
+  *,
+  *::before,
+  *::after {
+    transition-duration: 0.01ms !important;
+    animation-duration: 0.01ms !important;
+  }
 }
 
-/* Klavye erişilebilirliği — hepsi CSS, JS yok */
-:where(a, button, input, textarea, summary):focus-visible {
-  outline: 3px solid var(--color-marka-600);
+/* Klavye erişilebilirliği — hiçbir yerde kaldırılmaz */
+:where(a, button, input, textarea, select, summary, [tabindex]):focus-visible {
+  outline: 3px solid var(--color-turuncu-400);
   outline-offset: 2px;
+  border-radius: 2px;
+}
+
+/* Koyu blok içindeki odak halkası zeminde kaybolmasın */
+:where(.koyu-blok) :where(a, button, summary):focus-visible {
+  outline-color: var(--color-turuncu-300);
+}
+
+/*
+  Arıza rehberi yazı gövdesi (.yazi) — markdown çıktısını biçimlendirir.
+
+  Neden elle: @tailwindcss/typography onaylı paket listesinde yok (yasak 5) ve
+  ihtiyacımız onun kapsadığının küçük bir alt kümesi. Otuz satır CSS bir
+  bağımlılıktan ucuz ve tasarım sistemine birebir oturuyor.
+
+  Ölçü 65ch'te tutuluyor: satır uzarsa göz bir sonraki satırın başını kaybeder.
+*/
+.yazi {
+  font-size: var(--text-lead);
+  line-height: 1.7;
+  color: var(--color-metin);
+}
+
+.yazi > * + * {
+  margin-top: 1.25em;
+}
+
+.yazi p,
+.yazi ul,
+.yazi ol {
+  max-width: 65ch;
+}
+
+.yazi h2 {
+  margin-top: 2.5em;
+  font-size: var(--text-h2);
+  line-height: 1.15;
+  font-weight: 700;
+  letter-spacing: -0.01em;
+  text-wrap: balance;
+  color: var(--color-lacivert-900);
+}
+
+.yazi h3 {
+  margin-top: 1.75em;
+  font-size: var(--text-h3);
+  line-height: 1.3;
+  font-weight: 700;
+  color: var(--color-lacivert-900);
+}
+
+.yazi ul,
+.yazi ol {
+  padding-left: 1.5em;
+}
+
+.yazi ul {
+  list-style: disc;
+}
+
+.yazi ol {
+  list-style: decimal;
+}
+
+.yazi li::marker {
+  color: var(--color-turuncu-600);
+  font-weight: 700;
+}
+
+.yazi li + li {
+  margin-top: 0.5em;
+}
+
+.yazi strong {
+  font-weight: 700;
+  color: var(--color-lacivert-900);
+}
+
+.yazi a {
+  color: var(--color-lacivert-700);
+  font-weight: 600;
+  text-decoration: underline;
+  text-underline-offset: 2px;
+}
+
+.yazi a:hover {
+  color: var(--color-turuncu-700);
+}
+
+/*
+  Uyarı kutusu — markdown'da "> " ile yazılır. Güvenlik notları için:
+  elektrik, gaz ve su tesisatına dokunma sınırını burada çiziyoruz.
+  Sol kenar çubuğu tek istisna: gerisi renk bloğuyla kurulu.
+*/
+.yazi blockquote {
+  border-left: 4px solid var(--color-turuncu-600);
+  background: var(--color-zemin);
+  border-radius: 0 var(--radius-sm) var(--radius-sm) 0;
+  padding: 1.25rem 1.5rem;
+  font-size: var(--text-govde);
+}
+
+.yazi blockquote > * + * {
+  margin-top: 0.75em;
 }

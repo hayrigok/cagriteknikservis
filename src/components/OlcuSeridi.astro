@@ -1,0 +1,49 @@
+---
+/*
+  Rakam şeridi.
+
+  DİKKAT: Buradaki her rakam ya veriden türetiliyor ya da sahibinin doğruladığı
+  bir bilgi. "1.247 mutlu müşteri" gibi UYDURMA SAYAÇ YASAK — hem brief'te
+  yazıyor hem de doğrulanamaz sayı ilk telefonda tartışmaya dönüşür.
+
+  - cihaz grubu  → hizmetler.json'daki aktif kayıt sayısı
+  - ilçe         → ilceler.json'daki aktif kayıt sayısı
+  - varış süresi → sahibinin onayladığı altBaslik vaadi ("2 saat içinde")
+  - saatler      → firma.json calismaSaatleri
+*/
+import { aktifHizmetler, firma, tumIlceler, deger } from '@/lib/veri';
+
+const hizmetSayisi = aktifHizmetler().length;
+const ilceSayisi = tumIlceler().filter((i) => i.aktif).length;
+const saatler = deger(firma.calismaSaatleri);
+
+// Karşılığı olmayan ölçü hiç basılmaz; "—" veya iskele metni yazmayız.
+// Sütun sayısı kalan ölçüye göre ayarlanır, boş hücre bırakılmaz.
+const olculer = [
+  { sayi: String(hizmetSayisi), birim: 'cihaz grubu', not: 'klimadan fırına' },
+  { sayi: String(ilceSayisi), birim: 'ilçe', not: `${firma.sehir} genelinde` },
+  { sayi: '2', birim: 'saat', not: 'ortalama varış' },
+  saatler ? { sayi: '7', birim: 'gün açık', not: saatler } : null,
+].filter((o): o is { sayi: string; birim: string; not: string } => o !== null);
+
+const sutun = olculer.length === 4 ? 'lg:grid-cols-4' : 'lg:grid-cols-3';
+---
+
+<section class="border-y border-lacivert-100 bg-zemin">
+  <dl class:list={['kap grid grid-cols-2 gap-8 py-12', sutun]}>
+    {
+      olculer.map((o) => (
+        <div>
+          <dt class="sr-only">{o.birim}</dt>
+          <dd>
+            <span class="rakam text-dev block leading-none font-bold tracking-tight text-lacivert-900">
+              {o.sayi}
+              <span class="text-h3 ml-1 font-bold text-turuncu-700">{o.birim}</span>
+            </span>
+            <span class="mt-2 block text-kucuk text-metin-soluk">{o.not}</span>
+          </dd>
+        </div>
+      ))
+    }
+  </dl>
+</section>

@@ -1,27 +1,97 @@
 ---
-// 2, 3, 4 — Tek H1 + somut vaat + ana CTA. Hepsi kaydırmadan görünen alanda.
+/*
+  2, 3, 4 — Tek H1 + somut vaat + ana CTA. Hepsi kaydırmadan görünen alanda.
+
+  Koyu lacivert blok: sayfanın açılışı renk alanıyla kuruluyor, çizgiyle değil.
+  Beyaz metin lacivert üzerinde 14.89:1, turuncu vurgu 6.58:1 — ikisi de AAA/AA.
+  Zemin dokusu saf CSS radial-gradient: sıfır byte, sıfır istek, LCP metin kalır.
+*/
 import AraButonu from './AraButonu.astro';
+import Ikon from './Ikon.astro';
+import { firma, tumIlceler, deger } from '@/lib/veri';
+import type { IkonAdi } from '@/lib/types';
 
 interface Props {
   h1: string;
   altBaslik: string;
   waMesaji: string;
+  /** Damgalı üst etiket — konumu söyler, süsleme değil. */
+  etiket: string;
+  /** Hizmet sayfalarında o cihazın silüeti. */
+  ikon?: IkonAdi;
 }
 
-const { h1, altBaslik, waMesaji } = Astro.props;
+const { h1, altBaslik, waMesaji, etiket, ikon } = Astro.props;
+
+// Bölge listesi ilçe kapısından BAĞIMSIZ: kapı "sayfa üretilsin mi" sorusunu
+// çözer, "buraya gidiyor muyuz" sorusunu değil.
+const bolgeler = tumIlceler()
+  .filter((i) => i.aktif)
+  .map((i) => i.ad)
+  .join(' · ');
+
+// Doldurulmamış satır hiç basılmaz; ikisi de yoksa panel düşer ve H1 tam
+// genişliğe yayılır (bkz. veri.ts → deger()).
+const kunye: { ikon: IkonAdi; etiket: string; metin: string }[] = [
+  { ikon: 'saat', etiket: 'Çalışma saatleri', metin: deger(firma.calismaSaatleri) ?? '' },
+  { ikon: 'konum', etiket: 'Hizmet bölgesi', metin: bolgeler ? `${firma.sehir} — ${bolgeler}` : '' },
+].filter((k) => k.metin !== '');
 ---
 
-<section id="icerik" class="bg-marka-50">
-  <div class="mx-auto max-w-5xl px-4 py-8 sm:py-12">
-    <h1 class="text-3xl leading-tight font-bold text-marka-900 sm:text-4xl">
-      {h1}
-    </h1>
-    <p class="mt-3 text-lg text-metin sm:text-xl">{altBaslik}</p>
+<section id="icerik" class="koyu-blok relative overflow-hidden bg-lacivert-900">
+  {/* Doku: saf CSS nokta ızgarası. Görsel indirilmiyor. */}
+  <div
+    aria-hidden="true"
+    class="pointer-events-none absolute inset-0"
+    style="background-image: radial-gradient(circle at 1px 1px, rgb(255 255 255 / .07) 1px, transparent 0); background-size: 26px 26px;"
+  >
+  </div>
 
-    <AraButonu konum="hero" mesaj={waMesaji} boyut="buyuk" class="mt-6" />
+  <div class="kap relative py-16 lg:py-24">
+    <div class:list={['grid items-start gap-12', kunye.length > 0 && 'lg:grid-cols-[1.15fr_1fr]']}>
+      <div>
+        <p class="plaka flex items-center gap-2 text-turuncu-300">
+          {ikon && <Ikon ad={ikon} boyut={18} />}
+          {etiket}
+        </p>
 
-    <p class="mt-3 text-sm text-metin-soluk">
-      Fiyatı önce söyleriz, onayınızı almadan işleme başlamayız.
-    </p>
+        <h1
+          class="text-h1 mt-4 leading-[1.03] font-bold tracking-tight text-balance text-white"
+        >
+          {h1}
+        </h1>
+
+        <p class="text-lead mt-5 max-w-xl leading-relaxed text-lacivert-200">{altBaslik}</p>
+
+        <AraButonu konum="hero" mesaj={waMesaji} boyut="buyuk" zemin="koyu" class="mt-8 max-w-md" />
+
+        <p class="mt-4 flex items-start gap-2 text-kucuk leading-relaxed text-lacivert-300">
+          <Ikon ad="onay" boyut={16} class="mt-0.5 shrink-0 text-turuncu-300" />
+          Fiyatı önce söyleriz, onayınızı almadan işleme başlamayız.
+        </p>
+      </div>
+
+      {/*
+        Aramadan önce sorulan iki soru: "şu an açık mısınız", "bizim oraya
+        geliyor musunuz". Süs değil. Mobilde CTA'nın ALTINA yığılır.
+      */}
+      {
+        kunye.length > 0 && (
+          <dl class="grid gap-px overflow-hidden rounded-md bg-white/15">
+            {kunye.map((k) => (
+              <div class="flex gap-4 bg-lacivert-900/95 p-6">
+                <span class="flex h-11 w-11 shrink-0 items-center justify-center rounded-sm bg-white/10 text-turuncu-300">
+                  <Ikon ad={k.ikon} boyut={22} />
+                </span>
+                <div class="min-w-0">
+                  <dt class="plaka text-lacivert-300">{k.etiket}</dt>
+                  <dd class="mt-2 leading-relaxed font-semibold text-white">{k.metin}</dd>
+                </div>
+              </div>
+            ))}
+          </dl>
+        )
+      }
+    </div>
   </div>
 </section>

@@ -1,7 +1,10 @@
 ---
 // 9 — İlçeye özgü blok. Bu bloğun içeriği (yerelNotlar) sayfanın var olma
-// gerekçesi: boşsa build sayfayı zaten üretmez.
+// gerekçesi: boşsa build sayfayı zaten üretmez (bkz. lib/veri.ts ilçe kapısı).
+import Bolum from './Bolum.astro';
+import Ikon from './Ikon.astro';
 import type { Ilce } from '@/lib/types';
+import { degerListesi } from '@/lib/veri';
 
 interface Props {
   ilce: Ilce;
@@ -9,27 +12,55 @@ interface Props {
 }
 
 const { ilce, hizmetAdi } = Astro.props;
+
+// Kapı yalnızca yerelNotlar'ı zorunlu tutuyor; ulaşım süresi ve mahalle listesi
+// ondan bağımsız gelebilir. Gelmemişse o kutu hiç basılmaz, ikisi de yoksa sağ
+// sütun düşer ve saha notu tam genişliğe yayılır.
+const mahalleler = degerListesi(ilce.mahalleler);
+const ulasimVar = ilce.ulasimDk > 0;
+const yanSutun = ulasimVar || mahalleler.length > 0;
 ---
 
-<section class="bg-marka-50">
-  <div class="mx-auto max-w-5xl px-4 py-10">
-    <h2 class="text-2xl font-bold text-marka-900">
-      {ilce.ad}'de {hizmetAdi.toLocaleLowerCase('tr-TR')}
-    </h2>
+<Bolum
+  etiket="Bölge"
+  baslik={`${ilce.ad}'de ${hizmetAdi.toLocaleLowerCase('tr-TR')}`}
+  zemin="zemin"
+>
+  <div class:list={['grid gap-8', yanSutun && 'lg:grid-cols-[1.4fr_1fr]']}>
+    {/* Sayfanın var olma gerekçesi bu paragraf. */}
+    <div class="rounded-md border-l-4 border-turuncu-600 bg-white p-6 lg:p-8">
+      <p class="text-lead leading-relaxed text-metin">{ilce.yerelNotlar}</p>
+    </div>
 
-    <p class="mt-3 max-w-3xl leading-relaxed text-metin">{ilce.yerelNotlar}</p>
+    {
+      yanSutun && (
+        <dl class="grid gap-px overflow-hidden rounded-md bg-lacivert-100">
+          {ulasimVar && (
+            <div class="bg-white p-6">
+              <dt class="plaka flex items-center gap-2 text-metin-soluk">
+                <Ikon ad="saat" boyut={16} class="text-turuncu-600" />
+                Ortalama ulaşım
+              </dt>
+              <dd class="mt-2">
+                <span class="rakam text-dev leading-none font-bold text-lacivert-900">
+                  {ilce.ulasimDk}
+                  <span class="text-h3 ml-1 font-bold text-turuncu-700">dakika</span>
+                </span>
+              </dd>
+            </div>
+          )}
 
-    <dl class="mt-6 grid gap-5 sm:grid-cols-2">
-      <div>
-        <dt class="font-semibold text-marka-900">Ortalama ulaşım süresi</dt>
-        <dd class="mt-1 text-metin-soluk">
-          {ilce.ulasimDk > 0 ? `${ilce.ulasimDk} dakika` : '{PLACEHOLDER — ulaşım süresi}'}
-        </dd>
-      </div>
-      <div>
-        <dt class="font-semibold text-marka-900">Gittiğimiz mahalleler</dt>
-        <dd class="mt-1 text-metin-soluk">{ilce.mahalleler.join(', ')}</dd>
-      </div>
-    </dl>
+          {mahalleler.length > 0 && (
+            <div class="bg-white p-6">
+              <dt class="plaka flex items-center gap-2 text-metin-soluk">
+                <Ikon ad="konum" boyut={16} class="text-turuncu-600" />
+                Gittiğimiz mahalleler
+              </dt>
+              <dd class="mt-2 leading-relaxed text-metin">{mahalleler.join(', ')}</dd>
+            </div>
+          )}
+        </dl>
+      )
+    }
   </div>
-</section>
+</Bolum>

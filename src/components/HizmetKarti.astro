@@ -1,0 +1,43 @@
+---
+// Hizmet vitrin kartı. Ana sayfa, hizmet hub'ı ve iletişim sayfasında aynı kart
+// kullanılıyor — tek yerde tanımlı, üç yerde tutarlı.
+import Ikon from './Ikon.astro';
+import { hizmetIkonu } from '@/lib/veri';
+import type { Hizmet } from '@/lib/types';
+
+interface Props {
+  hizmet: Hizmet;
+  /** Kartın altında listelenecek ilçe adları (sayfası üretilenler). */
+  ilceAdlari?: string[];
+}
+
+const { hizmet, ilceAdlari = [] } = Astro.props;
+---
+
+<a
+  href={`/${hizmet.slug}/`}
+  class="group flex h-full flex-col rounded-md border border-lacivert-100 bg-white p-6 transition-colors duration-150 hover:border-lacivert-900 hover:bg-lacivert-50"
+>
+  <span
+    class="flex h-12 w-12 items-center justify-center rounded-sm bg-lacivert-900 text-white transition-colors duration-150 group-hover:bg-turuncu-600"
+  >
+    <Ikon ad={hizmetIkonu(hizmet.slug)} boyut={24} />
+  </span>
+
+  <span class="text-h3 mt-4 flex items-start justify-between gap-3 leading-snug font-bold text-lacivert-900">
+    {hizmet.ad}
+    <Ikon ad="ok" boyut={18} class="mt-1 shrink-0 text-turuncu-600" />
+  </span>
+
+  <span class="mt-2 block text-kucuk leading-relaxed text-metin-soluk">{hizmet.ozet}</span>
+
+  {
+    ilceAdlari.length > 0 && (
+      <span class="mt-4 flex flex-wrap gap-x-2 gap-y-1 border-t border-lacivert-100 pt-4">
+        {ilceAdlari.map((ad) => (
+          <span class="plaka text-metin-soluk">{ad}</span>
+        ))}
+      </span>
+    )
+  }
+</a>

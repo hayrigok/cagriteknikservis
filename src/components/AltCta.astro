@@ -1,6 +1,9 @@
 ---
-// 13a — Alt CTA.
+// 13a — Alt CTA. Sayfanın koyu kapanışı; hero ile bilerek aynı renk ailesinde,
+// böylece sayfa iki koyu blok arasında kapanıyor.
 import AraButonu from './AraButonu.astro';
+import Ikon from './Ikon.astro';
+import { firma, doldurulmusMu } from '@/lib/veri';
 
 interface Props {
   baslik: string;
@@ -10,10 +13,36 @@ interface Props {
 const { baslik, waMesaji } = Astro.props;
 ---
 
-<section class="bg-marka-900">
-  <div class="mx-auto max-w-5xl px-4 py-10">
-    <h2 class="text-2xl font-bold text-white">{baslik}</h2>
-    <p class="mt-2 text-marka-100">Telefonda kısa bir tarif yeter, gerisini biz hallederiz.</p>
-    <AraButonu konum="footer" mesaj={waMesaji} boyut="buyuk" class="mt-6" />
+<section class="koyu-blok relative overflow-hidden bg-lacivert-900">
+  <div
+    aria-hidden="true"
+    class="pointer-events-none absolute inset-0"
+    style="background-image: radial-gradient(circle at 1px 1px, rgb(255 255 255 / .07) 1px, transparent 0); background-size: 26px 26px;"
+  >
+  </div>
+
+  <div class="kap relative py-16 lg:py-24">
+    <div class="grid items-center gap-10 lg:grid-cols-[1.15fr_1fr]">
+      <div>
+        <p class="plaka text-turuncu-300">Arıza hattı</p>
+        <p class="text-h2 mt-3 leading-[1.15] font-bold tracking-tight text-balance text-white">
+          {baslik}
+        </p>
+        <p class="text-lead mt-4 max-w-xl leading-relaxed text-lacivert-200">
+          Telefonda kısa bir tarif yeter, gerisini biz hallederiz.
+        </p>
+
+        {
+          doldurulmusMu(firma.calismaSaatleri) && (
+            <p class="mt-5 inline-flex items-center gap-2 text-kucuk text-lacivert-300">
+              <Ikon ad="saat" boyut={16} class="text-turuncu-300" />
+              {firma.calismaSaatleri}
+            </p>
+          )
+        }
+      </div>
+
+      <AraButonu konum="footer" mesaj={waMesaji} boyut="buyuk" zemin="koyu" class="max-w-md" />
+    </div>
   </div>
 </section>

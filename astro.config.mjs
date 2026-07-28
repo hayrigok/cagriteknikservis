@@ -1,13 +1,15 @@
 // @ts-check
 import { defineConfig } from 'astro/config';
 import tailwindcss from '@tailwindcss/vite';
+import siteHaritasi from './integrations/site-haritasi.mjs';
 
-// SITE_URL yayına çıkarken gerçek alan adıyla değiştirilecek ({PLACEHOLDER}).
-// Canonical ve JSON-LD mutlak URL'leri bu değerden türüyor.
-const SITE_URL = 'https://ornek-alan-adi.com';
+// Alan adının TEK kaynağı. Canonical, JSON-LD mutlak URL'leri, sitemap.xml ve
+// robots.txt hepsi buradan türüyor — başka hiçbir yerde tekrarlanmaz.
+const SITE_URL = 'https://cagribeyazesyatamir.com';
 
 export default defineConfig({
   site: SITE_URL,
+  integrations: [siteHaritasi()],
   output: 'static',
   trailingSlash: 'always',
   build: {

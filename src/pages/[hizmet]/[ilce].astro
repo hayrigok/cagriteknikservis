@@ -1,11 +1,17 @@
 ---
-// Para sayfası. Tek generic rota: hizmetler × geçerli ilçeler.
-// yerelNotlar kapısından geçemeyen ilçeler getStaticPaths'e hiç girmez,
-// dolayısıyla o kombinasyonlar için HTML üretilmez.
+/*
+  Para sayfası. Tek generic rota: hizmetler × geçerli ilçeler.
+
+  yerelNotlar kapısından geçemeyen ilçeler getStaticPaths'e HİÇ GİRMEZ,
+  dolayısıyla o kombinasyonlar için HTML üretilmez ve build uyarı basar.
+  Bu kapıyı gevşetmeyin: içi boş şablon ilçe sayfaları Google tarafından
+  doorway page sayılır ve ceza tek sayfaya değil tüm siteye işler.
+*/
 import BaseLayout from '@/layouts/BaseLayout.astro';
 import StickyUstCubuk from '@/components/StickyUstCubuk.astro';
 import Hero from '@/components/Hero.astro';
 import GuvenRozetleri from '@/components/GuvenRozetleri.astro';
+import OlcuSeridi from '@/components/OlcuSeridi.astro';
 import FiyatTablosu from '@/components/FiyatTablosu.astro';
 import ArizaCozum from '@/components/ArizaCozum.astro';
 import Surec from '@/components/Surec.astro';
@@ -19,7 +25,7 @@ import Footer from '@/components/Footer.astro';
 import MobilBar from '@/components/MobilBar.astro';
 
 import type { Hizmet, Ilce } from '@/lib/types';
-import { aktifHizmetler, gecerliIlceler, h1Uret } from '@/lib/veri';
+import { aktifHizmetler, gecerliIlceler, h1Uret, hizmetIkonu } from '@/lib/veri';
 import { paraSayfasiDescription, paraSayfasiTitle } from '@/lib/seo';
 import { breadcrumb, faqPage, serviceSchema } from '@/lib/schema';
 
@@ -44,6 +50,7 @@ const { hizmet, ilce } = Astro.props;
 
 const yol = `/${hizmet.slug}/${ilce.slug}/`;
 const h1 = h1Uret(hizmet, ilce);
+const cihaz = hizmet.cihaz.toLocaleLowerCase('tr-TR');
 const waMesaji = `Merhaba, ${ilce.ad} için ${hizmet.ad.toLocaleLowerCase('tr-TR')} hakkında bilgi almak istiyorum.`;
 
 const schema = [
@@ -65,12 +72,24 @@ const schema = [
   sayfaKimligi={`${hizmet.slug}/${ilce.slug}`}
 >
   <StickyUstCubuk />
-  <Hero h1={h1} altBaslik={hizmet.altBaslik} waMesaji={waMesaji} />
+  <Hero
+    h1={h1}
+    altBaslik={hizmet.altBaslik}
+    etiket={`${ilce.sehir} · ${ilce.ad}`}
+    ikon={hizmetIkonu(hizmet.slug)}
+    waMesaji={waMesaji}
+  />
   <GuvenRozetleri />
-  <FiyatTablosu satirlar={hizmet.fiyatAraligi} baslik={`${ilce.ad} ${hizmet.ad} fiyatları`} />
+  <OlcuSeridi />
+
+  <FiyatTablosu
+    satirlar={hizmet.fiyatAraligi}
+    baslik={`${ilce.ad} ${hizmet.ad} fiyatları`}
+    baslikBos={`${ilce.ad} için ${cihaz} servisinde yaptığımız işlemler`}
+  />
   <ArizaCozum
     arizalar={hizmet.ariza}
-    baslik={`En sık çıkan ${hizmet.cihaz.toLocaleLowerCase('tr-TR')} arızaları`}
+    baslik={hizmet.arizaBaslik ?? `En sık çıkan ${cihaz} arızaları`}
   />
   <Surec />
   <IlceBlogu ilce={ilce} hizmetAdi={hizmet.ad} />

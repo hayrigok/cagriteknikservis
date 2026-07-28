@@ -1,0 +1,90 @@
+---
+/*
+  /blog/ — Arıza rehberi listesi.
+
+  Amaç reklam değil organik arama: "çamaşır makinesi su boşaltmıyor" gibi
+  şikâyet aramaları için yazılıyor. Bu trafik yavaş gelir ve niyeti bilgi
+  almaktır, o yüzden her yazı okuyucuyu para sayfasına ve telefona bağlar.
+
+  Tarih BASILMIYOR: içerik "makine su boşaltmıyorsa şuraya bak" tipinde,
+  eskimeyen bilgi. Tarih koymak altı ay sonra yazıyı bayat gösterir; uydurma
+  "güncellendi" tarihi basmak ise zaten yasak (uydurma tarih).
+*/
+import { getCollection } from 'astro:content';
+
+import BaseLayout from '@/layouts/BaseLayout.astro';
+import Bolum from '@/components/Bolum.astro';
+import StickyUstCubuk from '@/components/StickyUstCubuk.astro';
+import Hero from '@/components/Hero.astro';
+import GuvenRozetleri from '@/components/GuvenRozetleri.astro';
+import AltCta from '@/components/AltCta.astro';
+import Footer from '@/components/Footer.astro';
+import MobilBar from '@/components/MobilBar.astro';
+import Ikon from '@/components/Ikon.astro';
+
+import { firma, hizmetIkonu } from '@/lib/veri';
+import { breadcrumb } from '@/lib/schema';
+
+const waMesaji = 'Merhaba, cihazımda bir arıza var. Bilgi almak istiyorum.';
+
+const yazilar = (await getCollection('yazilar')).sort((a, b) => a.data.sira - b.data.sira);
+---
+
+<BaseLayout
+  title={`Arıza Rehberi — ${firma.kisaAd}`}
+  description="Çamaşır makinesi, bulaşık makinesi, buzdolabı ve klimada en sık karşılaşılan arızalar: belirtiler, servis çağırmadan önce kendiniz yapabilecekleriniz ve ne zaman ustaya bırakmalı."
+  yol="/blog/"
+  schema={[
+    breadcrumb(Astro.site!, [
+      { ad: 'Ana sayfa', yol: '/' },
+      { ad: 'Arıza rehberi', yol: '/blog/' },
+    ]),
+  ]}
+  sayfaKimligi="blog"
+>
+  <StickyUstCubuk />
+
+  <Hero
+    h1="Arıza rehberi"
+    altBaslik="Cihazınız ne yapıyor? Belirtiden başlayın. Çoğu arızada servis çağırmadan önce kontrol edebileceğiniz birkaç şey var; gerisi için zaten buradayız."
+    etiket={`${firma.sehir} geneli servis`}
+    waMesaji={waMesaji}
+  />
+
+  <GuvenRozetleri />
+
+  <Bolum
+    etiket="Yazılar"
+    baslik="En sık sorulan arızalar"
+    aciklama="Her yazı aynı sırayla ilerler: belirti ne anlama geliyor, kendiniz neyi kontrol edebilirsiniz, hangi noktadan sonra cihaza dokunmayın."
+  >
+    <ul class="grid gap-4 sm:grid-cols-2 lg:grid-cols-3">
+      {
+        yazilar.map((y) => (
+          <li>
+            <a
+              href={`/blog/${y.id}/`}
+              class="group flex h-full flex-col rounded-md border border-lacivert-100 bg-white p-6 transition-colors duration-150 hover:border-turuncu-600"
+            >
+              <span class="flex h-12 w-12 shrink-0 items-center justify-center rounded-sm bg-lacivert-900 text-white">
+                <Ikon ad={y.data.hizmet ? hizmetIkonu(y.data.hizmet) : 'kart'} boyut={24} />
+              </span>
+              <h3 class="text-h3 mt-4 leading-snug font-bold text-balance text-lacivert-900">
+                {y.data.baslik}
+              </h3>
+              <p class="mt-2 leading-relaxed text-metin-soluk">{y.data.ozet}</p>
+              <span class="mt-4 inline-flex items-center gap-1.5 font-semibold text-turuncu-700">
+                Oku
+                <Ikon ad="ok" boyut={16} />
+              </span>
+            </a>
+          </li>
+        ))
+      }
+    </ul>
+  </Bolum>
+
+  <AltCta baslik="Arıza sizde değilse, biz bakalım" waMesaji={waMesaji} />
+  <Footer />
+  <MobilBar waMesaji={waMesaji} />
+</BaseLayout>

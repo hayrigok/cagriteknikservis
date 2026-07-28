@@ -1,30 +1,50 @@
 ---
-// 8 — Süreç, 4 adım.
+// 8 — Süreç, 4 adım. Koyu blok: sayfanın ortasında ikinci bir renk alanı,
+// aksi hâlde beyaz/gri sıralaması tekdüze kalıyor.
+import Bolum from './Bolum.astro';
+
 const adimlar = [
-  { baslik: 'Arayın', metin: 'Cihazın markasını ve şikâyeti söylersiniz, uygun parçayla yola çıkarız.' },
-  { baslik: 'Randevu', metin: 'Size uyan saati birlikte belirleriz. Aynı gün gitmeye çalışırız.' },
-  { baslik: 'Yerinde tespit', metin: 'Arızayı görür, ne yapılacağını ve tutarı söyleriz.' },
-  { baslik: 'Onay ve onarım', metin: 'Siz onaylayınca başlarız. Bitince cihazı birlikte test eder, garanti süresini size söyleriz.' },
+  {
+    baslik: 'Arayın',
+    metin: 'Cihazın markasını ve şikâyeti söylersiniz, uygun parçayla yola çıkarız.',
+  },
+  {
+    baslik: 'Randevu',
+    metin: 'Size uyan saati birlikte belirleriz. Aynı gün gitmeye çalışırız.',
+  },
+  {
+    baslik: 'Yerinde tespit',
+    metin: 'Arızayı görür, ne yapılacağını ve tutarı söyleriz.',
+  },
+  {
+    baslik: 'Onay ve onarım',
+    metin:
+      'Siz onaylayınca başlarız. Bitince cihazı birlikte test eder, garanti süresini size söyleriz.',
+  },
 ];
 ---
 
-<section class="mx-auto max-w-5xl px-4 py-10">
-  <h2 class="text-2xl font-bold text-marka-900">Nasıl çalışıyoruz?</h2>
-
-  <ol class="mt-5 grid gap-4 sm:grid-cols-2 lg:grid-cols-4">
+<Bolum
+  etiket="Süreç"
+  baslik="Nasıl çalışıyoruz?"
+  aciklama="Dört adım. Hiçbirinde sürpriz yok — tutarı duymadan işlem başlamaz."
+  zemin="lacivert"
+>
+  {/* Numaralandırma süs değil: adımlar gerçekten sırayla oluyor. */}
+  <ol class="grid gap-x-8 gap-y-10 sm:grid-cols-2 lg:grid-cols-4">
     {
       adimlar.map((a, i) => (
-        <li class="rounded-lg border border-marka-100 p-4">
+        <li>
           <span
-            class="inline-flex h-8 w-8 items-center justify-center rounded-full bg-marka-600 font-bold text-white"
+            class="rakam flex h-12 w-12 items-center justify-center rounded-sm bg-turuncu-600 text-h3 font-bold text-white"
             aria-hidden="true"
           >
-            {i + 1}
+            {String(i + 1).padStart(2, '0')}
           </span>
-          <h3 class="mt-3 font-semibold text-marka-900">{a.baslik}</h3>
-          <p class="mt-1 text-sm text-metin-soluk">{a.metin}</p>
+          <h3 class="text-h3 mt-4 font-bold text-white">{a.baslik}</h3>
+          <p class="mt-2 leading-relaxed text-lacivert-200">{a.metin}</p>
         </li>
       ))
     }
   </ol>
-</section>
+</Bolum>

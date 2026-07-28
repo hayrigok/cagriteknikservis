@@ -1,0 +1,91 @@
+---
+/*
+  404 — reklam trafiğinde en pahalı sayfa. Tıklama parası zaten ödendi, ziyaretçi
+  yanlış adrese düştü; burada tek iş onu geri kazanmak. Cloudflare'in kendi hata
+  sayfası çıkarsa o tıklama tamamen kayıp.
+
+  Bu yüzden ölü uç değil, kısaltılmış bir satış sayfası: hero'daki ana CTA
+  numarayı en büyük nesne olarak basar, altındaki hizmet kartları ziyaretçiyi
+  doğru para sayfasına taşır.
+
+  Şema basılmıyor ve dizinlenmesin=true — hata sayfası arama sonucuna girmemeli.
+*/
+import BaseLayout from '@/layouts/BaseLayout.astro';
+import Bolum from '@/components/Bolum.astro';
+import StickyUstCubuk from '@/components/StickyUstCubuk.astro';
+import Hero from '@/components/Hero.astro';
+import GuvenRozetleri from '@/components/GuvenRozetleri.astro';
+import HizmetKarti from '@/components/HizmetKarti.astro';
+import AltCta from '@/components/AltCta.astro';
+import Footer from '@/components/Footer.astro';
+import MobilBar from '@/components/MobilBar.astro';
+import Ikon from '@/components/Ikon.astro';
+
+import { aktifHizmetler, firma } from '@/lib/veri';
+
+const waMesaji = 'Merhaba, aradığım sayfayı bulamadım. Servis için bilgi almak istiyorum.';
+const hizmetler = aktifHizmetler();
+
+const kisayollar = [
+  { ad: 'Ana sayfa', yol: '/' },
+  { ad: 'Arıza rehberi', yol: '/blog/' },
+  { ad: 'İletişim', yol: '/iletisim/' },
+];
+---
+
+<BaseLayout
+  title={`Sayfa bulunamadı — ${firma.kisaAd}`}
+  description={`Aradığınız sayfa bulunamadı. ${firma.sehir} genelinde klima ve beyaz eşya arızaları için hemen arayın veya aşağıdan cihazınızı seçin.`}
+  yol="/404/"
+  sayfaKimligi="404"
+  dizinlenmesin={true}
+>
+  <StickyUstCubuk />
+
+  <Hero
+    h1="Aradığınız sayfa burada değil"
+    altBaslik="Adres değişmiş veya yanlış yazılmış olabilir. Arızayı telefonda anlatmak en hızlısı; dilerseniz aşağıdan cihazınızı seçin."
+    etiket="404 — Sayfa bulunamadı"
+    waMesaji={waMesaji}
+  />
+
+  <GuvenRozetleri />
+
+  <Bolum
+    etiket="Hizmetler"
+    baslik="Hangi cihazda arıza var?"
+    aciklama="Cihazı seçin, o cihazın arızaları ve fiyatlandırma şeklimiz için doğru sayfaya gidelim."
+  >
+    <ul class="grid gap-4 sm:grid-cols-2 lg:grid-cols-4">
+      {
+        hizmetler.map((h) => (
+          <li>
+            <HizmetKarti hizmet={h} />
+          </li>
+        ))
+      }
+    </ul>
+  </Bolum>
+
+  <Bolum baslik="Sık kullanılan sayfalar" zemin="zemin">
+    <ul class="flex flex-wrap gap-3">
+      {
+        kisayollar.map((k) => (
+          <li>
+            <a
+              href={k.yol}
+              class="flex min-h-12 items-center gap-2 rounded-sm border border-lacivert-100 bg-white px-5 py-3 font-semibold text-lacivert-900 transition-colors duration-150 hover:border-turuncu-600 hover:text-turuncu-700"
+            >
+              <Ikon ad="ok" boyut={18} class="text-turuncu-600" />
+              {k.ad}
+            </a>
+          </li>
+        ))
+      }
+    </ul>
+  </Bolum>
+
+  <AltCta baslik="Arızayı telefonda çözmeye başlayalım" waMesaji={waMesaji} />
+  <Footer />
+  <MobilBar waMesaji={waMesaji} />
+</BaseLayout>

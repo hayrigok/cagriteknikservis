@@ -1,9 +1,29 @@
 import ilcelerRaw from '@/data/ilceler.json';
 import hizmetlerRaw from '@/data/hizmetler.json';
 import firmaRaw from '@/data/firma.json';
-import type { Firma, Hizmet, Ilce } from './types';
+import type { Firma, Hizmet, IkonAdi, Ilce } from './types';
 
 export const firma = firmaRaw as Firma;
+
+/**
+ * Hizmet slug'ı → ikon. Sayfada fotoğraf olmadığı için her hizmetin görsel
+ * kimliği bu silüetten geliyor. Yeni hizmet eklenirse buraya da satır eklenir;
+ * eşleşme yoksa genel "arac" ikonuna düşer.
+ */
+const IKONLAR: Record<string, IkonAdi> = {
+  'klima-servisi': 'klima',
+  'klima-bakimi': 'klima',
+  'klima-gaz-dolumu': 'klima',
+  'camasir-makinesi-tamiri': 'camasir',
+  'bulasik-makinesi-tamiri': 'bulasik',
+  'buzdolabi-tamiri': 'buzdolabi',
+  'kurutma-makinesi-tamiri': 'kurutma',
+  'firin-ocak-tamiri': 'firin',
+};
+
+export function hizmetIkonu(slug: string): IkonAdi {
+  return IKONLAR[slug] ?? 'arac';
+}
 
 const ilceler = ilcelerRaw as Ilce[];
 const hizmetler = hizmetlerRaw as Hizmet[];
@@ -41,7 +61,11 @@ function atlamaNedeni(ilce: Ilce): string | null {
 function rapor(): void {
   if (raporlandi) return;
   raporlandi = true;
+  ilceKapisiRaporu();
+  eksikVeriRaporu();
+}
 
+function ilceKapisiRaporu(): void {
   const atlanan = ilceler
     .map((i) => ({ ilce: i, neden: atlamaNedeni(i) }))
     .filter((x): x is { ilce: Ilce; neden: string } => x.neden !== null);
@@ -56,6 +80,73 @@ function rapor(): void {
   for (const { ilce, neden } of atlanan) {
     console.warn(`  - ${ilce.slug.padEnd(12)} ${neden}`);
   }
+  console.warn('');
+}
+
+/**
+ * Doldurulmamış alanların build raporu.
+ *
+ * Ziyaretçi hiçbir sayfada "{PLACEHOLDER}" görmediği için eksikler görünmez
+ * hale geliyor. Görünmez eksik = unutulan eksik, o yüzden hepsi burada
+ * tek listede basılır. Bu rapor kapının yerine geçmez, ona ek gelir.
+ */
+function eksikVeriRaporu(): void {
+  const satirlar: string[] = [];
+  const kontrol = (etiket: string, v: string): void => {
+    if (!deger(v)) satirlar.push(etiket);
+  };
+
+  kontrol('firma.unvan            → footer künyesi + KVKK veri sorumlusu boş', firma.unvan);
+  kontrol('firma.adres            → footer künyesi + KVKK veri sorumlusu boş', firma.adres);
+  kontrol('firma.vergiDairesi     → footer künyesi + KVKK boş', firma.vergiDairesi);
+  kontrol('firma.vergiNo          → footer künyesi + KVKK boş', firma.vergiNo);
+  kontrol('firma.googleIsletmeUrl → yorumlar bloğu hiç basılmıyor', firma.googleIsletmeUrl);
+  kontrol('firma.gaOlcumKimligi   → ölçümleme kapalı', firma.gaOlcumKimligi);
+  if (degerListesi(firma.markalar).length === 0) {
+    satirlar.push('firma.markalar         → marka SSS cevabı gizlendi');
+  }
+
+  /*
+    Fiyat YAYIMLAMAMAK bir karardır (28.07.2026), eksik veri değil: amaç aramayı
+    başlatmak, tutar telefonda söyleniyor. Bu yüzden hepsi boşken rapora hiç
+    girmez — her build'de asla dolmayacak 48 satır saymak raporu gürültüye
+    çevirir, gürültülü rapor da okunmaz olur.
+
+    Ama KISMEN dolu hâl gerçekten bozuktur: tablo basılır, kimi satırda rakam
+    kimi satırda "—" görünür ve ziyaretçi bunu "fiyatı gizliyorlar" diye okur.
+    Rapor yalnızca bu hâli bildirir.
+  */
+  const fiyatlar = hizmetler.flatMap((h) => h.fiyatAraligi);
+  const bosFiyat = fiyatlar.filter((f) => f.altTl === null || f.ustTl === null).length;
+  if (bosFiyat > 0 && bosFiyat < fiyatlar.length) {
+    satirlar.push(
+      `hizmetler.fiyatAraligi → ${bosFiyat}/${fiyatlar.length} satır boş, o satırlarda "—" basılıyor`
+    );
+  }
+
+  for (const h of hizmetler) {
+    for (const s of h.sss) {
+      if (!deger(s.cevap)) satirlar.push(`sss gizlendi           → ${h.slug}: ${s.soru}`);
+    }
+  }
+
+  for (const i of ilceler.filter((x) => x.aktif)) {
+    if (degerListesi(i.mahalleler).length === 0) {
+      satirlar.push(`ilceler.${i.slug}.mahalleler → mahalle kutusu basılmıyor`);
+    }
+    if (!(i.ulasimDk > 0)) {
+      satirlar.push(`ilceler.${i.slug}.ulasimDk   → ulaşım süresi kutusu basılmıyor`);
+    }
+  }
+
+  if (satirlar.length === 0) return;
+
+  console.warn(
+    `\n[eksik-veri] ${satirlar.length} alan doldurulmadı.\n` +
+      `  Bu alanlar sayfaya BASILMIYOR — ziyaretçi iskele metni görmez, ilgili öğe\n` +
+      `  tamamen gizlenir. Uydurma değer yazmayın; sahibinden gelince kendiliğinden açılır.`
+  );
+  for (const s of satirlar) console.warn(`  - ${s}`);
   console.warn('');
 }
 
@@ -108,6 +199,30 @@ export function telLink(): string | null {
   return `tel:${firma.telefon.replace(/\s/g, '')}`;
 }
 
-export function doldurulmusMu(deger: string): boolean {
-  return !PLACEHOLDER.test(deger);
+export function doldurulmusMu(v: string): boolean {
+  return deger(v) !== null;
+}
+
+/**
+ * Doldurulmuş değeri döndürür, doldurulmamışsa null.
+ *
+ * BİLEŞEN SÖZLEŞMESİ: null gelen öğe HİÇ BASILMAZ — ziyaretçiye "{PLACEHOLDER}"
+ * gösterilmez, o satır/kutu/blok tamamen kaldırılır. Eksik veri sayfayı yarım
+ * göstermek yerine sessizce küçültür. Eksikler ziyaretçiye değil, build
+ * çıktısındaki [eksik-veri] raporuna gider.
+ *
+ * Bu, uydurma değer yazmanın gerekçesi DEĞİLDİR: alan boş kaldığı sürece
+ * rapor her build'de basmaya devam eder.
+ */
+export function deger(v: string | null | undefined): string | null {
+  if (typeof v !== 'string') return null;
+  const t = v.trim();
+  if (t === '' || PLACEHOLDER.test(t)) return null;
+  return t;
+}
+
+/** Bir listedeki doldurulmuş öğeler. Hepsi boşsa boş dizi döner. */
+export function degerListesi(liste: readonly string[] | null | undefined): string[] {
+  if (!Array.isArray(liste)) return [];
+  return liste.map((x) => deger(x)).filter((x): x is string => x !== null);
 }

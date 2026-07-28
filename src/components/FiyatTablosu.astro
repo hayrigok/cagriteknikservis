@@ -1,50 +1,126 @@
 ---
-// 6 — Fiyat aralığı tablosu. Rakam uydurulmaz: altTl/ustTl null ise {PLACEHOLDER} basılır.
+/*
+  6 — Fiyat aralığı tablosu. Rakam UYDURULMAZ.
+
+  İki hâli var:
+  - En az bir satırda fiyat varsa → tablo basılır, fiyatsız satırlarda "—".
+  - Hiçbir satırda fiyat yoksa → tablo yerine İŞLEM LİSTESİ basılır. Boş bir
+    fiyat sütunu ziyaretçiye hiçbir şey söylemez; "bu cihazda şu işleri
+    yapıyoruz" bilgisi ise fiyat olmadan da doğru ve işe yarar.
+
+  Her iki hâlde de ekrana iskele metni ("{PLACEHOLDER}") çıkmaz; eksik satırlar
+  build çıktısındaki [eksik-veri] raporunda sayılır.
+*/
+import Bolum from './Bolum.astro';
+import Ikon from './Ikon.astro';
 import type { FiyatSatiri } from '@/lib/types';
+import { deger } from '@/lib/veri';
 
 interface Props {
   satirlar: FiyatSatiri[];
   baslik: string;
+  /** Hiç fiyat yokken kullanılacak başlık. Verilmezse baslik kullanılır. */
+  baslikBos?: string;
+  etiket?: string;
+  aciklama?: string;
+  /** Hiç fiyat yokken kullanılacak açıklama. Aynı sayfada birden çok tablo
+      varsa buraya hizmete özgü metin geçin, yoksa 8 blok aynı paragrafı basar. */
+  aciklamaBos?: string;
+  zemin?: 'beyaz' | 'zemin';
 }
 
-const { satirlar, baslik } = Astro.props;
+const {
+  satirlar,
+  baslik,
+  baslikBos,
+  aciklamaBos,
+  etiket = 'Fiyat',
+  aciklama = 'Aşağıdaki aralıklar bilgi içindir. Kesin tutarı arızayı yerinde gördükten sonra, işleme başlamadan önce söyleriz.',
+  zemin = 'beyaz',
+} = Astro.props;
 
 const tl = new Intl.NumberFormat('tr-TR');
 
-function aralik(s: FiyatSatiri): string {
-  if (s.altTl === null || s.ustTl === null) return '{PLACEHOLDER — fiyat aralığı}';
+function aralik(s: FiyatSatiri): string | null {
+  if (s.altTl === null || s.ustTl === null) return null;
   return `${tl.format(s.altTl)} – ${tl.format(s.ustTl)} TL`;
 }
+
+const fiyatliVar = satirlar.some((s) => aralik(s) !== null);
+
+const bosAciklama =
+  'Tutar, arızanın gerçek sebebine göre değişiyor. Bu cihazda yaptığımız işlemler aşağıda; ' +
+  'fiyatı yerinde tespitten sonra, işleme başlamadan önce söyleriz.';
 ---
 
-<section class="mx-auto max-w-5xl px-4 py-10">
-  <h2 class="text-2xl font-bold text-marka-900">{baslik}</h2>
-  <p class="mt-2 text-metin-soluk">
-    Aşağıdaki aralıklar bilgi içindir. Kesin tutarı arızayı yerinde gördükten sonra,
-    işleme başlamadan önce söyleriz.
-  </p>
-
-  <div class="mt-5 overflow-x-auto">
-    <table class="w-full min-w-[32rem] border-collapse text-left">
-      <thead>
-        <tr class="border-b-2 border-marka-100">
-          <th scope="col" class="py-3 pr-4 font-semibold text-marka-900">İşlem</th>
-          <th scope="col" class="py-3 font-semibold text-marka-900">Aralık</th>
-        </tr>
-      </thead>
-      <tbody>
-        {
-          satirlar.map((s) => (
-            <tr class="border-b border-marka-100 align-top">
-              <td class="py-3 pr-4">
-                {s.islem}
-                {s.not && <span class="block text-sm text-metin-soluk">{s.not}</span>}
-              </td>
-              <td class="py-3 font-medium whitespace-nowrap">{aralik(s)}</td>
+<Bolum
+  etiket={fiyatliVar ? etiket : 'İşlemler'}
+  baslik={fiyatliVar ? baslik : (baslikBos ?? baslik)}
+  aciklama={fiyatliVar ? aciklama : (aciklamaBos ?? bosAciklama)}
+  zemin={zemin}
+>
+  {
+    fiyatliVar ? (
+      /* Ölçüyü sınırlıyoruz: geniş ekranda işlem adı ile tutar arasındaki boşluk
+         açılınca göz satırı takip edemiyor. */
+      <div class="max-w-3xl overflow-x-auto rounded-md border border-lacivert-100 bg-white">
+        <table class="w-full min-w-80 border-collapse text-left">
+          <thead>
+            <tr class="bg-lacivert-900 text-white">
+              <th scope="col" class="plaka px-6 py-3.5">
+                İşlem
+              </th>
+              <th scope="col" class="plaka px-6 py-3.5 text-right">
+                Aralık
+              </th>
             </tr>
-          ))
-        }
-      </tbody>
-    </table>
-  </div>
-</section>
+          </thead>
+          <tbody>
+            {satirlar.map((s, i) => {
+              const tutar = aralik(s);
+              const not = deger(s.not);
+              return (
+                <tr class:list={['align-top', i % 2 === 1 && 'bg-zemin']}>
+                  <td class="px-6 py-4">
+                    <span class="font-semibold text-lacivert-900">{s.islem}</span>
+                    {not && (
+                      <span class="mt-1 block text-kucuk leading-snug text-metin-soluk">{not}</span>
+                    )}
+                  </td>
+                  <td class="px-6 py-4 text-right">
+                    {tutar ? (
+                      <span class="rakam font-bold whitespace-nowrap text-lacivert-900">
+                        {tutar}
+                      </span>
+                    ) : (
+                      <span class="text-metin-soluk">
+                        —<span class="sr-only">aralık belirtilmedi, telefonda söylüyoruz</span>
+                      </span>
+                    )}
+                  </td>
+                </tr>
+              );
+            })}
+          </tbody>
+        </table>
+      </div>
+    ) : (
+      <ul class="grid max-w-3xl gap-px overflow-hidden rounded-md border border-lacivert-100 bg-lacivert-100 sm:grid-cols-2">
+        {satirlar.map((s) => {
+          const not = deger(s.not);
+          return (
+            <li class="flex gap-3 bg-white px-5 py-4">
+              <Ikon ad="onay" boyut={18} class="mt-0.5 shrink-0 text-turuncu-600" />
+              <span class="min-w-0">
+                <span class="font-semibold text-lacivert-900">{s.islem}</span>
+                {not && (
+                  <span class="mt-1 block text-kucuk leading-snug text-metin-soluk">{not}</span>
+                )}
+              </span>
+            </li>
+          );
+        })}
+      </ul>
+    )
+  }
+</Bolum>

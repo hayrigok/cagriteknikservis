@@ -1,3 +1,25 @@
+/** Ikon.astro içindeki set. Yeni ikon eklerken ikisini birlikte güncelleyin. */
+export type IkonAdi =
+  | 'klima'
+  | 'camasir'
+  | 'bulasik'
+  | 'buzdolabi'
+  | 'kurutma'
+  | 'firin'
+  | 'kucuk-ev'
+  | 'telefon'
+  | 'whatsapp'
+  | 'kalkan'
+  | 'arama'
+  | 'kart'
+  | 'saat'
+  | 'konum'
+  | 'ok'
+  | 'chevron'
+  | 'dis-link'
+  | 'onay'
+  | 'arac';
+
 export interface Ilce {
   slug: string;
   ad: string;
@@ -21,7 +43,11 @@ export interface Ariza {
 
 export interface FiyatSatiri {
   islem: string;
-  /** Alt sınır TL. Bilinmiyorsa null bırakılır, tabloda {PLACEHOLDER} basılır. */
+  /**
+   * Alt sınır TL. Bilinmiyorsa null bırakılır — o satırda "—" basılır, bir
+   * hizmetteki satırların HEPSİ boşsa tablo yerine işlem listesi basılır.
+   * Rakam uydurulmaz.
+   */
   altTl: number | null;
   ustTl: number | null;
   not?: string;
@@ -35,7 +61,14 @@ export interface Hizmet {
   /** Somut vaat, H1 altındaki satır. */
   altBaslik: string;
   cihaz: string;
+  /** Hizmet hub sayfasında ve meta açıklamasında kullanılan kısa tanıtım. */
+  ozet: string;
   ariza: Ariza[];
+  /**
+   * Arıza bloğunun başlığı. Verilmezse "En sık çıkan {cihaz} arızaları"
+   * kalıbı kullanılır — bakım gibi arıza odaklı olmayan hizmetlerde gerekiyor.
+   */
+  arizaBaslik?: string;
   fiyatAraligi: FiyatSatiri[];
   sss: { soru: string; cevap: string }[];
   aktif: boolean;
@@ -53,7 +86,11 @@ export interface Firma {
   vergiNo: string;
   calismaSaatleri: string;
   googleIsletmeUrl: string;
-  garantiSuresi: string;
+  /**
+   * Garanti ifadesi. Bilerek "süre" değil: sahibi tek bir süre vermiyor,
+   * garanti takılan parçaya göre değişiyor. Rozette olduğu gibi basılır.
+   */
+  garantiIfadesi: string;
   markalar: string[];
   gaOlcumKimligi: string;
 }

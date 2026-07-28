@@ -1,0 +1,123 @@
+---
+// /iletisim/ — tek amacı arama başlatmak. Harita GÖMÜLMÜYOR: üçüncü taraf
+// iframe hem JS bütçesini hem KVKK tarafını gereksiz yere büyütür.
+import BaseLayout from '@/layouts/BaseLayout.astro';
+import Bolum from '@/components/Bolum.astro';
+import StickyUstCubuk from '@/components/StickyUstCubuk.astro';
+import Hero from '@/components/Hero.astro';
+import GuvenRozetleri from '@/components/GuvenRozetleri.astro';
+import HizmetKarti from '@/components/HizmetKarti.astro';
+import IletisimFormu from '@/components/IletisimFormu.astro';
+import AltCta from '@/components/AltCta.astro';
+import Footer from '@/components/Footer.astro';
+import MobilBar from '@/components/MobilBar.astro';
+import Ikon from '@/components/Ikon.astro';
+
+import type { IkonAdi } from '@/lib/types';
+import { aktifHizmetler, firma, tumIlceler, deger } from '@/lib/veri';
+import { breadcrumb } from '@/lib/schema';
+
+const waMesaji = 'Merhaba, servis talebi için bilgi almak istiyorum.';
+const bolgeler = tumIlceler().filter((i) => i.aktif);
+const hizmetler = aktifHizmetler();
+
+// Doldurulmamış künye satırı hiç basılmaz (bkz. veri.ts → deger()). Ünvan,
+// adres ve vergi bilgisi gelene kadar kutu sayısı azalır; ziyaretçi boş alan
+// yerine yalnızca doğrulanmış bilgiyi görür.
+type Kunye = { ikon: IkonAdi; etiket: string; metin: string; rakam?: boolean };
+
+const kunyeHam: { ikon: IkonAdi; etiket: string; metin: string | null; rakam?: boolean }[] = [
+  { ikon: 'telefon', etiket: 'Telefon', metin: deger(firma.telefon), rakam: true },
+  { ikon: 'saat', etiket: 'Çalışma saatleri', metin: deger(firma.calismaSaatleri) },
+  {
+    ikon: 'konum',
+    etiket: 'Hizmet bölgesi',
+    metin: bolgeler.length > 0 ? `${firma.sehir} — ${bolgeler.map((i) => i.ad).join(', ')}` : null,
+  },
+  { ikon: 'arac', etiket: 'Ünvan', metin: deger(firma.unvan) },
+  { ikon: 'konum', etiket: 'Adres', metin: deger(firma.adres) },
+  { ikon: 'kart', etiket: 'Vergi dairesi', metin: deger(firma.vergiDairesi) },
+  { ikon: 'kart', etiket: 'Vergi no', metin: deger(firma.vergiNo), rakam: true },
+];
+
+const kunye: Kunye[] = kunyeHam.filter((k): k is Kunye => k.metin !== null);
+---
+
+<BaseLayout
+  title={`İletişim — ${firma.sehir} Klima ve Beyaz Eşya Servisi`}
+  description={`${firma.sehir} genelinde klima ve beyaz eşya servisi. Telefon, çalışma saatleri, hizmet verdiğimiz ilçeler ve servis talep formu.`}
+  yol="/iletisim/"
+  schema={[
+    breadcrumb(Astro.site!, [
+      { ad: 'Ana sayfa', yol: '/' },
+      { ad: 'İletişim', yol: '/iletisim/' },
+    ]),
+  ]}
+  sayfaKimligi="iletisim"
+>
+  <StickyUstCubuk />
+  <Hero
+    h1="İletişim"
+    altBaslik="En hızlı yol telefon. Arayın, arızayı anlatın, randevuyu birlikte belirleyelim."
+    etiket={`${firma.sehir} geneli`}
+    waMesaji={waMesaji}
+  />
+  <GuvenRozetleri />
+
+  <Bolum etiket="Künye" baslik="İşletme bilgileri" zemin="zemin">
+    <dl class="grid max-w-4xl gap-px overflow-hidden rounded-md border border-lacivert-100 bg-lacivert-100 sm:grid-cols-2">
+      {
+        kunye.map((k) => (
+          <div class="flex gap-4 bg-white p-6">
+            <span class="flex h-11 w-11 shrink-0 items-center justify-center rounded-sm bg-lacivert-900 text-white">
+              <Ikon ad={k.ikon} boyut={20} />
+            </span>
+            <div class="min-w-0">
+              <dt class="plaka text-metin-soluk">{k.etiket}</dt>
+              <dd
+                class:list={['mt-2 leading-relaxed font-semibold text-lacivert-900', k.rakam && 'rakam']}
+              >
+                {k.metin}
+              </dd>
+            </div>
+          </div>
+        ))
+      }
+    </dl>
+  </Bolum>
+
+  <Bolum
+    etiket="Bölge"
+    baslik="Hizmet verdiğimiz ilçeler"
+    aciklama={`${firma.sehir} içinde aşağıdaki ilçelere gidiyoruz. Mahallenizi telefonda söyleyin, kaç dakikada varacağımızı da söyleyelim.`}
+  >
+    <ul class="flex flex-wrap gap-3">
+      {
+        bolgeler.map((i) => (
+          <li class="flex items-center gap-2 rounded-sm border border-lacivert-100 bg-white px-5 py-3 font-semibold text-lacivert-900">
+            <Ikon ad="konum" boyut={18} class="text-turuncu-600" />
+            {i.ad}
+          </li>
+        ))
+      }
+    </ul>
+  </Bolum>
+
+  <IletisimFormu baglam="İletişim sayfası servis talebi" zemin="zemin" />
+
+  <Bolum etiket="Hizmetler" baslik="Hangi cihaza bakıyoruz?">
+    <ul class="grid gap-4 sm:grid-cols-2 lg:grid-cols-4">
+      {
+        hizmetler.map((h) => (
+          <li>
+            <HizmetKarti hizmet={h} />
+          </li>
+        ))
+      }
+    </ul>
+  </Bolum>
+
+  <AltCta baslik="Arızayı bugün çözelim" waMesaji={waMesaji} />
+  <Footer />
+  <MobilBar waMesaji={waMesaji} />
+</BaseLayout>

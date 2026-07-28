@@ -1,5 +1,0 @@
-User-agent: *
-Allow: /
-
-# {PLACEHOLDER — astro.config.mjs içindeki SITE_URL gerçek alan adıyla değişince güncelleyin}
-Sitemap: https://ornek-alan-adi.com/sitemap-index.xml

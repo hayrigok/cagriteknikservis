@@ -1,5 +1,10 @@
 ---
-// 14 — Mobil sabit alt çubuk: Ara | WhatsApp. Sadece mobilde görünür, saf CSS.
+/*
+  14 — Mobil sabit alt çubuk: Ara | WhatsApp. Yalnızca mobilde, saf CSS.
+  Arama tarafı bilerek geniş (3/5): sayfanın tek başarı ölçütü telefon araması,
+  WhatsApp ikincil kanal.
+*/
+import Ikon from './Ikon.astro';
 import { telLink, whatsappLink } from '@/lib/veri';
 
 interface Props {
@@ -13,21 +18,20 @@ const wa = whatsappLink(waMesaji);
 
 <nav
   aria-label="Hızlı iletişim"
-  class="fixed inset-x-0 bottom-0 z-40 grid grid-cols-2 border-t border-black/10 bg-white pb-[env(safe-area-inset-bottom)] md:hidden"
+  class="fixed inset-x-0 bottom-0 z-40 grid grid-cols-5 border-t border-black/10 bg-white pb-[env(safe-area-inset-bottom)] md:hidden"
 >
   <a
     href={tel ?? '#'}
     data-olay="tel_click"
     data-konum="mobil_bar"
     aria-disabled={tel ? undefined : 'true'}
-    class={`flex h-14 items-center justify-center gap-2 bg-aksiyon-600 font-semibold text-white ${tel ? '' : 'pointer-events-none opacity-60'}`}
+    class:list={[
+      'col-span-3 flex h-14 items-center justify-center gap-2 bg-turuncu-600 text-[17px] font-bold text-white',
+      !tel && 'pointer-events-none opacity-55',
+    ]}
   >
-    <svg width="20" height="20" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true">
-      <path
-        d="M6.6 10.8a15.1 15.1 0 0 0 6.6 6.6l2.2-2.2c.3-.3.7-.4 1-.2 1.1.4 2.3.6 3.6.6.6 0 1 .4 1 1V20c0 .6-.4 1-1 1A17 17 0 0 1 3 4c0-.6.4-1 1-1h3.5c.6 0 1 .4 1 1 0 1.2.2 2.4.6 3.6.1.3 0 .7-.2 1l-2.3 2.2Z"
-      ></path>
-    </svg>
-    Ara
+    <Ikon ad="telefon" boyut={20} />
+    Hemen Ara
   </a>
 
   <a
@@ -36,13 +40,12 @@ const wa = whatsappLink(waMesaji);
     data-konum="mobil_bar"
     rel="noopener"
     aria-disabled={wa ? undefined : 'true'}
-    class={`flex h-14 items-center justify-center gap-2 bg-whatsapp-600 font-semibold text-white ${wa ? '' : 'pointer-events-none opacity-60'}`}
+    class:list={[
+      'col-span-2 flex h-14 items-center justify-center gap-2 bg-yesil-600 text-[17px] font-bold text-white',
+      !wa && 'pointer-events-none opacity-55',
+    ]}
   >
-    <svg width="20" height="20" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true">
-      <path
-        d="M12 2a10 10 0 0 0-8.6 15L2 22l5.2-1.4A10 10 0 1 0 12 2Zm5.1 14c-.2.6-1.2 1.2-1.7 1.2-.5.1-1 .1-1.6-.1-.4-.1-.9-.3-1.5-.6a11 11 0 0 1-4.2-3.8c-.3-.4-.9-1.4-.9-2.6s.6-1.8.9-2.1c.2-.2.5-.3.7-.3h.5c.2 0 .4 0 .6.5l.8 1.9c.1.2 0 .4-.1.5l-.3.4c-.1.2-.3.3-.1.6a8 8 0 0 0 3.4 2.9c.3.2.5.1.6 0l.7-.8c.2-.2.3-.2.6-.1l1.8.9c.3.1.4.2.5.3 0 .1 0 .6-.2 1.2Z"
-      ></path>
-    </svg>
+    <Ikon ad="whatsapp" boyut={20} />
     WhatsApp
   </a>
 </nav>

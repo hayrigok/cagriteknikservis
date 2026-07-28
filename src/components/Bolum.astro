@@ -1,0 +1,70 @@
+---
+/*
+  Sayfa bölümü. Hiyerarşi ÇİZGİYLE DEĞİL RENK BLOĞUYLA kuruluyor
+  (ui-ux-pro-max "Flat Design": "Color creates all hierarchy — color-blocking
+  sections, not borders"). Bölümler tam genişlikte renk alanları olarak
+  sıralanır: lacivert → beyaz → zemin → beyaz → lacivert.
+
+  Saf CSS, sıfır JS, sıfır görsel. design-system/MASTER.md'ye bakın.
+*/
+interface Props {
+  /** Damgalı etiket — bölümün ne olduğunu söyler, süsleme değil. */
+  etiket?: string;
+  baslik?: string;
+  aciklama?: string;
+  zemin?: 'beyaz' | 'zemin' | 'lacivert';
+  id?: string;
+  /** Başlık bloğunu ortalar — yalnızca kısa, vitrin bölümlerinde. */
+  ortala?: boolean;
+}
+
+const { etiket, baslik, aciklama, zemin = 'beyaz', id, ortala = false } = Astro.props;
+
+const koyu = zemin === 'lacivert';
+
+const zeminSinifi = {
+  beyaz: 'bg-white',
+  zemin: 'bg-zemin',
+  lacivert: 'bg-lacivert-900 koyu-blok',
+}[zemin];
+---
+
+<section id={id} class={zeminSinifi}>
+  <div class="kap py-16 lg:py-24">
+    {
+      (etiket || baslik || aciklama) && (
+        <div class:list={['max-w-3xl', ortala && 'mx-auto text-center']}>
+          {etiket && (
+            <p class:list={['plaka', koyu ? 'text-turuncu-300' : 'text-turuncu-700']}>
+              {etiket}
+            </p>
+          )}
+          {baslik && (
+            <h2
+              class:list={[
+                'text-h2 mt-3 leading-[1.15] font-bold tracking-tight text-balance',
+                koyu ? 'text-white' : 'text-lacivert-900',
+              ]}
+            >
+              {baslik}
+            </h2>
+          )}
+          {aciklama && (
+            <p
+              class:list={[
+                'text-lead mt-4 leading-relaxed',
+                koyu ? 'text-lacivert-200' : 'text-metin-soluk',
+              ]}
+            >
+              {aciklama}
+            </p>
+          )}
+        </div>
+      )
+    }
+
+    <div class:list={[(etiket || baslik || aciklama) && 'mt-12']}>
+      <slot />
+    </div>
+  </div>
+</section>

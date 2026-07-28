@@ -1,62 +1,180 @@
 ---
-// Ana sayfa. Hub görevi görür: her hizmet × ilçe sayfasına buradan link var,
-// böylece hiçbir para sayfası yetim kalmaz.
+/*
+  Ana sayfa. Hub görevi görür: her hizmet sayfasına ve (üretildiyse) her
+  hizmet × ilçe sayfasına buradan link var, böylece yetim sayfa kalmaz.
+*/
 import BaseLayout from '@/layouts/BaseLayout.astro';
+import Bolum from '@/components/Bolum.astro';
 import StickyUstCubuk from '@/components/StickyUstCubuk.astro';
 import Hero from '@/components/Hero.astro';
 import GuvenRozetleri from '@/components/GuvenRozetleri.astro';
+import OlcuSeridi from '@/components/OlcuSeridi.astro';
+import HizmetKarti from '@/components/HizmetKarti.astro';
+import ArizaCozum from '@/components/ArizaCozum.astro';
 import Surec from '@/components/Surec.astro';
 import Yorumlar from '@/components/Yorumlar.astro';
+import Sss from '@/components/Sss.astro';
 import IletisimFormu from '@/components/IletisimFormu.astro';
 import AltCta from '@/components/AltCta.astro';
 import Footer from '@/components/Footer.astro';
 import MobilBar from '@/components/MobilBar.astro';
+import Ikon from '@/components/Ikon.astro';
 
-import { aktifHizmetler, firma, gecerliIlceler } from '@/lib/veri';
-import { hvacBusiness } from '@/lib/schema';
+import type { SssOgesi } from '@/lib/schema';
+import { aktifHizmetler, firma, gecerliIlceler, hizmetIkonu, tumIlceler } from '@/lib/veri';
+import { faqPage, hvacBusiness } from '@/lib/schema';
 
 const hizmetler = aktifHizmetler();
 const ilceler = gecerliIlceler();
+const ilceAdlari = ilceler.map((i) => i.ad);
 
 const waMesaji = 'Merhaba, servis talebi için bilgi almak istiyorum.';
+
+// Her hizmetten ilk 3 arıza; ana sayfa vitrin, ayrıntı hizmet sayfasında.
+const anaArizalar = hizmetler.flatMap((h) => h.ariza.slice(0, 1)).slice(0, 6);
+
+const bolgeAdlari = tumIlceler()
+  .filter((i) => i.aktif)
+  .map((i) => i.ad)
+  .join(', ');
+
+/*
+  Ana sayfaya ÖZEL SSS. Bilerek hizmetler.json'daki sorulardan farklı:
+  oradaki "garanti / ödeme / tespit" cevapları sekiz hizmette de benzer;
+  ana sayfaya da konsaydı aynı paragraf sitede defalarca geçer ve hizmet
+  sayfalarının kendine ait içeriği zayıflardı.
+
+  Cevaplar sabit metin değil, firma/ilçe verisinden türetiliyor — çalışma
+  saati veya ilçe listesi değişince burası kendiliğinden güncellenir.
+*/
+const anaSss: SssOgesi[] = [
+  {
+    soru: 'Hangi cihazlara bakıyorsunuz?',
+    cevap:
+      'Klima ve beyaz eşyanın tamamına bakıyoruz, küçük ev aletleri dahil. En sık çağrıldığımız cihazlar ve o cihazlarda çıkan arızalar şunlar. Listede olmayan bir cihazınız varsa yine arayın, bakıp bakmadığımızı bekletmeden söyleriz.',
+    maddeler: [
+      {
+        ad: 'Klima',
+        detay:
+          'bakım, gaz dolumu, gaz kaçağı tespiti, soğutmama, iç üniteden su damlaması, dış ünitede ses, elektronik kart arızası',
+      },
+      {
+        ad: 'Çamaşır makinesi',
+        detay:
+          'su almama, suyu boşaltmama, sıkma yapmama, aşırı titreme, alttan su sızdırma, ekranda hata kodu, rulman ve kayış değişimi',
+      },
+      {
+        ad: 'Bulaşık makinesi',
+        detay:
+          'yıkamama, su almama, suyu boşaltmama, kurutmama, tahliye pompası arızası, ekranda hata kodu',
+      },
+      {
+        ad: 'Buzdolabı ve derin dondurucu',
+        detay:
+          'soğutmama, aşırı buzlanma, alttan su akıtma, hiç durmadan çalışma, kompresör ve termostat arızası, kapak contası değişimi',
+      },
+      {
+        ad: 'Kurutma makinesi',
+        detay: 'kurutmama, ısıtmama, program ortasında durma, su tahliye arızası, ekranda hata kodu',
+      },
+      {
+        ad: 'Fırın, ocak ve davlumbaz',
+        detay:
+          'ısıtmama, termostat arızası, kapak camı ve conta değişimi, ocakta ateşleme sorunu, davlumbazın çekmemesi',
+      },
+      {
+        ad: 'Küçük ev aletleri',
+        detay:
+          'mikrodalga, elektrikli süpürge, ütü ve benzeri cihazlarda çalışmama, ısıtmama, kablo ve şalter arızası',
+      },
+    ],
+  },
+  {
+    soru: 'Hangi ilçelere geliyorsunuz?',
+    cevap: `${firma.sehir}'da ${bolgeAdlari} ilçelerine gidiyoruz. Mahallenizi söyleyin; geliyorsak kaç dakikada varacağımızı da telefonda söyleriz.`,
+  },
+  {
+    soru: 'Çalışma saatleriniz ne?',
+    cevap: `${firma.calismaSaatleri} arası açığız, pazar dahil. Randevu saatini telefonda birlikte belirliyoruz.`,
+  },
+  {
+    soru: 'Aynı gün gelebiliyor musunuz?',
+    cevap:
+      'Çoğu çağrıya aynı gün, 2 saat içinde gidiyoruz. Yoğun günlerde ertesi güne kalabiliyor; bunu sizi bekletmeden, ilk telefonda söylüyoruz.',
+  },
+  {
+    soru: 'Gelmeden önce fiyatı öğrenebilir miyim?',
+    cevap:
+      'Telefonda cihazın markasını ve şikâyeti anlatın, size yaklaşık bir aralık verelim. Kesin tutarı arızayı yerinde gördükten sonra söyleriz. Siz onaylamadan hiçbir işleme başlamayız.',
+  },
+];
 ---
 
 <BaseLayout
   title={`${firma.sehir} Beyaz Eşya ve Klima Servisi — Aynı Gün`}
   description={`${firma.sehir} genelinde klima ve beyaz eşya arızalarına aynı gün gidiyoruz. Yerinde arıza tespiti, şeffaf fiyat, kapıda ödeme. Hemen arayın.`}
   yol="/"
-  schema={[hvacBusiness(Astro.site!)]}
+  schema={[hvacBusiness(Astro.site!), faqPage(anaSss)]}
   sayfaKimligi="anasayfa"
 >
   <StickyUstCubuk />
   <Hero
     h1={`${firma.sehir} Beyaz Eşya ve Klima Servisi`}
-    altBaslik="Aynı gün, 2 saat içinde kapınızda."
+    altBaslik="Aynı gün, 2 saat içinde kapınızda. Arızayı yerinde görür, fiyatı önce söyler, onayınızı alınca başlarız."
+    etiket={`${firma.sehir} geneli`}
     waMesaji={waMesaji}
   />
   <GuvenRozetleri />
+  <OlcuSeridi />
 
-  <section class="mx-auto max-w-5xl px-4 py-10">
-    <h2 class="text-2xl font-bold text-marka-900">Hizmetlerimiz ve bölgeler</h2>
+  <Bolum
+    id="hizmetler"
+    etiket="Hizmetler"
+    baslik="Hangi cihaza bakıyoruz?"
+    aciklama="Her hizmetin kendi sayfasında o cihazda en sık çıkan arızalar, yaptığımız işlemler ve sık sorulan sorular var."
+  >
+    <ul class="grid gap-4 sm:grid-cols-2 lg:grid-cols-4">
+      {
+        hizmetler.map((h) => (
+          <li>
+            <HizmetKarti hizmet={h} ilceAdlari={ilceAdlari} />
+          </li>
+        ))
+      }
+    </ul>
+  </Bolum>
 
-    {
-      ilceler.length === 0 ? (
-        <p class="mt-4 rounded-lg border border-dashed border-marka-100 bg-marka-50 p-4 text-metin-soluk">
-          {'{PLACEHOLDER — Hiçbir ilçe için yerelNotlar doldurulmadı, bu yüzden ilçe sayfası üretilmedi. src/data/ilceler.json içindeki yerelNotlar alanlarını doldurun.}'}
-        </p>
-      ) : (
-        <div class="mt-5 grid gap-8 sm:grid-cols-2">
+  <ArizaCozum
+    arizalar={anaArizalar}
+    baslik="En sık gelen çağrılar"
+    etiket="Arıza örnekleri"
+  />
+
+  <Surec />
+
+  {
+    ilceler.length > 0 && (
+      <Bolum
+        etiket="Bölgeler"
+        baslik="Bölgenize özel sayfalar"
+        aciklama="Her ilçe için ayrı sayfa hazırlıyoruz: ulaşım süresi, gittiğimiz mahalleler ve o bölgede sık çıkan arızalar orada yazılı."
+      >
+        <div class="grid gap-8 sm:grid-cols-2 lg:grid-cols-4">
           {hizmetler.map((h) => (
             <nav aria-label={h.ad}>
-              <h3 class="font-semibold text-marka-900">{h.ad}</h3>
-              <ul class="mt-2 space-y-1.5">
+              <h3 class="plaka flex items-center gap-2 text-metin-soluk">
+                <Ikon ad={hizmetIkonu(h.slug)} boyut={16} class="text-turuncu-600" />
+                {h.ad}
+              </h3>
+              <ul class="mt-3 grid gap-1">
                 {ilceler.map((i) => (
                   <li>
                     <a
                       href={`/${h.slug}/${i.slug}/`}
-                      class="text-marka-700 underline hover:text-marka-900"
+                      class="flex min-h-11 items-center justify-between gap-3 rounded-sm px-3 py-2 font-medium text-lacivert-700 transition-colors duration-150 hover:bg-lacivert-50 hover:text-lacivert-900"
                     >
-                      {i.ad} {h.ad}
+                      {i.ad}
+                      <Ikon ad="ok" boyut={16} class="shrink-0 text-turuncu-600" />
                     </a>
                   </li>
                 ))}
@@ -64,12 +182,12 @@ const waMesaji = 'Merhaba, servis talebi için bilgi almak istiyorum.';
             </nav>
           ))}
         </div>
-      )
-    }
-  </section>
+      </Bolum>
+    )
+  }
 
-  <Surec />
   <Yorumlar />
+  <Sss sorular={anaSss} baslik="Aramadan önce merak edilenler" />
   <IletisimFormu baglam="Ana sayfa servis talebi" />
   <AltCta baslik="Arızayı bugün çözelim" waMesaji={waMesaji} />
   <Footer />

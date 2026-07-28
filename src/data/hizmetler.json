@@ -1,10 +1,11 @@
-﻿[
+[
   {
     "slug": "klima-servisi",
     "ad": "Klima Servisi",
     "h1Sablonu": "{ilce} Klima Servisi",
     "altBaslik": "Aynı gün, 2 saat içinde kapınızda.",
     "cihaz": "Klima",
+    "ozet": "Soğutmayan, su damlatan, ses yapan ya da kendini kapatan klimalarda yerinde arıza tespiti ve onarım.",
     "aktif": true,
     "ariza": [
       {
@@ -33,7 +34,7 @@
       }
     ],
     "fiyatAraligi": [
-      { "islem": "Arıza tespiti", "altTl": null, "ustTl": null, "not": "Onarım yaptırılırsa ücretsiz. Onarım kabul edilmezse {PLACEHOLDER — tutar}." },
+      { "islem": "Arıza tespiti", "altTl": null, "ustTl": null, "not": "Onarım yaptırılırsa ücretsiz." },
       { "islem": "Klima bakımı (iç + dış ünite)", "altTl": null, "ustTl": null },
       { "islem": "Gaz dolumu (R410A / R32)", "altTl": null, "ustTl": null, "not": "{PLACEHOLDER — gaz tipine göre değişiyor mu?}" },
       { "islem": "Gaz kaçağı tespiti ve onarımı", "altTl": null, "ustTl": null },
@@ -47,11 +48,11 @@
       },
       {
         "soru": "Arıza tespiti ücretli mi?",
-        "cevap": "Onarımı yaptırırsanız arıza tespiti için ayrıca ücret almayız. Yalnızca tespit yaptırıp onarımı kabul etmezseniz {PLACEHOLDER — tespit/yol ücreti tutarı} servis ücreti alınır; bunu siz istemeden önce telefonda söyleriz."
+        "cevap": "Onarımı yaptırırsanız arıza tespiti için ayrıca ücret almayız. Arızayı yerinde gördükten sonra tutarı söyleriz; onaylamazsanız işleme başlamayız."
       },
       {
         "soru": "Yapılan işlemin garantisi var mı?",
-        "cevap": "İşçilik ve değişen parça için {PLACEHOLDER — garanti süresi} garanti veriyoruz. Garanti süresi içinde aynı arıza tekrarlarsa ücret almadan tekrar geliriz."
+        "cevap": "Değişen parçanın garantisi geçerlidir; süresi parçaya göre değişir ve takmadan önce size söyleriz. Garanti süresi içinde aynı arıza tekrarlarsa ücret almadan tekrar geliriz."
       },
       {
         "soru": "Ödemeyi nasıl yapabilirim?",
@@ -68,11 +69,144 @@
     ]
   },
   {
+    "slug": "klima-bakimi",
+    "ad": "Klima Bakımı",
+    "h1Sablonu": "{ilce} Klima Bakımı",
+    "altBaslik": "Aynı gün, 2 saat içinde kapınızda.",
+    "cihaz": "Klima",
+    "ozet": "İç ve dış ünitenin sökülerek temizlenmesi, tahliye hattının açılması, gaz basıncının ölçülmesi.",
+    "aktif": true,
+    "arizaBaslik": "Bakım zamanı geldiğini gösteren belirtiler",
+    "ariza": [
+      {
+        "baslik": "Aynı derecede daha yavaş soğutuyor",
+        "cozum": "Kirlenen filtre ve eşanjör hava geçişini kısar, cihaz aynı sıcaklığa daha uzun sürede iner ve daha çok elektrik harcar. Petekleri ve filtreleri yıkayınca üfleme debisi eski hâline döner."
+      },
+      {
+        "baslik": "Açınca küf veya rutubet kokusu geliyor",
+        "cozum": "İç ünitedeki nem, tahliye tavasında ve fan çarkında bakteri üremesine yol açar. Fan çarkını ve tavayı sökerek antibakteriyel ürünle yıkarız; koku kaynağı ortadan kalkar."
+      },
+      {
+        "baslik": "Üflemede toz ve kıl uçuşuyor",
+        "cozum": "Filtre gözenekleri dolduğunda tutamadığı partikülleri odaya geri verir. Filtreleri yıkar, gerekiyorsa değiştirir, iç ünitenin hava kanalını temizleriz."
+      },
+      {
+        "baslik": "Dış ünite eskisinden gürültülü çalışıyor",
+        "cozum": "Kanatlar arasına sıkışan yaprak ve toz fanı dengesizleştirir, montaj cıvataları zamanla gevşer. Peteği yıkar, kanat düzeltir ve bağlantıları sıkarız."
+      },
+      {
+        "baslik": "Tahliye hortumundan su gelmiyor",
+        "cozum": "Yoğuşma suyu dışarı çıkamıyorsa tahliye tıkalıdır ve su er ya da geç iç üniteden duvara taşar. Hattı basınçlı hava ile açar, eğimini kontrol ederiz."
+      },
+      {
+        "baslik": "Sezon başı, hiç kullanılmadan önce",
+        "cozum": "Kışı kapalı geçiren cihazda toz sıkışır, gaz basıncı sessizce düşmüş olabilir. Sezon açılmadan yapılan bakım hem faturayı düşürür hem de sıcak günlerde arıza ihtimalini azaltır."
+      }
+    ],
+    "fiyatAraligi": [
+      { "islem": "Standart bakım (iç + dış ünite)", "altTl": null, "ustTl": null },
+      { "islem": "Detaylı bakım (fan çarkı ve tava sökümlü)", "altTl": null, "ustTl": null },
+      { "islem": "Filtre değişimi", "altTl": null, "ustTl": null },
+      { "islem": "Tahliye hattı açma", "altTl": null, "ustTl": null },
+      { "islem": "Gaz basıncı ölçümü", "altTl": null, "ustTl": null },
+      { "islem": "Salon tipi / kanallı klima bakımı", "altTl": null, "ustTl": null }
+    ],
+    "sss": [
+      {
+        "soru": "Klima bakımı yılda kaç kez yapılmalı?",
+        "cevap": "Evlerde yılda bir, sezon açılmadan yapılan bakım çoğu cihaz için yeterlidir. Toz yoğun bir caddedeyseniz ya da cihazı yaz kış çalıştırıyorsanız altı ayda bir öneriyoruz."
+      },
+      {
+        "soru": "Bakım ne kadar sürüyor?",
+        "cevap": "Tek bir split klimada standart bakım genellikle bir saati bulmaz. Fan çarkı ve tahliye tavası sökülen detaylı bakım daha uzun sürer, bunu gelmeden önce size söyleriz."
+      },
+      {
+        "soru": "Bakımda gaz da dolduruluyor mu?",
+        "cevap": "Hayır, ikisi ayrı işlem. Bakımda gaz basıncını ölçeriz; düşükse önce kaçak arar, sebebini bulmadan dolum yapmayız."
+      },
+      {
+        "soru": "Bakım sırasında evde durmam gerekiyor mu?",
+        "cevap": "İç ünite yıkanırken su kullanıldığı için birinin evde olması gerekiyor. Mobilyaları örter, işlem bitince zemini kendimiz temizleriz."
+      },
+      {
+        "soru": "Bakım elektrik faturasını gerçekten düşürür mü?",
+        "cevap": "Kirli filtre ve eşanjör kompresörü daha uzun çalıştırdığı için tüketim artar. Temizlik sonrası cihaz hedef sıcaklığa daha çabuk indiği için çalışma süresi kısalır."
+      }
+    ]
+  },
+  {
+    "slug": "klima-gaz-dolumu",
+    "ad": "Klima Gaz Dolumu",
+    "h1Sablonu": "{ilce} Klima Gaz Dolumu",
+    "altBaslik": "Aynı gün, 2 saat içinde kapınızda.",
+    "cihaz": "Klima",
+    "ozet": "Önce kaçak tespiti, sonra vakum ve tartılı gaz şarjı. Kaçak bulunmadan dolum yapmıyoruz.",
+    "aktif": true,
+    "arizaBaslik": "Gazın azaldığını gösteren belirtiler",
+    "ariza": [
+      {
+        "baslik": "Üflüyor ama hava serin bile değil",
+        "cozum": "Gaz basıncı düştüğünde eşanjör soğutma yapamaz, cihaz çalışır görünse de oda sıcaklığı düşmez. Manifold ile basıncı ölçer, değer düşükse kaçak testine geçeriz."
+      },
+      {
+        "baslik": "Bakır borularda buzlanma var",
+        "cozum": "Düşük gaz, buharlaşma sıcaklığını aşırı düşürür ve hat üzerinde buz tutar. Buzlanmanın yeri kaçağın hangi bölümde olduğu konusunda da bilgi verir."
+      },
+      {
+        "baslik": "Dış üniteden tıslama sesi geliyor",
+        "cozum": "Rekor bağlantısından ya da delinmiş bir borudan gaz sızıyor olabilir. Köpük ve elektronik dedektörle hattı tarar, kaçağın noktasını işaretleriz."
+      },
+      {
+        "baslik": "Kısa aralıklarla çalışıp duruyor",
+        "cozum": "Basınç şalteri düşük gazı algılayıp kompresörü koruma amacıyla durdurur. Bu döngü kompresörü yorar, gazı tamamlamadan önce sebebini gidermek gerekir."
+      },
+      {
+        "baslik": "Geçen sene de gaz dolduruldu, yine bitti",
+        "cozum": "Kapalı bir devrede gaz kendiliğinden azalmaz; tekrar biten gaz kaçak olduğunu gösterir. Kaçağı bulup onarmadan yapılan dolum birkaç ay içinde boşa gider."
+      },
+      {
+        "baslik": "Taşınma veya söküm sonrası soğutmuyor",
+        "cozum": "Sökme sırasında gaz düzgün toplanmadıysa hat basıncı düşer, montaj sonrası cihaz soğutmaz. Hattı vakumlar, kaçak testinden sonra tartarak gaz şarj ederiz."
+      }
+    ],
+    "fiyatAraligi": [
+      { "islem": "Gaz kaçağı tespiti", "altTl": null, "ustTl": null, "not": "Onarım yaptırılırsa ücretsiz." },
+      { "islem": "R410A gaz dolumu", "altTl": null, "ustTl": null },
+      { "islem": "R32 gaz dolumu", "altTl": null, "ustTl": null },
+      { "islem": "R22 gaz dolumu", "altTl": null, "ustTl": null, "not": "{PLACEHOLDER — R22 hizmeti veriliyor mu?}" },
+      { "islem": "Rekor / boru kaçağı onarımı", "altTl": null, "ustTl": null },
+      { "islem": "Vakumlama ve devreye alma", "altTl": null, "ustTl": null }
+    ],
+    "sss": [
+      {
+        "soru": "Kaçak aramadan sadece gaz doldurur musunuz?",
+        "cevap": "Hayır. Kapalı devrede gaz kendiliğinden bitmediği için doldurmadan önce kaçağı ararız. Aksi hâlde parasını ödediğiniz gaz kısa sürede yeniden boşalır."
+      },
+      {
+        "soru": "Klimam hangi gazı kullanıyor, nasıl anlarım?",
+        "cevap": "Gaz tipi dış ünitenin üzerindeki etikette yazılıdır; genellikle R410A veya R32 görürsünüz. Etiketi telefonda okursanız doğru gazla yola çıkarız."
+      },
+      {
+        "soru": "Gaz dolumu ne kadar sürüyor?",
+        "cevap": "Kaçak yoksa vakum ve şarj işlemi kısa sürer. Kaçak varsa süre kaçağın yerine göre değişir; boru değişimi gerekiyorsa bunu yerinde görüp size söyleriz."
+      },
+      {
+        "soru": "Gaz göz kararı mı ekleniyor?",
+        "cevap": "Hayır, tartarak dolduruyoruz. Cihazın etiketinde yazan gram değeri esas alınır; fazla gaz da eksik gaz kadar zararlıdır."
+      },
+      {
+        "soru": "Kaçak onarılamazsa ne oluyor?",
+        "cevap": "Eşanjör gövdesinden kaçıran cihazlarda onarım her zaman ekonomik olmuyor. Böyle bir durumda maliyeti açıkça söyler, gereksiz işlem önermeyiz."
+      }
+    ]
+  },
+  {
     "slug": "camasir-makinesi-tamiri",
     "ad": "Çamaşır Makinesi Tamiri",
     "h1Sablonu": "{ilce} Çamaşır Makinesi Tamiri",
     "altBaslik": "Aynı gün, 2 saat içinde kapınızda.",
     "cihaz": "Çamaşır makinesi",
+    "ozet": "Su almayan, su boşaltmayan, sıkma yapmayan, titreyen ya da hata kodu veren makinelerde yerinde onarım.",
     "aktif": true,
     "ariza": [
       {
@@ -101,7 +235,7 @@
       }
     ],
     "fiyatAraligi": [
-      { "islem": "Arıza tespiti", "altTl": null, "ustTl": null, "not": "Onarım yaptırılırsa ücretsiz. Onarım kabul edilmezse {PLACEHOLDER — tutar}." },
+      { "islem": "Arıza tespiti", "altTl": null, "ustTl": null, "not": "Onarım yaptırılırsa ücretsiz." },
       { "islem": "Tahliye pompası değişimi", "altTl": null, "ustTl": null },
       { "islem": "Rulman ve keçe değişimi", "altTl": null, "ustTl": null },
       { "islem": "Kayış değişimi", "altTl": null, "ustTl": null },
@@ -115,11 +249,11 @@
       },
       {
         "soru": "Arıza tespiti ücretli mi?",
-        "cevap": "Onarımı yaptırırsanız arıza tespiti için ayrıca ücret almayız. Yalnızca tespit yaptırıp onarımı kabul etmezseniz {PLACEHOLDER — tespit/yol ücreti tutarı} servis ücreti alınır; bunu siz istemeden önce telefonda söyleriz."
+        "cevap": "Onarımı yaptırırsanız arıza tespiti için ayrıca ücret almayız. Arızayı yerinde gördükten sonra tutarı söyleriz; onaylamazsanız işleme başlamayız."
       },
       {
         "soru": "Yapılan işlemin garantisi var mı?",
-        "cevap": "İşçilik ve değişen parça için {PLACEHOLDER — garanti süresi} garanti veriyoruz. Garanti süresi içinde aynı arıza tekrarlarsa ücret almadan tekrar geliriz."
+        "cevap": "Değişen parçanın garantisi geçerlidir; süresi parçaya göre değişir ve takmadan önce size söyleriz. Garanti süresi içinde aynı arıza tekrarlarsa ücret almadan tekrar geliriz."
       },
       {
         "soru": "Orijinal parça mı kullanıyorsunuz?",
@@ -132,6 +266,266 @@
       {
         "soru": "Ödemeyi nasıl yapabilirim?",
         "cevap": "Kapıda nakit veya kart ile ödeyebilirsiniz. İşlem bitmeden ödeme istemiyoruz."
+      }
+    ]
+  },
+  {
+    "slug": "bulasik-makinesi-tamiri",
+    "ad": "Bulaşık Makinesi Tamiri",
+    "h1Sablonu": "{ilce} Bulaşık Makinesi Tamiri",
+    "altBaslik": "Aynı gün, 2 saat içinde kapınızda.",
+    "cihaz": "Bulaşık makinesi",
+    "ozet": "Yıkamayan, su almayan, suyu boşaltmayan, kurutmayan ya da hata kodu veren bulaşık makinelerinde onarım.",
+    "aktif": true,
+    "ariza": [
+      {
+        "baslik": "Program dönüyor ama bulaşık kirli çıkıyor",
+        "cozum": "Püskürtme kollarının delikleri kireç ve yemek artığıyla tıkandığında su bulaşığa ulaşmaz. Kolları söker, delikleri açar, filtreyi temizler ve su basıncını gözle kontrol ederiz."
+      },
+      {
+        "baslik": "Makine su almıyor",
+        "cozum": "Giriş valfi bobini yanmış ya da musluk altındaki filtre kireç tutmuş olabilir. Valfi ölçer, filtreyi temizler ve su alma süresini yeniden test ederiz."
+      },
+      {
+        "baslik": "Program sonunda içeride su kalıyor",
+        "cozum": "Tahliye pompası veya pompa öncesindeki filtre tıkalıdır; bazen tahliye hortumu tezgâh altında kırılmıştır. Pompayı temizler, hortum güzergâhını düzeltir ve boşaltmayı deneriz."
+      },
+      {
+        "baslik": "Bulaşıklar ıslak ve buğulu kalıyor",
+        "cozum": "Kurutma rezistansı, ısı sensörü veya parlatıcı dozajı sorunludur. Rezistansı ölçer, sensörü kontrol eder ve dozaj ayarını cihazın sertlik değerine göre düzenleriz."
+      },
+      {
+        "baslik": "Alttan su sızıyor veya taşma uyarısı veriyor",
+        "cozum": "Kapak contası yorulmuş ya da taban tavasındaki şamandıra su gördüğü için cihaz kendini kilitlemiştir. Sızıntının kaynağını bulur, contayı ya da ilgili hortumu yenileriz."
+      },
+      {
+        "baslik": "Ekranda hata kodu var, program başlamıyor",
+        "cozum": "Kod arızanın hangi devrede olduğunu söyler ama tek başına parça değişimi gerektirmez. Kodu okur, ilgili sensör ve kartı ölçerek gerçek nedeni doğrularız."
+      }
+    ],
+    "fiyatAraligi": [
+      { "islem": "Arıza tespiti", "altTl": null, "ustTl": null, "not": "Onarım yaptırılırsa ücretsiz." },
+      { "islem": "Tahliye pompası değişimi", "altTl": null, "ustTl": null },
+      { "islem": "Su giriş valfi değişimi", "altTl": null, "ustTl": null },
+      { "islem": "Kurutma rezistansı değişimi", "altTl": null, "ustTl": null },
+      { "islem": "Kapak contası değişimi", "altTl": null, "ustTl": null },
+      { "islem": "Elektronik kart onarımı / değişimi", "altTl": null, "ustTl": null }
+    ],
+    "sss": [
+      {
+        "soru": "Bulaşıklarda beyaz kireç lekesi kalıyor, arıza mı?",
+        "cevap": "Çoğu zaman arıza değil, su sertliği ayarı ve tuz seviyesiyle ilgilidir. Geldiğimizde sertlik ayarını bölgenize göre düzenler, yanlış ayarın cihaza verdiği zararı da anlatırız."
+      },
+      {
+        "soru": "Ankastre makineyi sökmek gerekiyor mu?",
+        "cevap": "Arızaların çoğunu tezgâh altından çıkarmadan çözeriz. Çıkarmak gerekirse mutfak dolabına zarar vermeden söker, işlem bitince aynı şekilde yerine takarız."
+      },
+      {
+        "soru": "Makinenin içinden kötü koku geliyor",
+        "cevap": "Filtre ve tahliye bölgesinde biriken yağ tabakası kokunun ana kaynağıdır. Filtreyi, süzgeci ve tahliye hattını temizler, tekrarlamaması için ne yapmanız gerektiğini söyleriz."
+      },
+      {
+        "soru": "Arıza tespiti ücretli mi?",
+        "cevap": "Onarımı yaptırırsanız arıza tespiti için ayrıca ücret almayız. Arızayı yerinde gördükten sonra tutarı söyleriz; onaylamazsanız işleme başlamayız."
+      },
+      {
+        "soru": "Eski bulaşık makinesini tamir ettirmeye değer mi?",
+        "cevap": "Onarım tutarı yeni cihazın önemli bir kısmına yaklaşıyorsa bunu açıkça söyleriz. Gereksiz tamir önermeyiz."
+      }
+    ]
+  },
+  {
+    "slug": "buzdolabi-tamiri",
+    "ad": "Buzdolabı Tamiri",
+    "h1Sablonu": "{ilce} Buzdolabı Tamiri",
+    "altBaslik": "Aynı gün, 2 saat içinde kapınızda.",
+    "cihaz": "Buzdolabı",
+    "ozet": "Soğutmayan, aşırı buzlanan, su akıtan ya da hiç durmadan çalışan buzdolabı ve derin dondurucularda onarım.",
+    "aktif": true,
+    "ariza": [
+      {
+        "baslik": "Dolap soğutmuyor ama motor çalışıyor",
+        "cozum": "Gaz kaçağı, tıkalı kılcal boru ya da arızalı termostat en sık nedenlerdir. Basıncı ölçer, kaçak varsa noktasını bulur, hattı onardıktan sonra vakumlayıp gaz şarj ederiz."
+      },
+      {
+        "baslik": "Derin dondurucu buz tutuyor, kapak zor kapanıyor",
+        "cozum": "No-frost cihazlarda defrost rezistansı ya da zaman rölesi devreden çıkmıştır. Rezistansı ve sensörü ölçer, buz çözme devresini onarır, kapı contasını da kontrol ederiz."
+      },
+      {
+        "baslik": "Dolabın altında su birikiyor",
+        "cozum": "Yoğuşma suyunu buharlaşma kabına taşıyan tahliye kanalı tıkanmıştır. Kanalı açar, suyun doğru yere aktığını gözle doğrular ve tekrarlamaması için kanalı temiz bırakırız."
+      },
+      {
+        "baslik": "Motor hiç durmadan çalışıyor",
+        "cozum": "Kapı contasının kaçırması, kirli kondenser veya düşük gaz kompresörü sürekli çalıştırır. Contayı, kondenseri ve basıncı sırayla kontrol ederek gerçek sebebi ayırırız."
+      },
+      {
+        "baslik": "Buzdolabından yüksek ses veya vızıltı geliyor",
+        "cozum": "Fan pervanesine değen buz, aşınmış fan yatağı ya da dengesiz duran cihaz bu sesi yapar. Fan bölgesini açar, buzu çözer, aşınan parçayı değiştirir ve ayakları terazileriz."
+      },
+      {
+        "baslik": "İç aydınlatma yanmıyor veya panel tepki vermiyor",
+        "cozum": "Kapı şalteri, lamba modülü ya da kontrol kartı arızalanmıştır. Devreyi ölçerek hangisinin sorunlu olduğunu bulur, tek parça değişimiyle çözüme gideriz."
+      }
+    ],
+    "fiyatAraligi": [
+      { "islem": "Arıza tespiti", "altTl": null, "ustTl": null, "not": "Onarım yaptırılırsa ücretsiz." },
+      { "islem": "Gaz kaçağı tespiti ve şarj", "altTl": null, "ustTl": null },
+      { "islem": "Termostat değişimi", "altTl": null, "ustTl": null },
+      { "islem": "Defrost rezistansı / sensör değişimi", "altTl": null, "ustTl": null },
+      { "islem": "Fan motoru değişimi", "altTl": null, "ustTl": null },
+      { "islem": "Kapı contası değişimi", "altTl": null, "ustTl": null }
+    ],
+    "sss": [
+      {
+        "soru": "Buzdolabı arızasında acele etmeli miyim?",
+        "cevap": "Soğutmayan bir dolapta gıda birkaç saat içinde bozulmaya başlar, bu yüzden bu çağrılara öncelik veriyoruz. Ararken dolabın soğutmadığını söylerseniz randevuyu ona göre planlarız."
+      },
+      {
+        "soru": "Gaz dolumu yapınca kalıcı çözülür mü?",
+        "cevap": "Gaz kapalı devrede kendiliğinden bitmez; azaldıysa bir kaçak vardır. Kaçağı bulup onarmadan yapılan dolum kısa ömürlü olur, biz önce kaçağı ararız."
+      },
+      {
+        "soru": "Kompresör değişimi mantıklı mı?",
+        "cevap": "Kompresör en pahalı parçadır; yaşlı bir cihazda maliyeti yeni dolaba yaklaşabilir. Tutarı söyler, kararı size bırakırız — gereksiz işlem önermeyiz."
+      },
+      {
+        "soru": "Cihazı taşımam gerekiyor mu?",
+        "cevap": "Arızaların büyük kısmını yerinde çözüyoruz. Kompresör gibi kaynak gerektiren işlemlerde atölyeye almamız gerekebilir, bunu yerinde görüp söyleriz."
+      },
+      {
+        "soru": "Arıza tespiti ücretli mi?",
+        "cevap": "Onarımı yaptırırsanız arıza tespiti için ayrıca ücret almayız. Arızayı yerinde gördükten sonra tutarı söyleriz; onaylamazsanız işleme başlamayız."
+      }
+    ]
+  },
+  {
+    "slug": "kurutma-makinesi-tamiri",
+    "ad": "Kurutma Makinesi Tamiri",
+    "h1Sablonu": "{ilce} Kurutma Makinesi Tamiri",
+    "altBaslik": "Aynı gün, 2 saat içinde kapınızda.",
+    "cihaz": "Kurutma makinesi",
+    "ozet": "Kurutmayan, ısıtmayan, program ortasında duran ya da hata kodu veren kurutma makinelerinde onarım.",
+    "aktif": true,
+    "ariza": [
+      {
+        "baslik": "Program bitiyor ama çamaşır nemli kalıyor",
+        "cozum": "Tıkalı tüy filtresi ve kirli ısı pompası eşanjörü hava dolaşımını keser. Filtreleri ve eşanjörü temizler, kurutma süresini yeniden ölçerek sonucu doğrularız."
+      },
+      {
+        "baslik": "Makine dönüyor ama hiç ısıtmıyor",
+        "cozum": "Rezistanslı modellerde ısıtıcı ya da termik sigorta atmıştır; ısı pompalı modellerde kompresör devresi sorunludur. Devreyi ölçerek hangisinin arızalı olduğunu ayırır, ilgili parçayı değiştiririz."
+      },
+      {
+        "baslik": "Su haznesi dolu uyarısı sürekli yanıyor",
+        "cozum": "Hazne boş olsa bile şamandıra veya seviye sensörü yanlış okuma yapıyordur; bazen tahliye pompası suyu hazneye basamıyordur. Sensörü ve pompayı kontrol ederek uyarının kaynağını buluruz."
+      },
+      {
+        "baslik": "Makine program ortasında duruyor",
+        "cozum": "Aşırı ısınma koruması devreye girmiş ya da kapak kilidi teması kesmiştir. Hava kanalını temizler, termostatı ve kilidi ölçerek durmanın sebebini gideririz."
+      },
+      {
+        "baslik": "Tamburdan gıcırtı veya sürtünme sesi geliyor",
+        "cozum": "Tambur keçesi, kayış veya gergi rulmanı aşınmıştır. Ön paneli açıp aşınan parçayı belirler, değiştirir ve boşta çalıştırarak sesi kontrol ederiz."
+      },
+      {
+        "baslik": "Çamaşırda yanık kokusu var",
+        "cozum": "Tüy filtresinde biriken pamuk, rezistansa temas ettiğinde koku ve yangın riski oluşturur. Filtre yuvasını ve hava kanalını komple temizler, gerekiyorsa termik koruma parçalarını yenileriz."
+      }
+    ],
+    "fiyatAraligi": [
+      { "islem": "Arıza tespiti", "altTl": null, "ustTl": null, "not": "Onarım yaptırılırsa ücretsiz." },
+      { "islem": "Isı pompası eşanjörü temizliği", "altTl": null, "ustTl": null },
+      { "islem": "Rezistans / termik sigorta değişimi", "altTl": null, "ustTl": null },
+      { "islem": "Kayış ve tambur keçesi değişimi", "altTl": null, "ustTl": null },
+      { "islem": "Tahliye pompası değişimi", "altTl": null, "ustTl": null },
+      { "islem": "Elektronik kart onarımı / değişimi", "altTl": null, "ustTl": null }
+    ],
+    "sss": [
+      {
+        "soru": "Kurutma süresi neden uzadı?",
+        "cevap": "Neredeyse her zaman hava dolaşımı kısıtlanmıştır: tüy filtresi, eşanjör veya hava kanalı tıkalıdır. Temizlik sonrası süre çoğu cihazda eski değerine döner."
+      },
+      {
+        "soru": "Tüy filtresini ne sıklıkla temizlemeliyim?",
+        "cevap": "Her kurutmadan sonra tüy filtresini, ayda bir de eşanjör filtresini temizlemek gerekiyor. Bu iki alışkanlık çağrıların önemli bir kısmını baştan önlüyor."
+      },
+      {
+        "soru": "Isı pompalı makinelerde gaz dolumu yapılıyor mu?",
+        "cevap": "Isı pompalı modellerde kapalı bir soğutucu devre vardır ve rutin dolum gerektirmez. Basınç düşmüşse bir kaçak vardır; önce onu ararız."
+      },
+      {
+        "soru": "Arıza tespiti ücretli mi?",
+        "cevap": "Onarımı yaptırırsanız arıza tespiti için ayrıca ücret almayız. Arızayı yerinde gördükten sonra tutarı söyleriz; onaylamazsanız işleme başlamayız."
+      },
+      {
+        "soru": "Makineyi atölyeye götürmeniz gerekir mi?",
+        "cevap": "Filtre, rezistans, kayış ve pompa işlerini evde hallediyoruz. Tambur sökümü gerektiren ağır işlerde atölye gerekebilir, bunu yerinde görüp söyleriz."
+      }
+    ]
+  },
+  {
+    "slug": "firin-ocak-tamiri",
+    "ad": "Fırın ve Ocak Tamiri",
+    "h1Sablonu": "{ilce} Fırın ve Ocak Tamiri",
+    "altBaslik": "Aynı gün, 2 saat içinde kapınızda.",
+    "cihaz": "Fırın ve ocak",
+    "ozet": "Isıtmayan fırın, ateşlemeyen ocak, çalışmayan davlumbaz ve ankastre grubunda yerinde onarım.",
+    "aktif": true,
+    "ariza": [
+      {
+        "baslik": "Fırın ısınmıyor veya geç ısınıyor",
+        "cozum": "Alt-üst rezistanslardan biri kopmuş ya da termostat gerçek sıcaklığı okuyamıyordur. Rezistansları tek tek ölçer, termostatı test eder ve arızalı olanı değiştiririz."
+      },
+      {
+        "baslik": "Yemekler bir tarafı yanmış, diğer tarafı çiğ pişiyor",
+        "cozum": "Turbo fan çalışmıyorsa sıcak hava tek noktada toplanır. Fan motorunu ve kanadını kontrol eder, ısı dağılımını yeniden ölçerek düzeltiriz."
+      },
+      {
+        "baslik": "Ocak çakmağı ateşlemiyor",
+        "cozum": "Ateşleme bujisi kirlenmiş, kablosu nemlenmiş ya da kıvılcım anahtarı arızalanmıştır. Bujileri temizler veya değiştirir, kıvılcımı her göz için tek tek doğrularız."
+      },
+      {
+        "baslik": "Ocak yanıyor ama elini çekince sönüyor",
+        "cozum": "Gaz emniyet sistemindeki termokupl ısınmayı algılayamıyordur; bu parça can güvenliği açısından kritiktir. Termokuplu ölçer, arızalıysa aynı değerde yenisiyle değiştiririz."
+      },
+      {
+        "baslik": "Fırın kapağı tam kapanmıyor, ısı kaçırıyor",
+        "cozum": "Kapak contası sertleşmiş veya menteşe yayları esnemiştir. Contayı yeniler, menteşeleri ayarlar ve kapağı kapatarak sızdırmazlığı kontrol ederiz."
+      },
+      {
+        "baslik": "Davlumbaz çekmiyor veya çok gürültülü",
+        "cozum": "Yağ filtresi doymuş, fan çarkı yağ tutmuş ya da motor yatağı aşınmıştır. Filtre ve çarkı temizler, motor sesliyse yatağını veya motoru değiştiririz."
+      }
+    ],
+    "fiyatAraligi": [
+      { "islem": "Arıza tespiti", "altTl": null, "ustTl": null, "not": "Onarım yaptırılırsa ücretsiz." },
+      { "islem": "Fırın rezistansı değişimi", "altTl": null, "ustTl": null },
+      { "islem": "Termostat değişimi", "altTl": null, "ustTl": null },
+      { "islem": "Ateşleme bujisi / kıvılcım anahtarı", "altTl": null, "ustTl": null },
+      { "islem": "Termokupl (gaz emniyeti) değişimi", "altTl": null, "ustTl": null },
+      { "islem": "Davlumbaz motoru / filtre değişimi", "altTl": null, "ustTl": null }
+    ],
+    "sss": [
+      {
+        "soru": "Ocakta gaz kokusu alıyorum, ne yapmalıyım?",
+        "cevap": "Önce ana vanayı kapatın, pencereleri açın ve elektrik düğmelerine dokunmayın. Gaz kokusu acil bir durumdur; önce gaz dağıtım şirketinin acil hattını arayın, cihaz onarımı ondan sonra gelir."
+      },
+      {
+        "soru": "Ankastre fırını dolaptan çıkarmak gerekiyor mu?",
+        "cevap": "Rezistans ve termostat işlerinin çoğunda fırını yerinden çıkarmak gerekir ama bu kısa sürer. Mutfak dolabına zarar vermeden söker, işlem bitince aynı şekilde yerine takarız."
+      },
+      {
+        "soru": "Fırının derecesi tutmuyor, nasıl anlıyorsunuz?",
+        "cevap": "Fırın içi sıcaklığı ayrı bir problu termometreyle ölçüyoruz. Ayarlanan derece ile gerçek derece arasındaki farkı görüp termostatın mı yoksa rezistansın mı sorunlu olduğunu ayırıyoruz."
+      },
+      {
+        "soru": "Doğalgazdan tüpe veya tersine dönüşüm yapıyor musunuz?",
+        "cevap": "Enjektör değişimi gerektiren bu işlem gaz güvenliğiyle doğrudan ilgilidir. Cihazın marka ve modelini söylerseniz uygun enjektör setiyle gelip gelemeyeceğimizi telefonda netleştiririz."
+      },
+      {
+        "soru": "Arıza tespiti ücretli mi?",
+        "cevap": "Onarımı yaptırırsanız arıza tespiti için ayrıca ücret almayız. Arızayı yerinde gördükten sonra tutarı söyleriz; onaylamazsanız işleme başlamayız."
       }
     ]
   }

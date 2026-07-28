@@ -1,0 +1,165 @@
+---
+/*
+  Hizmet hub sayfası — /klima-servisi/ gibi.
+
+  ÖNEMLİ: bu rota İLÇE KAPISINDAN BAĞIMSIZ. Şehir düzeyinde bir sayfa olduğu
+  için `yerelNotlar` boşken de üretilir. Doorway page riski yok: içerik ilçe adı
+  değiştirilerek çoğaltılmıyor, her hizmetin kendi arıza listesi, fiyat tablosu
+  ve SSS'i var.
+
+  Ayrıca para sayfalarındaki BreadcrumbList'in ortadaki halkası buraya işaret
+  eder; bu sayfa olmazsa o halka 404 verir.
+*/
+import BaseLayout from '@/layouts/BaseLayout.astro';
+import Bolum from '@/components/Bolum.astro';
+import StickyUstCubuk from '@/components/StickyUstCubuk.astro';
+import Hero from '@/components/Hero.astro';
+import GuvenRozetleri from '@/components/GuvenRozetleri.astro';
+import OlcuSeridi from '@/components/OlcuSeridi.astro';
+import FiyatTablosu from '@/components/FiyatTablosu.astro';
+import ArizaCozum from '@/components/ArizaCozum.astro';
+import Surec from '@/components/Surec.astro';
+import Yorumlar from '@/components/Yorumlar.astro';
+import Sss from '@/components/Sss.astro';
+import IletisimFormu from '@/components/IletisimFormu.astro';
+import HizmetKarti from '@/components/HizmetKarti.astro';
+import AltCta from '@/components/AltCta.astro';
+import Footer from '@/components/Footer.astro';
+import MobilBar from '@/components/MobilBar.astro';
+import Ikon from '@/components/Ikon.astro';
+
+import type { Hizmet } from '@/lib/types';
+import { aktifHizmetler, firma, gecerliIlceler, hizmetIkonu, tumIlceler } from '@/lib/veri';
+import { hubDescription, hubTitle } from '@/lib/seo';
+import { breadcrumb, faqPage, hubServiceSchema } from '@/lib/schema';
+
+export function getStaticPaths() {
+  return aktifHizmetler().map((hizmet) => ({
+    params: { hizmet: hizmet.slug },
+    props: { hizmet },
+  }));
+}
+
+interface Props {
+  hizmet: Hizmet;
+}
+
+const { hizmet } = Astro.props;
+
+const yol = `/${hizmet.slug}/`;
+const h1 = `${firma.sehir} ${hizmet.ad}`;
+const cihaz = hizmet.cihaz.toLocaleLowerCase('tr-TR');
+const waMesaji = `Merhaba, ${hizmet.ad.toLocaleLowerCase('tr-TR')} hakkında bilgi almak istiyorum.`;
+
+// Sayfası ÜRETİLEN ilçeler linklenir; kapıdan geçmeyenler link olmadan, sadece
+// hizmet verdiğimiz bölge olarak listelenir. Var olmayan adrese link vermeyiz.
+const linkliIlceler = gecerliIlceler();
+const linkliSluglar = new Set(linkliIlceler.map((i) => i.slug));
+const digerBolgeler = tumIlceler().filter((i) => i.aktif && !linkliSluglar.has(i.slug));
+
+const digerHizmetler = aktifHizmetler().filter((h) => h.slug !== hizmet.slug);
+
+const schema = [
+  hubServiceSchema(Astro.site!, hizmet, firma.sehir, yol),
+  faqPage(hizmet.sss),
+  breadcrumb(Astro.site!, [
+    { ad: 'Ana sayfa', yol: '/' },
+    { ad: hizmet.ad, yol },
+  ]),
+];
+---
+
+<BaseLayout
+  title={hubTitle(hizmet, firma.sehir)}
+  description={hubDescription(hizmet, firma.sehir)}
+  yol={yol}
+  schema={schema}
+  sayfaKimligi={`hub/${hizmet.slug}`}
+>
+  <StickyUstCubuk />
+  <Hero
+    h1={h1}
+    altBaslik={hizmet.ozet}
+    etiket={`${firma.sehir} geneli`}
+    ikon={hizmetIkonu(hizmet.slug)}
+    waMesaji={waMesaji}
+  />
+  <GuvenRozetleri />
+  <OlcuSeridi />
+
+  {/* baslikBos zorunlu: fiyat yayımlamadığımız için başlık "… fiyatları" kalırsa
+      söz veren başlığın altına fiyatsız liste düşer. */}
+  <FiyatTablosu
+    satirlar={hizmet.fiyatAraligi}
+    baslik={`${hizmet.ad} fiyatları`}
+    baslikBos={`${hizmet.ad} kapsamında yaptığımız işlemler`}
+    etiket="Fiyat"
+  />
+
+  <ArizaCozum
+    arizalar={hizmet.ariza}
+    baslik={hizmet.arizaBaslik ?? `En sık çıkan ${cihaz} arızaları`}
+  />
+
+  <Surec />
+
+  <Bolum
+    etiket="Bölgeler"
+    baslik={`${hizmet.ad} verdiğimiz ilçeler`}
+    aciklama={`${firma.sehir} içinde aşağıdaki ilçelere gidiyoruz. Mahallenizi telefonda söyleyin, kaç dakikada varacağımızı da söyleyelim.`}
+  >
+    {
+      linkliIlceler.length > 0 && (
+        <ul class="grid max-w-3xl gap-1">
+          {linkliIlceler.map((i) => (
+            <li>
+              <a
+                href={`/${hizmet.slug}/${i.slug}/`}
+                class="flex min-h-12 items-center justify-between gap-4 rounded-sm px-4 py-2.5 font-medium text-lacivert-700 transition-colors duration-150 hover:bg-lacivert-50 hover:text-lacivert-900"
+              >
+                <span class="flex items-center gap-3">
+                  <Ikon ad="konum" boyut={18} class="shrink-0 text-turuncu-600" />
+                  {i.ad} {hizmet.ad}
+                </span>
+                <Ikon ad="ok" boyut={18} class="shrink-0 text-turuncu-600" />
+              </a>
+            </li>
+          ))}
+        </ul>
+      )
+    }
+
+    {
+      digerBolgeler.length > 0 && (
+        <ul class="mt-6 flex flex-wrap gap-2">
+          {digerBolgeler.map((i) => (
+            <li class="flex items-center gap-2 rounded-sm border border-lacivert-100 bg-white px-4 py-2 text-kucuk font-medium text-metin">
+              <Ikon ad="konum" boyut={15} class="text-turuncu-600" />
+              {i.ad}
+            </li>
+          ))}
+        </ul>
+      )
+    }
+  </Bolum>
+
+  <Yorumlar />
+  <Sss sorular={hizmet.sss} />
+  <IletisimFormu baglam={`${h1} talebi`} />
+
+  <Bolum etiket="Diğer hizmetler" baslik="Başka bir cihazınız mı var?" zemin="zemin">
+    <ul class="grid gap-4 sm:grid-cols-2 lg:grid-cols-4">
+      {
+        digerHizmetler.map((h) => (
+          <li>
+            <HizmetKarti hizmet={h} />
+          </li>
+        ))
+      }
+    </ul>
+  </Bolum>
+
+  <AltCta baslik={`${hizmet.ad} için hemen arayın`} waMesaji={waMesaji} />
+  <Footer />
+  <MobilBar waMesaji={waMesaji} />
+</BaseLayout>

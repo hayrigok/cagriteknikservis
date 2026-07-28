@@ -1,0 +1,130 @@
+---
+/*
+  Tek arıza rehberi yazısı.
+
+  Sıra bilinçli: H1 → ana CTA (hero) → yazı → o cihazın hizmet sayfasına geçiş
+  → diğer yazılar → form. Okuyucu yazının ortasında "bu bende değil, usta
+  gerek" dediği anda telefonu görmeli; bu yüzden numara yazının SONUNDA değil,
+  hero'da ve mobil alt çubukta hep açık duruyor.
+
+  Yetim sayfa bırakılmaz (CLAUDE.md): her yazı hem hizmet sayfasına hem diğer
+  yazılara link verir.
+*/
+import { getCollection, render } from 'astro:content';
+import type { GetStaticPaths } from 'astro';
+
+import BaseLayout from '@/layouts/BaseLayout.astro';
+import Bolum from '@/components/Bolum.astro';
+import StickyUstCubuk from '@/components/StickyUstCubuk.astro';
+import Hero from '@/components/Hero.astro';
+import IletisimFormu from '@/components/IletisimFormu.astro';
+import AltCta from '@/components/AltCta.astro';
+import Footer from '@/components/Footer.astro';
+import MobilBar from '@/components/MobilBar.astro';
+import Ikon from '@/components/Ikon.astro';
+
+import { firma, hizmetBul, hizmetIkonu } from '@/lib/veri';
+import { breadcrumb } from '@/lib/schema';
+
+export const getStaticPaths: GetStaticPaths = async () => {
+  const yazilar = await getCollection('yazilar');
+  return yazilar.map((yazi) => ({ params: { slug: yazi.id }, props: { yazi } }));
+};
+
+const { yazi } = Astro.props;
+const { Content } = await render(yazi);
+
+// Tek cihaza bağlanmayan yazılarda hizmet yok: blok basılmaz, ikon nötr kalır.
+const hizmet = yazi.data.hizmet ? hizmetBul(yazi.data.hizmet) : undefined;
+const yaziIkonu = yazi.data.hizmet ? hizmetIkonu(yazi.data.hizmet) : 'kart';
+const waMesaji = `Merhaba, "${yazi.data.baslik}" yazınızı okudum. Cihazım için servis istiyorum.`;
+
+// Diğer yazılar — aynı hizmete ait olanlar önce, sonra kalanlar. Liste döngüsel
+// gezilmez çünkü yazı sayısı az; sıralama alaka düzeyine göre daha değerli.
+const hepsi = (await getCollection('yazilar')).filter((y) => y.id !== yazi.id);
+const digerleri = [
+  ...hepsi.filter((y) => y.data.hizmet === yazi.data.hizmet),
+  ...hepsi.filter((y) => y.data.hizmet !== yazi.data.hizmet),
+].slice(0, 3);
+---
+
+<BaseLayout
+  title={yazi.data.baslik}
+  description={yazi.data.ozet}
+  yol={`/blog/${yazi.id}/`}
+  schema={[
+    breadcrumb(Astro.site!, [
+      { ad: 'Ana sayfa', yol: '/' },
+      { ad: 'Arıza rehberi', yol: '/blog/' },
+      { ad: yazi.data.baslik, yol: `/blog/${yazi.id}/` },
+    ]),
+  ]}
+  sayfaKimligi="blog-yazi"
+>
+  <StickyUstCubuk />
+
+  <Hero
+    h1={yazi.data.baslik}
+    altBaslik={yazi.data.ozet}
+    etiket="Arıza rehberi"
+    ikon={yaziIkonu}
+    waMesaji={waMesaji}
+  />
+
+  <section class="bg-white">
+    <div class="kap py-16 lg:py-24">
+      <article class="yazi max-w-3xl">
+        <Content />
+      </article>
+    </div>
+  </section>
+
+  {
+    hizmet && (
+      <Bolum
+        etiket="Servis"
+        baslik={`${hizmet.ad} hizmetimiz`}
+        aciklama={hizmet.ozet}
+        zemin="zemin"
+      >
+        <a
+          href={`/${hizmet.slug}/`}
+          class="group inline-flex min-h-12 items-center gap-3 rounded-sm bg-lacivert-900 px-6 font-semibold text-white transition-colors duration-150 hover:bg-lacivert-700"
+        >
+          <Ikon ad={hizmetIkonu(hizmet.slug)} boyut={20} />
+          {hizmet.ad} sayfasına git
+          <Ikon ad="ok" boyut={18} />
+        </a>
+      </Bolum>
+    )
+  }
+
+  {
+    digerleri.length > 0 && (
+      <Bolum etiket="Rehber" baslik="Bunlar da sık soruluyor">
+        <ul class="grid gap-4 sm:grid-cols-3">
+          {digerleri.map((y) => (
+            <li>
+              <a
+                href={`/blog/${y.id}/`}
+                class="flex h-full flex-col rounded-md border border-lacivert-100 bg-white p-6 transition-colors duration-150 hover:border-turuncu-600"
+              >
+                <span class="flex h-11 w-11 shrink-0 items-center justify-center rounded-sm bg-lacivert-900 text-white">
+                  <Ikon ad={y.data.hizmet ? hizmetIkonu(y.data.hizmet) : 'kart'} boyut={20} />
+                </span>
+                <h3 class="mt-4 leading-snug font-bold text-balance text-lacivert-900">
+                  {y.data.baslik}
+                </h3>
+              </a>
+            </li>
+          ))}
+        </ul>
+      </Bolum>
+    )
+  }
+
+  <IletisimFormu baglam={`Arıza rehberi: ${yazi.data.baslik}`} zemin="zemin" />
+  <AltCta baslik="Kontrol ettiniz, geçmedi mi?" waMesaji={waMesaji} />
+  <Footer />
+  <MobilBar waMesaji={waMesaji} />
+</BaseLayout>

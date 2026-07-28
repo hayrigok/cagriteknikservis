@@ -1,45 +1,52 @@
 ---
-// 12 — Form. SADECE 3 alan + KVKK onayı.
-// Gönderim: backend yok, alanlar WhatsApp mesajına yazılıp wa.me'ye yönlendiriliyor.
-// form_submit olayı yönlendirmeden hemen önce tetiklenir; yani "WhatsApp açıldı"
-// anlamına gelir, "mesaj ulaştı" anlamına gelmez.
-import { firma, doldurulmusMu } from '@/lib/veri';
+/*
+  12 — Form. SADECE 3 alan + KVKK onayı. Az alan = yüksek dönüşüm.
+
+  Gönderim: backend yok. Alanlar WhatsApp mesajına yazılıp wa.me'ye yönlendirilir.
+  form_submit olayı yönlendirmeden HEMEN ÖNCE tetiklenir; yani "WhatsApp açıldı"
+  demektir, "mesaj ulaştı" demez. Dönüşüm kurulumunda bu ayrımı akılda tutun.
+*/
+import Bolum from './Bolum.astro';
+import Ikon from './Ikon.astro';
+import { firma, deger } from '@/lib/veri';
 
 interface Props {
   baglam: string;
+  zemin?: 'beyaz' | 'zemin';
 }
 
-const { baglam } = Astro.props;
-const numara = doldurulmusMu(firma.whatsapp) ? firma.whatsapp.replace(/\D/g, '') : '';
+const { baglam, zemin = 'beyaz' } = Astro.props;
+const numara = deger(firma.whatsapp)?.replace(/\D/g, '') ?? '';
+const telefon = deger(firma.telefon);
+
+// 16 px altına inilmiyor: iOS Safari daha küçük yazıda alana odaklanınca
+// sayfayı yakınlaştırır ve kullanıcı yakınlaşmış bir formda kalır.
+const alan =
+  'mt-2 w-full rounded-sm border-2 border-lacivert-100 bg-white px-4 py-3 text-govde ' +
+  'text-metin outline-none transition-colors duration-150 placeholder:text-metin-soluk/70 ' +
+  'focus:border-lacivert-600 aria-[invalid=true]:border-turuncu-600';
 ---
 
-<section class="mx-auto max-w-3xl px-4 py-10">
-  <h2 class="text-2xl font-bold text-marka-900">Sizi arayalım</h2>
-  <p class="mt-2 text-metin-soluk">
-    Üç bilgi yeterli. Formu gönderince WhatsApp açılır, mesajınız hazır gelir.
-  </p>
-
+<Bolum
+  etiket="Form"
+  baslik="Sizi arayalım"
+  aciklama="Üç bilgi yeterli. Gönderdiğinizde WhatsApp'ı hazır mesajla açıyoruz, siz bir şey yazmıyorsunuz."
+  zemin={zemin}
+>
   <form
     data-form
     data-numara={numara}
     data-baglam={baglam}
-    class="mt-5 grid gap-4"
+    class="grid max-w-2xl gap-5 rounded-md border border-lacivert-100 bg-white p-6 lg:p-8"
     novalidate
   >
     <div>
-      <label for="f-ad" class="block font-medium text-marka-900">Adınız</label>
-      <input
-        id="f-ad"
-        name="ad"
-        type="text"
-        required
-        autocomplete="name"
-        class="mt-1.5 w-full rounded-lg border border-marka-100 px-3 py-2.5 text-base outline-none focus:border-marka-600"
-      />
+      <label for="f-ad" class="block font-semibold text-lacivert-900">Adınız</label>
+      <input id="f-ad" name="ad" type="text" required autocomplete="name" class={alan} />
     </div>
 
     <div>
-      <label for="f-tel" class="block font-medium text-marka-900">Telefonunuz</label>
+      <label for="f-tel" class="block font-semibold text-lacivert-900">Telefonunuz</label>
       <input
         id="f-tel"
         name="telefon"
@@ -48,54 +55,61 @@ const numara = doldurulmusMu(firma.whatsapp) ? firma.whatsapp.replace(/\D/g, '')
         inputmode="tel"
         autocomplete="tel"
         placeholder="05XX XXX XX XX"
-        class="mt-1.5 w-full rounded-lg border border-marka-100 px-3 py-2.5 text-base outline-none focus:border-marka-600"
+        class={`${alan} rakam`}
       />
     </div>
 
     <div>
-      <label for="f-ariza" class="block font-medium text-marka-900">Arıza</label>
-      <textarea
-        id="f-ariza"
-        name="ariza"
-        required
-        rows="3"
-        class="mt-1.5 w-full rounded-lg border border-marka-100 px-3 py-2.5 text-base outline-none focus:border-marka-600"
-      ></textarea>
+      <label for="f-ariza" class="block font-semibold text-lacivert-900">Arıza</label>
+      <textarea id="f-ariza" name="ariza" required rows="3" class={alan}></textarea>
+      <p class="mt-2 text-kucuk text-metin-soluk">
+        Cihazın markasını ve şikâyeti yazarsanız uygun parçayla geliriz.
+      </p>
     </div>
 
-    <label class="flex items-start gap-2.5 text-sm text-metin-soluk">
+    <label class="flex cursor-pointer items-start gap-3 text-kucuk leading-relaxed text-metin-soluk">
       <input
         id="f-kvkk"
         name="kvkk"
         type="checkbox"
         required
-        class="mt-0.5 h-5 w-5 shrink-0 rounded border-marka-100"
+        class="mt-0.5 h-5 w-5 shrink-0 accent-lacivert-600"
       />
       <span>
-        <a href="/kvkk/" class="underline">KVKK aydınlatma metnini</a> okudum; bilgilerimin
-        bana dönüş yapılması amacıyla işlenmesini onaylıyorum.
+        <a href="/kvkk/" class="font-semibold text-lacivert-700 underline">KVKK aydınlatma metnini</a>
+        okudum; bilgilerimin bana dönüş yapılması amacıyla işlenmesini onaylıyorum.
       </span>
     </label>
 
-    <p data-hata class="hidden text-sm font-medium text-aksiyon-700" role="alert"></p>
+    <p
+      data-hata
+      class="hidden items-start gap-2 rounded-sm border-l-4 border-turuncu-600 bg-zemin px-4 py-3 text-kucuk font-semibold text-turuncu-700"
+      role="alert"
+    >
+    </p>
 
     <button
       type="submit"
-      class="justify-self-start rounded-lg bg-whatsapp-600 px-6 py-3.5 text-lg font-semibold text-white hover:bg-whatsapp-700 disabled:opacity-60"
+      class="inline-flex min-h-14 w-full items-center justify-center gap-2 rounded-sm bg-yesil-600 px-6 text-lead font-bold text-white transition-colors duration-150 hover:bg-yesil-700 disabled:cursor-not-allowed disabled:opacity-55 sm:w-auto sm:justify-self-start"
       disabled={!numara}
     >
+      <Ikon ad="whatsapp" boyut={20} />
       WhatsApp'tan Gönder
     </button>
 
+    {/* WhatsApp numarası yoksa gönderim yapılamaz. İskele metni yerine
+        ziyaretçiye işine yarayan tek şeyi söyleriz: nereden ulaşacağını. */}
     {
       !numara && (
-        <p class="text-sm text-metin-soluk">
-          {'{PLACEHOLDER — firma.json içindeki whatsapp numarası doldurulunca form etkinleşir.}'}
+        <p class="text-kucuk leading-relaxed text-metin-soluk">
+          {telefon
+            ? `Form şu an kapalı. Bize ${telefon} numarasından ulaşabilirsiniz.`
+            : 'Form şu an kapalı.'}
         </p>
       )
     }
   </form>
-</section>
+</Bolum>
 
 <script>
   import { izle } from '@/lib/analytics';
@@ -113,17 +127,30 @@ const numara = doldurulmusMu(firma.whatsapp) ? firma.whatsapp.replace(/\D/g, '')
     const ariza = String(veri.get('ariza') ?? '').trim();
     const kvkk = veri.get('kvkk') === 'on';
 
+    // Hata hangi alanı kastediyorsa odağı oraya taşırız: kullanıcı "neyi
+    // düzelteceğim" diye formu taramak zorunda kalmasın.
     let mesaj = '';
-    if (!ad || !telefon || !ariza) mesaj = 'Lütfen üç alanı da doldurun.';
-    else if (telefon.replace(/\D/g, '').length < 10) mesaj = 'Telefon numarası eksik görünüyor.';
-    else if (!kvkk) mesaj = 'Devam etmek için KVKK onayı gerekiyor.';
+    let kusurlu = '';
+    if (!ad) [mesaj, kusurlu] = ['Adınızı yazın.', 'f-ad'];
+    else if (!telefon) [mesaj, kusurlu] = ['Telefon numaranızı yazın.', 'f-tel'];
+    else if (telefon.replace(/\D/g, '').length < 10)
+      [mesaj, kusurlu] = ['Telefon numarası eksik görünüyor.', 'f-tel'];
+    else if (!ariza) [mesaj, kusurlu] = ['Arızayı kısaca anlatın.', 'f-ariza'];
+    else if (!kvkk) [mesaj, kusurlu] = ['Devam etmek için KVKK onayı gerekiyor.', 'f-kvkk'];
+
+    for (const el of form.querySelectorAll('[aria-invalid]')) el.removeAttribute('aria-invalid');
 
     if (mesaj) {
       hata.textContent = mesaj;
       hata.classList.remove('hidden');
+      hata.classList.add('flex');
+      const hedef = form.querySelector<HTMLElement>(`#${kusurlu}`);
+      hedef?.setAttribute('aria-invalid', 'true');
+      hedef?.focus();
       return;
     }
     hata.classList.add('hidden');
+    hata.classList.remove('flex');
 
     const numara = form.dataset.numara ?? '';
     const baglam = form.dataset.baglam ?? '';

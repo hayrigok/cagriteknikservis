@@ -1,32 +1,81 @@
 ---
 // 1 — Sticky üst çubuk. Mobilde de hep görünür. Saf CSS, JS yok.
-import { firma, telLink, doldurulmusMu } from '@/lib/veri';
+import Ikon from './Ikon.astro';
+import { firma, telLink, doldurulmusMu, aktifHizmetler } from '@/lib/veri';
 
 const tel = telLink();
+const ad = doldurulmusMu(firma.kisaAd)
+  ? firma.kisaAd
+  : `${firma.sehir} Beyaz Eşya ve Klima Servisi`;
+
+// Masaüstünde birkaç ana bağlantı; mobilde gizli, orada alt çubuk var.
+// Aşırı yüklenmiş menü yerine 3 bağlantı (nav-hierarchy kuralı).
+const menu = aktifHizmetler().slice(0, 3);
 ---
 
 <header
-  class="sticky top-0 z-40 border-b border-marka-100 bg-white/95 backdrop-blur supports-[backdrop-filter]:bg-white/85"
+  class="sticky top-0 z-40 border-b border-lacivert-100 bg-white/95 backdrop-blur supports-[backdrop-filter]:bg-white/85"
 >
-  <div class="mx-auto flex max-w-5xl items-center justify-between gap-3 px-4 py-2.5">
-    <a href="/" class="text-sm font-semibold text-marka-700 sm:text-base">
-      {doldurulmusMu(firma.kisaAd) ? firma.kisaAd : firma.sehir + ' Beyaz Eşya ve Klima Servisi'}
+  <div class="kap flex items-center justify-between gap-4 py-2.5">
+    <a
+      href="/"
+      class="flex min-w-0 items-center gap-2.5 text-lacivert-900 transition-colors duration-150 hover:text-lacivert-700"
+    >
+      <span
+        class="flex h-9 w-9 shrink-0 items-center justify-center rounded-sm bg-lacivert-900 text-white"
+      >
+        <Ikon ad="arac" boyut={20} />
+      </span>
+      <span class="truncate text-[13px] leading-tight font-bold sm:text-[15px]">{ad}</span>
     </a>
+
+    <nav aria-label="Hizmetler" class="hidden lg:block">
+      <ul class="flex items-center gap-6">
+        {
+          menu.map((h) => (
+            <li>
+              <a
+                href={`/${h.slug}/`}
+                class="text-kucuk font-medium text-metin-soluk transition-colors duration-150 hover:text-lacivert-700"
+              >
+                {h.ad}
+              </a>
+            </li>
+          ))
+        }
+        <li>
+          <a
+            href="/blog/"
+            class="text-kucuk font-medium text-metin-soluk transition-colors duration-150 hover:text-lacivert-700"
+          >
+            Arıza rehberi
+          </a>
+        </li>
+      </ul>
+    </nav>
 
     <a
       href={tel ?? '#'}
       data-olay="tel_click"
       data-konum="header"
       aria-disabled={tel ? undefined : 'true'}
-      class={`inline-flex items-center gap-2 rounded-lg bg-aksiyon-600 px-3.5 py-2 text-sm font-semibold text-white hover:bg-aksiyon-700 ${tel ? '' : 'pointer-events-none opacity-60'}`}
+      class:list={[
+        'inline-flex min-h-11 shrink-0 items-center gap-2 rounded-sm bg-turuncu-600 px-4',
+        'font-semibold text-white transition-colors duration-150 hover:bg-turuncu-700',
+        !tel && 'pointer-events-none opacity-55',
+      ]}
     >
-      <svg width="18" height="18" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true">
-        <path
-          d="M6.6 10.8a15.1 15.1 0 0 0 6.6 6.6l2.2-2.2c.3-.3.7-.4 1-.2 1.1.4 2.3.6 3.6.6.6 0 1 .4 1 1V20c0 .6-.4 1-1 1A17 17 0 0 1 3 4c0-.6.4-1 1-1h3.5c.6 0 1 .4 1 1 0 1.2.2 2.4.6 3.6.1.3 0 .7-.2 1l-2.3 2.2Z"
-        ></path>
-      </svg>
-      <span class="hidden sm:inline">{doldurulmusMu(firma.telefon) ? firma.telefon : 'Ara'}</span>
-      <span class="sm:hidden">Ara</span>
+      <Ikon ad="telefon" boyut={18} />
+      {
+        doldurulmusMu(firma.telefon) ? (
+          <>
+            <span class="rakam hidden text-[15px] sm:inline">{firma.telefon}</span>
+            <span class="text-[15px] sm:hidden">Ara</span>
+          </>
+        ) : (
+          <span class="text-[15px]">Ara</span>
+        )
+      }
     </a>
   </div>
 </header>
