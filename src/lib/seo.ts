@@ -13,6 +13,31 @@ function kalipIndeksi(tohum: string, adet: number): number {
   return h % adet;
 }
 
+/*
+  Benzersizlik nöbeti.
+
+  Aynı meta açıklamayı iki sayfada görmek Google için "bu iki sayfa aynı"
+  demektir ve para sayfalarının birbirini yemesine yol açar. Bir kez oldu:
+  kalıplardan ikisi yalnızca `cihaz` kullanıyordu, `ulasimDk` ve `mahalleler`
+  boş olduğu için diğer iki kalıp havuzdan düşüyordu ve cihazı paylaşan üç
+  klima hizmeti aynı ilçede birebir aynı açıklamayı basıyordu.
+
+  Kalıplar artık hizmet adını taşıdığı için çarpışma yapısal olarak imkânsız;
+  bu nöbet, ileride bir kalıp değişirse sessizce geri gelmesin diye duruyor.
+*/
+const gorulenAciklama = new Map<string, string>();
+
+function benzersizMi(metin: string, sayfa: string): void {
+  const onceki = gorulenAciklama.get(metin);
+  if (onceki !== undefined && onceki !== sayfa) {
+    console.warn(
+      `[seo] AYNI description iki sayfada: ${onceki} + ${sayfa}\n      "${metin}"`
+    );
+    return;
+  }
+  gorulenAciklama.set(metin, sayfa);
+}
+
 function kirp(metin: string, sinir: number, etiket: string): string {
   if (metin.length <= sinir) return metin;
   console.warn(`[seo] ${etiket} ${metin.length} karakter, sınır ${sinir}: "${metin}"`);
@@ -56,11 +81,20 @@ export function hubDescription(hizmet: Hizmet, sehir: string): string {
   const taban = `${sehir} genelinde ${hizmet.ad.toLocaleLowerCase('tr-TR')}. ${hizmet.ozet}`;
   const kuyruk = ' Hemen arayın.';
   const metin = taban.length + kuyruk.length <= DESC_MAX ? taban + kuyruk : taban;
-  return kirp(metin, DESC_MAX, `description hub/${hizmet.slug}`);
+  const sonuc = kirp(metin, DESC_MAX, `description hub/${hizmet.slug}`);
+  benzersizMi(sonuc, `/${hizmet.slug}/`);
+  return sonuc;
 }
 
 export function paraSayfasiDescription(hizmet: Hizmet, ilce: Ilce): string {
-  const cihaz = hizmet.cihaz.toLocaleLowerCase('tr-TR');
+  /*
+    Kalıpların TAMAMI hizmet adını taşır, `cihaz` tek başına kullanılmaz.
+    Sebep: "klima servisi", "klima bakımı" ve "klima gaz dolumu" aynı cihazı
+    paylaşıyor; cihaz üzerinden kurulan cümle üçünde de birebir aynı çıkıyor.
+    Hizmet adı benzersiz olduğu için açıklama da benzersiz oluyor — bu, hash'in
+    kalıpları dağıtmasına bel bağlamadan, yapısal olarak garanti.
+  */
+  const ad = hizmet.ad.toLocaleLowerCase('tr-TR');
   const mahalle = degerListesi(ilce.mahalleler)[0];
 
   /*
@@ -72,16 +106,19 @@ export function paraSayfasiDescription(hizmet: Hizmet, ilce: Ilce): string {
     İkisi de kalıbı havuzdan düşürür; seçim kalanlar arasından yapılır.
   */
   const kaliplar = [
-    `${ilce.ad} ve çevresinde ${cihaz} arızalarına aynı gün gidiyoruz. Yerinde arıza tespiti, kapıda ödeme, işçilik garantisi. Hemen arayın.`,
+    `${ilce.ad} ve çevresinde ${ad} için aynı gün gidiyoruz. Yerinde arıza tespiti, kapıda ödeme, değişen parçaya garanti. Hemen arayın.`,
     ilce.ulasimDk > 0
-      ? `${ilce.sehir} ${ilce.ad}'de ${cihaz} tamiri ve bakımı. Ortalama ${ilce.ulasimDk} dakikada adresinizdeyiz, ücret onayı almadan işleme başlamayız.`
+      ? `${ilce.sehir} ${ilce.ad}'de ${ad}. Ortalama ${ilce.ulasimDk} dakikada adresinizdeyiz, ücret onayı almadan işleme başlamayız.`
       : null,
-    `${ilce.ad} ${hizmet.ad.toLocaleLowerCase('tr-TR')}: arızayı yerinde tespit eder, fiyatı önce söyler, onay alınca başlarız. Kapıda nakit veya kart.`,
+    `${ilce.ad} ${ad}: arızayı yerinde tespit eder, fiyatı önce söyler, onay alınca başlarız. Kapıda nakit veya kart.`,
     mahalle
-      ? `${mahalle} dahil ${ilce.ad} genelinde ${cihaz} servisi. Aynı gün randevu, şeffaf fiyat, değişen parçaya garanti.`
+      ? `${mahalle} dahil ${ilce.ad} genelinde ${ad}. Aynı gün randevu, şeffaf fiyat, değişen parçaya garanti.`
       : null,
+    `${ilce.ad} için ${ad}: şikâyeti telefonda anlatın, yaklaşık aralığı söyleyelim. Kesin tutar yerinde tespitten sonra, onayınızla.`,
   ].filter((k): k is string => k !== null);
 
   const i = kalipIndeksi(`${ilce.slug}:${hizmet.slug}`, kaliplar.length);
-  return kirp(kaliplar[i] as string, DESC_MAX, `description ${hizmet.slug}/${ilce.slug}`);
+  const metin = kirp(kaliplar[i] as string, DESC_MAX, `description ${hizmet.slug}/${ilce.slug}`);
+  benzersizMi(metin, `/${hizmet.slug}/${ilce.slug}/`);
+  return metin;
 }

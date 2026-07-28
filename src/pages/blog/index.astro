@@ -32,7 +32,7 @@ const yazilar = (await getCollection('yazilar')).sort((a, b) => a.data.sira - b.
 
 <BaseLayout
   title={`Arıza Rehberi — ${firma.kisaAd}`}
-  description="Çamaşır makinesi, bulaşık makinesi, buzdolabı ve klimada en sık karşılaşılan arızalar: belirtiler, servis çağırmadan önce kendiniz yapabilecekleriniz ve ne zaman ustaya bırakmalı."
+  description="Çamaşır makinesi, bulaşık makinesi, buzdolabı ve klimada en sık çıkan arızalar: belirtiler, kendiniz yapabilecekleriniz ve ne zaman servis çağırmalı."
   yol="/blog/"
   schema={[
     breadcrumb(Astro.site!, [
