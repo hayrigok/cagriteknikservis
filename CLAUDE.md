@@ -118,6 +118,13 @@ Consent Mode varsayılanı **denied**. Onay verilmeden hiçbir olay gönderilmez
 Tıklama olayları tek bir delege dinleyiciyle toplanır: bileşenlere `data-olay` ve
 `data-konum` nitelikleri konur, ayrı script yazılmaz. JS bütçesi bu şekilde korunuyor.
 
+`konum` değerleri: `header` (üst çubuk) · `hero` · `sticky` · `footer` ·
+`mobil_bar` (mobilde alt çubuk) · `yan_buton` (sağ kenarda sabit ara/WhatsApp
+düğmeleri, `YanButonlar.astro`). **`yan_buton` yalnızca md ve üstünde görünür:**
+mobilde `MobilBar` zaten aynı iki eylemi tam genişlikte basıyor, üstte de
+`StickyUstCubuk`'un Ara düğmesi var; üçüncü kopya küçük ekranda içeriği kapatır.
+Reklam raporlarında hangi yüzeyin çalıştığını bu ayrımla göreceksiniz.
+
 Google Ads tarafında birincil dönüşüm form + 60 sn üzeri çağrı olacak, `tel_click`
 ikincil kalacak — aksi halde akıllı teklif yanlış tıklamalara optimize eder.
 

@@ -23,6 +23,7 @@ import KomsuIlceler from '@/components/KomsuIlceler.astro';
 import AltCta from '@/components/AltCta.astro';
 import Footer from '@/components/Footer.astro';
 import MobilBar from '@/components/MobilBar.astro';
+import YanButonlar from '@/components/YanButonlar.astro';
 
 import type { Hizmet, Ilce } from '@/lib/types';
 import { aktifHizmetler, gecerliIlceler, h1Uret, hizmetIkonu } from '@/lib/veri';
@@ -100,4 +101,5 @@ const schema = [
   <AltCta baslik={`${ilce.ad} için hemen randevu alın`} waMesaji={waMesaji} />
   <Footer />
   <MobilBar waMesaji={waMesaji} />
+  <YanButonlar waMesaji={waMesaji} />
 </BaseLayout>

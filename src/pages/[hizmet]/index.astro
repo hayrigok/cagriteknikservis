@@ -26,6 +26,7 @@ import HizmetKarti from '@/components/HizmetKarti.astro';
 import AltCta from '@/components/AltCta.astro';
 import Footer from '@/components/Footer.astro';
 import MobilBar from '@/components/MobilBar.astro';
+import YanButonlar from '@/components/YanButonlar.astro';
 import Ikon from '@/components/Ikon.astro';
 
 import type { Hizmet } from '@/lib/types';
@@ -162,4 +163,5 @@ const schema = [
   <AltCta baslik={`${hizmet.ad} için hemen arayın`} waMesaji={waMesaji} />
   <Footer />
   <MobilBar waMesaji={waMesaji} />
+  <YanButonlar waMesaji={waMesaji} />
 </BaseLayout>

@@ -19,6 +19,7 @@ import HizmetKarti from '@/components/HizmetKarti.astro';
 import AltCta from '@/components/AltCta.astro';
 import Footer from '@/components/Footer.astro';
 import MobilBar from '@/components/MobilBar.astro';
+import YanButonlar from '@/components/YanButonlar.astro';
 import Ikon from '@/components/Ikon.astro';
 
 import { aktifHizmetler, firma } from '@/lib/veri';
@@ -88,4 +89,5 @@ const kisayollar = [
   <AltCta baslik="Arızayı telefonda çözmeye başlayalım" waMesaji={waMesaji} />
   <Footer />
   <MobilBar waMesaji={waMesaji} />
+  <YanButonlar waMesaji={waMesaji} />
 </BaseLayout>

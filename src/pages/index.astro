@@ -18,6 +18,7 @@ import IletisimFormu from '@/components/IletisimFormu.astro';
 import AltCta from '@/components/AltCta.astro';
 import Footer from '@/components/Footer.astro';
 import MobilBar from '@/components/MobilBar.astro';
+import YanButonlar from '@/components/YanButonlar.astro';
 import Ikon from '@/components/Ikon.astro';
 
 import type { SssOgesi } from '@/lib/schema';
@@ -192,4 +193,5 @@ const anaSss: SssOgesi[] = [
   <AltCta baslik="Arızayı bugün çözelim" waMesaji={waMesaji} />
   <Footer />
   <MobilBar waMesaji={waMesaji} />
+  <YanButonlar waMesaji={waMesaji} />
 </BaseLayout>

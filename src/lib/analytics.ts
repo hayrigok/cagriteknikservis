@@ -4,7 +4,7 @@
  * Onay reddedilirse kuyruk atılır.
  */
 
-export type Konum = 'header' | 'hero' | 'sticky' | 'footer' | 'mobil_bar';
+export type Konum = 'header' | 'hero' | 'sticky' | 'footer' | 'mobil_bar' | 'yan_buton';
 
 export type Olay =
   | { ad: 'tel_click'; konum: Konum }

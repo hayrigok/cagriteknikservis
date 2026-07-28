@@ -11,6 +11,7 @@ import IletisimFormu from '@/components/IletisimFormu.astro';
 import AltCta from '@/components/AltCta.astro';
 import Footer from '@/components/Footer.astro';
 import MobilBar from '@/components/MobilBar.astro';
+import YanButonlar from '@/components/YanButonlar.astro';
 import Ikon from '@/components/Ikon.astro';
 
 import type { IkonAdi } from '@/lib/types';
@@ -120,4 +121,5 @@ const kunye: Kunye[] = kunyeHam.filter((k): k is Kunye => k.metin !== null);
   <AltCta baslik="Arızayı bugün çözelim" waMesaji={waMesaji} />
   <Footer />
   <MobilBar waMesaji={waMesaji} />
+  <YanButonlar waMesaji={waMesaji} />
 </BaseLayout>

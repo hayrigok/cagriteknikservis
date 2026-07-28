@@ -21,6 +21,7 @@ import IletisimFormu from '@/components/IletisimFormu.astro';
 import AltCta from '@/components/AltCta.astro';
 import Footer from '@/components/Footer.astro';
 import MobilBar from '@/components/MobilBar.astro';
+import YanButonlar from '@/components/YanButonlar.astro';
 import Ikon from '@/components/Ikon.astro';
 
 import { firma, hizmetBul, hizmetIkonu } from '@/lib/veri';
@@ -128,4 +129,5 @@ const digerleri = [
   <AltCta baslik="Kontrol ettiniz, geçmedi mi?" waMesaji={waMesaji} />
   <Footer />
   <MobilBar waMesaji={waMesaji} />
+  <YanButonlar waMesaji={waMesaji} />
 </BaseLayout>

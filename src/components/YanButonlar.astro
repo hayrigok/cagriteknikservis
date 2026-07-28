@@ -1,0 +1,63 @@
+---
+/*
+  Sağ kenarda sabit duran arama ve WhatsApp düğmeleri.
+
+  Yalnızca md ve üstünde görünür. Mobilde MobilBar zaten aynı iki eylemi tam
+  genişlikte basıyor; oraya bir de yan düğme koymak aynı eylemin üçüncü kopyası
+  olur (üstte StickyUstCubuk'un Ara düğmesi de var) ve küçük ekranda içeriğin
+  üstünü kapatır.
+
+  Saf CSS, sıfır JS. Tıklamalar BaseLayout'taki tek delege dinleyiciyle
+  toplanıyor: data-olay + data-konum yeterli, ayrı script yok.
+
+  Hareket yalnızca renk geçişi — boyut veya konum animasyonu yok
+  (design-system/MASTER.md). Numara doldurulmamışsa düğmeler pasifleşir.
+*/
+import Ikon from './Ikon.astro';
+import { firma, telLink, whatsappLink, deger } from '@/lib/veri';
+
+interface Props {
+  /** WhatsApp mesajına önceden yazılacak bağlam. */
+  waMesaji: string;
+}
+
+const { waMesaji } = Astro.props;
+
+const tel = telLink();
+const wa = whatsappLink(waMesaji);
+const numara = deger(firma.telefon);
+
+// 56 px: asgari dokunma hedefi 44, sitede kullanılan taban 48 — yan düğme
+// içerik üstünde durduğu için biraz daha büyük.
+const temel =
+  'flex h-14 w-14 items-center justify-center rounded-md text-white transition-colors duration-150';
+const kapali = 'pointer-events-none opacity-55';
+---
+
+{/* z-30: çerez bandı (z-50) ve sticky çubuklar (z-40) bunun üstünde kalır. */}
+<div
+  class="fixed top-1/2 right-4 z-30 hidden -translate-y-1/2 flex-col gap-3 md:flex"
+>
+  <a
+    href={tel ?? '#'}
+    data-olay="tel_click"
+    data-konum="yan_buton"
+    aria-label={numara ? `Hemen ara: ${numara}` : 'Hemen ara'}
+    aria-disabled={tel ? undefined : 'true'}
+    class:list={[temel, 'bg-turuncu-600 hover:bg-turuncu-700', !tel && kapali]}
+  >
+    <Ikon ad="telefon" boyut={24} />
+  </a>
+
+  <a
+    href={wa ?? '#'}
+    data-olay="whatsapp_click"
+    data-konum="yan_buton"
+    rel="noopener"
+    aria-label="WhatsApp'tan yaz"
+    aria-disabled={wa ? undefined : 'true'}
+    class:list={[temel, 'bg-yesil-600 hover:bg-yesil-700', !wa && kapali]}
+  >
+    <Ikon ad="whatsapp" boyut={24} />
+  </a>
+</div>

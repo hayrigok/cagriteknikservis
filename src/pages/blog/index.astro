@@ -20,6 +20,7 @@ import GuvenRozetleri from '@/components/GuvenRozetleri.astro';
 import AltCta from '@/components/AltCta.astro';
 import Footer from '@/components/Footer.astro';
 import MobilBar from '@/components/MobilBar.astro';
+import YanButonlar from '@/components/YanButonlar.astro';
 import Ikon from '@/components/Ikon.astro';
 
 import { firma, hizmetIkonu } from '@/lib/veri';
@@ -87,4 +88,5 @@ const yazilar = (await getCollection('yazilar')).sort((a, b) => a.data.sira - b.
   <AltCta baslik="Arıza sizde değilse, biz bakalım" waMesaji={waMesaji} />
   <Footer />
   <MobilBar waMesaji={waMesaji} />
+  <YanButonlar waMesaji={waMesaji} />
 </BaseLayout>
