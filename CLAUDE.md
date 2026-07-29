@@ -525,17 +525,32 @@ Sıra önemli: **A bitmeden yayına çıkılmaz**, B bitmeden reklam açılmaz.
 - [x] **B6. Commit + push — tamam (29.07.2026).** `8dca6c0..a1e27a1`, 7 commit
       `origin/main`'e gönderildi (`github.com/hayrigok/cagriteknikservis`).
       Çalışma ağacı temiz, yerel ile uzak birebir aynı. B7 artık repodan çekebilir.
-- [ ] **B7. Cloudflare Pages deploy — sıradaki iş, sahibinin tarafında.**
-      Ayarlar: framework preset **Astro**, build komutu `npm run build`, çıktı
-      dizini `dist`, kök dizin boş. Sonra Custom domains → `cagribeyazesyatamir.com`.
+- [ ] **B7. Cloudflare deploy — sahibinin tarafında, tek kalan yayın engeli.**
 
-      Deploy sonrası **iki şey doğrulanacak**:
-      1. `trailingSlash: 'always'` olduğu için `/klima-servisi` → `/klima-servisi/`
-         yönlendirmesi **tek adımda** olmalı; çift yönlendirme reklam tıklamasında
-         LCP'yi geciktirir, doğrudan para yakar.
-      2. Olmayan bir adres gerçekten `dist/404.html`'i **404 statüsüyle** mi
-         veriyor, yoksa Cloudflare kendi hata sayfasını mı basıyor. İkincisi olursa
-         B4'te yazılan kurtarma sayfası hiç devreye girmez, o tıklama tamamen kayıp.
+      **Pages DEĞİL, Workers.** Cloudflare yeni hesaplarda Pages oluşturmayı
+      kapatmış; panel `/pages/new` adresinden bile "Create a Worker" akışına
+      düşüyor (29.07.2026'da hesapta doğrulandı). Bu yüzden repoya
+      **`wrangler.jsonc`** eklendi — Deploy düğmesi onsuz hata veriyordu.
+
+      Panel ayarları: build komutu `npm run build`, deploy komutu
+      `npx wrangler deploy` (varsayılan). Gerisi `wrangler.jsonc`'den okunuyor.
+      Sonra **Custom domains → `cagribeyazesyatamir.com`**; alan adı zaten bu
+      hesapta (NS: `igor/pat.ns.cloudflare.com`), DNS kaydını kendisi açar.
+
+      **B7'nin iki doğrulama maddesi artık yapılandırmada YAZILI**, davranışa
+      bırakılmadı — ayrıntılı gerekçe `wrangler.jsonc` başındaki yorumda:
+      - `html_handling: "force-trailing-slash"` → `/klima-servisi` tek adımda
+        `/klima-servisi/`'ye 301. Varsayılan `auto-trailing-slash` olmaz: aynı
+        içeriği iki adresten 200 ile yayınlar.
+      - `not_found_handling: "404-page"` → `dist/404.html` **gerçek 404
+        statüsüyle**. Olmazsa Cloudflare kendi hata sayfasını basar ve B4'teki
+        kurtarma sayfası hiç devreye girmez.
+
+      **Bağımlılık eklenmedi:** `wrangler` package.json'a girmiyor, Cloudflare'in
+      build makinesinde `npx` ile bir kez iniyor. Onaylı paket listesi değişmedi.
+
+      Yayına girince canlıda doğrulanacak: 51 sayfa erişilebilir mi · yönlendirme
+      gerçekten tek adım mı · 404 statüsü doğru mu · canonical/sitemap/robots.
 - [ ] **B8. Gerçek cihazda Lighthouse** — performans tablosundaki LCP/INP/CLS
       hücreleri hâlâ boş. Kısıtlı 4G profiliyle, masaüstü değil mobil.
 

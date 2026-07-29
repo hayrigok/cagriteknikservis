@@ -1,0 +1,41 @@
+/*
+  Cloudflare dağıtım yapılandırması.
+
+  NEDEN PAGES DEĞİL: Cloudflare yeni hesaplarda Pages oluşturmayı kapattı,
+  panel doğrudan "Create a Worker" akışına düşüyor (29.07.2026'da doğrulandı).
+  Sonuç aynı — statik dosya sunumu — sadece Pages'in varsayılan davrandığı iki
+  konu burada AÇIKÇA yazılıyor. İkisi de B7'de doğrulanacak maddelerdi:
+
+  1. html_handling: "force-trailing-slash"
+     Site trailingSlash:'always' + build.format:'directory' ile üretiliyor, yani
+     her sayfa /yol/index.html. Bu ayar /klima-servisi isteğini TEK ADIMDA
+     /klima-servisi/ adresine 301'liyor.
+
+     Varsayılan "auto-trailing-slash" OLMAZ: o, eğik çizgisiz adresi de 200 ile
+     servis eder ve aynı içerik iki adresten yayınlanır. Canonical bunu telafi
+     eder ama Google'a gereksiz kopya taratmış oluruz; reklam trafiğinde de
+     tıklama adresi canonical'dan farklı olur.
+
+  2. not_found_handling: "404-page"
+     Eşleşmeyen adreste dist/404.html'i GERÇEK 404 statüsüyle servis eder.
+     Bu olmazsa Cloudflare kendi hata sayfasını basar ve B4'te yazılan kurtarma
+     sayfası (numara + 8 hizmet kartı) hiç devreye girmez — reklamdan gelen o
+     tıklama tamamen kayıp olur.
+
+  BAĞIMLILIK EKLENMEDİ: wrangler package.json'a girmiyor, Cloudflare'in build
+  makinesinde `npx wrangler deploy` ile bir kez indiriliyor. Sitenin paketine
+  hiçbir şey eklemiyor, onaylı paket listesi değişmedi.
+
+  Worker script'i YOK: yalnızca "assets" tanımlı, bu geçerli bir yapılandırma.
+  Kod çalıştırmıyoruz, dosya sunuyoruz — sıfır sunucu mantığı, sıfır soğuk
+  başlangıç.
+*/
+{
+  "name": "cagriteknikservis",
+  "compatibility_date": "2025-09-01",
+  "assets": {
+    "directory": "./dist",
+    "html_handling": "force-trailing-slash",
+    "not_found_handling": "404-page"
+  }
+}
