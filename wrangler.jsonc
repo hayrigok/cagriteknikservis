@@ -33,6 +33,25 @@
 {
   "name": "cagriteknikservis",
   "compatibility_date": "2025-09-01",
+
+  /*
+    Site YALNIZCA cagribeyazesyatamir.com'dan yayınlansın.
+
+    Varsayılan açık olan bu iki kapı, 51 sayfanın tamamını ikinci ve üçüncü bir
+    alan adından da servis ediyordu (29.07.2026'da canlıda doğrulandı:
+    cagriteknikservis.yks50bin.workers.dev → 200). Bu kopya içerik demek ve tam
+    olarak sitenin kaçındığı şey — canonical etiketleri asıl adresi gösterse de
+    canonical bir ÖNERİDİR, emir değil.
+
+    preview_urls ayrıca her dalın kendi adresini açıyordu; yayımlanmamış içerik
+    taranabilir hale gelirdi.
+
+    SIRA ÖNEMLİ: bu ayarlar özel alan adı bağlanmadan açılırsa siteye erişim
+    tamamen kesilir. Alan adı bağlandıktan SONRA kapatıldı.
+  */
+  "workers_dev": false,
+  "preview_urls": false,
+
   "assets": {
     "directory": "./dist",
     "html_handling": "force-trailing-slash",
