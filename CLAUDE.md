@@ -454,15 +454,39 @@ okunurken bu ayrım kaybolursa liste işe yaramaz hale gelir.
 listesi) kararla kapatılıp alanı kaldırıldı. Bir alan "asla dolmayacak"
 hâle geldiğinde raporda tutulmaz — gürültülü rapor okunmaz olur.
 
-Her `npm run build` iki rapor basar: `[ilce-kapisi]` (kaç ilçe elendi) ve
-`[eksik-veri]` (hangi alan boş, sonucu ne). **Bu iki rapor bu listenin canlı
-hâlidir** — burası bayatlarsa build çıktısı doğruyu söyler.
-
-Sıra önemli: **A bitmeden yayına çıkılmaz**, B bitmeden reklam açılmaz.
+Her `npm run build` üç rapor basar: `[ilce-kapisi]` (kaç ilçe elendi),
+`[eksik-veri]` (hangi alan boş, sonucu ne) ve `[olcum]` (kimlik biçimi bozuksa).
+**Bu raporlar bu listenin canlı hâlidir** — burası bayatlarsa build çıktısı
+doğruyu söyler.
 
 ---
 
-### A. Sahibinden beklenen veri — yayın engeli
+## ⭐ ÖNCELİK SIRASI — 29.07.2026 sonu
+
+**Site yayında ve teknik iş bitti.** Yayın engeli kalmadı, performans bütçesi
+ölçümle doğrulandı, SEO denetiminde açık yok. Bu listenin geri kalanı artık
+"yayına çıkma" listesi değil, **"en üste çıkma" listesidir** ve ağırlığı
+sahibinin tarafına kaydı.
+
+Amaca (arama sonuçlarında üst sıra → çalan telefon) hizmet sırasına göre:
+
+| # | İş | Kimde | Neden bu sırada |
+|---|---|---|---|
+| **1** | **D4 — yorum toplamak** | **Sahibi** | Yerel aramanın en güçlü sinyali, para maliyeti sıfır, reklamdan bağımsız çalışır. Profil bağlı ama **yorum yok**. |
+| **2** | **D5 — blog yazısı eklemek** | Claude | Organik trafiğin tek kaynağı. 16 yazı var, sekiz hizmet de kapsandı; buradan sonrası derinleşme. |
+| **3** | **A2 — mahalle listeleri** | **Sahibi** | Rakibin kopyalayamayacağı tek içerik türü. İlçe başına 5–8 mahalle yeter. |
+| **4** | **A7 + C — Google Ads** | **Sahibi** | Telefonu **en hızlı** çaldıracak kanal, ama sahibi erteledi ("zamanı gelince söylerim"). Altyapı hazır. |
+| **5** | **E1 — KVKK avukat** | **Sahibi** | Hukuki risk; yayını engellemiyor ama açık. Brifing hazır. |
+
+**Karar bekleyen iki soru** (ikisi de sahibine soruldu, cevap gelmedi):
+- Şemadaki işletme adı gerçek ada (`Çağrı Teknik Servis`) çekilsin mi? Görünen
+  metin değişmez, Google eşleştirmesi düzelir. Bkz. A5.
+- Push'lar doğrudan canlıya mı gitsin, yoksa önce önizleme mi? Site yayında
+  olduğu için artık her push canlıyı değiştiriyor.
+
+---
+
+### A. Sahibinden beklenen veri
 
 - [x] **A1. `yerelNotlar` × 4 ilçe — yazıldı, sahibi olduğu gibi kabul etti
       (28.07.2026). Kapandı, tekrar açmayın.**
@@ -489,8 +513,14 @@ Sıra önemli: **A bitmeden yayına çıkılmaz**, B bitmeden reklam açılmaz.
       Bir dönem `[taslak-not]` uyarısı basılıyordu; sahibi doğrulamayacağını
       söyleyince kaldırıldı — asla eyleme dönüşmeyecek uyarı raporu gürültüye
       çevirir (aynı gerekçe A3'te ve `ulasimDk`'de de uygulandı).
-- [ ] **A2. `mahalleler` × 4 ilçe** (`ilceler.json`) — kapıdan bağımsız.
-      Boşken ilçe bloğunun mahalle kutusu basılmıyor.
+- [ ] **A2. `mahalleler` × 4 ilçe** (`ilceler.json`) — **öncelik 3, sahibinde.**
+      Kapıdan bağımsız; boşken ilçe bloğunun mahalle kutusu basılmıyor.
+
+      **Neden değerli:** mahalle adı, rakibin sitesinden kopyalayamayacağı
+      türden bir yerel sinyal ve "Seyhan'da X mahallesi beyaz eşya servisi"
+      aramalarını karşılar. A1 notunda yazan "sahadan gelmeli" içeriğin en
+      kolay parçası bu — ilçe başına **5–8 mahalle adı** yeter, cümle
+      kurmasına gerek yok.
       **`ulasimDk` bilerek `0` bırakıldı — 28.07.2026, sahibinin kararı.**
       Gerçek varış süresi ~2 saat, ama `IlceBlogu` bu sayıyı büyük puntoyla
       basıyor ve meta "Ortalama 120 dakikada adresinizdeyiz" oluyor; acil arama
@@ -551,8 +581,23 @@ Sıra önemli: **A bitmeden yayına çıkılmaz**, B bitmeden reklam açılmaz.
 
       Karar geri alınırsa **kod değişmez**: `firma.json`'a değer girilince
       künye, KVKK kutusu ve şema alanları kendiliğinden açılır.
-- [ ] **A5. Google işletme profili URL** (`firma.json`) — yorumlar bloğu tamamen
-      buna bağlı, yoksa blok hiç basılmıyor.
+- [x] **A5. Google işletme profili BAĞLANDI — 29.07.2026.**
+      `googleIsletmeUrl` = `https://share.google/8Kle71MrAvOuPlJS6`
+      → işletme adı **"Çağrı Teknik Servis"**.
+
+      Açılanlar: **41 sayfada** yorumlar bloğu (32 para sayfası + 8 hizmet
+      hub'ı + ana sayfa; blog/kvkk/iletişim/404 bu bloğu zaten içermiyor) ve
+      `HVACBusiness` şemasına **`sameAs`** — Google'a "bu site şu profile ait"
+      demenin resmî yolu.
+
+      **⚠️ Profilde henüz yorum YOK.** Blok bağlandı ama boş bir profile
+      götürüyor. Asıl iş şimdi başlıyor: **D4**.
+
+      **⚠️ Ad uyuşmazlığı — karar bekliyor.** Profil "Çağrı Teknik Servis",
+      şemadaki `name` ise `kisaAd` yani "Adana Klima & Beyaz Eşya Servisi".
+      Google bu ikisini eşleştirmeye çalışır, uyuşmazlık bağı zayıflatır.
+      Önerilen: şemadaki `name` gerçek işletme adı olsun, **görünen metinler
+      değişmesin**. Sahibine soruldu, cevap gelmedi.
 
       **29.07.2026: sahibi sahte yorum yazılmasını istedi ("bir şey olmaz"),
       reddedildi.** Yasak 3 zaten bunu söylüyor; talep tekrarlanırsa gerekçe
@@ -565,20 +610,15 @@ Sıra önemli: **A bitmeden yayına çıkılmaz**, B bitmeden reklam açılmaz.
         puanlarını arama sonucunda göstermiyor (aynı gerekçeyle `AggregateRating`
         de üretilmiyor). Yıldız çıkmaz. Sıfır kazanç, hesap kapatacak risk.
 
-      **Gerçek çözüm — sahibine anlatıldı, henüz yapılmadı:** Google İşletme
-      Profili açmak. Ücretsiz, **servis alanı işletmesi** olarak kurulabildiği
-      için adres göstermeyi gerektirmez (A4 kararıyla çelişmez), telefonla
-      doğrulanır. Yerel hizmet reklamı veren bir firma için bu muhtemelen listedeki
-      en yüksek getirili tek iş: Haritalar görünürlüğü + reklamlara konum/arama
-      uzantısı + gerçek yorum birikimi. Profil açılınca URL girilir, blok
-      kendiliğinden açılır (D4 yorum toplama akışı da buna bağlı).
+      Gerçek çözüm uygulandı: profil **servis alanı işletmesi** olarak açıldı,
+      yani adres göstermiyor ve A4 kararıyla çelişmiyor.
 
-      **Yorumlar bloğu boşken sayfada boşluk bırakmıyor**, hiç basılmıyor —
-      yani bu bir görsel sorun değil, eksik bir güven katmanı. Sahibine yorum
-      yerine geçmeyen ama uydurma da olmayan bir "verdiğimiz sözler" bloğu
-      önerildi (aynı gün ~2 saat · parça garantisi · onaysız işlem yok · onarım
-      yapılırsa tespit ücreti yok); para sayfasının blok sırasını değiştireceği
-      için **onay bekliyor**, kendiliğinden eklenmedi.
+      Sahibine ayrıca, yorum yerine geçmeyen ama uydurma da olmayan bir
+      "verdiğimiz sözler" bloğu önerilmişti (aynı gün ~2 saat · parça garantisi
+      · onaysız işlem yok · onarım yapılırsa tespit ücreti yok). Para
+      sayfasının blok sırasını değiştireceği için **onay istendi, cevap
+      gelmedi, eklenmedi.** Yorumlar bloğu artık basıldığına göre bu öneri
+      büyük ölçüde gereksizleşti.
 - [x] **A6. Marka listesi TUTULMAYACAK — karar, 29.07.2026. Sahibinden marka
       adı istemeyin.** Gerekçesi: *"tüm markaları yapıyoruz."*
 
@@ -634,7 +674,7 @@ Sıra önemli: **A bitmeden yayına çıkılmaz**, B bitmeden reklam açılmaz.
 
 ---
 
-### B. Yayın öncesi zorunlu teknik işler
+### B. Teknik işler — B5 hariç hepsi kapandı, site yayında
 
 - [x] **B1. Alan adı artık TEK yerde** — `astro.config.mjs` → `SITE_URL` =
       `https://cagribeyazesyatamir.com`. Maddenin uyardığı "iki ayrı yer" riski
@@ -805,7 +845,7 @@ Aşağıdakiler o gün için duruyor:
 
 ---
 
-### D. İyileştirmeler — yayını engellemez
+### D. İçerik ve iyileştirme — sıralamayı buradan yükselteceğiz
 
 - [ ] **D1. Self-hosted font — ÖLÇÜM SONRASI TAVSİYE: YAPMAYIN.**
       Sahibi 29.07.2026'da istedi, B8 ölçümü gerekçesiyle geri bildirildi;
@@ -887,8 +927,33 @@ Aşağıdakiler o gün için duruyor:
 
       Yazı eklemek = `src/content/yazilar/`
       içine tek markdown dosyası; rota, sitemap ve liste kendiliğinden güncellenir.
-- [ ] **D4. Yorum akışı:** A5 geldikten sonra sahibinden Google profiline yorum
-      isteme akışı (iş sonrası SMS/WhatsApp şablonu). Site tarafı hazır.
+- [ ] **D4. YORUM TOPLAMA — A5 bağlandı, bu artık listenin en yüksek getirili
+      maddesi ve tamamı sahibinin elinde. Kod tarafında yapılacak hiçbir şey
+      yok.**
+
+      Profil bağlı ama **yorum yok**; blok şu an boş bir profile götürüyor.
+      Yerel aramada sıralamayı belirleyen en güçlü sinyallerden biri yorum
+      sayısı ve **tazeliğidir** — reklam bütçesinden tamamen bağımsız çalışır
+      ve para maliyeti sıfırdır. Sahibinin "en üste çıkma" amacına en doğrudan
+      hizmet eden iş budur.
+
+      **Sahibine verilen şablon** (her iş bitiminde WhatsApp'tan):
+
+      > Merhaba, bugünkü servisimizden memnun kaldıysanız Google'da kısa bir
+      > yorum bırakabilir misiniz? Bizim için çok değerli.
+      > https://share.google/8Kle71MrAvOuPlJS6
+
+      Kurallar — **ihlali profili askıya aldırır**:
+      - Yorum karşılığında **indirim, hediye veya para teklif edilmez.** Google
+        bunu doğrudan yasaklıyor ve tespit edilirse yorumlar silinir.
+      - **Sadece memnun müşteriye sorulmaz**, herkese aynı mesaj gider. Seçerek
+        istemek ("review gating") politika ihlalidir.
+      - Yorumlar **firma tarafından yazılmaz** (yasak 3). Toplu, tek seferde
+        gelen yorum yığını da şüphe çeker — akış düzenli olmalı.
+      - Gelen yorumlara, özellikle olumsuz olanlara **profilden cevap yazılsın**;
+        cevaplanan profil daha aktif sayılıyor.
+
+      Hedef: ilk aşamada **10–15 gerçek yorum**. Ondan sonrası düzenli akış.
 
 ---
 
@@ -934,9 +999,11 @@ Aşağıdakiler o gün için duruyor:
 
 ---
 
-### F. Yayına çıkış kontrol listesi
+### F. Yayına çıkış kontrol listesi — TAMAMLANDI (E1 hariç)
 
-Sırayla, hepsi işaretlenmeden yayına çıkılmaz:
+Bu liste yayın öncesi kapıydı; **site 29.07.2026'da yayına girdi ve E1 hariç
+hepsi kapandı.** Artık geçmiş kaydı olarak duruyor — sonraki büyük değişiklikte
+(örn. yeni hizmet, tema değişikliği) yeniden gözden geçirilir.
 
 1. [x] `npm run build` → `[eksik-veri]` raporunda **karar dışı sürpriz yok**
     (13 satır: 5 karar + 8 bilinen bekleyen alan). *Maddenin eski hâli "rapor
