@@ -360,7 +360,7 @@ hizmet bölgesi, çalışma saati) konusunda **tahmin etmeyin, sorun**.
 
 | Ölçüt | Şu an | Hedef |
 |---|---|---|
-| Üretilen sayfa | **51** | 51 ✔ |
+| Üretilen sayfa | **56** (19 sabit + 32 para + 5 yeni blog) | ✔ |
 | Geçerli ilçe (`yerelNotlar`) | **4 / 4** ✔ | 4 / 4 |
 | Fiyat yayını | **yok — karar** (A3) | — |
 | Künye yayını | **yok — karar** (A4) | — |
@@ -374,7 +374,11 @@ hizmet bölgesi, çalışma saati) konusunda **tahmin etmeyin, sorun**.
 | Yayın | **canlı** — https://cagribeyazesyatamir.com | ✔ |
 | Canlı SEO denetimi | **50/50 temiz · açık yok** ✔ | 0 açık |
 | HTTPS | `http://` → **301** → `https://` ✔ | — |
-| Sayfa ağırlığı (canlı) | **13–15 KB** Brotli · yanıt 0,28 sn | < 500 KB ✔ |
+| **Mobil LCP** (ölçüldü) | **0,50–0,91 sn** ✔ | < 2,0 sn |
+| **Mobil CLS** (ölçüldü) | **0,000** ✔ | < 0,1 |
+| Sayfa ağırlığı (mobil, ölçüldü) | **18,6–21,3 KB** ✔ | < 500 KB |
+| Dış istek | **1 — Cloudflare beacon** ⚠️ (B10) | 0 |
+| Blog yazısı | **11** | — |
 
 **Rapordaki 13 satırın 5'i karara bağlı ve asla dolmayacak:** 4 × `ulasimDk`
 (A2) + 1 × künye (A4). Kalan 8 satır gerçekten bekliyor: `googleIsletmeUrl` (A5),
@@ -718,11 +722,37 @@ Aşağıdakiler o gün için duruyor:
 
 ### D. İyileştirmeler — yayını engellemez
 
-- [ ] **D1. Self-hosted font:** 2 woff2 → `public/fonts/` (klasör henüz yok),
-      `global.css` içindeki hazır `@font-face` bloğunu aç, `--font-sans` başına ekle.
-- [ ] **D2. Hero görseli:** AVIF + WebP yedek, `width`/`height` zorunlu,
-      `fetchpriority="high"`. LCP şu an metin; görsel eklenirse LCP'yi o devralır.
-      `sharp` zaten kurulu.
+- [ ] **D1. Self-hosted font — ÖLÇÜM SONRASI TAVSİYE: YAPMAYIN.**
+      Sahibi 29.07.2026'da istedi, B8 ölçümü gerekçesiyle geri bildirildi;
+      karar sahibinde, ısrar ederse yapılır.
+
+      Gerekçe rakamla: **LCP 0,50–0,91 sn ve LCP nesnesi METİN.** Web fontu
+      eklenirse o metin fontun inmesini bekler — sitenin ölçülmüş en güçlü
+      özelliği bilerek bozulur. `font-display: swap` ile bile ilk boyama sistem
+      fontuyla olur, font gelince yeniden çizilir; kazanç görsel, kayıp
+      ölçülebilir.
+
+      Yine de yapılacaksa: 2 woff2 → `public/fonts/` (klasör henüz yok),
+      `global.css` içindeki hazır `@font-face` bloğunu aç, `--font-sans` başına
+      ekle, **B8 ölçümünü tekrarla ve LCP'yi bu dosyaya yaz.**
+- [ ] **D2. Hero görseli — SAHİBİNDEN GERÇEK FOTOĞRAF BEKLİYOR.**
+      Sahibi 29.07.2026'da istedi; yapılamadı, iki gerekçeyle:
+
+      1. **Stok fotoğraf konmayacak.** Yerel servis sitesinde başkasının
+         fotoğrafı "bu bizim ekibimiz / bizim aracımız" izlenimi verir. Yasak
+         3'ün (sahte yorum, sahte müşteri) aynı mantığı: doğrulanamayan bir
+         izlenim üretmek. İstenirse gerekçesiyle reddedilir.
+      2. **LCP'yi görsel devralır.** Ölçülmüş LCP 0,50–0,91 sn ve nesnesi
+         metin; hero görseli konduğu anda LCP o dosyaya bağlanır.
+
+      Sahibinden istenen: kendi servis aracı, alet çantası veya iş sırasından
+      birkaç kare. Telefonla çekilmiş gerçek fotoğraf, stok görselden hem
+      dönüşümde hem güvende üstündür ve Google İşletme Profili'nde (A5) de
+      kullanılır.
+
+      Geldiğinde: AVIF + WebP yedek, `width`/`height` zorunlu,
+      `fetchpriority="high"`, `sharp` ile üretilir (zaten kurulu, `tools/`
+      altında OG üreticisi örnek). **Eklendikten sonra B8 tekrarlanmalı.**
 - [ ] **D3. Marka listesi için görünür yüzey** (A6'nın ikinci yarısı) — marka
       adları geldiğinde basılacak bir bileşen **yok**. Yazılırken "yetkili servis"
       ibaresi kullanılmayacak (yasak 2), izinli kalıp: "{Marka} ürünlerinde tamir
@@ -805,7 +835,7 @@ Sırayla, hepsi işaretlenmeden yayına çıkılmaz:
     ulaşılamaz hedef kontrol listesini işlevsizleştirir.*
 2. [x] `npm run build` → `[ilce-kapisi]` uyarısı **yok** (4/4 ilçe geçiyor)
 3. [x] `[seo]` uyarısı yok (title ≤60, description ≤155)
-4. [x] 51 sayfa üretiliyor (19 + 32 para sayfası)
+4. [x] **56 sayfa** üretiliyor (24 sabit/blog + 32 para sayfası)
 5. [x] `dist/` içinde `{PLACEHOLDER` araması **0 sonuç**
 6. [x] Canonical'lar gerçek alan adını gösteriyor (`dist/` üzerinde doğrulandı)
 7. [x] Kod GitHub'da, Cloudflare çekebilir (B6)
@@ -826,16 +856,22 @@ Sırayla, hepsi işaretlenmeden yayına çıkılmaz:
 16. [x] **`Always Use HTTPS` açık** (B9) — `http://` → **301** → `https://`
 17. [x] Canlı SEO denetimi: 50/50 benzersiz title/description/H1, 0 bozuk
     JSON-LD, 0 yetim sayfa, 0 dış istek
-18. [ ] Mobil Lighthouse: LCP < 2,0 sn · INP < 200 ms · CLS < 0,1 (B8)
-19. [ ] KVKK metni avukat onaylı (E1). **Veri sorumlusu kimliği bilerek eksik —
+18. [x] **Mobil performans ölçüldü** (B8): LCP **0,50–0,91 sn** · CLS
+    **0,000** · sayfa **18,6–21,3 KB**. INP sentetik ortamda ölçülemez.
+19. [ ] **Cloudflare Web Analytics beacon'ı kapatıldı** (B10) — ya da
+    kapatılmayacaksa `/kvkk/` metni buna göre düzeltildi
+20. [ ] KVKK metni avukat onaylı (E1) — brifing hazır:
+    `docs/kvkk-avukat-brifingi.md`. **Veri sorumlusu kimliği bilerek eksik —
     sahibinin kararı, yayını engellemiyor (A4/E2).**
 
-**Site 29.07.2026'da yayına girdi ve teknik kontrol listesi aynı gün kapandı.**
-Kalan iki madde yayını engellemiyor: 18 bir ölçüm (ve A7'den sonra tekrarı
-gerekiyor), 19 hukuki inceleme.
+**Site 29.07.2026'da yayına girdi; teknik kontrol listesi aynı gün kapandı ve
+performans bütçesinin tamamı ölçümle doğrulandı.**
 
-**Bundan sonrası teknik değil içerik işi:** A5 (Google İşletme Profili) ve D5
-(blog yazıları). Sıralamayı bunlar belirleyecek.
+Kalan iki madde yayını engellemiyor: **19** bir panel ayarı + metin tutarlılığı,
+**20** hukuki inceleme.
+
+**Bundan sonrası teknik değil içerik işi:** yorum toplamak (A5 profili bağlandı
+ama yorum yok), blog yazıları (D5) ve zaman. Sıralamayı bunlar belirleyecek.
 
 ---
 
