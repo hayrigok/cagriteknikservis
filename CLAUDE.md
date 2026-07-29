@@ -213,12 +213,17 @@ Küçük harfe çevirirken **daima** `toLocaleLowerCase('tr-TR')` kullanın — 
 | LCP | < 2,0 sn | görsel yok, LCP metin |
 | INP | < 200 ms | — |
 | CLS | < 0,1 | — |
-| JS (gzip) | < 40 KB | **~1,63 KB** |
+| JS (gzip) | < 40 KB | **~2,07 KB** (+ onay verilirse gtag.js ~90 KB) |
 | Sayfa toplamı | < 500 KB | ana sayfa **78,6 KB** (gzip 15,9 KB), hizmet sayfası ~81 KB |
 
 **Dış kaynak isteği sıfır**: CSS tamamen inline, yazı tipi indirilmiyor, ikonlar
-satır içi SVG, üçüncü taraf script yok. HTML içindeki tek `https://` referansı
-canonical etiketi — o bir kaynak yüklemesi değil.
+satır içi SVG. HTML içindeki tek `https://` referansı canonical etiketi — o bir
+kaynak yüklemesi değil.
+
+**Tek istisna gtag.js** (B3) ve o da iki kapıdan geçiyor: kimlik girilmemişse
+hiç yüklenmez, girilmişse yalnızca **onay veren** ziyaretçide `async` iner.
+Reddeden veya karar vermeyen ziyaretçi için dış istek hâlâ sıfır. Bu istisnayı
+genişletmeyin — başka üçüncü taraf script eklemek yasak 5'e tabidir.
 
 Renk belirteçlerinin tamamı WCAG oranı **hesaplanarak** seçildi, gözle değil;
 oranlar `global.css` içinde her belirtecin yanında ve `design-system/MASTER.md`
@@ -277,7 +282,9 @@ hizmet bölgesi, çalışma saati) konusunda **tahmin etmeyin, sorun**.
 | Fiyat yayını | **yok — karar** (A3) | — |
 | Künye yayını | **yok — karar** (A4) | — |
 | `[eksik-veri]` raporundaki satır | **13** — 5'i karar, **8'i gerçek eksik** | 5 |
-| Ölçümleme | **hiç çalışmıyor** (bkz. B3) | GA4 + Ads dönüşümleri |
+| Ölçümleme | **yükleyici hazır, kimlik bekliyor** (B3 ✔ / A7) | GA4 + Ads dönüşümleri |
+| JS (gzip) | **2,07 KB** | < 40 KB ✔ |
+| Dış istek | **0** (kimlik girilene kadar) | — |
 | Commit'lenmemiş dosya | **0** ✔ | 0 |
 | Push bekleyen commit | **0** ✔ (29.07.2026) | 0 |
 | Son commit | `a1e27a1` | — |
@@ -416,8 +423,17 @@ Sıra önemli: **A bitmeden yayına çıkılmaz**, B bitmeden reklam açılmaz.
 - [ ] **A6. Hizmet verilen marka listesi** (`firma.json`) — "Hangi markalara
       bakıyorsunuz?" SSS'i şu an gizli. **Ayrıca D4'e bakın: markaların görüneceği
       bir yüzey henüz yazılmadı.**
-- [ ] **A7. GA4 ölçüm kimliği + Google Ads dönüşüm kimlikleri** (`firma.json`) —
-      **tek başına yetmez**, B3 yapılmadan hiçbir şey ölçülmez.
+- [ ] **A7. GA4 ölçüm kimliği (`gaOlcumKimligi`, `G-…`) + Google Ads dönüşüm
+      kimliği (`adsKimligi`, `AW-…`)** — **B3 bitti (29.07.2026), artık tek
+      eksik bu.** Kimlik girilir girilmez ölçüm çalışmaya başlar, kod
+      değişikliği gerekmez.
+
+      İkisinden **herhangi biri** yeterli: Ads dönüşümü GA4 olmadan da ölçülür.
+      Reklam için kritik olan `AW-`, davranış raporu için `G-`.
+
+      Kimlik girildikten sonra iki iş açılır: **C1** (dönüşüm tanımları) ve
+      **B8** (Lighthouse'un tekrarı — gtag.js ~90 KB, mevcut ölçümler kimliksiz
+      hâlin).
 - [x] **A8. Gerçek alan adı** — `cagribeyazesyatamir.com` (28.07.2026). B1 ve B2 kapandı.
 - [x] Telefon + WhatsApp — `0533 667 53 44` / `905336675344` (sahibi aynı numara
       olduğunu doğruladı). CTA'lar ve form aktif.
@@ -449,15 +465,40 @@ Sıra önemli: **A bitmeden yayına çıkılmaz**, B bitmeden reklam açılmaz.
       Google son ikisini yok sayıyor, her build'de bugünün tarihini basmak ise
       içerik değişmemişken sahte tazelik sinyali olurdu.
       Şu an **12 adres**; ilçeler açılınca kendiliğinden 44'e çıkar.
-- [ ] **B3. `gtag.js` yükleyicisi yok — ölçümleme hiç çalışmıyor.**
-      `analytics.ts` Consent Mode varsayılanını kuruyor, olayları kuyruğa alıyor ve
-      `dataLayer`'a yazıyor; ama **`googletagmanager.com/gtag/js` hiçbir yerde
-      yüklenmiyor ve `firma.gaOlcumKimligi` kodda hiç okunmuyor.** Yani kimlik
-      girilse bile tek bir olay gitmez. Yapılacak: onay verildikten **sonra**
-      (önce değil) script'i enjekte eden bir yükleyici + `gtag('config', kimlik)`.
-      Bütçeye etkisi ölçülüp bu dosyaya yazılmalı — gtag.js tek başına ~90 KB,
-      **mevcut 1,63 KB'lik JS bütçesinin dışında ve en büyük performans riski.**
-      Onay gerektirir: üçüncü taraf script (yasak 5).
+- [x] **B3. `gtag.js` yükleyicisi yazıldı — 29.07.2026, sahibinin onayıyla
+      (yasak 5 istisnası).** `analytics.ts` içinde `gtagYukle()`.
+
+      **İki sert kural, ikisi de test edildi:**
+      1. Script yalnızca **onay verildikten sonra** enjekte edilir. Consent
+         Mode'un "denied" başlaması tek başına yetmez — reddeden ziyaretçi
+         `googletagmanager.com`'a **hiçbir istek yapmaz**.
+      2. Kimlik yoksa hiçbir şey yüklenmez. `gaOlcumKimligi` ve `adsKimligi`
+         boşken **dış istek sıfır kalır** — sitenin sıfır-dış-istek hedefi
+         kimlikler girilene kadar bozulmuyor.
+
+      **Kimlikler bu modüle import EDİLMEZ**, `<html data-ga>` / `<html data-ads>`
+      niteliklerinden okunur. Sebep bütçe: `analytics.ts` istemci paketine
+      giriyor, oradan `@/lib/veri` import etmek `ilceler.json` +
+      `hizmetler.json`'ın tamamını tarayıcıya indirirdi. Aynı gerekçe `data-sayfa`
+      için de geçerli. Nitelik, değer boşken hiç basılmıyor.
+
+      `adsKimligi` alanı eklendi: Ads dönüşümü GA4 olmadan da ölçülür, bu yüzden
+      **ikisinden herhangi biri** doluysa yükleyici çalışır.
+
+      **Uçtan uca test (headless Chrome, HTTP üzerinden — `file://` altında ES
+      modülleri CORS'a takılıyor, o yolla test etmeye çalışmayın):**
+
+      | Yol | Sonuç |
+      |---|---|
+      | Onay öncesi | script **0**, `dataLayer` yalnızca `consent default` (hepsi denied) |
+      | Kabul | script **1**, sıra doğru: `consent update` → `js` → `config G-` → `config AW-` → kuyruktaki `tel_click` |
+      | Ret | script **0**, kuyruk atıldı, ret sonrası olay da gitmedi |
+      | Dönen ziyaretçi (bant görünmüyor) | script yükleniyor — `baglat()` içindeki `onayDurumu() === 'kabul'` dalı olmasa ikinci ziyaretten sonra **hiç ölçüm olmazdı** |
+
+      **Bütçe:** kendi JS'imiz 1,63 → **2,07 KB gzip** (sınır 40 KB). gtag.js'in
+      ~90 KB'ı yalnızca onay veren ziyaretçide ve `async` iniyor; LCP metin
+      olduğu için ilk boyamaya girmiyor. Kimlik girildikten sonra **B8'deki
+      Lighthouse ölçümü tekrarlanmalı** — bu tablodaki rakamlar kimliksiz hâlin.
 - [x] **B4. `404.astro`** — yazıldı. `dist/404.html` **kökte** üretiliyor, yani
       Cloudflare Pages onu eşleşmeyen adreslerde 404 statüsüyle servis eder.
       Ölü uç değil kısaltılmış satış sayfası: hero'daki ana CTA numarayı basar,

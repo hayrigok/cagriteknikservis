@@ -8,7 +8,7 @@
 */
 import '@/styles/global.css';
 import CerezBandi from '@/components/CerezBandi.astro';
-import { firma } from '@/lib/veri';
+import { deger, firma } from '@/lib/veri';
 
 interface Props {
   title: string;
@@ -34,10 +34,21 @@ const semalar = schema.filter((s): s is Record<string, unknown> => s !== null);
   için bu doğrudan görünürlük kaybıydı. tools/og-uret.mjs ile üretiliyor.
 */
 const ogGorsel = new URL('/og.png', Astro.site).href;
+
+/*
+  Ölçüm kimlikleri istemciye <html> nitelikleriyle taşınıyor, import ile DEĞİL:
+  analytics.ts istemci paketine giriyor ve oradan `@/lib/veri` import etmek
+  ilceler.json + hizmetler.json'ın tamamını tarayıcıya indirirdi.
+
+  Kimlik doldurulmamışsa nitelik hiç basılmaz; analytics.ts de o zaman
+  googletagmanager.com'a hiçbir istek yapmaz. Yani şu an dış istek SIFIR.
+*/
+const gaKimlik = deger(firma.gaOlcumKimligi);
+const adsKimlik = deger(firma.adsKimligi);
 ---
 
 <!doctype html>
-<html lang="tr" data-sayfa={sayfaKimligi}>
+<html lang="tr" data-sayfa={sayfaKimligi} data-ga={gaKimlik} data-ads={adsKimlik}>
   <head>
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1" />

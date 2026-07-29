@@ -128,7 +128,17 @@ function eksikVeriRaporu(): void {
     kontrol('firma.vergiNo          → footer künyesi eksik (KVKK için zorunlu değil)', firma.vergiNo);
   }
   kontrol('firma.googleIsletmeUrl → yorumlar bloğu hiç basılmıyor', firma.googleIsletmeUrl);
-  kontrol('firma.gaOlcumKimligi   → ölçümleme kapalı', firma.gaOlcumKimligi);
+  /*
+    Yükleyici hazır (B3). İki kimlikten HERHANGİ biri dolunca gtag.js onay
+    sonrası yüklenmeye başlar; ikisi de boşken dış istek sıfır kalır. Tek satır
+    raporlanıyor çünkü ikisi de aynı işin (A7) parçası.
+  */
+  if (!deger(firma.gaOlcumKimligi) && !deger(firma.adsKimligi)) {
+    satirlar.push('firma.gaOlcumKimligi   → ölçümleme kapalı: gtag.js yüklenmiyor, dış istek sıfır (adsKimligi de boş)');
+  } else {
+    kontrol('firma.gaOlcumKimligi   → GA4 yok, yalnızca Ads dönüşümü ölçülüyor', firma.gaOlcumKimligi);
+    kontrol('firma.adsKimligi       → Ads dönüşümü ölçülmüyor, yalnızca GA4 var', firma.adsKimligi);
+  }
   if (degerListesi(firma.markalar).length === 0) {
     satirlar.push('firma.markalar         → marka SSS cevabı gizlendi');
   }

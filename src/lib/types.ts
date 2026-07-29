@@ -98,5 +98,11 @@ export interface Firma {
    */
   garantiIfadesi: string;
   markalar: string[];
+  /** GA4 ölçüm kimliği, `G-` ile başlar. Boşken gtag.js hiç yüklenmez. */
   gaOlcumKimligi: string;
+  /**
+   * Google Ads dönüşüm kimliği, `AW-` ile başlar. GA4'ten bağımsız: yalnızca
+   * bu doluysa da gtag.js yüklenir, çünkü Ads dönüşümleri GA4 olmadan da ölçülür.
+   */
+  adsKimligi: string;
 }

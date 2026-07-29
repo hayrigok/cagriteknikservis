@@ -12,5 +12,6 @@
   "googleIsletmeUrl": "{PLACEHOLDER — Google işletme profili URL}",
   "garantiIfadesi": "Değişen parça garantili",
   "markalar": ["{PLACEHOLDER — marka}", "{PLACEHOLDER — marka}", "{PLACEHOLDER — marka}"],
-  "gaOlcumKimligi": "{PLACEHOLDER — G-XXXXXXXXXX}"
+  "gaOlcumKimligi": "{PLACEHOLDER — G-XXXXXXXXXX}",
+  "adsKimligi": "{PLACEHOLDER — AW-XXXXXXXXX}"
 }
