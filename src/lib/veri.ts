@@ -139,9 +139,8 @@ function eksikVeriRaporu(): void {
     kontrol('firma.gaOlcumKimligi   → GA4 yok, yalnızca Ads dönüşümü ölçülüyor', firma.gaOlcumKimligi);
     kontrol('firma.adsKimligi       → Ads dönüşümü ölçülmüyor, yalnızca GA4 var', firma.adsKimligi);
   }
-  if (degerListesi(firma.markalar).length === 0) {
-    satirlar.push('firma.markalar         → marka SSS cevabı gizlendi');
-  }
+  // firma.markalar kaldırıldı (29.07.2026): ayrım yapmadan bütün markalara
+  // bakılıyor, liste tutmak yanlış olurdu. Gerekçe types.ts içinde.
 
   /*
     Fiyat YAYIMLAMAMAK bir karardır (28.07.2026), eksik veri değil: amaç aramayı

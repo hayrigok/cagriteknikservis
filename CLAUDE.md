@@ -4,14 +4,74 @@ This file provides guidance to Claude Code (claude.ai/code) when working with co
 
 ## Projenin amacı
 
-Beyaz eşya ve klima tamir/bakım firması için **Google Ads odaklı yerel hizmet sitesi**.
-Kurumsal tanıtım sitesi değil, dönüşüm makinesi. Başarı ölçütü tıklama değil,
-**düşük maliyetli telefon araması**.
+> **Sahibinin sözleriyle (29.07.2026):** *"Bizim amacımız arama motorunda en
+> üste çıkıp işleri kapmak. Tüm her şeyimizi bu kurala göre uyduracağız."*
 
-Mimarinin tamamı tek bir varsayımdan türüyor: Google'da üst sıra = teklif × Kalite
-Puanı, Kalite Puanının en büyük bileşeni de açılış sayfası alaka düzeyi. Bu yüzden
-her hizmet × ilçe kombinasyonunun **ayrı sayfası** var ve her sayfanın H1'i reklam
-başlığıyla birebir aynı kelimeleri taşıyor.
+Beyaz eşya ve klima tamir/bakım firması için **Adana'da arama sonuçlarının
+tepesini hedefleyen yerel hizmet sitesi**. Kurumsal tanıtım sitesi değil,
+dönüşüm makinesi. Başarı ölçütü tıklama değil, **çalan telefon**.
+
+**Karar kuralı — her tartışma buradan çözülür:** bir değişiklik önerildiğinde
+sorulacak tek soru, *"bu, Adana'da arayan kişinin bizi bulup aramasını
+artırıyor mu?"* Cevap net evet değilse yapılmaz. Süsleme, kurumsal dil,
+"güzel dursun" diye eklenen bölüm yok.
+
+### Amaç üç ayrı kanaldan yürüyor — üçü aynı şey değil
+
+| Kanal | Ne zaman sonuç verir | Neye bağlı |
+|---|---|---|
+| **Google Ads** | Yayına aldığın **gün** | Kalite Puanı × teklif |
+| **Google İşletme Profili / Haritalar** | Haftalar | Yorum sayısı ve tazeliği, mesafe, kategori |
+| **Organik arama** | **Aylar** | İçerik, teknik sağlık, otorite |
+
+Bu ayrım karıştırılırsa yanlış yerde çözüm aranır. **Organik sıralamada "en
+üst" garanti edilemez ve hızlı gelmez.** İlk haftalarda telefonu çaldıracak
+olan reklam ve Haritalar'dır; organik onun üstüne uzun vadeli ve ucuz bir
+katmandır. Sahibine bu beklenti net söylendi.
+
+### Mimarinin tamamı bu amaçtan türüyor
+
+Üst sıra = teklif × Kalite Puanı; Kalite Puanının en büyük bileşeni de açılış
+sayfası alaka düzeyi. Organik tarafta da aynı şey geçerli: arayanın yazdığı
+kelimeyi karşılayan sayfa kazanır. Bu yüzden her hizmet × ilçe kombinasyonunun
+**ayrı sayfası** var ve her sayfanın H1'i aranan ifadeyle birebir aynı
+kelimeleri taşıyor.
+
+### Kısayolların hepsi bu amacı ÖLDÜRÜR — yasaklar bu yüzden var
+
+"Her şeyi bu kurala uyduracağız" cümlesi, sıralama için ne gerekiyorsa
+yapılacak demek **değildir**. Tam tersi: en üste çıkmanın önündeki en büyük
+risk, hızlı sonuç vaat eden kısayollardır. Bu dosyadaki yasaklar birer ahlak
+dersi değil, **amacın kendisini korumak için var:**
+
+- **İçi boş ilçe sayfası** → doorway page cezası, **tüm siteye** işler. Bu
+  yüzden ilçe kapısı var ve gevşetilmez.
+- **Sahte yorum / sahte puan** → Google'ın sahte içerik politikası ihlali;
+  yaptırım siteye değil **reklam hesabına** işler, yani en hızlı kanalı
+  kapatır. Üstelik gömülü yerel puanları Google zaten göstermiyor: sıfır
+  kazanç, hesap kapatacak risk.
+- **"Yetkili servis" ibaresi** → marka şikâyeti, bütün reklamlar yayından
+  kalkar.
+- **Uydurma rakam, tarih, referans** → yanlış ama inandırıcı; tespit edilince
+  hem hukuki hem sıralama riski.
+- **Yavaş sayfa** → hem Kalite Puanını hem organik sıralamayı düşürür, hem de
+  kısıtlı 4G'de acil arama yapan kişiyi kaybettirir.
+
+Bir öneri "sıralama için iyi olur" gerekçesiyle gelip yukarıdakilerden birine
+dokunuyorsa, o öneri amaca **hizmet etmiyor, amacı riske atıyordur.**
+
+### Sıralamayı gerçekten yükselten şeyler
+
+Teknik SEO 29.07.2026'da ölçüldü ve **bitti** (50/50 sayfa temiz, LCP 0,9 sn,
+dış istek 0). Bundan sonra sıralamayı değiştirecek olan teknik değil, şunlar:
+
+1. **Google İşletme Profili'ne gerçek yorum toplamak** — yerel aramanın en
+   güçlü sinyali, reklam bütçesinden bağımsız çalışır (A5 · D4).
+2. **Arıza rehberine yazı eklemek** — "makine su boşaltmıyor", "E10 hatası"
+   gibi şikâyet aramalarını karşılar (D5).
+3. **Sahadan gelen ilçe ayrıntısı** — mahalle bazlı bilgi, pratik kısıtlar;
+   rakibin kopyalayamayacağı tek içerik budur (A1 notunda yazılı).
+4. **Zaman.** Yeni alan adı için organik sıralama aylar sürer.
 
 ## Komutlar
 
@@ -369,13 +429,13 @@ hizmet bölgesi, çalışma saati) konusunda **tahmin etmeyin, sorun**.
 | Geçerli ilçe (`yerelNotlar`) | **4 / 4** ✔ | 4 / 4 |
 | Fiyat yayını | **yok — karar** (A3) | — |
 | Künye yayını | **yok — karar** (A4) | — |
-| `[eksik-veri]` raporundaki satır | **13** — 5'i karar, **8'i gerçek eksik** | 5 |
+| `[eksik-veri]` raporundaki satır | **10** — 5'i karar, **5'i gerçek eksik** (yalnızca `mahalleler` + A7) | 5 |
 | Ölçümleme | **yükleyici hazır, kimlik bekliyor** (B3 ✔ / A7) | GA4 + Ads dönüşümleri |
 | JS (gzip) | **2,07 KB** | < 40 KB ✔ |
 | Dış istek | **0** (kimlik girilene kadar) | — |
 | Commit'lenmemiş dosya | **0** ✔ | 0 |
 | Push bekleyen commit | **0** ✔ (29.07.2026) | 0 |
-| Son commit | `a1e27a1` | — |
+| Son commit | bkz. `git log` | — |
 | Yayın | **canlı** — https://cagribeyazesyatamir.com | ✔ |
 | Canlı SEO denetimi | **50/50 temiz · açık yok** ✔ | 0 açık |
 | HTTPS | `http://` → **301** → `https://` ✔ | — |
@@ -385,10 +445,14 @@ hizmet bölgesi, çalışma saati) konusunda **tahmin etmeyin, sorun**.
 | Dış istek | **0** ✔ (B10 kapatıldı) | 0 |
 | Blog yazısı | **11** | — |
 
-**Rapordaki 13 satırın 5'i karara bağlı ve asla dolmayacak:** 4 × `ulasimDk`
-(A2) + 1 × künye (A4). Kalan 8 satır gerçekten bekliyor: `googleIsletmeUrl` (A5),
-`gaOlcumKimligi` (A7), `markalar` (A6) + ona bağlı gizlenmiş SSS, 4 × `mahalleler`
-(A2). Rapor okunurken bu ayrım kaybolursa liste işe yaramaz hale gelir.
+**Rapordaki 10 satırın 5'i karara bağlı ve asla dolmayacak:** 4 × `ulasimDk`
+(A2) + 1 × künye (A4). Gerçekten bekleyen 5 satır: **4 × `mahalleler`** (A2) ve
+**`gaOlcumKimligi`/`adsKimligi`** (A7, tek satırda raporlanıyor). Rapor
+okunurken bu ayrım kaybolursa liste işe yaramaz hale gelir.
+
+**Rapor 16 → 10'a indi**, çünkü A5 (işletme profili) dolduruldu ve A6 (marka
+listesi) kararla kapatılıp alanı kaldırıldı. Bir alan "asla dolmayacak"
+hâle geldiğinde raporda tutulmaz — gürültülü rapor okunmaz olur.
 
 Her `npm run build` iki rapor basar: `[ilce-kapisi]` (kaç ilçe elendi) ve
 `[eksik-veri]` (hangi alan boş, sonucu ne). **Bu iki rapor bu listenin canlı
@@ -515,9 +579,23 @@ Sıra önemli: **A bitmeden yayına çıkılmaz**, B bitmeden reklam açılmaz.
       önerildi (aynı gün ~2 saat · parça garantisi · onaysız işlem yok · onarım
       yapılırsa tespit ücreti yok); para sayfasının blok sırasını değiştireceği
       için **onay bekliyor**, kendiliğinden eklenmedi.
-- [ ] **A6. Hizmet verilen marka listesi** (`firma.json`) — "Hangi markalara
-      bakıyorsunuz?" SSS'i şu an gizli. **Ayrıca D4'e bakın: markaların görüneceği
-      bir yüzey henüz yazılmadı.**
+- [x] **A6. Marka listesi TUTULMAYACAK — karar, 29.07.2026. Sahibinden marka
+      adı istemeyin.** Gerekçesi: *"tüm markaları yapıyoruz."*
+
+      Bu bir eksik veri değil, **daha iyi bir cevap**. Liste tutmak iki türlü
+      zarar verirdi: (1) asla dolmayacak bir alan her build'de raporlanır,
+      (2) listede adı geçmeyen bir markanın sahibi "bakmıyorlar" diye düşünüp
+      aramaz — yani **liste, kapsayıcı cevaptan daha az iş getirir.**
+
+      Yapılanlar: `firma.markalar` alanı **kaldırıldı** (`firma.json`,
+      `types.ts`, `veri.ts` raporu). Gizli duran marka SSS'i **açıldı** ve
+      gerçek cevapla dolduruldu — marka ayrımı yapılmadığı, bağımsız servis
+      olunduğu ve marka/model telefonda söylenirse uygun parçayla gelindiği
+      yazıyor. Footer'daki reddi beyan da düzeltildi: sitede artık hiçbir marka
+      adı geçmediği için "anılan markaların" ifadesi yanlış kalmıştı.
+
+      "Yetkili servis" ibaresi hâlâ yasak (yasak 2) — kapsayıcı cevap yazılırken
+      de kullanılmadı, kullanılmayacak.
 - [ ] **A7. GA4 ölçüm kimliği (`gaOlcumKimligi`, `G-…`) + Google Ads dönüşüm
       kimliği (`adsKimligi`, `AW-…`)** — **B3 bitti (29.07.2026), artık tek
       eksik bu.** Kimlik girilir girilmez ölçüm çalışmaya başlar, kod
@@ -742,28 +820,34 @@ Aşağıdakiler o gün için duruyor:
       Yine de yapılacaksa: 2 woff2 → `public/fonts/` (klasör henüz yok),
       `global.css` içindeki hazır `@font-face` bloğunu aç, `--font-sans` başına
       ekle, **B8 ölçümünü tekrarla ve LCP'yi bu dosyaya yaz.**
-- [ ] **D2. Hero görseli — SAHİBİNDEN GERÇEK FOTOĞRAF BEKLİYOR.**
-      Sahibi 29.07.2026'da istedi; yapılamadı, iki gerekçeyle:
+- [x] **D2. Hero görseli YAPILMAYACAK — karar, 29.07.2026: sahibi fotoğraf
+      vermeyeceğini söyledi ("öyle bir amacımız yok"). Fotoğraf istemeyin.**
 
-      1. **Stok fotoğraf konmayacak.** Yerel servis sitesinde başkasının
-         fotoğrafı "bu bizim ekibimiz / bizim aracımız" izlenimi verir. Yasak
-         3'ün (sahte yorum, sahte müşteri) aynı mantığı: doğrulanamayan bir
-         izlenim üretmek. İstenirse gerekçesiyle reddedilir.
-      2. **LCP'yi görsel devralır.** Ölçülmüş LCP 0,50–0,91 sn ve nesnesi
-         metin; hero görseli konduğu anda LCP o dosyaya bağlanır.
+      **Bu karar siteye zarar vermiyor, aksine mevcut avantajı koruyor:**
+      ölçülmüş LCP **0,50–0,91 sn** ve LCP nesnesi metin. Hero görseli konduğu
+      anda LCP o dosyaya bağlanırdı — yani görsel eklemek burada bir
+      iyileştirme değil, ölçülmüş bir kaybı göze almaktı.
 
-      Sahibinden istenen: kendi servis aracı, alet çantası veya iş sırasından
-      birkaç kare. Telefonla çekilmiş gerçek fotoğraf, stok görselden hem
-      dönüşümde hem güvende üstündür ve Google İşletme Profili'nde (A5) de
-      kullanılır.
+      **Stok fotoğraf alternatifi yok.** Yerel servis sitesinde başkasının
+      fotoğrafı "bu bizim aracımız / ekibimiz" izlenimi verir; yasak 3'ün
+      (sahte yorum, sahte müşteri) aynı mantığı. İstenirse gerekçesiyle
+      reddedilir.
 
-      Geldiğinde: AVIF + WebP yedek, `width`/`height` zorunlu,
-      `fetchpriority="high"`, `sharp` ile üretilir (zaten kurulu, `tools/`
-      altında OG üreticisi örnek). **Eklendikten sonra B8 tekrarlanmalı.**
-- [ ] **D3. Marka listesi için görünür yüzey** (A6'nın ikinci yarısı) — marka
-      adları geldiğinde basılacak bir bileşen **yok**. Yazılırken "yetkili servis"
-      ibaresi kullanılmayacak (yasak 2), izinli kalıp: "{Marka} ürünlerinde tamir
-      ve bakım hizmeti".
+      Karar değişir ve gerçek fotoğraf gelirse: AVIF + WebP yedek,
+      `width`/`height` zorunlu, `fetchpriority="high"`, `sharp` ile üretilir
+      (zaten kurulu, `tools/og-uret.mjs` örnek). **Eklendikten sonra B8
+      tekrarlanmalı.**
+
+      > Not: Google İşletme Profili'ne fotoğraf eklemek ayrı bir konu ve orada
+      > gerçekten işe yarar (yerel sıralama sinyali). Sitedeki hero kararı onu
+      > kapsamıyor; sahibi isterse profil tarafında ayrıca değerlendirilir.
+- [x] **D3. Marka yüzeyi GEREKSİZ — A6 kararıyla kapandı (29.07.2026).**
+      Marka listesi tutulmayacağı için basılacak marka adı yok; bileşen
+      yazılmadı. Cevap SSS'te düz metin olarak duruyor, o yeterli.
+
+      Karar geri alınır ve marka adları istenirse: "yetkili servis" ibaresi
+      **kullanılmayacak** (yasak 2), izinli kalıp "{Marka} ürünlerinde tamir ve
+      bakım hizmeti".
 - [ ] **D5. Arıza rehberine yazı ekle — teknik SEO bittiğine göre artık
       sıralamayı gerçekten değiştirecek iki işten biri (diğeri A5).**
 

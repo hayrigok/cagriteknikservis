@@ -97,7 +97,14 @@ export interface Firma {
    * garanti takılan parçaya göre değişiyor. Rozette olduğu gibi basılır.
    */
   garantiIfadesi: string;
-  markalar: string[];
+  /*
+    `markalar: string[]` alanı 29.07.2026'da KALDIRILDI. Sahibi marka listesi
+    vermeyeceğini, çünkü ayrım yapmadan **bütün markalara** baktıklarını
+    söyledi. Liste tutmak bu durumda yanlış: hem asla dolmayacak bir alanı her
+    build'de raporlar, hem de listede olmayan bir marka sahibini "bakmıyorlar"
+    diye düşündürüp arama kaybettirir. Cevap artık `hizmetler.json` içindeki
+    marka SSS'inde düz metin olarak duruyor.
+  */
   /** GA4 ölçüm kimliği, `G-` ile başlar. Boşken gtag.js hiç yüklenmez. */
   gaOlcumKimligi: string;
   /**

@@ -34,12 +34,38 @@
       }
     ],
     "fiyatAraligi": [
-      { "islem": "Arıza tespiti", "altTl": null, "ustTl": null, "not": "Onarım yaptırılırsa ücretsiz." },
-      { "islem": "Klima bakımı (iç + dış ünite)", "altTl": null, "ustTl": null },
-      { "islem": "Gaz dolumu (R410A / R32)", "altTl": null, "ustTl": null, "not": "{PLACEHOLDER — gaz tipine göre değişiyor mu?}" },
-      { "islem": "Gaz kaçağı tespiti ve onarımı", "altTl": null, "ustTl": null },
-      { "islem": "Elektronik kart onarımı / değişimi", "altTl": null, "ustTl": null },
-      { "islem": "Tahliye hattı açma", "altTl": null, "ustTl": null }
+      {
+        "islem": "Arıza tespiti",
+        "altTl": null,
+        "ustTl": null,
+        "not": "Onarım yaptırılırsa ücretsiz."
+      },
+      {
+        "islem": "Klima bakımı (iç + dış ünite)",
+        "altTl": null,
+        "ustTl": null
+      },
+      {
+        "islem": "Gaz dolumu (R410A / R32)",
+        "altTl": null,
+        "ustTl": null,
+        "not": "{PLACEHOLDER — gaz tipine göre değişiyor mu?}"
+      },
+      {
+        "islem": "Gaz kaçağı tespiti ve onarımı",
+        "altTl": null,
+        "ustTl": null
+      },
+      {
+        "islem": "Elektronik kart onarımı / değişimi",
+        "altTl": null,
+        "ustTl": null
+      },
+      {
+        "islem": "Tahliye hattı açma",
+        "altTl": null,
+        "ustTl": null
+      }
     ],
     "sss": [
       {
@@ -60,7 +86,7 @@
       },
       {
         "soru": "Hangi markalara bakıyorsunuz?",
-        "cevap": "{PLACEHOLDER — marka listesi} ürünlerinde tamir ve bakım hizmeti veriyoruz. Cihazınızın marka ve modelini telefonda söylerseniz uygun parçayla geliriz."
+        "cevap": "Marka ayrımı yapmıyoruz; klima ve beyaz eşyanın bütün markalarında tamir ve bakım hizmeti veriyoruz. Bağımsız bir servisiz, hiçbir üreticinin bayisi veya temsilcisi değiliz. Cihazınızın marka ve modelini telefonda söylerseniz uygun parçayla geliriz."
       },
       {
         "soru": "Gaz dolumu öncesi kaçak kontrolü yapıyor musunuz?",
@@ -104,12 +130,36 @@
       }
     ],
     "fiyatAraligi": [
-      { "islem": "Standart bakım (iç + dış ünite)", "altTl": null, "ustTl": null },
-      { "islem": "Detaylı bakım (fan çarkı ve tava sökümlü)", "altTl": null, "ustTl": null },
-      { "islem": "Filtre değişimi", "altTl": null, "ustTl": null },
-      { "islem": "Tahliye hattı açma", "altTl": null, "ustTl": null },
-      { "islem": "Gaz basıncı ölçümü", "altTl": null, "ustTl": null },
-      { "islem": "Salon tipi / kanallı klima bakımı", "altTl": null, "ustTl": null }
+      {
+        "islem": "Standart bakım (iç + dış ünite)",
+        "altTl": null,
+        "ustTl": null
+      },
+      {
+        "islem": "Detaylı bakım (fan çarkı ve tava sökümlü)",
+        "altTl": null,
+        "ustTl": null
+      },
+      {
+        "islem": "Filtre değişimi",
+        "altTl": null,
+        "ustTl": null
+      },
+      {
+        "islem": "Tahliye hattı açma",
+        "altTl": null,
+        "ustTl": null
+      },
+      {
+        "islem": "Gaz basıncı ölçümü",
+        "altTl": null,
+        "ustTl": null
+      },
+      {
+        "islem": "Salon tipi / kanallı klima bakımı",
+        "altTl": null,
+        "ustTl": null
+      }
     ],
     "sss": [
       {
@@ -170,12 +220,38 @@
       }
     ],
     "fiyatAraligi": [
-      { "islem": "Gaz kaçağı tespiti", "altTl": null, "ustTl": null, "not": "Onarım yaptırılırsa ücretsiz." },
-      { "islem": "R410A gaz dolumu", "altTl": null, "ustTl": null },
-      { "islem": "R32 gaz dolumu", "altTl": null, "ustTl": null },
-      { "islem": "R22 gaz dolumu", "altTl": null, "ustTl": null, "not": "{PLACEHOLDER — R22 hizmeti veriliyor mu?}" },
-      { "islem": "Rekor / boru kaçağı onarımı", "altTl": null, "ustTl": null },
-      { "islem": "Vakumlama ve devreye alma", "altTl": null, "ustTl": null }
+      {
+        "islem": "Gaz kaçağı tespiti",
+        "altTl": null,
+        "ustTl": null,
+        "not": "Onarım yaptırılırsa ücretsiz."
+      },
+      {
+        "islem": "R410A gaz dolumu",
+        "altTl": null,
+        "ustTl": null
+      },
+      {
+        "islem": "R32 gaz dolumu",
+        "altTl": null,
+        "ustTl": null
+      },
+      {
+        "islem": "R22 gaz dolumu",
+        "altTl": null,
+        "ustTl": null,
+        "not": "{PLACEHOLDER — R22 hizmeti veriliyor mu?}"
+      },
+      {
+        "islem": "Rekor / boru kaçağı onarımı",
+        "altTl": null,
+        "ustTl": null
+      },
+      {
+        "islem": "Vakumlama ve devreye alma",
+        "altTl": null,
+        "ustTl": null
+      }
     ],
     "sss": [
       {
@@ -235,12 +311,37 @@
       }
     ],
     "fiyatAraligi": [
-      { "islem": "Arıza tespiti", "altTl": null, "ustTl": null, "not": "Onarım yaptırılırsa ücretsiz." },
-      { "islem": "Tahliye pompası değişimi", "altTl": null, "ustTl": null },
-      { "islem": "Rulman ve keçe değişimi", "altTl": null, "ustTl": null },
-      { "islem": "Kayış değişimi", "altTl": null, "ustTl": null },
-      { "islem": "Motor kömürü değişimi", "altTl": null, "ustTl": null },
-      { "islem": "Elektronik kart onarımı / değişimi", "altTl": null, "ustTl": null }
+      {
+        "islem": "Arıza tespiti",
+        "altTl": null,
+        "ustTl": null,
+        "not": "Onarım yaptırılırsa ücretsiz."
+      },
+      {
+        "islem": "Tahliye pompası değişimi",
+        "altTl": null,
+        "ustTl": null
+      },
+      {
+        "islem": "Rulman ve keçe değişimi",
+        "altTl": null,
+        "ustTl": null
+      },
+      {
+        "islem": "Kayış değişimi",
+        "altTl": null,
+        "ustTl": null
+      },
+      {
+        "islem": "Motor kömürü değişimi",
+        "altTl": null,
+        "ustTl": null
+      },
+      {
+        "islem": "Elektronik kart onarımı / değişimi",
+        "altTl": null,
+        "ustTl": null
+      }
     ],
     "sss": [
       {
@@ -304,12 +405,37 @@
       }
     ],
     "fiyatAraligi": [
-      { "islem": "Arıza tespiti", "altTl": null, "ustTl": null, "not": "Onarım yaptırılırsa ücretsiz." },
-      { "islem": "Tahliye pompası değişimi", "altTl": null, "ustTl": null },
-      { "islem": "Su giriş valfi değişimi", "altTl": null, "ustTl": null },
-      { "islem": "Kurutma rezistansı değişimi", "altTl": null, "ustTl": null },
-      { "islem": "Kapak contası değişimi", "altTl": null, "ustTl": null },
-      { "islem": "Elektronik kart onarımı / değişimi", "altTl": null, "ustTl": null }
+      {
+        "islem": "Arıza tespiti",
+        "altTl": null,
+        "ustTl": null,
+        "not": "Onarım yaptırılırsa ücretsiz."
+      },
+      {
+        "islem": "Tahliye pompası değişimi",
+        "altTl": null,
+        "ustTl": null
+      },
+      {
+        "islem": "Su giriş valfi değişimi",
+        "altTl": null,
+        "ustTl": null
+      },
+      {
+        "islem": "Kurutma rezistansı değişimi",
+        "altTl": null,
+        "ustTl": null
+      },
+      {
+        "islem": "Kapak contası değişimi",
+        "altTl": null,
+        "ustTl": null
+      },
+      {
+        "islem": "Elektronik kart onarımı / değişimi",
+        "altTl": null,
+        "ustTl": null
+      }
     ],
     "sss": [
       {
@@ -369,12 +495,37 @@
       }
     ],
     "fiyatAraligi": [
-      { "islem": "Arıza tespiti", "altTl": null, "ustTl": null, "not": "Onarım yaptırılırsa ücretsiz." },
-      { "islem": "Gaz kaçağı tespiti ve şarj", "altTl": null, "ustTl": null },
-      { "islem": "Termostat değişimi", "altTl": null, "ustTl": null },
-      { "islem": "Defrost rezistansı / sensör değişimi", "altTl": null, "ustTl": null },
-      { "islem": "Fan motoru değişimi", "altTl": null, "ustTl": null },
-      { "islem": "Kapı contası değişimi", "altTl": null, "ustTl": null }
+      {
+        "islem": "Arıza tespiti",
+        "altTl": null,
+        "ustTl": null,
+        "not": "Onarım yaptırılırsa ücretsiz."
+      },
+      {
+        "islem": "Gaz kaçağı tespiti ve şarj",
+        "altTl": null,
+        "ustTl": null
+      },
+      {
+        "islem": "Termostat değişimi",
+        "altTl": null,
+        "ustTl": null
+      },
+      {
+        "islem": "Defrost rezistansı / sensör değişimi",
+        "altTl": null,
+        "ustTl": null
+      },
+      {
+        "islem": "Fan motoru değişimi",
+        "altTl": null,
+        "ustTl": null
+      },
+      {
+        "islem": "Kapı contası değişimi",
+        "altTl": null,
+        "ustTl": null
+      }
     ],
     "sss": [
       {
@@ -434,12 +585,37 @@
       }
     ],
     "fiyatAraligi": [
-      { "islem": "Arıza tespiti", "altTl": null, "ustTl": null, "not": "Onarım yaptırılırsa ücretsiz." },
-      { "islem": "Isı pompası eşanjörü temizliği", "altTl": null, "ustTl": null },
-      { "islem": "Rezistans / termik sigorta değişimi", "altTl": null, "ustTl": null },
-      { "islem": "Kayış ve tambur keçesi değişimi", "altTl": null, "ustTl": null },
-      { "islem": "Tahliye pompası değişimi", "altTl": null, "ustTl": null },
-      { "islem": "Elektronik kart onarımı / değişimi", "altTl": null, "ustTl": null }
+      {
+        "islem": "Arıza tespiti",
+        "altTl": null,
+        "ustTl": null,
+        "not": "Onarım yaptırılırsa ücretsiz."
+      },
+      {
+        "islem": "Isı pompası eşanjörü temizliği",
+        "altTl": null,
+        "ustTl": null
+      },
+      {
+        "islem": "Rezistans / termik sigorta değişimi",
+        "altTl": null,
+        "ustTl": null
+      },
+      {
+        "islem": "Kayış ve tambur keçesi değişimi",
+        "altTl": null,
+        "ustTl": null
+      },
+      {
+        "islem": "Tahliye pompası değişimi",
+        "altTl": null,
+        "ustTl": null
+      },
+      {
+        "islem": "Elektronik kart onarımı / değişimi",
+        "altTl": null,
+        "ustTl": null
+      }
     ],
     "sss": [
       {
@@ -499,12 +675,37 @@
       }
     ],
     "fiyatAraligi": [
-      { "islem": "Arıza tespiti", "altTl": null, "ustTl": null, "not": "Onarım yaptırılırsa ücretsiz." },
-      { "islem": "Fırın rezistansı değişimi", "altTl": null, "ustTl": null },
-      { "islem": "Termostat değişimi", "altTl": null, "ustTl": null },
-      { "islem": "Ateşleme bujisi / kıvılcım anahtarı", "altTl": null, "ustTl": null },
-      { "islem": "Termokupl (gaz emniyeti) değişimi", "altTl": null, "ustTl": null },
-      { "islem": "Davlumbaz motoru / filtre değişimi", "altTl": null, "ustTl": null }
+      {
+        "islem": "Arıza tespiti",
+        "altTl": null,
+        "ustTl": null,
+        "not": "Onarım yaptırılırsa ücretsiz."
+      },
+      {
+        "islem": "Fırın rezistansı değişimi",
+        "altTl": null,
+        "ustTl": null
+      },
+      {
+        "islem": "Termostat değişimi",
+        "altTl": null,
+        "ustTl": null
+      },
+      {
+        "islem": "Ateşleme bujisi / kıvılcım anahtarı",
+        "altTl": null,
+        "ustTl": null
+      },
+      {
+        "islem": "Termokupl (gaz emniyeti) değişimi",
+        "altTl": null,
+        "ustTl": null
+      },
+      {
+        "islem": "Davlumbaz motoru / filtre değişimi",
+        "altTl": null,
+        "ustTl": null
+      }
     ],
     "sss": [
       {
