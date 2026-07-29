@@ -178,8 +178,20 @@ gösterir, uydurma "güncellendi" tarihi ise zaten yasak.
 
 Düzyazı stilleri `global.css` sonundaki `.yazi` bloğunda —
 `@tailwindcss/typography` onaylı listede yok, otuz satır CSS bir bağımlılıktan
-ucuz. Markdown'da `> ` **uyarı kutusu** basar; güvenlik sınırları (elektrik,
-basınçlı gaz devresi, su tesisatı) orada yazılıyor ve her yazıda bulunmalı.
+ucuz. Markdown'da `> ` **uyarı kutusu** basar.
+
+**Uyarı kutusu kuralı:** okuyucuya elle bir kontrol yaptıran her yazıda
+bulunmalı ve giriş paragrafından hemen sonra gelmeli. İçinde o cihaza özgü
+somut sınır yazılır — elektrik, basınçlı gaz devresi, su tesisatı, sıcak
+yüzey. Jenerik "dikkatli olun" cümlesi işe yaramaz; okuyucunun tam da yapmaya
+niyetlendiği yanlış hareket adıyla yazılır (buzu bıçakla kazımak, kapağı
+zorlamak, gaz kokusu varken elektrik anahtarına dokunmak gibi).
+
+Elle iş yaptırmayan yazıda (örn. `tamir-ne-kadar-tutar`) kutu **aranmaz** —
+söyleyecek güvenlik sınırı yokken kutu koymak kuralı ezberden uygulamak olur
+ve gerçek uyarıların ağırlığını düşürür. Kuralın eski hâli "her yazıda"
+diyordu; 29.07.2026'da bu ayrım netleştirildi ve aynı denetimde
+`buzdolabi-sogutmuyor` yazısındaki gerçek eksik kapatıldı.
 
 Yetim sayfa yok: her yazı bağlı olduğu hizmet sayfasına ve üç yazıya link
 verir, `/blog/` hub'dır, footer ile üst çubuk oraya bağlanır.
@@ -228,12 +240,22 @@ düzenli çalışan bir betik olarak durmuyor — build zaten `[seo]` uyarısıy
 sınırları koruyor, benzersizliği de `seo.ts` içindeki `benzersizMi()` bekçisi
 build sırasında yakalıyor.
 
-**Denetimde çıkan tek yapısal zayıflık:** iki blog yazısı yalnızca 1 iç link
-alıyor (`/blog/klima-sogutmuyor/`, `/blog/tamir-ne-kadar-tutar/`), diğerleri
-4-5. Sebep, yazı sonundaki "bunlar da sık soruluyor" bloğunun 6 yazı arasından
-3 seçmesi ve dağılımın eşitsiz kalması. Yetim değiller, taranıyorlar. **Kod
-değişikliği gerekmez** — D5'teki yazılar eklendikçe dağılım kendiliğinden
-dengelenir.
+**Denetimde çıkan tek yapısal zayıflık ve YANLIŞ ÇIKAN TAHMİN:** iki blog
+yazısı yalnızca 1 iç link alıyordu. O sırada "yazı sayısı artınca dağılım
+kendiliğinden dengelenir, kod değişikliği gerekmez" denmişti.
+
+**Bu tahmin ölçüldü ve yanlış çıktı.** 5 yazı eklenince (6 → 11) dağılım
+dengelenmedi, **daha da bozuldu: 1'e karşı 11.** Sebep içerik azlığı değil
+algoritmaydı — `blog/[slug].astro` ilgili yazı listesini her yazıda **baştan**
+tarıyordu, sıralama deterministik olduğu için hep aynı ilk yazılar seçiliyordu.
+
+Çözüm, ilçelerde zaten kullanılan yöntemin aynısı: liste yazının **kendi
+konumundan sonra başlatılıp döngüsel geziliyor** (`komsuIlceler()` ile aynı
+mantık). Aynı hizmete ait yazılar yine önce geliyor, alaka düzeyi korunuyor.
+
+Sonuç: dağılım **1–11 aralığından 2–6'ya** indi, her yazı en az iki iç link
+alıyor. **Ders:** "içerik artınca düzelir" varsayımı ölçülmeden yazılmamalı;
+tek yönlü link yığılması içerik sorunu değil algoritma sorunudur.
 
 ### Türkçe yerelleştirme
 
@@ -660,16 +682,21 @@ Aşağıdakiler o gün için duruyor:
 - [ ] **D5. Arıza rehberine yazı ekle — teknik SEO bittiğine göre artık
       sıralamayı gerçekten değiştirecek iki işten biri (diğeri A5).**
 
-      İlk 6 yazı yayında (çamaşır makinesi su
-      boşaltmıyor · E10 · bulaşık makinesi su almıyor · buzdolabı soğutmuyor ·
-      klima soğutmuyor · ne kadar tutar). Sıradaki adaylar: çamaşır makinesi
-      sıkma yapmıyor, kurutma makinesi kurutmuyor, fırın ısınmıyor, klima su
-      damlatıyor, bulaşık makinesi kurulamıyor.
+      **11 yazı yayında (29.07.2026'da 6 → 11).** Çamaşır makinesi su
+      boşaltmıyor · E10 · sıkma yapmıyor · bulaşık makinesi su almıyor ·
+      kurutmuyor · buzdolabı soğutmuyor · klima soğutmuyor · klima su
+      damlatıyor · kurutma makinesi kurutmuyor · fırın ısınmıyor · ne kadar
+      tutar. **Sekiz hizmetin yedisi artık en az bir yazıyla temsil ediliyor.**
 
-      **Ek fayda:** canlı denetimde iki yazının yalnızca 1 iç link aldığı
-      görüldü (bkz. "Canlı SEO denetimi"). Yazı sayısı arttıkça "bunlar da sık
-      soruluyor" bloğunun dağılımı dengelenir — bu zayıflık kod değişikliğiyle
-      değil, içerikle kapanır.
+      Sıradaki adaylar: çamaşır makinesi kokuyor / titriyor, buzdolabı su
+      akıtıyor, klima kötü kokuyor, ocak ateşleme yapmıyor, bulaşık makinesi
+      koku yapıyor, klima gazı ne zaman biter.
+
+      **Aynı turda düzeltilen iki şey:** (1) ilgili yazı seçimi döngüsel hâle
+      getirildi — iç link dağılımı 1–11'den 2–6'ya indi, ayrıntı ve yanlış
+      çıkan tahminin kaydı "Canlı SEO denetimi" bölümünde. (2)
+      `buzdolabi-sogutmuyor` yazısında uyarı kutusu eksikti, eklendi (buzu
+      sivri cisimle kazımak — borular buzun hemen altında).
 
       Yazı eklemek = `src/content/yazilar/`
       içine tek markdown dosyası; rota, sitemap ve liste kendiliğinden güncellenir.

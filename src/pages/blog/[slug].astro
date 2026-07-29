@@ -40,13 +40,29 @@ const hizmet = yazi.data.hizmet ? hizmetBul(yazi.data.hizmet) : undefined;
 const yaziIkonu = yazi.data.hizmet ? hizmetIkonu(yazi.data.hizmet) : 'kart';
 const waMesaji = `Merhaba, "${yazi.data.baslik}" yazınızı okudum. Cihazım için servis istiyorum.`;
 
-// Diğer yazılar — aynı hizmete ait olanlar önce, sonra kalanlar. Liste döngüsel
-// gezilmez çünkü yazı sayısı az; sıralama alaka düzeyine göre daha değerli.
-const hepsi = (await getCollection('yazilar')).filter((y) => y.id !== yazi.id);
-const digerleri = [
-  ...hepsi.filter((y) => y.data.hizmet === yazi.data.hizmet),
-  ...hepsi.filter((y) => y.data.hizmet !== yazi.data.hizmet),
-].slice(0, 3);
+/*
+  Diğer yazılar — aynı hizmete ait olanlar önce (alaka), kalanlar DÖNGÜSEL
+  gezilerek doldurulur.
+
+  İlk hâli listeyi her yazıda baştan tarıyordu ve "yazı sayısı artınca dağılım
+  dengelenir" varsayılmıştı. 29.07.2026'da 11 yazıyla ölçüldü, varsayım YANLIŞ
+  çıktı: sıralama deterministik olduğu için hep aynı ilk yazılar seçiliyor,
+  dağılım 1'e karşı 11'e kadar açılmıştı. Yani sorun içerik azlığı değil
+  algoritmaydı.
+
+  Çözüm ilçelerde zaten kullanılan yöntemin aynısı (`komsuIlceler()`): listeyi
+  yazının KENDİ konumundan sonra başlatıp döngüsel gez. Her yazı farklı
+  komşulara link verir, tek yönlü link yığılması olmaz.
+*/
+const tumYazilar = (await getCollection('yazilar')).sort((a, b) => a.data.sira - b.data.sira);
+const kendiSira = tumYazilar.findIndex((y) => y.id === yazi.id);
+const dongusel = [...tumYazilar.slice(kendiSira + 1), ...tumYazilar.slice(0, kendiSira)];
+
+const ayniHizmet = dongusel.filter(
+  (y) => yazi.data.hizmet !== undefined && y.data.hizmet === yazi.data.hizmet
+);
+const kalanlar = dongusel.filter((y) => !ayniHizmet.includes(y));
+const digerleri = [...ayniHizmet, ...kalanlar].slice(0, 3);
 ---
 
 <BaseLayout

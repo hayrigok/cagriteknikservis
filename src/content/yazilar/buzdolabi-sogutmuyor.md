@@ -9,6 +9,8 @@ Buzdolabında "soğutmuyor" şikâyeti tek bir arıza değil, birkaç farklı ar
 
 İlk soru şu: **dolap hiç mi soğutmuyor, yoksa az mı soğutuyor?**
 
+> Dolabın arkasını temizlemeden önce fişi prizden çekin. Buzu bıçak, tornavida veya sivri bir cisimle kazımayın: buzun hemen altında soğutucu gaz taşıyan ince borular vardır, delerseniz dolap tamamen ölür ve gaz solunması tehlikelidir. Buz çözmek için sadece cihazı kapatıp beklemek gerekir. Arkadaki bakır boru ve kompresöre dokunmayın; devre basınçlıdır ve çalışırken sıcaktır.
+
 ## Motor çalışıyor mu?
 
 Dolabın arkasına yaklaşın ve dinleyin. Kompresörün düzenli bir uğultusu olur.
