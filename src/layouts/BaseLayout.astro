@@ -8,7 +8,7 @@
 */
 import '@/styles/global.css';
 import CerezBandi from '@/components/CerezBandi.astro';
-import { deger, firma } from '@/lib/veri';
+import { firma, olcumKimlikleri } from '@/lib/veri';
 
 interface Props {
   title: string;
@@ -40,11 +40,11 @@ const ogGorsel = new URL('/og.png', Astro.site).href;
   analytics.ts istemci paketine giriyor ve oradan `@/lib/veri` import etmek
   ilceler.json + hizmetler.json'ın tamamını tarayıcıya indirirdi.
 
-  Kimlik doldurulmamışsa nitelik hiç basılmaz; analytics.ts de o zaman
-  googletagmanager.com'a hiçbir istek yapmaz. Yani şu an dış istek SIFIR.
+  Kimlik doldurulmamışsa VEYA biçimi bozuksa nitelik hiç basılmaz; analytics.ts
+  de o zaman googletagmanager.com'a hiçbir istek yapmaz. Yani şu an dış istek
+  SIFIR. Biçim denetimi veri.ts → olcumKimlikleri() içinde, gerekçesi orada.
 */
-const gaKimlik = deger(firma.gaOlcumKimligi);
-const adsKimlik = deger(firma.adsKimligi);
+const { ga: gaKimlik, ads: adsKimlik } = olcumKimlikleri();
 ---
 
 <!doctype html>

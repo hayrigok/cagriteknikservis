@@ -187,6 +187,67 @@ function eksikVeriRaporu(): void {
   console.warn('');
 }
 
+/*
+  ÖLÇÜM KİMLİĞİ KAPISI
+
+  Kimlikler firma.json'a ELLE yapıştırılıyor ve yanlış yapıştırma SESSİZCE
+  başarısız olur: gtag.js yine de yüklenir (~90 KB), hiçbir şey ölçmez, sahibi
+  de çalıştığını sanır. Reklam parası bu sırada akmaya devam eder — sitedeki en
+  pahalı sessiz hata sınıfı bu.
+
+  Bu yüzden biçim doğrulanıyor ve geçersiz kimlik EKRANA BASILMIYOR. Böylece
+  bozuk bir kimlik yüzünden boşuna 90 KB indirilmiyor; {PLACEHOLDER}
+  sözleşmesinin aynısı: doğrulanmamış değer basılmaz, eksik rapora gider.
+
+  Build KIRILMIYOR, yüksek sesle uyarıyor — bir harf hatası yüzünden yayın
+  engellenmesi, uyarıyı görüp düzeltmekten daha zararlı olurdu.
+
+  En sık yapılan üç hata da yakalanıyor: kod parçasının tamamını yapıştırmak,
+  GA4 yerine eski UA-… kimliğini vermek, AW- yerine ölçüm etiketini vermek.
+*/
+const GA_BICIM = /^G-[A-Z0-9]{6,15}$/;
+const ADS_BICIM = /^AW-\d{9,12}$/;
+
+let kimlikRaporlandi = false;
+
+export function olcumKimlikleri(): { ga: string | null; ads: string | null } {
+  const ham = { ga: deger(firma.gaOlcumKimligi), ads: deger(firma.adsKimligi) };
+  const sonuc = {
+    ga: ham.ga && GA_BICIM.test(ham.ga) ? ham.ga : null,
+    ads: ham.ads && ADS_BICIM.test(ham.ads) ? ham.ads : null,
+  };
+
+  if (!kimlikRaporlandi) {
+    kimlikRaporlandi = true;
+    const hatalar: string[] = [];
+    if (ham.ga && !sonuc.ga) {
+      hatalar.push(
+        `  - gaOlcumKimligi = "${ham.ga}"\n` +
+          `    Beklenen biçim: G-XXXXXXXXXX (GA4). Eski "UA-..." kimlikleri artık\n` +
+          `    çalışmıyor. Yalnızca kimliği yapıştırın, kod parçasının tamamını değil.`
+      );
+    }
+    if (ham.ads && !sonuc.ads) {
+      hatalar.push(
+        `  - adsKimligi = "${ham.ads}"\n` +
+          `    Beklenen biçim: AW-123456789 (9-12 rakam). Dönüşüm ETİKETİ değil,\n` +
+          `    dönüşüm KİMLİĞİ. Etiket "AW-123/AbCd..." biçimindeki eğik çizgiden\n` +
+          `    sonraki kısımdır ve buraya değil, C1'de dönüşüm tanımına girer.`
+      );
+    }
+    if (hatalar.length > 0) {
+      console.warn(
+        `\n[olcum] ${hatalar.length} kimlik BİÇİMSİZ — sayfaya basılmıyor, ölçüm KAPALI.\n` +
+          `  Bozuk kimlikle gtag.js yüklenseydi ~90 KB inip hiçbir şey ölçmezdi.`
+      );
+      for (const h of hatalar) console.warn(h);
+      console.warn('');
+    }
+  }
+
+  return sonuc;
+}
+
 /** Sayfa üretmeye uygun ilçeler. Uygun olmayanlar build sırasında raporlanır. */
 export function gecerliIlceler(): Ilce[] {
   rapor();

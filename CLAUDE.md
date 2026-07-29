@@ -434,6 +434,19 @@ Sıra önemli: **A bitmeden yayına çıkılmaz**, B bitmeden reklam açılmaz.
       Kimlik girildikten sonra iki iş açılır: **C1** (dönüşüm tanımları) ve
       **B8** (Lighthouse'un tekrarı — gtag.js ~90 KB, mevcut ölçümler kimliksiz
       hâlin).
+
+      **Biçim kapısı var (29.07.2026):** `olcumKimlikleri()` iki kimliği de
+      doğrular; biçimsizse `[olcum]` uyarısı basar ve **kimliği sayfaya
+      basmaz**. Gerekçe: bozuk kimlik SESSİZCE başarısız olur — gtag.js yine
+      yüklenir, ~90 KB iner, hiçbir şey ölçmez ve sahibi çalıştığını sanır.
+      Reklam parası bu sırada akmaya devam eder. Bozuk değeri basmamak
+      `{PLACEHOLDER}` sözleşmesinin aynısıdır. Build **kırılmaz** — bir harf
+      hatası yüzünden yayını engellemek uyarıyı görüp düzeltmekten zararlı olurdu.
+
+      Beklenen biçimler: `G-XXXXXXXXXX` · `AW-123456789` (9–12 rakam).
+      Yakalanan üç tipik hata: kod parçasının tamamını yapıştırmak · GA4 yerine
+      eski `UA-…` vermek · `AW-` kimliği yerine dönüşüm **etiketini**
+      (`AW-123/AbCd…` eğik çizgiden sonrası) vermek.
 - [x] **A8. Gerçek alan adı** — `cagribeyazesyatamir.com` (28.07.2026). B1 ve B2 kapandı.
 - [x] Telefon + WhatsApp — `0533 667 53 44` / `905336675344` (sahibi aynı numara
       olduğunu doğruladı). CTA'lar ve form aktif.
