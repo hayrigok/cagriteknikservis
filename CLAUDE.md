@@ -324,7 +324,8 @@ hizmet bölgesi, çalışma saati) konusunda **tahmin etmeyin, sorun**.
 | Push bekleyen commit | **0** ✔ (29.07.2026) | 0 |
 | Son commit | `a1e27a1` | — |
 | Yayın | **canlı** — https://cagribeyazesyatamir.com | ✔ |
-| Canlı SEO denetimi | **50/50 temiz**, tek açık B9 | 0 açık |
+| Canlı SEO denetimi | **50/50 temiz · açık yok** ✔ | 0 açık |
+| HTTPS | `http://` → **301** → `https://` ✔ | — |
 | Sayfa ağırlığı (canlı) | **13–15 KB** Brotli · yanıt 0,28 sn | < 500 KB ✔ |
 
 **Rapordaki 13 satırın 5'i karara bağlı ve asla dolmayacak:** 4 × `ulasimDk`
@@ -593,20 +594,20 @@ Sıra önemli: **A bitmeden yayına çıkılmaz**, B bitmeden reklam açılmaz.
       gerektirirdi; sıfır sunucu mantığı ilkesinden sapmaya değmez. Canonical,
       sitemap ve iç linklerin hepsi zaten eğik çizgili sürümü gösteriyor.
       **Not olarak kalsın, aksiyon gerekmiyor.**
-- [ ] **B9. `Always Use HTTPS` — 29.07.2026 canlı SEO denetiminde çıkan TEK
-      gerçek açık. Panel ayarı, kodla ilgisi yok, kimse kod tarafında
-      düzeltmeye çalışmasın.**
+- [x] **B9. `Always Use HTTPS` açıldı — 29.07.2026, canlıda doğrulandı.**
+      `http://` artık **301** ile `https://`'e yönlendiriyor, iç sayfalar dahil.
+      Site tek protokolden yayınlanıyor. Cloudflare panel ayarıydı, kodla
+      ilgisi yoktu.
 
-      `http://cagribeyazesyatamir.com/` şu an **200 dönüyor**, https'e
-      yönlenmiyor. Site iki protokolden birden yayınlanıyor; Google bunu iki
-      ayrı site gibi görebilir ve sinyaller ikiye bölünür — canonical'ların
-      hepsi `https://` gösterdiği için hasar sınırlı ama açık gerçek.
+      Doğrulaması: `curl -4 -sI http://cagribeyazesyatamir.com/` → **301**.
 
-      Cloudflare → alan adı → **SSL/TLS → Edge Certificates → Always Use HTTPS**.
-      Aynı yerde **Automatic HTTPS Rewrites** da açılsın.
-
-      Doğrulaması: `curl -4 -sI http://cagribeyazesyatamir.com/` → **301**
-      dönmeli. 200 dönüyorsa ayar hâlâ kapalıdır.
+      **Bilinen ve kabul edilen tek çift yönlendirme:** `http://` + eğik
+      çizgisiz adres iki adım atıyor (`301` protokol → `307` eğik çizgi).
+      Yalnızca elle `http://alan.com/klima-servisi` yazan birini etkiler;
+      canonical, sitemap, iç linkler ve reklam adresi hepsi `https://` + eğik
+      çizgili sürümü kullandığı için normal akışta tek istek var. Tek adıma
+      indirmek Worker script'i gerektirir, sıfır sunucu mantığı ilkesinden
+      sapmaya değmez.
 - [ ] **B8. Gerçek cihazda Lighthouse** — performans tablosundaki LCP/INP/CLS
       hücreleri hâlâ boş. Kısıtlı 4G profiliyle, masaüstü değil mobil.
 
@@ -736,13 +737,19 @@ Sırayla, hepsi işaretlenmeden yayına çıkılmaz:
 13. [x] Yönlendirme tek adımda (`/x` → `/x/`)
 14. [x] Sitemap'teki 50 adresin tamamı canlıda **200**
 15. [x] Site **yalnızca** gerçek alan adından yayınlanıyor (`workers.dev` → 404)
-16. [ ] **`Always Use HTTPS` açık** (B9) — `http://` şu an 200 dönüyor
-17. [ ] Mobil Lighthouse: LCP < 2,0 sn · INP < 200 ms · CLS < 0,1
-18. [ ] KVKK metni avukat onaylı (E1). **Veri sorumlusu kimliği bilerek eksik —
+16. [x] **`Always Use HTTPS` açık** (B9) — `http://` → **301** → `https://`
+17. [x] Canlı SEO denetimi: 50/50 benzersiz title/description/H1, 0 bozuk
+    JSON-LD, 0 yetim sayfa, 0 dış istek
+18. [ ] Mobil Lighthouse: LCP < 2,0 sn · INP < 200 ms · CLS < 0,1 (B8)
+19. [ ] KVKK metni avukat onaylı (E1). **Veri sorumlusu kimliği bilerek eksik —
     sahibinin kararı, yayını engellemiyor (A4/E2).**
 
-**Site 29.07.2026'da yayına girdi.** Kalan maddeler yayını geri almaz; 16 ve 17
-panel/ölçüm işi, 10-11 sahibinin bir dakikalık testi, 18 hukuk.
+**Site 29.07.2026'da yayına girdi ve teknik kontrol listesi aynı gün kapandı.**
+Kalan iki madde yayını engellemiyor: 18 bir ölçüm (ve A7'den sonra tekrarı
+gerekiyor), 19 hukuki inceleme.
+
+**Bundan sonrası teknik değil içerik işi:** A5 (Google İşletme Profili) ve D5
+(blog yazıları). Sıralamayı bunlar belirleyecek.
 
 ---
 
