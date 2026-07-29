@@ -417,6 +417,29 @@ Parça parça ilerleyin, tek seferde her şeyi yapmayın. Her turun sonunda tek 
 ne değişti, neden, performans bütçesine etkisi ne. İş bilgisi (fiyat, garanti süresi,
 hizmet bölgesi, çalışma saati) konusunda **tahmin etmeyin, sorun**.
 
+### Push politikası — doğrudan canlıya (sahibinin kararı, 29.07.2026)
+
+Dal ve önizleme yok. `main`'e her push **1–2 dakikada canlıya çıkar**;
+Cloudflare repoya bağlı ve otomatik derleyip yayınlıyor. Sahibine dal + onay
+seçeneği sunuldu, doğrudan canlıyı seçti.
+
+**Bu karar hız kazandırıyor ama arada onay yok — bu yüzden kontrol push
+ÖNCESİNE alındı.** Aşağıdakiler tavsiye değil, bu politikanın bedeli:
+
+1. **Push etmeden önce `npm run build` çalıştırın ve çıktısını okuyun.**
+   Build kırılırsa Cloudflare eski sürümü canlıda tutar — yani ziyaretçi
+   bozuk sayfa görmez. Asıl tehlike build'in **geçtiği** ama içeriğin
+   bozulduğu durumlardır.
+2. **Şu dört yüzeye dokunan her değişiklikten sonra canlıyı doğrulayın:**
+   telefon linki · WhatsApp linki · form · ölçüm (`data-olay`). Bunlar
+   bozulursa site açılır, düzgün görünür ve **hiçbir hata vermez** — sadece
+   telefon çalmaz. Sessiz kayıp en pahalısıdır.
+3. **Doğrulama `curl` ile yapılmaz.** Cloudflare kenar önbelleği eski HTML
+   döndürebiliyor ve bazı script'ler yalnızca gerçek tarayıcı user-agent'ına
+   gönderiliyor (B10'da yaşandı). Gerçek tarayıcı kullanın.
+4. **Geri alma yolu hazır:** Cloudflare → proje → Deployments → önceki sürüm →
+   Rollback. Bir şey ters giderse tartışmadan geri alın, sonra bakın.
+
 ---
 
 ## Yapılacaklar
@@ -478,11 +501,12 @@ Amaca (arama sonuçlarında üst sıra → çalan telefon) hizmet sırasına gö
 | **4** | **A7 + C — Google Ads** | **Sahibi** | Telefonu **en hızlı** çaldıracak kanal, ama sahibi erteledi ("zamanı gelince söylerim"). Altyapı hazır. |
 | **5** | **E1 — KVKK avukat** | **Sahibi** | Hukuki risk; yayını engellemiyor ama açık. Brifing hazır. |
 
-**Karar bekleyen iki soru** (ikisi de sahibine soruldu, cevap gelmedi):
-- Şemadaki işletme adı gerçek ada (`Çağrı Teknik Servis`) çekilsin mi? Görünen
-  metin değişmez, Google eşleştirmesi düzelir. Bkz. A5.
-- Push'lar doğrudan canlıya mı gitsin, yoksa önce önizleme mi? Site yayında
-  olduğu için artık her push canlıyı değiştiriyor.
+**Karar bekleyen tek soru:** şemadaki işletme adı gerçek ada
+(`Çağrı Teknik Servis`) çekilsin mi? Görünen metin değişmez, Google
+eşleştirmesi düzelir. Bkz. A5.
+
+**Push politikası karara bağlandı — doğrudan canlıya** (29.07.2026). Ayrıntı
+ve bu politikanın gerektirdiği kontroller "Çalışma şekli" bölümünde.
 
 ---
 
