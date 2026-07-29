@@ -97,25 +97,36 @@ function eksikVeriRaporu(): void {
   };
 
   /*
-    KVKK m.10 aydınlatma yükümlülüğünde ZORUNLU olan tek şey veri sorumlusunun
-    kimliği: ünvan + bir iletişim kanalı. Vergi bilgisi künyeyi güçlendirir ama
-    kanunun aradığı unsur değil — bu yüzden satırlar farklı yazıldı, sahibi
-    hangisinin gerçekten yayını engellediğini raporda görsün.
+    KÜNYE YAYIMLANMAYACAK — sahibinin kararı, 29.07.2026.
 
-    Başvuru kanalı ayrı bir mesele: Veri Sorumlusuna Başvuru Usul ve Esasları
-    Tebliği başvurunun YAZILI kanaldan gelmesini şart koşar (adres, KEP, e-imza
-    veya bildirilmiş e-posta). Telefon geçerli kanal değildir, o yüzden numara
-    dolu olması bu eksiği kapatmaz.
+    unvan / adres / eposta / vergiDairesi / vergiNo bilerek boş. Beş ayrı satır
+    olarak raporlanmıyor, çünkü asla dolmayacak alanı her build'de saymak raporu
+    gürültüye çevirir ve gürültülü rapor okunmaz olur (aynı gerekçe fiyat
+    satırlarında ve ulasimDk'de de uygulandı).
+
+    Ama fiyattan farklı olarak bu bir POLİTİKA DEĞİL, KABUL EDİLMİŞ RİSK: KVKK
+    m.10 aydınlatma metninde veri sorumlusunun kimliğini zorunlu tutuyor, Başvuru
+    Tebliği m.5 de yazılı bir başvuru kanalı istiyor (telefon geçerli kanal
+    değil). İkisi de karşılanmıyor. Bu yüzden satır rapordan tamamen silinmedi,
+    tek satıra indirildi — sahibi kararı değiştirirse ne açılacağını görsün.
+
+    Karar geri alınırsa KOD DEĞİŞMEZ: firma.json'a değer girilince footer
+    künyesi, KVKK veri sorumlusu kutusu ve şemadaki address/email/vatID
+    kendiliğinden açılır. En ucuz çıkış yolu tek bir e-posta adresidir; adres
+    veya vergi bilgisi açıklamadan yazılı başvuru kanalını tek başına karşılar.
   */
-  kontrol('firma.unvan            → KVKK ZORUNLU: veri sorumlusu kimliği + footer künyesi', firma.unvan);
-  kontrol('firma.adres            → KVKK yazılı başvuru kanalı + footer künyesi + şema adresi', firma.adres);
-  if (!deger(firma.adres) && !deger(firma.eposta)) {
-    satirlar.push('firma.eposta           → KVKK ZORUNLU: adres de boş, geçerli başvuru kanalı YOK');
+  const kunye = [firma.unvan, firma.adres, firma.eposta, firma.vergiDairesi, firma.vergiNo];
+  if (kunye.every((v) => !deger(v))) {
+    satirlar.push('firma künyesi          → KARAR: yayımlanmıyor (29.07.2026). KVKK kimlik + başvuru kanalı eksik, kabul edilmiş risk');
   } else {
-    kontrol('firma.eposta           → KVKK başvurusu yalnızca posta yoluyla yapılabiliyor', firma.eposta);
+    kontrol('firma.unvan            → KVKK ZORUNLU: veri sorumlusu kimliği + footer künyesi', firma.unvan);
+    kontrol('firma.adres            → footer künyesi + şema adresi basılmıyor', firma.adres);
+    if (!deger(firma.adres) && !deger(firma.eposta)) {
+      satirlar.push('firma.eposta           → KVKK ZORUNLU: adres de boş, geçerli başvuru kanalı YOK');
+    }
+    kontrol('firma.vergiDairesi     → footer künyesi eksik (KVKK için zorunlu değil)', firma.vergiDairesi);
+    kontrol('firma.vergiNo          → footer künyesi eksik (KVKK için zorunlu değil)', firma.vergiNo);
   }
-  kontrol('firma.vergiDairesi     → footer künyesi eksik (KVKK için zorunlu değil)', firma.vergiDairesi);
-  kontrol('firma.vergiNo          → footer künyesi eksik (KVKK için zorunlu değil)', firma.vergiNo);
   kontrol('firma.googleIsletmeUrl → yorumlar bloğu hiç basılmıyor', firma.googleIsletmeUrl);
   kontrol('firma.gaOlcumKimligi   → ölçümleme kapalı', firma.gaOlcumKimligi);
   if (degerListesi(firma.markalar).length === 0) {

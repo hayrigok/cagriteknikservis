@@ -356,22 +356,27 @@ Sıra önemli: **A bitmeden yayına çıkılmaz**, B bitmeden reklam açılmaz.
       Karar geri alınırsa **kod değişmez**: `hizmetler.json`'a rakam girilince
       metinler, başlıklar ve ilk SSS kendiliğinden aralık diline döner
       (`fiyatVar` / `fiyatliVar`).
-- [ ] **A4. Ünvan, adres/e-posta, vergi dairesi, vergi no** (`firma.json`) — footer
-      künyesi ve KVKK veri sorumlusu bölümü buna bağlı.
+- [x] **A4. Künye yayımlanmayacak — karar, 29.07.2026. Sahibinden ünvan, adres,
+      e-posta veya vergi bilgisi İSTEMEYİN.**
 
-      **Hepsi aynı ağırlıkta değil**, öncelik sırası şu (29.07.2026'da ayrıştırıldı,
-      `[eksik-veri]` raporu artık bunu satır satır yazıyor):
-      1. **`unvan` — KVKK m.10 zorunlu unsuru.** Veri sorumlusunun kimliği.
-      2. **`adres` VEYA `eposta` — en az biri zorunlu.** Veri Sorumlusuna Başvuru
-         Usul ve Esasları Tebliği m.5 başvurunun **yazılı** olmasını şart koşar;
-         **telefon geçerli başvuru kanalı değildir.** Numara dolu olması bu eksiği
-         kapatmaz. `eposta` alanı bu yüzden eklendi — adres verilmek istenmezse
-         tek başına yeterli yazılı kanal olur.
-      3. `vergiDairesi` / `vergiNo` — künyeyi güçlendirir, **KVKK'nın aradığı
-         unsur değil.** Şemaya `vatID` olarak da giriyor.
+      Öncelik sırası açıkça anlatıldı (1. `unvan` — KVKK m.10 zorunlusu ·
+      2. `adres` **veya** `eposta` — en az biri, çünkü Başvuru Tebliği m.5 yazılı
+      kanal şart koşar · 3. vergi bilgisi — zorunlu değil), en ucuz çıkış yolu
+      olarak "alan adı zaten sizin, ücretsiz bir e-posta yeter, hiçbir şey
+      açıklamaz" önerildi. Sahibi **hiçbirini vermeyeceğini** söyledi.
 
-      `eposta` yalnızca KVKK sayfasında görünür, **footer'a konmadı**: sitenin
-      tezi "arayın", künyeye e-posta koymak kimsenin okumayacağı bir kanal açar.
+      **Bu fiyat kararından (A3) farklı: politika değil, KABUL EDİLMİŞ RİSK.**
+      Fiyat vermemek meşru bir ticari tercih; künye vermemek karşılanmamış bir
+      yasal yükümlülük. Sonucu E2'de yazılı. Rapordan silinmedi, **tek satıra
+      indirildi** — beş satır gürültü olurdu, sıfır satır riski görünmez yapardı.
+
+      Yansıması: footer künyesi (adres/vergi satırları) basılmıyor, şemada
+      `address` / `email` / `vatID` yok. KVKK "veri sorumlusu" kutusu adsız
+      kalmasın diye `kisaAd`'a düşüyor — **uydurma değil**, sitenin her sayfasında
+      zaten basılan ad; ama m.10'u karşılamaz.
+
+      Karar geri alınırsa **kod değişmez**: `firma.json`'a değer girilince
+      künye, KVKK kutusu ve şema alanları kendiliğinden açılır.
 - [ ] **A5. Google işletme profili URL** (`firma.json`) — yorumlar bloğu tamamen
       buna bağlı, yoksa blok hiç basılmıyor. Sahte yorum alternatifi **yok** (yasak 3).
 - [ ] **A6. Hizmet verilen marka listesi** (`firma.json`) — "Hangi markalara
@@ -490,10 +495,20 @@ Sıra önemli: **A bitmeden yayına çıkılmaz**, B bitmeden reklam açılmaz.
       karşılayan bir **taslak**, hukuki mütalaa değil. Özellikle saklama süresi ve
       aktarım bölümleri firmanın gerçek uygulamasına göre düzeltilmeli. Uyarı
       `kvkk.astro` dosya başındaki yorumda duruyor.
-- [ ] **E2. Veri sorumlusunun kimliği + başvuru kanalı** (A4'e bağlı) — ikisi de
-      aydınlatma metninde **zorunlu unsurdur**. `unvan` boş olduğu için kimlik
-      satırı basılmıyor; `adres` ve `eposta` boş olduğu için de **geçerli bir
-      yazılı başvuru kanalı yok.** Sayfa hâlâ **hukuken eksik**.
+- [ ] **E2. Veri sorumlusunun kimliği + başvuru kanalı — KARŞILANMIYOR, sahibi
+      bilerek kabul etti (29.07.2026, bkz. A4). Tekrar sormayın; avukata
+      danışılırsa gündeme gelecek madde budur.**
+
+      İkisi de aydınlatma metninde zorunlu unsur. Ticari ünvan verilmediği için
+      kimlik `kisaAd`'la karşılanıyor (m.10'u karşılamaz), adres ve e-posta
+      verilmediği için de **geçerli yazılı başvuru kanalı yok**. Site formu ad +
+      telefon + arıza açıklaması topluyor, yani veri işleme gerçekten var;
+      yaptırım KVKK m.18 idari para cezası.
+
+      İşleyişi engellemez — reklam yayınlanır, telefon çalar. Risk yalnızca
+      ilgili kişi Kurul'a şikâyette bulunursa doğar. Kapatmanın maliyeti
+      **tek bir e-posta adresidir**: alan adı zaten firmanın, adres veya vergi
+      bilgisi açıklamadan yazılı kanalı tek başına karşılar.
 
       **29.07.2026'da düzeltilen gerçek hata:** sayfa taleplerin "numarayı
       arayarak" iletilebileceğini yazıyordu. Başvuru Tebliği m.5 telefonu
@@ -519,7 +534,8 @@ Sırayla, hepsi işaretlenmeden yayına çıkılmaz:
 8. [ ] Form gönderimi WhatsApp'ı doğru ön-doldurulmuş mesajla açıyor
 9. [ ] Çerez bandı: ret → hiçbir olay gitmiyor; kabul → kuyruk akıyor
 10. [ ] Mobil Lighthouse: LCP < 2,0 sn · INP < 200 ms · CLS < 0,1
-11. [ ] KVKK metni avukat onaylı (E1) ve veri sorumlusu dolu (E2)
+11. [ ] KVKK metni avukat onaylı (E1). **Veri sorumlusu kimliği bilerek eksik —
+    sahibinin kararı, yayını engellemiyor (A4/E2).**
 12. [ ] 404 sayfası çalışıyor
 
 ---

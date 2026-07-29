@@ -36,7 +36,14 @@ import { breadcrumb } from '@/lib/schema';
 
 const waMesaji = 'Merhaba, servis talebi için bilgi almak istiyorum.';
 
-const unvan = deger(firma.unvan);
+/*
+  Ticari ünvan yayımlanmıyor (sahibinin kararı, 29.07.2026). Kutu adsız kalmasın
+  diye sitenin her sayfasında zaten basılan kısa ada düşüyoruz — bu UYDURMA
+  DEĞİL, firmanın kendini tanıttığı ad. Ama KVKK m.10'un aradığı "veri
+  sorumlusunun kimliği" unsurunu KARŞILAMAZ; ticari ünvan girildiği anda
+  otomatik olarak onun yerini alır.
+*/
+const unvan = deger(firma.unvan) ?? firma.kisaAd;
 const adres = deger(firma.adres);
 const eposta = deger(firma.eposta);
 const telefon = deger(firma.telefon);
