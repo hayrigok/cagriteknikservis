@@ -356,8 +356,22 @@ Sıra önemli: **A bitmeden yayına çıkılmaz**, B bitmeden reklam açılmaz.
       Karar geri alınırsa **kod değişmez**: `hizmetler.json`'a rakam girilince
       metinler, başlıklar ve ilk SSS kendiliğinden aralık diline döner
       (`fiyatVar` / `fiyatliVar`).
-- [ ] **A4. Ünvan, adres, vergi dairesi, vergi no** (`firma.json`) — footer künyesi
-      ve KVKK veri sorumlusu bölümü buna bağlı. **KVKK için hukuken zorunlu** (E2).
+- [ ] **A4. Ünvan, adres/e-posta, vergi dairesi, vergi no** (`firma.json`) — footer
+      künyesi ve KVKK veri sorumlusu bölümü buna bağlı.
+
+      **Hepsi aynı ağırlıkta değil**, öncelik sırası şu (29.07.2026'da ayrıştırıldı,
+      `[eksik-veri]` raporu artık bunu satır satır yazıyor):
+      1. **`unvan` — KVKK m.10 zorunlu unsuru.** Veri sorumlusunun kimliği.
+      2. **`adres` VEYA `eposta` — en az biri zorunlu.** Veri Sorumlusuna Başvuru
+         Usul ve Esasları Tebliği m.5 başvurunun **yazılı** olmasını şart koşar;
+         **telefon geçerli başvuru kanalı değildir.** Numara dolu olması bu eksiği
+         kapatmaz. `eposta` alanı bu yüzden eklendi — adres verilmek istenmezse
+         tek başına yeterli yazılı kanal olur.
+      3. `vergiDairesi` / `vergiNo` — künyeyi güçlendirir, **KVKK'nın aradığı
+         unsur değil.** Şemaya `vatID` olarak da giriyor.
+
+      `eposta` yalnızca KVKK sayfasında görünür, **footer'a konmadı**: sitenin
+      tezi "arayın", künyeye e-posta koymak kimsenin okumayacağı bir kanal açar.
 - [ ] **A5. Google işletme profili URL** (`firma.json`) — yorumlar bloğu tamamen
       buna bağlı, yoksa blok hiç basılmıyor. Sahte yorum alternatifi **yok** (yasak 3).
 - [ ] **A6. Hizmet verilen marka listesi** (`firma.json`) — "Hangi markalara
@@ -476,9 +490,18 @@ Sıra önemli: **A bitmeden yayına çıkılmaz**, B bitmeden reklam açılmaz.
       karşılayan bir **taslak**, hukuki mütalaa değil. Özellikle saklama süresi ve
       aktarım bölümleri firmanın gerçek uygulamasına göre düzeltilmeli. Uyarı
       `kvkk.astro` dosya başındaki yorumda duruyor.
-- [ ] **E2. Veri sorumlusunun kimliği** (A4'e bağlı) — aydınlatma metninde
-      **zorunlu unsurdur**. Ünvan/adres/vergi boş olduğu için o satırlar
-      basılmıyor; sayfa şu an **hukuken eksik**, yalnızca görsel olarak düzgün.
+- [ ] **E2. Veri sorumlusunun kimliği + başvuru kanalı** (A4'e bağlı) — ikisi de
+      aydınlatma metninde **zorunlu unsurdur**. `unvan` boş olduğu için kimlik
+      satırı basılmıyor; `adres` ve `eposta` boş olduğu için de **geçerli bir
+      yazılı başvuru kanalı yok.** Sayfa hâlâ **hukuken eksik**.
+
+      **29.07.2026'da düzeltilen gerçek hata:** sayfa taleplerin "numarayı
+      arayarak" iletilebileceğini yazıyordu. Başvuru Tebliği m.5 telefonu
+      başvuru kanalı saymaz — metin ilgili kişiye yanlış yol tarif ediyordu.
+      Şimdi kanal yoksa numara **başvurunun kendisi için değil, başvuru adresini
+      almak için** gösteriliyor ve telefonun resmî başvuru yerine geçmediği
+      açıkça yazıyor. Tebliğ m.5/2'nin istediği başvuru içeriği (ad soyad, imza,
+      T.C. kimlik no, tebligat adresi, talep konusu) de sayfaya eklendi.
 
 ---
 

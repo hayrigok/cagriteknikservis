@@ -9,10 +9,18 @@
      özellikle saklama süresi ve aktarım bölümleri firmanın gerçek uygulamasına
      göre düzeltilmeli.
 
-  2. Aydınlatma metninde VERİ SORUMLUSUNUN KİMLİĞİ zorunlu unsurdur. Ünvan,
-     adres ve vergi bilgisi firma.json'da boş olduğu sürece o satırlar sayfaya
-     basılmaz — yani bu sayfa ŞU AN EKSİKTİR. Build çıktısındaki [eksik-veri]
-     raporu bu alanları her seferinde listeler.
+  2. Aydınlatma metninde VERİ SORUMLUSUNUN KİMLİĞİ zorunlu unsurdur (KVKK m.10).
+     `unvan` boş olduğu sürece o satır basılmaz — yani bu sayfa ŞU AN EKSİKTİR.
+     Build çıktısındaki [eksik-veri] raporu alanları her seferinde listeler.
+
+  3. BAŞVURU KANALI ayrı bir zorunluluk. Veri Sorumlusuna Başvuru Usul ve
+     Esasları Hakkında Tebliğ m.5 başvurunun yazılı olmasını şart koşar;
+     TELEFON GEÇERLİ KANAL DEĞİLDİR. Bu yüzden numaranın dolu olması eksiği
+     kapatmaz: `adres` veya `eposta` gelmeden sitede geçerli başvuru kanalı yok.
+     Sayfanın ilk hâli telefonu başvuru kanalı gösteriyordu, düzeltildi.
+
+  4. `vergiDairesi` / `vergiNo` künyeyi güçlendirir ama KVKK'nın aradığı unsur
+     DEĞİLDİR. Yayın önceliği sırası: unvan → adres veya eposta → vergi.
 */
 import BaseLayout from '@/layouts/BaseLayout.astro';
 import Bolum from '@/components/Bolum.astro';
@@ -30,7 +38,19 @@ const waMesaji = 'Merhaba, servis talebi için bilgi almak istiyorum.';
 
 const unvan = deger(firma.unvan);
 const adres = deger(firma.adres);
+const eposta = deger(firma.eposta);
 const telefon = deger(firma.telefon);
+
+/*
+  Veri Sorumlusuna Başvuru Usul ve Esasları Hakkında Tebliğ m.5: başvuru YAZILI
+  olarak ya da KEP / güvenli e-imza / mobil imza / veri sorumlusuna bildirilmiş
+  e-posta ile yapılır. TELEFON GEÇERLİ BAŞVURU KANALI DEĞİLDİR — sayfanın önceki
+  hâli telefonu başvuru kanalı olarak gösteriyordu, düzeltildi.
+
+  Bu yüzden numara dolu olması eksiği kapatmaz: adres veya e-posta gelmeden
+  sitede geçerli bir başvuru kanalı yok.
+*/
+const yaziliKanalVar = Boolean(adres || eposta);
 const vergiSatiri = [
   deger(firma.vergiDairesi) && `Vergi dairesi: ${deger(firma.vergiDairesi)}`,
   deger(firma.vergiNo) && `Vergi no: ${deger(firma.vergiNo)}`,
@@ -94,6 +114,7 @@ const haklar = [
         {adres && <p>{adres}</p>}
         {vergiSatiri && <p>{vergiSatiri}</p>}
         {telefon && <p>Telefon: <span class="rakam">{telefon}</span></p>}
+        {eposta && <p>E-posta: {eposta}</p>}
       </div>
     </div>
   </Bolum>
@@ -193,13 +214,61 @@ const haklar = [
 
   <Bolum etiket="8" baslik="Başvuru">
     <div class="max-w-3xl space-y-4 leading-relaxed text-metin">
-      {/* Adres basılmıyorsa "yukarıdaki adrese" diye bir yere işaret edemeyiz;
-          cümle o zaman yalnızca telefon kanalını gösterir. */}
       <p>
-        Yukarıdaki haklarınıza ilişkin taleplerinizi
-        {adres && <> birinci bölümdeki adrese yazılı olarak ya da</>}
-        {telefon && <span class="rakam"> {telefon}</span>} numarasını arayarak iletebilirsiniz.
-        Talebiniz en geç otuz gün içinde sonuçlandırılır.
+        Yukarıdaki haklarınıza ilişkin talepleriniz, Veri Sorumlusuna Başvuru Usul ve
+        Esasları Hakkında Tebliğ uyarınca <strong class="text-lacivert-900">yazılı
+        olarak</strong> iletilir. Talebiniz en geç <strong class="text-lacivert-900">otuz
+        gün</strong> içinde sonuçlandırılır ve işlemin ayrıca bir maliyeti yoksa ücret
+        alınmaz.
+      </p>
+
+      {
+        yaziliKanalVar ? (
+          <ul class="grid gap-3">
+            {adres && (
+              <li class="flex items-start gap-3 rounded-sm border-l-4 border-turuncu-600 bg-zemin px-5 py-4">
+                <Ikon ad="konum" boyut={18} class="mt-1 shrink-0 text-turuncu-600" />
+                <span>
+                  <span class="font-bold text-lacivert-900">Posta ile</span>
+                  <span class="text-metin-soluk">
+                    {' '}— ıslak imzalı dilekçenizi birinci bölümdeki adrese elden veya
+                    iadeli taahhütlü olarak gönderin.
+                  </span>
+                </span>
+              </li>
+            )}
+            {eposta && (
+              <li class="flex items-start gap-3 rounded-sm border-l-4 border-turuncu-600 bg-zemin px-5 py-4">
+                <Ikon ad="kart" boyut={18} class="mt-1 shrink-0 text-turuncu-600" />
+                <span>
+                  <span class="font-bold text-lacivert-900">E-posta ile</span>
+                  <span class="text-metin-soluk">
+                    {' '}— {eposta} adresine, daha önce bize bildirdiğiniz e-posta
+                    adresinizden ya da güvenli elektronik imzanızla gönderin.
+                  </span>
+                </span>
+              </li>
+            )}
+          </ul>
+        ) : (
+          /* Geçerli yazılı kanal henüz yok. Telefonu başvuru kanalı gibi göstermek
+             tebliğe aykırı olurdu; bu yüzden numara başvurunun kendisi için değil,
+             başvuru adresini almak için gösteriliyor. */
+          telefon && (
+            <p>
+              Başvuru adresimizi öğrenmek için
+              <span class="rakam"> {telefon}</span> numarasını arayabilirsiniz. Telefon
+              görüşmesi tek başına resmî başvuru yerine geçmez; talebinizi yazılı olarak
+              iletmeniz gerekir.
+            </p>
+          )
+        )
+      }
+
+      <p class="text-kucuk text-metin-soluk">
+        Başvurunuzda adınız soyadınız, yazılı başvurularda imzanız, T.C. kimlik numaranız
+        (yabancıysanız uyruğunuz ve pasaport numaranız), tebligata esas adresiniz, varsa
+        bildirime esas telefon veya e-posta bilginiz ile talep konunuz bulunmalıdır.
       </p>
     </div>
   </Bolum>

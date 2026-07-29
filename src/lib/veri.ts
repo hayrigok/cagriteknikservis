@@ -96,10 +96,26 @@ function eksikVeriRaporu(): void {
     if (!deger(v)) satirlar.push(etiket);
   };
 
-  kontrol('firma.unvan            → footer künyesi + KVKK veri sorumlusu boş', firma.unvan);
-  kontrol('firma.adres            → footer künyesi + KVKK veri sorumlusu boş', firma.adres);
-  kontrol('firma.vergiDairesi     → footer künyesi + KVKK boş', firma.vergiDairesi);
-  kontrol('firma.vergiNo          → footer künyesi + KVKK boş', firma.vergiNo);
+  /*
+    KVKK m.10 aydınlatma yükümlülüğünde ZORUNLU olan tek şey veri sorumlusunun
+    kimliği: ünvan + bir iletişim kanalı. Vergi bilgisi künyeyi güçlendirir ama
+    kanunun aradığı unsur değil — bu yüzden satırlar farklı yazıldı, sahibi
+    hangisinin gerçekten yayını engellediğini raporda görsün.
+
+    Başvuru kanalı ayrı bir mesele: Veri Sorumlusuna Başvuru Usul ve Esasları
+    Tebliği başvurunun YAZILI kanaldan gelmesini şart koşar (adres, KEP, e-imza
+    veya bildirilmiş e-posta). Telefon geçerli kanal değildir, o yüzden numara
+    dolu olması bu eksiği kapatmaz.
+  */
+  kontrol('firma.unvan            → KVKK ZORUNLU: veri sorumlusu kimliği + footer künyesi', firma.unvan);
+  kontrol('firma.adres            → KVKK yazılı başvuru kanalı + footer künyesi + şema adresi', firma.adres);
+  if (!deger(firma.adres) && !deger(firma.eposta)) {
+    satirlar.push('firma.eposta           → KVKK ZORUNLU: adres de boş, geçerli başvuru kanalı YOK');
+  } else {
+    kontrol('firma.eposta           → KVKK başvurusu yalnızca posta yoluyla yapılabiliyor', firma.eposta);
+  }
+  kontrol('firma.vergiDairesi     → footer künyesi eksik (KVKK için zorunlu değil)', firma.vergiDairesi);
+  kontrol('firma.vergiNo          → footer künyesi eksik (KVKK için zorunlu değil)', firma.vergiNo);
   kontrol('firma.googleIsletmeUrl → yorumlar bloğu hiç basılmıyor', firma.googleIsletmeUrl);
   kontrol('firma.gaOlcumKimligi   → ölçümleme kapalı', firma.gaOlcumKimligi);
   if (degerListesi(firma.markalar).length === 0) {

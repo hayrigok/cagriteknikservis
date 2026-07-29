@@ -82,6 +82,12 @@ export interface Firma {
   whatsapp: string;
   adres: string;
   sehir: string;
+  /**
+   * KVKK başvuru e-postası. Bilerek ayrı bir alan: Veri Sorumlusuna Başvuru
+   * Tebliği'ne göre başvuru YAZILI kanaldan gelmek zorunda, telefon geçerli
+   * kanal değil. Adres yoksa tek yazılı kanal budur.
+   */
+  eposta: string;
   vergiDairesi: string;
   vergiNo: string;
   calismaSaatleri: string;

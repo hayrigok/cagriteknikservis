@@ -70,6 +70,8 @@ export function hvacBusiness(site: URL) {
     name: firma.kisaAd,
     legalName: firma.unvan,
     telephone: firma.telefon,
+    email: firma.eposta,
+    vatID: firma.vergiNo,
     url: site.href,
     image: mutlak(site, '/og.png'),
     address: temiz({
