@@ -662,8 +662,13 @@ Sırayla, hepsi işaretlenmeden yayına çıkılmaz:
 8. [x] **Cloudflare deploy tamam, alan adı bağlı** (B7) — 29.07.2026
 9. [x] Telefon ve WhatsApp bağlantıları **gerçek cihazda** test edildi —
     sahibi doğruladı, 29.07.2026
-10. [ ] Form gönderimi WhatsApp'ı doğru ön-doldurulmuş mesajla açıyor
-11. [ ] Çerez bandı: ret → hiçbir olay gitmiyor; kabul → kuyruk akıyor
+10. [x] Form gönderimi WhatsApp'ı doğru ön-doldurulmuş mesajla açıyor —
+    sahibi gerçek cihazda doğruladı, 29.07.2026
+11. [x] Çerez bandı mantığı: ret → script yüklenmiyor, kuyruk atılıyor; kabul →
+    sıra `consent update` → `js` → `config` → kuyruk. **Headless Chrome ile
+    dört yol test edildi (B3).** *Maddenin eski hâli sahibinden canlıda olay
+    akışını doğrulamasını istiyordu; kimlik girilmeden gidecek olay yok, yani
+    o test A7'siz YAPILAMAZ. Canlı uçtan uca doğrulama C5'e taşındı.*
 12. [x] 404 sayfası canlıda **404 statüsüyle** çalışıyor
 13. [x] Yönlendirme tek adımda (`/x` → `/x/`)
 14. [x] Sitemap'teki 50 adresin tamamı canlıda **200**
