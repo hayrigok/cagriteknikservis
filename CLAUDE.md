@@ -265,22 +265,48 @@ Küçük harfe çevirirken **daima** `toLocaleLowerCase('tr-TR')` kullanın — 
 
 ## Performans bütçesi — tavsiye değil, kabul kriteri
 
-| Ölçüt | Sınır | Şu an |
-|---|---|---|
-| LCP | < 2,0 sn | görsel yok, LCP metin |
-| INP | < 200 ms | — |
-| CLS | < 0,1 | — |
-| JS (gzip) | < 40 KB | **~2,07 KB** (+ onay verilirse gtag.js ~90 KB) |
-| Sayfa toplamı | < 500 KB | ana sayfa **78,6 KB** (gzip 15,9 KB), hizmet sayfası ~81 KB |
+**Ölçüldü — 29.07.2026, canlı siteden.** Chrome DevTools Protocol, 412×823
+mobil, **4× CPU yavaşlatma + kısıtlı 4G** (1,6 Mbps / 150 ms). Ölçüm betiği
+scratchpad'de kaldı, repoya girmedi (tek seferlik iş, `ws` gerektirmiyor —
+Node 22+ yerleşik WebSocket ile CDP sürülüyor, paket kurulmadı).
+
+| Ölçüt | Sınır | Ana sayfa | Para sayfası | Blog yazısı |
+|---|---|---|---|---|
+| **LCP** | < 2,0 sn | **0,91 sn** ✔ | **0,91 sn** ✔ | **0,50 sn** ✔ |
+| **CLS** | < 0,1 | **0,000** ✔ | **0,000** ✔ | **0,000** ✔ |
+| FCP | — | 0,91 sn | 0,54 sn | 0,50 sn |
+| TTFB | — | 0,59 sn | 0,11 sn | 0,10 sn |
+| Uzun görev toplamı | — | 421 ms | 379 ms | 319 ms |
+| Sayfa toplamı | < 500 KB | **21,3 KB** | 19,6 KB | 18,6 KB |
+| JS (gzip) | < 40 KB | **~2,07 KB** (+ onay verilirse gtag.js ~90 KB) | | |
+
+LCP bütçenin **yarısından az**, CLS tam sıfır. Uzun görev süresi JS'ten değil
+(2 KB), satır içi CSS'in ayrıştırılıp uygulanmasından geliyor; 4× yavaşlatılmış
+CPU'da beklenen değer. INP ölçülemedi — gerçek etkileşim gerektiriyor, sentetik
+ortamda üretilemez.
+
+**Bu rakamlar ölçüm kimliği girilmeden önceki hâlin.** gtag.js ~90 KB ve onay
+veren her ziyaretçide iniyor; A7'den sonra ölçüm **tekrarlanmalı**.
 
 **Dış kaynak isteği sıfır**: CSS tamamen inline, yazı tipi indirilmiyor, ikonlar
 satır içi SVG. HTML içindeki tek `https://` referansı canonical etiketi — o bir
 kaynak yüklemesi değil.
 
-**Tek istisna gtag.js** (B3) ve o da iki kapıdan geçiyor: kimlik girilmemişse
-hiç yüklenmez, girilmişse yalnızca **onay veren** ziyaretçide `async` iner.
-Reddeden veya karar vermeyen ziyaretçi için dış istek hâlâ sıfır. Bu istisnayı
-genişletmeyin — başka üçüncü taraf script eklemek yasak 5'e tabidir.
+**Tek planlı istisna gtag.js** (B3) ve o da iki kapıdan geçiyor: kimlik
+girilmemişse hiç yüklenmez, girilmişse yalnızca **onay veren** ziyaretçide
+`async` iner. Bu istisnayı genişletmeyin — başka üçüncü taraf script eklemek
+yasak 5'e tabidir.
+
+**⚠️ PLANSIZ İSTİSNA — Cloudflare Web Analytics beacon'ı (29.07.2026'da
+ölçümde yakalandı, bkz. B10).** Cloudflare, ürettiğimiz HTML'e **kenar
+sunucuda** `static.cloudflareinsights.com/beacon.min.js` script'ini enjekte
+ediyor. Kodumuzda yok, `dist/` içinde yok — **yalnızca tarayıcı user-agent'ıyla
+istendiğinde** ekleniyor, bu yüzden `curl` ile bakan biri göremez ve
+`dist/` üzerinde yapılan denetimlerden kaçar.
+
+Sonucu: sıfır-dış-istek özelliği fiilen bozulmuş durumda ve script **çerez
+onayından bağımsız** çalışıyor. Ölçümü tekrarlarken bu tuzağa dikkat: dış
+istek saymak için **gerçek tarayıcı** kullanın, `curl` yeterli değil.
 
 Renk belirteçlerinin tamamı WCAG oranı **hesaplanarak** seçildi, gözle değil;
 oranlar `global.css` içinde her belirtecin yanında ve `design-system/MASTER.md`
@@ -630,15 +656,37 @@ Sıra önemli: **A bitmeden yayına çıkılmaz**, B bitmeden reklam açılmaz.
       çizgili sürümü kullandığı için normal akışta tek istek var. Tek adıma
       indirmek Worker script'i gerektirir, sıfır sunucu mantığı ilkesinden
       sapmaya değmez.
-- [ ] **B8. Gerçek cihazda Lighthouse** — performans tablosundaki LCP/INP/CLS
-      hücreleri hâlâ boş. Kısıtlı 4G profiliyle, masaüstü değil mobil.
+- [x] **B8. Mobil performans ölçüldü — 29.07.2026. LCP 0,50–0,91 sn · CLS 0,000
+      · sayfa 18,6–21,3 KB.** Bütçenin tamamı karşılanıyor, ayrıntı ve yöntem
+      "Performans bütçesi" bölümünde.
 
-      Canlıdan ölçülen ham veriler (29.07.2026): yanıt **0,28 sn** · sayfa
-      başına **13–15 KB** Brotli · dış istek **0**. LCP/INP/CLS bunlardan
-      türetilemez, gerçek cihazda ölçülmeli.
+      PageSpeed Insights API kotaya takıldı (429, anahtarsız kullanımda olur);
+      ölçüm Chrome DevTools Protocol ile yerel yapıldı — 4× CPU yavaşlatma +
+      kısıtlı 4G. **INP ölçülemedi**, gerçek etkileşim gerektiriyor.
 
-      **Ölçüm kimliği girildikten sonra (A7) tekrarlanmalı** — gtag.js ~90 KB
-      ve onay veren her ziyaretçide iniyor; şu anki rakamlar onsuz hâlin.
+      **A7'den sonra tekrarlanmalı** (gtag.js ~90 KB).
+- [ ] **B10. Cloudflare Web Analytics beacon'ı kapatılmalı — panel ayarı.**
+      Ölçüm sırasında yakalandı: Cloudflare kenar sunucuda HTML'e
+      `static.cloudflareinsights.com/beacon.min.js` enjekte ediyor
+      (token `e88fdfa3…`). Kodumuzda yok, `dist/` içinde yok, **yalnızca
+      tarayıcı user-agent'ıyla** görünüyor.
+
+      **Neden kapatılmalı — üç gerekçe, üçüncüsü asıl olan:**
+      1. Sıfır-dış-istek özelliği fiilen bozuk; yeni bir origin'e DNS + TLS +
+         istek ekliyor.
+      2. Onaysız üçüncü taraf script (yasak 5) — biz eklemedik ama sonuç aynı.
+      3. **`/kvkk/` sayfası "ölçümleme çerezleri yalnızca siz onay verirseniz
+         çalışır" diyor.** Bu beacon onaydan bağımsız çalışıyor. Cloudflare Web
+         Analytics çerezsizdir ve cihazda veri saklamaz — yani muhtemelen
+         hukuken onay gerektirmez — ama metnin kesin ifadesi artık tam doğru
+         değil. **Ya beacon kapanmalı ya metin düzeltilmeli; ikisi birden
+         olduğu gibi kalamaz.**
+
+      Kapatma yeri: Cloudflare → alan adı → **Analytics & Logs → Web
+      Analytics** → siteyi bulup kapatın.
+
+      Kapatmama kararı verilirse `kvkk.astro`'daki çerez bölümüne bu beacon
+      açıkça yazılmalı — sessiz bırakılmamalı.
 
 ---
 
@@ -707,10 +755,21 @@ Aşağıdakiler o gün için duruyor:
 
 ### E. Hukuk
 
-- [ ] **E1. `/kvkk/` metnini avukata okutun.** Kanunun istediği başlıkları
-      karşılayan bir **taslak**, hukuki mütalaa değil. Özellikle saklama süresi ve
-      aktarım bölümleri firmanın gerçek uygulamasına göre düzeltilmeli. Uyarı
-      `kvkk.astro` dosya başındaki yorumda duruyor.
+- [ ] **E1. `/kvkk/` metnini avukata okutun. Brifing hazır:
+      `docs/kvkk-avukat-brifingi.md` — avukata bu dosyayı verin.**
+
+      Metin kanunun istediği başlıkları karşılayan bir **taslak**, hukuki
+      mütalaa değil. Uyarı `kvkk.astro` dosya başındaki yorumda da duruyor.
+
+      Brifing 29.07.2026'da yazıldı ve avukatın en çok yanılabileceği noktayı
+      en başa koyuyor: **site e-ticaret değil, arkasında sunucu ve veritabanı
+      yok**; veri firmaya ziyaretçinin kendi WhatsApp'ından ulaşıyor. Bu
+      anlaşılmadan metnin aktarım bölümü yanlış değerlendirilir.
+
+      İçinde 7 somut soru var (ünvansız m.10 · yazılı kanal · saklama süresi ·
+      hukuki sebep · WhatsApp aktarımı · çerezsiz analitik · ayrı çerez
+      politikası gerekir mi) ve doğruluğu teyit edilmiş bölümler ayrıca
+      işaretli ki avukat oraya vakit harcamasın.
 - [ ] **E2. Veri sorumlusunun kimliği + başvuru kanalı — KARŞILANMIYOR, sahibi
       bilerek kabul etti (29.07.2026, bkz. A4). Tekrar sormayın; avukata
       danışılırsa gündeme gelecek madde budur.**
