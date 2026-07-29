@@ -297,16 +297,21 @@ girilmemişse hiç yüklenmez, girilmişse yalnızca **onay veren** ziyaretçide
 `async` iner. Bu istisnayı genişletmeyin — başka üçüncü taraf script eklemek
 yasak 5'e tabidir.
 
-**⚠️ PLANSIZ İSTİSNA — Cloudflare Web Analytics beacon'ı (29.07.2026'da
-ölçümde yakalandı, bkz. B10).** Cloudflare, ürettiğimiz HTML'e **kenar
-sunucuda** `static.cloudflareinsights.com/beacon.min.js` script'ini enjekte
-ediyor. Kodumuzda yok, `dist/` içinde yok — **yalnızca tarayıcı user-agent'ıyla
-istendiğinde** ekleniyor, bu yüzden `curl` ile bakan biri göremez ve
-`dist/` üzerinde yapılan denetimlerden kaçar.
+**Bir kez bozuldu ve düzeltildi — Cloudflare RUM beacon'ı (29.07.2026, B10).**
+Cloudflare, ürettiğimiz HTML'e **kenar sunucuda**
+`static.cloudflareinsights.com/beacon.min.js` enjekte ediyordu. Kodumuzda
+yoktu, `dist/` içinde yoktu; **yalnızca tarayıcı user-agent'ıyla** ekleniyordu.
+Panelden kapatıldı (Web Analytics → Manage site → RUM → **Disable**), gerçek
+Chrome ile doğrulandı: **dış istek 0**.
 
-Sonucu: sıfır-dış-istek özelliği fiilen bozulmuş durumda ve script **çerez
-onayından bağımsız** çalışıyor. Ölçümü tekrarlarken bu tuzağa dikkat: dış
-istek saymak için **gerçek tarayıcı** kullanın, `curl` yeterli değil.
+**Denetim yaparken iki tuzak — ikisi de bu olayda yaşandı:**
+1. **`curl` yetmez.** Beacon yalnızca tarayıcı UA'sına gönderiliyordu; `curl`
+   ve `dist/` üzerinde yapılan bütün önceki denetimlerden kaçmıştı. Dış istek
+   saymak için **gerçek tarayıcı** kullanın.
+2. **Kenar önbelleği yanıltır.** Ayar kapatıldıktan sonra bazı adresler hâlâ
+   beacon'lı HTML döndürdü (`CF-Cache-Status: HIT`). Değişikliği doğrularken
+   birkaç farklı sayfaya bakın; tek bir `curl` sonucuna göre "hâlâ duruyor"
+   veya "kalktı" demeyin.
 
 Renk belirteçlerinin tamamı WCAG oranı **hesaplanarak** seçildi, gözle değil;
 oranlar `global.css` içinde her belirtecin yanında ve `design-system/MASTER.md`
@@ -377,7 +382,7 @@ hizmet bölgesi, çalışma saati) konusunda **tahmin etmeyin, sorun**.
 | **Mobil LCP** (ölçüldü) | **0,50–0,91 sn** ✔ | < 2,0 sn |
 | **Mobil CLS** (ölçüldü) | **0,000** ✔ | < 0,1 |
 | Sayfa ağırlığı (mobil, ölçüldü) | **18,6–21,3 KB** ✔ | < 500 KB |
-| Dış istek | **1 — Cloudflare beacon** ⚠️ (B10) | 0 |
+| Dış istek | **0** ✔ (B10 kapatıldı) | 0 |
 | Blog yazısı | **11** | — |
 
 **Rapordaki 13 satırın 5'i karara bağlı ve asla dolmayacak:** 4 × `ulasimDk`
@@ -669,28 +674,30 @@ Sıra önemli: **A bitmeden yayına çıkılmaz**, B bitmeden reklam açılmaz.
       kısıtlı 4G. **INP ölçülemedi**, gerçek etkileşim gerektiriyor.
 
       **A7'den sonra tekrarlanmalı** (gtag.js ~90 KB).
-- [ ] **B10. Cloudflare Web Analytics beacon'ı kapatılmalı — panel ayarı.**
-      Ölçüm sırasında yakalandı: Cloudflare kenar sunucuda HTML'e
-      `static.cloudflareinsights.com/beacon.min.js` enjekte ediyor
-      (token `e88fdfa3…`). Kodumuzda yok, `dist/` içinde yok, **yalnızca
-      tarayıcı user-agent'ıyla** görünüyor.
+- [x] **B10. Cloudflare RUM beacon'ı kapatıldı — 29.07.2026, doğrulandı.**
+      B8 ölçümü sırasında yakalanmıştı: Cloudflare kenar sunucuda HTML'e
+      `static.cloudflareinsights.com/beacon.min.js` enjekte ediyordu.
 
-      **Neden kapatılmalı — üç gerekçe, üçüncüsü asıl olan:**
-      1. Sıfır-dış-istek özelliği fiilen bozuk; yeni bir origin'e DNS + TLS +
-         istek ekliyor.
-      2. Onaysız üçüncü taraf script (yasak 5) — biz eklemedik ama sonuç aynı.
-      3. **`/kvkk/` sayfası "ölçümleme çerezleri yalnızca siz onay verirseniz
-         çalışır" diyor.** Bu beacon onaydan bağımsız çalışıyor. Cloudflare Web
-         Analytics çerezsizdir ve cihazda veri saklamaz — yani muhtemelen
-         hukuken onay gerektirmez — ama metnin kesin ifadesi artık tam doğru
-         değil. **Ya beacon kapanmalı ya metin düzeltilmeli; ikisi birden
-         olduğu gibi kalamaz.**
+      Kapatma yeri (tekrar gerekirse): Cloudflare → **Analytics & Logs → Web
+      Analytics** → siteyi seç → **Manage site** → *Real User Measurements
+      (RUM)* → **Disable** → **Update**. Hesap seviyesinde bir ekran, alan
+      adının içinde değil.
 
-      Kapatma yeri: Cloudflare → alan adı → **Analytics & Logs → Web
-      Analytics** → siteyi bulup kapatın.
+      **Neden kapatıldı — üçüncü gerekçe asıl olanı:**
+      1. Sıfır-dış-istek özelliği bozuluyordu; yeni bir origin'e DNS + TLS +
+         istek ekliyordu.
+      2. Onaysız üçüncü taraf script (yasak 5) — biz eklemedik, sonuç aynı.
+      3. **`/kvkk/` "ölçümleme çerezleri yalnızca siz onay verirseniz çalışır"
+         diyor, beacon ise onaydan bağımsız çalışıyordu.** Çerezsiz olduğu için
+         muhtemelen hukuken onay gerekmiyordu, ama metnin kesin ifadesi
+         yanlışlanıyordu. Alternatif, beacon'ı bırakıp KVKK metnine yazmaktı;
+         kapatmak seçildi çünkü GA4 zaten gelecek ve iki ayrı ölçüm katmanı
+         tutmanın karşılığı yok.
 
-      Kapatmama kararı verilirse `kvkk.astro`'daki çerez bölümüne bu beacon
-      açıkça yazılmalı — sessiz bırakılmamalı.
+      Doğrulama: gerçek Chrome, önbellek kapalı, iki sayfa → **dış istek 0**.
+
+      **Bir daha açılmasın.** Cloudflare bu ayarı yeni sitelerde varsayılan
+      açık getiriyor; alan adı taşınır veya proje yeniden kurulursa kontrol edin.
 
 ---
 
@@ -858,17 +865,20 @@ Sırayla, hepsi işaretlenmeden yayına çıkılmaz:
     JSON-LD, 0 yetim sayfa, 0 dış istek
 18. [x] **Mobil performans ölçüldü** (B8): LCP **0,50–0,91 sn** · CLS
     **0,000** · sayfa **18,6–21,3 KB**. INP sentetik ortamda ölçülemez.
-19. [ ] **Cloudflare Web Analytics beacon'ı kapatıldı** (B10) — ya da
-    kapatılmayacaksa `/kvkk/` metni buna göre düzeltildi
+19. [x] **Cloudflare RUM beacon'ı kapatıldı** (B10) — gerçek Chrome ile
+    doğrulandı, **dış istek 0**. `/kvkk/` metnindeki "yalnızca onay verirseniz"
+    ifadesi tekrar tam doğru.
 20. [ ] KVKK metni avukat onaylı (E1) — brifing hazır:
     `docs/kvkk-avukat-brifingi.md`. **Veri sorumlusu kimliği bilerek eksik —
     sahibinin kararı, yayını engellemiyor (A4/E2).**
 
-**Site 29.07.2026'da yayına girdi; teknik kontrol listesi aynı gün kapandı ve
-performans bütçesinin tamamı ölçümle doğrulandı.**
+**Site 29.07.2026'da yayına girdi; teknik kontrol listesinin tamamı aynı gün
+kapandı, performans bütçesi ölçümle doğrulandı.**
 
-Kalan iki madde yayını engellemiyor: **19** bir panel ayarı + metin tutarlılığı,
-**20** hukuki inceleme.
+**Açık kalan tek madde 20 — hukuki inceleme, yayını engellemiyor.**
+
+Bundan sonrası teknik değil içerik işi: yorum toplamak (A5 profili bağlandı
+ama yorum yok), blog yazıları (D5) ve zaman.
 
 **Bundan sonrası teknik değil içerik işi:** yorum toplamak (A5 profili bağlandı
 ama yorum yok), blog yazıları (D5) ve zaman. Sıralamayı bunlar belirleyecek.
