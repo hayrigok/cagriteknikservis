@@ -200,6 +200,41 @@ Yetim sayfa bırakılmaz: ana sayfa hub'dır, her para sayfası `KomsuIlceler` i
 ilçelere ve aynı ilçedeki diğer hizmetlere link verir. `komsuIlceler()` listeyi
 döngüsel gezer, tek yönlü link yığılması olmaz.
 
+#### Canlı SEO denetimi — 29.07.2026
+
+Yayına girdikten sonra **50 sayfanın tamamı canlıdan indirilip** denetlendi.
+`dist/` üzerinde değil, gerçekten servis edilen HTML üzerinde:
+
+| Kontrol | Sonuç |
+|---|---|
+| Benzersiz title / description / H1 | 50/50 · **kopya grubu 0** · sınır aşımı 0 |
+| H1 sayısı | her sayfada **tam 1** |
+| Canonical | 50/50 kendi adresini doğru gösteriyor |
+| JSON-LD | 137 blok, **0 bozuk** (49 Breadcrumb · 41 FAQPage · 40 Service · 6 BlogPosting · 1 HVACBusiness) |
+| Yetim sayfa | **0** · sayfa başına ortalama 24 benzersiz iç link |
+| Başlık hiyerarşisi | atlama **0** · boş link 0 · alt'sız görsel 0 |
+| `{PLACEHOLDER` sızıntısı | 0 |
+| Sıkıştırma / ağırlık | **Brotli** · sayfa başına **13–15 KB** |
+| Dış kaynak isteği | **0** (tek `https://` bağlantı WhatsApp linki — kaynak yüklemesi değil) |
+
+**Teknik SEO tarafı bitti.** Bundan sonra sıralamayı belirleyecek olan teknik
+değil içerik ve otorite: Google İşletme Profili (A5), blog yazıları (D5) ve
+zaman. Yeni alan adında organik sıralama **aylar** sürer — ilk haftalarda
+trafik gelmemesi bozukluk değildir, telefonu yakın vadede reklam çaldırır.
+
+**Denetimi tekrarlamak gerekirse** yöntem: `sitemap.xml`'den adres listesi
+çek, hepsini indir, title/description/H1'i Map'te toplayıp çakışma ara. Sitede
+düzenli çalışan bir betik olarak durmuyor — build zaten `[seo]` uyarısıyla
+sınırları koruyor, benzersizliği de `seo.ts` içindeki `benzersizMi()` bekçisi
+build sırasında yakalıyor.
+
+**Denetimde çıkan tek yapısal zayıflık:** iki blog yazısı yalnızca 1 iç link
+alıyor (`/blog/klima-sogutmuyor/`, `/blog/tamir-ne-kadar-tutar/`), diğerleri
+4-5. Sebep, yazı sonundaki "bunlar da sık soruluyor" bloğunun 6 yazı arasından
+3 seçmesi ve dağılımın eşitsiz kalması. Yetim değiller, taranıyorlar. **Kod
+değişikliği gerekmez** — D5'teki yazılar eklendikçe dağılım kendiliğinden
+dengelenir.
+
 ### Türkçe yerelleştirme
 
 Küçük harfe çevirirken **daima** `toLocaleLowerCase('tr-TR')` kullanın — aksi halde
@@ -288,7 +323,9 @@ hizmet bölgesi, çalışma saati) konusunda **tahmin etmeyin, sorun**.
 | Commit'lenmemiş dosya | **0** ✔ | 0 |
 | Push bekleyen commit | **0** ✔ (29.07.2026) | 0 |
 | Son commit | `a1e27a1` | — |
-| Yayın | **henüz yok** (B7) | Cloudflare Pages |
+| Yayın | **canlı** — https://cagribeyazesyatamir.com | ✔ |
+| Canlı SEO denetimi | **50/50 temiz**, tek açık B9 | 0 açık |
+| Sayfa ağırlığı (canlı) | **13–15 KB** Brotli · yanıt 0,28 sn | < 500 KB ✔ |
 
 **Rapordaki 13 satırın 5'i karara bağlı ve asla dolmayacak:** 4 × `ulasimDk`
 (A2) + 1 × künye (A4). Kalan 8 satır gerçekten bekliyor: `googleIsletmeUrl` (A5),
@@ -556,13 +593,29 @@ Sıra önemli: **A bitmeden yayına çıkılmaz**, B bitmeden reklam açılmaz.
       gerektirirdi; sıfır sunucu mantığı ilkesinden sapmaya değmez. Canonical,
       sitemap ve iç linklerin hepsi zaten eğik çizgili sürümü gösteriyor.
       **Not olarak kalsın, aksiyon gerekmiyor.**
-- [ ] **B9. `Always Use HTTPS` açılmalı — panel ayarı, kodla ilgisi yok.**
+- [ ] **B9. `Always Use HTTPS` — 29.07.2026 canlı SEO denetiminde çıkan TEK
+      gerçek açık. Panel ayarı, kodla ilgisi yok, kimse kod tarafında
+      düzeltmeye çalışmasın.**
+
       `http://cagribeyazesyatamir.com/` şu an **200 dönüyor**, https'e
-      yönlenmiyor; site iki protokolden birden yayınlanıyor (kopya içerik).
+      yönlenmiyor. Site iki protokolden birden yayınlanıyor; Google bunu iki
+      ayrı site gibi görebilir ve sinyaller ikiye bölünür — canonical'ların
+      hepsi `https://` gösterdiği için hasar sınırlı ama açık gerçek.
+
       Cloudflare → alan adı → **SSL/TLS → Edge Certificates → Always Use HTTPS**.
       Aynı yerde **Automatic HTTPS Rewrites** da açılsın.
+
+      Doğrulaması: `curl -4 -sI http://cagribeyazesyatamir.com/` → **301**
+      dönmeli. 200 dönüyorsa ayar hâlâ kapalıdır.
 - [ ] **B8. Gerçek cihazda Lighthouse** — performans tablosundaki LCP/INP/CLS
       hücreleri hâlâ boş. Kısıtlı 4G profiliyle, masaüstü değil mobil.
+
+      Canlıdan ölçülen ham veriler (29.07.2026): yanıt **0,28 sn** · sayfa
+      başına **13–15 KB** Brotli · dış istek **0**. LCP/INP/CLS bunlardan
+      türetilemez, gerçek cihazda ölçülmeli.
+
+      **Ölçüm kimliği girildikten sonra (A7) tekrarlanmalı** — gtag.js ~90 KB
+      ve onay veren her ziyaretçide iniyor; şu anki rakamlar onsuz hâlin.
 
 ---
 
@@ -603,11 +656,21 @@ Aşağıdakiler o gün için duruyor:
       adları geldiğinde basılacak bir bileşen **yok**. Yazılırken "yetkili servis"
       ibaresi kullanılmayacak (yasak 2), izinli kalıp: "{Marka} ürünlerinde tamir
       ve bakım hizmeti".
-- [ ] **D5. Arıza rehberine yazı ekle.** İlk 6 yazı yayında (çamaşır makinesi su
+- [ ] **D5. Arıza rehberine yazı ekle — teknik SEO bittiğine göre artık
+      sıralamayı gerçekten değiştirecek iki işten biri (diğeri A5).**
+
+      İlk 6 yazı yayında (çamaşır makinesi su
       boşaltmıyor · E10 · bulaşık makinesi su almıyor · buzdolabı soğutmuyor ·
       klima soğutmuyor · ne kadar tutar). Sıradaki adaylar: çamaşır makinesi
       sıkma yapmıyor, kurutma makinesi kurutmuyor, fırın ısınmıyor, klima su
-      damlatıyor, bulaşık makinesi kurulamıyor. Yazı eklemek = `src/content/yazilar/`
+      damlatıyor, bulaşık makinesi kurulamıyor.
+
+      **Ek fayda:** canlı denetimde iki yazının yalnızca 1 iç link aldığı
+      görüldü (bkz. "Canlı SEO denetimi"). Yazı sayısı arttıkça "bunlar da sık
+      soruluyor" bloğunun dağılımı dengelenir — bu zayıflık kod değişikliğiyle
+      değil, içerikle kapanır.
+
+      Yazı eklemek = `src/content/yazilar/`
       içine tek markdown dosyası; rota, sitemap ve liste kendiliğinden güncellenir.
 - [ ] **D4. Yorum akışı:** A5 geldikten sonra sahibinden Google profiline yorum
       isteme akışı (iş sonrası SMS/WhatsApp şablonu). Site tarafı hazır.
