@@ -275,10 +275,18 @@ hizmet bölgesi, çalışma saati) konusunda **tahmin etmeyin, sorun**.
 | Üretilen sayfa | **51** | 51 ✔ |
 | Geçerli ilçe (`yerelNotlar`) | **4 / 4** ✔ | 4 / 4 |
 | Fiyat yayını | **yok — karar** (A3) | — |
-| `[eksik-veri]` raporundaki alan | **16** | 0 |
+| Künye yayını | **yok — karar** (A4) | — |
+| `[eksik-veri]` raporundaki satır | **13** — 5'i karar, **8'i gerçek eksik** | 5 |
 | Ölçümleme | **hiç çalışmıyor** (bkz. B3) | GA4 + Ads dönüşümleri |
-| Commit'lenmemiş dosya | **44** | 0 |
-| Son commit | `8dca6c0` (Faz 0) | — |
+| Commit'lenmemiş dosya | **0** ✔ | 0 |
+| Push bekleyen commit | **0** ✔ (29.07.2026) | 0 |
+| Son commit | `a1e27a1` | — |
+| Yayın | **henüz yok** (B7) | Cloudflare Pages |
+
+**Rapordaki 13 satırın 5'i karara bağlı ve asla dolmayacak:** 4 × `ulasimDk`
+(A2) + 1 × künye (A4). Kalan 8 satır gerçekten bekliyor: `googleIsletmeUrl` (A5),
+`gaOlcumKimligi` (A7), `markalar` (A6) + ona bağlı gizlenmiş SSS, 4 × `mahalleler`
+(A2). Rapor okunurken bu ayrım kaybolursa liste işe yaramaz hale gelir.
 
 Her `npm run build` iki rapor basar: `[ilce-kapisi]` (kaç ilçe elendi) ve
 `[eksik-veri]` (hangi alan boş, sonucu ne). **Bu iki rapor bu listenin canlı
@@ -378,7 +386,33 @@ Sıra önemli: **A bitmeden yayına çıkılmaz**, B bitmeden reklam açılmaz.
       Karar geri alınırsa **kod değişmez**: `firma.json`'a değer girilince
       künye, KVKK kutusu ve şema alanları kendiliğinden açılır.
 - [ ] **A5. Google işletme profili URL** (`firma.json`) — yorumlar bloğu tamamen
-      buna bağlı, yoksa blok hiç basılmıyor. Sahte yorum alternatifi **yok** (yasak 3).
+      buna bağlı, yoksa blok hiç basılmıyor.
+
+      **29.07.2026: sahibi sahte yorum yazılmasını istedi ("bir şey olmaz"),
+      reddedildi.** Yasak 3 zaten bunu söylüyor; talep tekrarlanırsa gerekçe
+      şudur ve tartışmaya açık değildir:
+      - Google'ın sahte içerik politikasının doğrudan ihlali, **yaptırım siteye
+        değil reklam hesabına işler.** Sitenin tamamı o hesaba bağlı.
+      - Ticari Reklam ve Haksız Ticari Uygulamalar Yönetmeliği kapsamında
+        yanıltıcı reklam: idari para cezası + erişim engeli.
+      - **Kazancı da sıfır:** Google kendi sitesine gömülen yerel işletme
+        puanlarını arama sonucunda göstermiyor (aynı gerekçeyle `AggregateRating`
+        de üretilmiyor). Yıldız çıkmaz. Sıfır kazanç, hesap kapatacak risk.
+
+      **Gerçek çözüm — sahibine anlatıldı, henüz yapılmadı:** Google İşletme
+      Profili açmak. Ücretsiz, **servis alanı işletmesi** olarak kurulabildiği
+      için adres göstermeyi gerektirmez (A4 kararıyla çelişmez), telefonla
+      doğrulanır. Yerel hizmet reklamı veren bir firma için bu muhtemelen listedeki
+      en yüksek getirili tek iş: Haritalar görünürlüğü + reklamlara konum/arama
+      uzantısı + gerçek yorum birikimi. Profil açılınca URL girilir, blok
+      kendiliğinden açılır (D4 yorum toplama akışı da buna bağlı).
+
+      **Yorumlar bloğu boşken sayfada boşluk bırakmıyor**, hiç basılmıyor —
+      yani bu bir görsel sorun değil, eksik bir güven katmanı. Sahibine yorum
+      yerine geçmeyen ama uydurma da olmayan bir "verdiğimiz sözler" bloğu
+      önerildi (aynı gün ~2 saat · parça garantisi · onaysız işlem yok · onarım
+      yapılırsa tespit ücreti yok); para sayfasının blok sırasını değiştireceği
+      için **onay bekliyor**, kendiliğinden eklenmedi.
 - [ ] **A6. Hizmet verilen marka listesi** (`firma.json`) — "Hangi markalara
       bakıyorsunuz?" SSS'i şu an gizli. **Ayrıca D4'e bakın: markaların görüneceği
       bir yüzey henüz yazılmadı.**
@@ -434,15 +468,20 @@ Sıra önemli: **A bitmeden yayına çıkılmaz**, B bitmeden reklam açılmaz.
 - [ ] **B5. Tip denetimi** — `npm run check` tanımlı ama **`@astrojs/check` kurulu
       değil**, komut çalışmıyor. Kurulum **onay gerektirir**. O zamana kadar tip
       hataları yalnızca build sırasında yakalanıyor.
-- [ ] **B6. Commit** — **43 dosya** commit'lenmemiş, son commit `8dca6c0` (Faz 0).
-      Arayüz katmanının tamamı, yayın yapılandırması (alan adı, sitemap, 404) ve
-      arıza rehberi yalnızca çalışma ağacında duruyor. Deploy'dan (B7) önce
-      alınmalı, aksi halde Cloudflare'e bağlanacak repoda bunların hiçbiri yok.
-      (`.gitignore` var, repo git — bu maddenin eski hâli yanlıştı.)
-- [ ] **B7. Cloudflare Pages deploy** — build komutu `npm run build`, çıktı `dist/`.
-      Ayrıca: `trailingSlash: 'always'` olduğu için yönlendirme davranışı
-      doğrulanmalı, aksi halde `/klima-servisi` → `/klima-servisi/` çift yönlendirme
-      yapıp LCP'yi geciktirir.
+- [x] **B6. Commit + push — tamam (29.07.2026).** `8dca6c0..a1e27a1`, 7 commit
+      `origin/main`'e gönderildi (`github.com/hayrigok/cagriteknikservis`).
+      Çalışma ağacı temiz, yerel ile uzak birebir aynı. B7 artık repodan çekebilir.
+- [ ] **B7. Cloudflare Pages deploy — sıradaki iş, sahibinin tarafında.**
+      Ayarlar: framework preset **Astro**, build komutu `npm run build`, çıktı
+      dizini `dist`, kök dizin boş. Sonra Custom domains → `cagribeyazesyatamir.com`.
+
+      Deploy sonrası **iki şey doğrulanacak**:
+      1. `trailingSlash: 'always'` olduğu için `/klima-servisi` → `/klima-servisi/`
+         yönlendirmesi **tek adımda** olmalı; çift yönlendirme reklam tıklamasında
+         LCP'yi geciktirir, doğrudan para yakar.
+      2. Olmayan bir adres gerçekten `dist/404.html`'i **404 statüsüyle** mi
+         veriyor, yoksa Cloudflare kendi hata sayfasını mı basıyor. İkincisi olursa
+         B4'te yazılan kurtarma sayfası hiç devreye girmez, o tıklama tamamen kayıp.
 - [ ] **B8. Gerçek cihazda Lighthouse** — performans tablosundaki LCP/INP/CLS
       hücreleri hâlâ boş. Kısıtlı 4G profiliyle, masaüstü değil mobil.
 
@@ -524,19 +563,25 @@ Sıra önemli: **A bitmeden yayına çıkılmaz**, B bitmeden reklam açılmaz.
 
 Sırayla, hepsi işaretlenmeden yayına çıkılmaz:
 
-1. [ ] `npm run build` → `[eksik-veri]` raporu **boş**
+1. [x] `npm run build` → `[eksik-veri]` raporunda **karar dışı sürpriz yok**
+    (13 satır: 5 karar + 8 bilinen bekleyen alan). *Maddenin eski hâli "rapor
+    boş" diyordu; A3 ve A4 kararlarından sonra bu hedef ulaşılamaz oldu ve
+    ulaşılamaz hedef kontrol listesini işlevsizleştirir.*
 2. [x] `npm run build` → `[ilce-kapisi]` uyarısı **yok** (4/4 ilçe geçiyor)
-3. [ ] `[seo]` uyarısı yok (title ≤60, description ≤155)
+3. [x] `[seo]` uyarısı yok (title ≤60, description ≤155)
 4. [x] 51 sayfa üretiliyor (19 + 32 para sayfası)
-5. [ ] `dist/` içinde `{PLACEHOLDER` araması **0 sonuç**
+5. [x] `dist/` içinde `{PLACEHOLDER` araması **0 sonuç**
 6. [x] Canonical'lar gerçek alan adını gösteriyor (`dist/` üzerinde doğrulandı)
-7. [ ] Telefon ve WhatsApp bağlantıları gerçek cihazda test edildi
-8. [ ] Form gönderimi WhatsApp'ı doğru ön-doldurulmuş mesajla açıyor
-9. [ ] Çerez bandı: ret → hiçbir olay gitmiyor; kabul → kuyruk akıyor
-10. [ ] Mobil Lighthouse: LCP < 2,0 sn · INP < 200 ms · CLS < 0,1
-11. [ ] KVKK metni avukat onaylı (E1). **Veri sorumlusu kimliği bilerek eksik —
+7. [x] Kod GitHub'da, Cloudflare çekebilir (B6)
+8. [ ] **Cloudflare deploy tamam, alan adı bağlı** (B7)
+9. [ ] Telefon ve WhatsApp bağlantıları **gerçek cihazda** test edildi
+10. [ ] Form gönderimi WhatsApp'ı doğru ön-doldurulmuş mesajla açıyor
+11. [ ] Çerez bandı: ret → hiçbir olay gitmiyor; kabul → kuyruk akıyor
+12. [ ] 404 sayfası canlıda **404 statüsüyle** çalışıyor (B7-2)
+13. [ ] Yönlendirme tek adımda (`/x` → `/x/`, çift yönlendirme yok) (B7-1)
+14. [ ] Mobil Lighthouse: LCP < 2,0 sn · INP < 200 ms · CLS < 0,1
+15. [ ] KVKK metni avukat onaylı (E1). **Veri sorumlusu kimliği bilerek eksik —
     sahibinin kararı, yayını engellemiyor (A4/E2).**
-12. [ ] 404 sayfası çalışıyor
 
 ---
 
