@@ -501,9 +501,9 @@ Amaca (arama sonuçlarında üst sıra → çalan telefon) hizmet sırasına gö
 | **4** | **A7 + C — Google Ads** | **Sahibi** | Telefonu **en hızlı** çaldıracak kanal, ama sahibi erteledi ("zamanı gelince söylerim"). Altyapı hazır. |
 | **5** | **E1 — KVKK avukat** | **Sahibi** | Hukuki risk; yayını engellemiyor ama açık. Brifing hazır. |
 
-**Karar bekleyen tek soru:** şemadaki işletme adı gerçek ada
-(`Çağrı Teknik Servis`) çekilsin mi? Görünen metin değişmez, Google
-eşleştirmesi düzelir. Bkz. A5.
+**Karar bekleyen soru kalmadı.** Şemadaki işletme adı gerçek ada
+(`Çağrı Teknik Servis`) çekildi (29.07.2026); görünen metin değişmedi, Google
+eşleştirmesi düzeldi. Bkz. A5.
 
 **Push politikası karara bağlandı — doğrudan canlıya** (29.07.2026). Ayrıntı
 ve bu politikanın gerektirdiği kontroller "Çalışma şekli" bölümünde.
@@ -617,11 +617,24 @@ ve bu politikanın gerektirdiği kontroller "Çalışma şekli" bölümünde.
       **⚠️ Profilde henüz yorum YOK.** Blok bağlandı ama boş bir profile
       götürüyor. Asıl iş şimdi başlıyor: **D4**.
 
-      **⚠️ Ad uyuşmazlığı — karar bekliyor.** Profil "Çağrı Teknik Servis",
-      şemadaki `name` ise `kisaAd` yani "Adana Klima & Beyaz Eşya Servisi".
-      Google bu ikisini eşleştirmeye çalışır, uyuşmazlık bağı zayıflatır.
-      Önerilen: şemadaki `name` gerçek işletme adı olsun, **görünen metinler
-      değişmesin**. Sahibine soruldu, cevap gelmedi.
+      **Ad uyuşmazlığı giderildi — 29.07.2026.** `firma.isletmeAdi` alanı
+      eklendi (`"Çağrı Teknik Servis"`) ve şemadaki `name` artık oradan
+      geliyor; `kisaAd` ise `alternateName` olarak basılıyor.
+
+      **Sahibinin isteği korundu:** ekranda görünen ad her yerde "Adana Klima &
+      Beyaz Eşya Servisi" kaldı. Gerekçesi kendi sözleriyle — *"gören direkt
+      Adana klima beyaz eşya servisi desin, tıklasın"*. Haklı: o ad ne iş
+      yaptığımızı anlatır ve tıklatır; gerçek işletme adı bunu yapmaz.
+
+      **İki alan farklı iş görüyor, karıştırmayın:**
+      | Alan | Kim okur | Ne yapar |
+      |---|---|---|
+      | `kisaAd` | **Ziyaretçi** | Ne iş yaptığımızı anlatır, tıklatır |
+      | `isletmeAdi` | **Yalnızca Google** | Kim olduğumuzu söyler, Haritalar profiliyle eşleşir |
+
+      Doğrulandı: 61 sayfanın **hiçbirinin görünür metninde** "Çağrı Teknik
+      Servis" geçmiyor; yalnızca JSON-LD içinde. `isletmeAdi` boş bırakılırsa
+      şema `kisaAd`'a düşer, adsız kalmaz.
 
       **29.07.2026: sahibi sahte yorum yazılmasını istedi ("bir şey olmaz"),
       reddedildi.** Yasak 3 zaten bunu söylüyor; talep tekrarlanırsa gerekçe

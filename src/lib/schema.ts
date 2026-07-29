@@ -1,5 +1,5 @@
 import type { Hizmet, Ilce } from './types';
-import { doldurulmusMu, firma, tumIlceler } from './veri';
+import { deger, doldurulmusMu, firma, tumIlceler } from './veri';
 
 // NOT: AggregateRating bilerek üretilmiyor. Google kendi sitesine gömülen
 // yerel işletme puanlarını göstermiyor; uydurma puan ise ceza riski taşıyor.
@@ -62,12 +62,21 @@ export function hvacBusiness(site: URL) {
     '@type': 'HVACBusiness',
     '@id': mutlak(site, '/#isletme'),
     /*
-      name kısaAd'dan gelir, unvan'dan DEĞİL: unvan {PLACEHOLDER} olduğu için
-      temiz() onu siliyordu ve işletme şeması ADSIZ çıkıyordu — yerel işletme
-      şemasının en temel alanı. Ticari ünvan geldiğinde legalName olarak ayrıca
-      basılır; ikisi farklı şeydir.
+      name = Google İşletme Profili'ndeki gerçek ad ("Çağrı Teknik Servis").
+      Profil adıyla BİREBİR aynı olmalı: sameAs ile o profile işaret ediyoruz,
+      iki farklı ad gösterirsek Google site ile profili eşleştirmekte tereddüt
+      eder ve bağ zayıflar.
+
+      Ekranda basılan ad bu DEĞİL — orası `kisaAd` ("Adana Klima & Beyaz Eşya
+      Servisi") ve öyle kalacak (sahibinin kararı, 29.07.2026): ziyaretçiye ne
+      iş yaptığımızı anlatan ad tıklatan addır. İkisi farklı iş görüyor.
+
+      isletmeAdi boşsa kisaAd'a düşer — şema hiçbir koşulda ADSIZ kalmamalı,
+      yerel işletme şemasının en temel alanı budur. unvan'dan gelmiyor çünkü
+      o {PLACEHOLDER} ve temiz() onu silerdi.
     */
-    name: firma.kisaAd,
+    name: deger(firma.isletmeAdi) ?? firma.kisaAd,
+    alternateName: firma.kisaAd,
     legalName: firma.unvan,
     telephone: firma.telefon,
     email: firma.eposta,
