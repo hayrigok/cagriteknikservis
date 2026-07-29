@@ -525,38 +525,55 @@ Sıra önemli: **A bitmeden yayına çıkılmaz**, B bitmeden reklam açılmaz.
 - [x] **B6. Commit + push — tamam (29.07.2026).** `8dca6c0..a1e27a1`, 7 commit
       `origin/main`'e gönderildi (`github.com/hayrigok/cagriteknikservis`).
       Çalışma ağacı temiz, yerel ile uzak birebir aynı. B7 artık repodan çekebilir.
-- [ ] **B7. Cloudflare deploy — sahibinin tarafında, tek kalan yayın engeli.**
+- [x] **B7. YAYINDA — https://cagribeyazesyatamir.com (29.07.2026).**
 
       **Pages DEĞİL, Workers.** Cloudflare yeni hesaplarda Pages oluşturmayı
       kapatmış; panel `/pages/new` adresinden bile "Create a Worker" akışına
-      düşüyor (29.07.2026'da hesapta doğrulandı). Bu yüzden repoya
-      **`wrangler.jsonc`** eklendi — Deploy düğmesi onsuz hata veriyordu.
-
-      Panel ayarları: build komutu `npm run build`, deploy komutu
-      `npx wrangler deploy` (varsayılan). Gerisi `wrangler.jsonc`'den okunuyor.
-      Sonra **Custom domains → `cagribeyazesyatamir.com`**; alan adı zaten bu
-      hesapta (NS: `igor/pat.ns.cloudflare.com`), DNS kaydını kendisi açar.
-
-      **B7'nin iki doğrulama maddesi artık yapılandırmada YAZILI**, davranışa
-      bırakılmadı — ayrıntılı gerekçe `wrangler.jsonc` başındaki yorumda:
-      - `html_handling: "force-trailing-slash"` → `/klima-servisi` tek adımda
-        `/klima-servisi/`'ye 301. Varsayılan `auto-trailing-slash` olmaz: aynı
-        içeriği iki adresten 200 ile yayınlar.
-      - `not_found_handling: "404-page"` → `dist/404.html` **gerçek 404
-        statüsüyle**. Olmazsa Cloudflare kendi hata sayfasını basar ve B4'teki
-        kurtarma sayfası hiç devreye girmez.
+      düşüyor. Bu yüzden repoya **`wrangler.jsonc`** eklendi — Deploy düğmesi
+      onsuz hata veriyordu. Gerekçelerin tamamı o dosyanın başındaki yorumda.
 
       **Bağımlılık eklenmedi:** `wrangler` package.json'a girmiyor, Cloudflare'in
-      build makinesinde `npx` ile bir kez iniyor. Onaylı paket listesi değişmedi.
+      build makinesinde `npx` ile iniyor. Onaylı paket listesi değişmedi.
 
-      Yayına girince canlıda doğrulanacak: 51 sayfa erişilebilir mi · yönlendirme
-      gerçekten tek adım mı · 404 statüsü doğru mu · canonical/sitemap/robots.
+      **Canlı doğrulama sonuçları:**
+
+      | Kontrol | Sonuç |
+      |---|---|
+      | Sitemap'teki 50 adres | **50/50 → 200** |
+      | Yanıt süresi | 0,28 sn · ana sayfa gzip **16,1 KB** |
+      | `/klima-servisi` → `/klima-servisi/` | **tek adımda** (307) |
+      | Olmayan adres | **gerçek 404** + B4 kurtarma sayfası |
+      | Canonical · sitemap · robots · og.png · favicon | hepsi doğru |
+      | `noindex` | yalnızca 404'te |
+
+      **`workers_dev` ve `preview_urls` kapatıldı.** İlk deploy'da 51 sayfanın
+      tamamı `cagriteknikservis.yks50bin.workers.dev` adresinden de servis
+      ediliyordu (canlıda 200 dönüyordu) — kopya içerik. Kapatıldı, artık 404.
+      **Sıra önemliydi:** özel alan adı bağlanmadan kapatılsaydı erişim kesilirdi.
+
+      **Yönlendirme 307, 301 değil** — Cloudflare `force-trailing-slash` için
+      geçici yönlendirme kullanıyor. 301'e çevirmek Worker script'i yazmayı
+      gerektirirdi; sıfır sunucu mantığı ilkesinden sapmaya değmez. Canonical,
+      sitemap ve iç linklerin hepsi zaten eğik çizgili sürümü gösteriyor.
+      **Not olarak kalsın, aksiyon gerekmiyor.**
+- [ ] **B9. `Always Use HTTPS` açılmalı — panel ayarı, kodla ilgisi yok.**
+      `http://cagribeyazesyatamir.com/` şu an **200 dönüyor**, https'e
+      yönlenmiyor; site iki protokolden birden yayınlanıyor (kopya içerik).
+      Cloudflare → alan adı → **SSL/TLS → Edge Certificates → Always Use HTTPS**.
+      Aynı yerde **Automatic HTTPS Rewrites** da açılsın.
 - [ ] **B8. Gerçek cihazda Lighthouse** — performans tablosundaki LCP/INP/CLS
       hücreleri hâlâ boş. Kısıtlı 4G profiliyle, masaüstü değil mobil.
 
 ---
 
-### C. Reklam tarafı — B3 bitmeden başlanamaz
+### C. Reklam tarafı
+
+**ERTELENDİ — sahibinin kararı, 29.07.2026: "google ads şimdi değil, yapacağımız
+zaman söyleyeceğim."** Teknik taraf hazır (B3 yükleyicisi + biçim kapısı); eksik
+olan yalnızca `AW-…` / `G-…` kimlikleri (A7). **Sahibinden kimlik istemeyin,
+kendisi gündeme getirecek.**
+
+Aşağıdakiler o gün için duruyor:
 
 - [ ] **C1. Dönüşümler:** birincil = form gönderimi + **60 sn üzeri** çağrı,
       ikincil = `tel_click`. Sıralama önemli: `tel_click` birincil yapılırsa akıllı
@@ -642,15 +659,22 @@ Sırayla, hepsi işaretlenmeden yayına çıkılmaz:
 5. [x] `dist/` içinde `{PLACEHOLDER` araması **0 sonuç**
 6. [x] Canonical'lar gerçek alan adını gösteriyor (`dist/` üzerinde doğrulandı)
 7. [x] Kod GitHub'da, Cloudflare çekebilir (B6)
-8. [ ] **Cloudflare deploy tamam, alan adı bağlı** (B7)
-9. [ ] Telefon ve WhatsApp bağlantıları **gerçek cihazda** test edildi
+8. [x] **Cloudflare deploy tamam, alan adı bağlı** (B7) — 29.07.2026
+9. [x] Telefon ve WhatsApp bağlantıları **gerçek cihazda** test edildi —
+    sahibi doğruladı, 29.07.2026
 10. [ ] Form gönderimi WhatsApp'ı doğru ön-doldurulmuş mesajla açıyor
 11. [ ] Çerez bandı: ret → hiçbir olay gitmiyor; kabul → kuyruk akıyor
-12. [ ] 404 sayfası canlıda **404 statüsüyle** çalışıyor (B7-2)
-13. [ ] Yönlendirme tek adımda (`/x` → `/x/`, çift yönlendirme yok) (B7-1)
-14. [ ] Mobil Lighthouse: LCP < 2,0 sn · INP < 200 ms · CLS < 0,1
-15. [ ] KVKK metni avukat onaylı (E1). **Veri sorumlusu kimliği bilerek eksik —
+12. [x] 404 sayfası canlıda **404 statüsüyle** çalışıyor
+13. [x] Yönlendirme tek adımda (`/x` → `/x/`)
+14. [x] Sitemap'teki 50 adresin tamamı canlıda **200**
+15. [x] Site **yalnızca** gerçek alan adından yayınlanıyor (`workers.dev` → 404)
+16. [ ] **`Always Use HTTPS` açık** (B9) — `http://` şu an 200 dönüyor
+17. [ ] Mobil Lighthouse: LCP < 2,0 sn · INP < 200 ms · CLS < 0,1
+18. [ ] KVKK metni avukat onaylı (E1). **Veri sorumlusu kimliği bilerek eksik —
     sahibinin kararı, yayını engellemiyor (A4/E2).**
+
+**Site 29.07.2026'da yayına girdi.** Kalan maddeler yayını geri almaz; 16 ve 17
+panel/ölçüm işi, 10-11 sahibinin bir dakikalık testi, 18 hukuk.
 
 ---
 
