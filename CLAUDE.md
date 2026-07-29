@@ -425,7 +425,7 @@ hizmet bölgesi, çalışma saati) konusunda **tahmin etmeyin, sorun**.
 
 | Ölçüt | Şu an | Hedef |
 |---|---|---|
-| Üretilen sayfa | **56** (19 sabit + 32 para + 5 yeni blog) | ✔ |
+| Üretilen sayfa | **61** (29 sabit/blog + 32 para sayfası) | ✔ |
 | Geçerli ilçe (`yerelNotlar`) | **4 / 4** ✔ | 4 / 4 |
 | Fiyat yayını | **yok — karar** (A3) | — |
 | Künye yayını | **yok — karar** (A4) | — |
@@ -443,7 +443,7 @@ hizmet bölgesi, çalışma saati) konusunda **tahmin etmeyin, sorun**.
 | **Mobil CLS** (ölçüldü) | **0,000** ✔ | < 0,1 |
 | Sayfa ağırlığı (mobil, ölçüldü) | **18,6–21,3 KB** ✔ | < 500 KB |
 | Dış istek | **0** ✔ (B10 kapatıldı) | 0 |
-| Blog yazısı | **11** | — |
+| Blog yazısı | **16** — 8 hizmetin hepsi kapsandı | — |
 
 **Rapordaki 10 satırın 5'i karara bağlı ve asla dolmayacak:** 4 × `ulasimDk`
 (A2) + 1 × künye (A4). Gerçekten bekleyen 5 satır: **4 × `mahalleler`** (A2) ve
@@ -851,20 +851,38 @@ Aşağıdakiler o gün için duruyor:
 - [ ] **D5. Arıza rehberine yazı ekle — teknik SEO bittiğine göre artık
       sıralamayı gerçekten değiştirecek iki işten biri (diğeri A5).**
 
-      **11 yazı yayında (29.07.2026'da 6 → 11).** Çamaşır makinesi su
-      boşaltmıyor · E10 · sıkma yapmıyor · bulaşık makinesi su almıyor ·
-      kurutmuyor · buzdolabı soğutmuyor · klima soğutmuyor · klima su
-      damlatıyor · kurutma makinesi kurutmuyor · fırın ısınmıyor · ne kadar
-      tutar. **Sekiz hizmetin yedisi artık en az bir yazıyla temsil ediliyor.**
+      **16 yazı yayında (29.07.2026'da 6 → 11 → 16).**
+      **Sekiz hizmetin HEPSİ artık en az bir yazıyla temsil ediliyor** —
+      ikinci turda bilerek `klima-bakimi` ve `klima-gaz-dolumu` boşlukları
+      kapatıldı, çünkü yazısı olmayan hizmet organik aramada hiç görünmüyordu.
 
-      Sıradaki adaylar: çamaşır makinesi kokuyor / titriyor, buzdolabı su
-      akıtıyor, klima kötü kokuyor, ocak ateşleme yapmıyor, bulaşık makinesi
-      koku yapıyor, klima gazı ne zaman biter.
+      | Hizmet | Yazı |
+      |---|---|
+      | çamaşır makinesi | 4 (su boşaltmıyor · E10 · sıkma yapmıyor · titriyor) |
+      | klima servisi | 2 (soğutmuyor · su damlatıyor) |
+      | bulaşık makinesi | 2 (su almıyor · kurutmuyor) |
+      | buzdolabı | 2 (soğutmuyor · su akıtıyor) |
+      | fırın/ocak | 2 (fırın ısınmıyor · ocak ateşleme yapmıyor) |
+      | kurutma makinesi | 1 · klima bakımı | 1 (kötü kokuyor) |
+      | klima gaz dolumu | 1 (gaz ne zaman biter) |
+      | (hizmetsiz) | 1 (ne kadar tutar) |
 
-      **Aynı turda düzeltilen iki şey:** (1) ilgili yazı seçimi döngüsel hâle
+      Sıradaki adaylar: bulaşık makinesi koku yapıyor, çamaşır makinesi
+      kokuyor, buzdolabı çok ses yapıyor, kurutma makinesi hata veriyor,
+      klima açılmıyor, fırın kapağı buğulanıyor.
+
+      **`klima-gazi-ne-zaman-biter` yazısı bilerek sert bir doğruyu söylüyor:**
+      gaz "bitmez", kaçar; kaçak bulunmadan yapılan dolum aynı parayı birkaç ay
+      sonra tekrar harcatır. Bu, "her yıl gaz bastırın" diyen rakiplerin
+      tersidir ve kısa vadede bir gaz dolumu işini kaçırabilir — ama sitenin
+      tamamının dayandığı "önce bakarız, sonra söyleriz" duruşuyla tutarlı ve
+      güven kuruyor. **Yumuşatmayın.**
+
+      **İlk turda düzeltilen iki şey:** (1) ilgili yazı seçimi döngüsel hâle
       getirildi — iç link dağılımı 1–11'den 2–6'ya indi, ayrıntı ve yanlış
-      çıkan tahminin kaydı "Canlı SEO denetimi" bölümünde. (2)
-      `buzdolabi-sogutmuyor` yazısında uyarı kutusu eksikti, eklendi (buzu
+      çıkan tahminin kaydı "Canlı SEO denetimi" bölümünde. 16 yazıyla ölçüm
+      tekrarlandı, dağılım **2–6 aralığında kaldı**, yetim yazı yok.
+      (2) `buzdolabi-sogutmuyor` yazısında uyarı kutusu eksikti, eklendi (buzu
       sivri cisimle kazımak — borular buzun hemen altında).
 
       Yazı eklemek = `src/content/yazilar/`
@@ -926,7 +944,7 @@ Sırayla, hepsi işaretlenmeden yayına çıkılmaz:
     ulaşılamaz hedef kontrol listesini işlevsizleştirir.*
 2. [x] `npm run build` → `[ilce-kapisi]` uyarısı **yok** (4/4 ilçe geçiyor)
 3. [x] `[seo]` uyarısı yok (title ≤60, description ≤155)
-4. [x] **56 sayfa** üretiliyor (24 sabit/blog + 32 para sayfası)
+4. [x] **61 sayfa** üretiliyor (29 sabit/blog + 32 para sayfası)
 5. [x] `dist/` içinde `{PLACEHOLDER` araması **0 sonuç**
 6. [x] Canonical'lar gerçek alan adını gösteriyor (`dist/` üzerinde doğrulandı)
 7. [x] Kod GitHub'da, Cloudflare çekebilir (B6)
