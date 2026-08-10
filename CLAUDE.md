@@ -73,6 +73,30 @@ dış istek 0). Bundan sonra sıralamayı değiştirecek olan teknik değil, şu
    rakibin kopyalayamayacağı tek içerik budur (A1 notunda yazılı).
 4. **Zaman.** Yeni alan adı için organik sıralama aylar sürer.
 
+### İş kapma hunisi — "işleri kapmak" nerede kazanılır, nerede kaybedilir
+
+Sahibinin hedefi tek bir yerde kazanılmıyor; altı halkalı bir zincir ve
+**zincir en zayıf halkasından kopuyor.** "Daha çok tıklanma" istendiğinde ilk
+bakılacak yer daha fazla sayfa değil, **kopan halka**.
+
+| # | Halka | Neye bağlı | Şu an |
+|---|---|---|---|
+| 1 | **Görünmek** | Ads (gün) · Haritalar (hafta) · organik (ay) | Ads kapalı · Haritalar yorumsuz · organik yeni |
+| 2 | **Tıklanmak** | Başlık/açıklama · yıldız · mesafe | Başlıklar benzersiz ✔ · **yıldız yok** |
+| 3 | **İkna olmak** | Sayfanın kendisi | Ölçüldü, hazır ✔ |
+| 4 | **Aramak** | Numaranın her yüzeyde olması | Hazır ✔ (6 yüzey) |
+| 5 | **Cevap vermek** | **Telefonu açan kişi** | Ölçülmüyor |
+| 6 | **İşi almak** | Telefondaki konuşma | Ölçülmüyor |
+
+**3 ve 4 bitti — site orada yapabileceğini yaptı.** Kayıp artık 1, 2, 5 ve
+6'da. **En pahalısı 5:** açılmayan telefon, reklam parası ödenmiş, sayfa ikna
+etmiş, iş rakibe gitmiş demektir — ve hiçbir raporda görünmez. Aynı kişi
+ikinci kez aramaz.
+
+Sıra bu yüzden şöyle: **yorum** (2'yi açar) → **kapsam** (1'i genişletir) →
+**reklam** (1'i satın alır) → **cevap disiplini** (5'i onarır). Eyleme dönmüş
+hâli G bölümünde.
+
 ## Komutlar
 
 ```bash
@@ -115,6 +139,38 @@ Bütün para sayfaları `src/pages/[hizmet]/[ilce].astro` tarafından üretilir.
 `getStaticPaths` aktif hizmetler × geçerli ilçeler çaprazını kurar.
 **Yeni hizmet eklemek = yalnızca `hizmetler.json`'a kayıt eklemek.** Yeni sayfa
 dosyası açılmaz.
+
+### `tur` — sayfa iskeleti sabit, SABİT METİNLERİN dili değişken
+
+`Hizmet.tur` iki değer alır: **`'tamir'` (varsayılan) · `'montaj'`**.
+30.07.2026'da `klima-montaji` eklenirken doğdu ve **gerçek bir sorunu** çözüyor:
+sitenin sabit metinlerinin tamamı arıza dili konuşuyordu. Montaj sayfasında
+şunlar üretiliyordu:
+
+- başlık: *"Klima Montajı Adana — **Yerinde Arıza Tespiti**"*
+- meta: *"klima montajı: **arızayı yerinde tespit eder**…"*
+- süreç adımı: *"**Arızayı görür**, ne yapılacağını söyleriz"*
+- rozet: *"**Arızayı** yerinde belirler…"*
+
+Montajın arızası yoktur. Bunlar yalnızca üslup hatası değil: **başlık ve meta
+arama sonucunda okunan metindir**, alakasız kelime hem tıklanmayı hem Kalite
+Puanını düşürür.
+
+**Kural: `tur` blok sırasını, bileşen setini veya veri şemasını DEĞİŞTİRMEZ.**
+Yalnızca şu beş yerde kelime seçer — hepsi "yerinde bakılan şeyin adı":
+
+| Yer | tamir | montaj |
+|---|---|---|
+| `seo.ts` para title (4. kalıp) | Yerinde Arıza Tespiti | Yerinde Keşif |
+| `seo.ts` hub title (3. kalıp) | Yerinde Arıza Tespiti | Söküm ve Taşıma |
+| `seo.ts` para description havuzu | arıza / şikâyet dili | keşif / mesafe dili |
+| `GuvenRozetleri` 2. rozet | tespit ücretsiz | keşif ücretsiz |
+| `Surec` 4 adım | arıza görülür | yer ve mesafe görülür |
+
+`FiyatTablosu.aciklamaBos` ve `ArizaCozum.etiket` zaten prop'tu, sayfadan
+geçiliyor — bileşene dokunulmadı. Yeni bir `tur` eklenecekse (örn. `'kurulum'`)
+aynı beş yer gözden geçirilir; **başka yere `tur` kontrolü serpiştirmeyin**,
+mekanizma o anda anlaşılmaz hale gelir.
 
 ### İlçe kapısı — sitenin en kritik kuralı
 
@@ -385,6 +441,78 @@ diğerleri `loading="lazy"`. Font: 2 varyant, self-hosted, `font-display: swap`
 Etkileşimi mümkün olduğunca CSS ile çözün — SSS `<details>` ile, sticky çubuklar saf
 CSS ile yapıldı. Bir şey için JS yazmadan önce CSS'le olur mu diye bakın.
 
+## Bot ve geçersiz tıklama (click fraud) savunması
+
+**Risk penceresi reklamla açılır, önce değil.** Site statik ve Cloudflare
+kenarında duruyor; organik tarafa gelen bot trafiği bize para kaybettirmez
+(sayfa 19 KB, sunucu yok, veritabanı yok). Reklam yayına girdiği gün ise
+**her tıklama para** demektir. Bu bölüm C ile birlikte devreye girer,
+reklamdan önce yapılacak bir şey yoktur.
+
+**Formun spam bağışıklığı mimariden geliyor.** Form bir sunucuya POST etmiyor,
+`wa.me` adresine yönlendiriyor. Yani sahte gönderim yapmak isteyen kişi mesajı
+**kendi WhatsApp numarasından** yazmak zorunda; otomatik doldurma bize hiç
+ulaşmaz. Backend'siz olmanın planlanmamış ama gerçek faydası bu — CAPTCHA
+eklemeye gerek yok, zaten yasak 5'e takılırdı.
+
+### Google zaten filtreliyor — ilk refleks panik değil, ölçmek
+
+Google geçersiz tıklamaları otomatik tespit edip faturaya yansıtmaz veya kredi
+olarak iade eder. Bu yüzden "tıklama arttı" tek başına saldırı kanıtı değildir.
+Bizim elimizde Google'ın raporundan **daha erken** bir sinyal var:
+
+> **Ads tıklaması artıyor ama `tel_click` + `whatsapp_click` + `form_submit`
+> artmıyorsa, gelen insan değildir.** Bu oran A7 kimliği girilir girilmez
+> çalışır; ayrı kurulum gerektirmiyor.
+
+Destekleyici sinyaller: tek IP veya tek konumdan yığılma · çalışma saati
+dışında patlama · tek anahtar kelimede aniden fırlayan TO · oturum süresi ~0.
+
+### Saldırıyı en çok engelleyen şey KURULUM — sonradan müdahale değil
+
+Bunlar kampanya açılırken **bir kez** yapılır; saldırı başladıktan sonra
+yapılınca yanan para geri gelmez (C6):
+
+1. **Konum hedeflemesi "bulunma" (presence)** olsun, "ilgi" değil. Adana
+   dışından gelen trafiğin büyük kısmı baştan kesilir.
+2. **Arama ortakları (Search Partners) ve Görüntülü ağ kapalı.** Kurulum
+   sihirbazında işaretli gelirler — kontrol edin. Yerel bir servis için
+   karşılığı düşük, trafiğin nereden geldiğini de tam göremiyoruz.
+3. **Geniş eşleme ile başlanmaz** — tam/öbek eşleme + ilk günden negatif
+   kelime listesi.
+4. **Reklam programı 08:00–20:00** (gerçek çalışma saatimiz). Gece gelen
+   tıklama iki kere kayıp: hem bot yoğunluğu yüksek hem telefon açılmıyor.
+5. **Günlük bütçe düşük başlatılır.** Bütçe, bir saldırının bize
+   verebileceği günlük zararın **tavanıdır** — asıl koruma budur.
+6. **İlk hafta konum / IP / cihaz raporları her gün okunur.**
+
+### Saldırı tespit edilirse — sıra bu
+
+1. **Kampanya IP hariç tutma listesi** (Ads → kampanya ayarları). Kampanya
+   başına **500 adres/aralık** sınırı var ve mobil IP'ler döner; bu yüzden tek
+   başına çözüm değil, **ilk hamledir**.
+2. **Coğrafyayı daralt, saatleri daralt, bütçeyi indir.** Saldırı sürerken
+   kampanyayı **tamamen durdurmak da meşru** — reklamı durdurmanın organik
+   sıralamaya zararı yok, para yanmasının var.
+3. **Google'a geçersiz tıklama incelemesi bildir:** tarih aralığı, kampanya,
+   şüphe gerekçesi ve elimizdeki olay verisi (tıklama var, `tel_click` yok).
+   Otomatik kredi yetmediğinde iade bu yoldan yürür.
+4. **Olayı bu dosyaya yaz** — tarih, belirti, yapılan, sonuç. İkinci kez
+   olduğunda hafızadan değil kayıttan hareket edilir.
+
+### Bu projede YAPILMAYACAKLAR
+
+- **Üçüncü taraf tıklama koruma script'i (ClickCease vb.) eklenmez.** Yasak 5
+  ve sıfır-dış-istek hedefini bozar; üstelik yaptığı iş Ads'in aynı **500 IP**
+  listesini otomatik doldurmaktır — elle yapabileceğimizin ötesinde sihir
+  satmıyor. Gerçekten gerekiyorsa ayrı bir karar olarak tartışılır ve buraya
+  yazılır, sessizce eklenmez.
+- **Cloudflare "Bot Fight Mode" düşünmeden açılmaz.** Sayfaya challenge JS
+  enjekte eder ve meşru trafiği de zorlayabilir; B10'da beacon'ı tam bu yüzden
+  kapattık. Gerekirse sayfaya kod ekletmeyen WAF kuralı / hız sınırı kullanılır.
+- **Numarayı gizlemek veya dinamik değiştirmek** savunma sayılmaz — C2'deki
+  aynı çelişki, numara sayfanın en değerli pikselidir.
+
 ## Kesin yasaklar
 
 1. **Rakam, tarih, yorum, sertifika, referans uydurmayın.** Bilinmeyen her değer
@@ -444,71 +572,153 @@ seçeneği sunuldu, doğrudan canlıyı seçti.
 
 ## Yapılacaklar
 
-### Durum tablosu
+> **Bu bölüm üç katmanlı, karıştırmayın:**
+> **1. Panel** — ne yapılacak, tek satırlık maddeler. Günlük iş buradan yürür.
+> **2. Durum tablosu** — ölçülen değerler.
+> **3. A–G bölümleri** — her maddenin gerekçesi ve karar kaydı; panelin uzun hâli.
+> Panel bayatlarsa `npm run build` çıktısı doğruyu söyler.
+
+---
+
+## PANEL — açık işlerin tamamı (29.07.2026)
+
+**Site yayında, teknik iş bitti.** Bu artık "yayına çıkma" listesi değil,
+**"en üste çıkma" listesi** — ve ağırlığı sahibinin tarafında. Sıralama,
+amaca (üst sıra → çalan telefon) hizmet ettikleri ölçüde yapıldı.
+
+### ▶ Sırayla yapılacaklar
+
+| # | İş | Kimde | Tek cümlede |
+|---|---|---|---|
+| 1 | **Yorum toplamak** · D4 | Sahibi | Profil bağlı ama **yorum yok**; yerel aramanın en güçlü sinyali, maliyeti sıfır. |
+| 2 | **İşletme profilini doldurmak** · G6 | Sahibi | Fotoğraf · hizmet listesi · hizmet alanı · çalışma saati · S&C · gönderi. |
+| 3 | **Blog yazısı eklemek** · D5 | Claude | 16 yazı var ama **`klima-montaji`'nin yazısı yok** — 9 hizmetin 8'i kapsanıyor. Sıradaki yazı buradan. |
+| 4 | **Mahalle listeleri** · A2 | Sahibi | İlçe başına 5–8 mahalle adı; rakibin kopyalayamayacağı tek içerik. |
+| 5 | **KVKK metnini avukata okutmak** · E1 | Sahibi | Brifing hazır: `docs/kvkk-avukat-brifingi.md`. |
+
+### ❓ Cevap bekleyen sorular — cevapsız uygulanmaz
+
+Hizmet bölgesi **tahmin edilmesi yasak** alan; liste gelmeden sayfa açılmaz.
+**G4 kapandı** (30.07.2026): kapasite yeterli, kapsam büyütmenin önünde engel yok.
+
+| Soru | Madde | Cevabın etkisi |
+|---|---|---|
+| Kalan **11 ilçeden hangilerine** gidiyorsunuz? ("çoğu" dendi — ad ad liste gerek) | G2 | Her ilçe **8 para sayfası**. Kapsamı en çok büyütecek cevap bu. |
+| Hangisine **aynı gün**, hangisine **randevuyla** gidiliyor? | G2 | Uzak ilçeye "aynı gün" vaadi basılamaz (yasak 1). Liste ikiye ayrılmalı. |
+| Aday listesinden hangi hizmetleri **gerçekten yapıyorsunuz**? | G3 | Her hizmet **1 hub + N para sayfası**, kod yazılmadan. |
+
+### ⏸ Tetiği sahibi çekecek — altyapı hazır, bekliyor
+
+| İş | Madde | Durum |
+|---|---|---|
+| Search Console raporunu okumak | G1 | **Kurulum bitti** (doğrulama + sitemap 60 adres ✔). Rapor için **1–2 hafta** gerek; site 29.07.2026'da yayına girdi, şu an boş olması normal. |
+| Google Ads'i açmak | A7 · C1–C5 | **Sahibi erteledi** ("zamanı gelince söylerim"). Kimlik istemeyin. |
+| Bot / geçersiz tıklama savunması | **C6 · C7** | Kurulum kapıları yazılı; **kampanya açılırken** uygulanacak, sonradan değil. |
+| Performans ölçümünü tekrarlamak | B8 | A7'den sonra — gtag.js ~90 KB, mevcut rakamlar kimliksiz hâlin. |
+| Tip denetimi | B5 | `@astrojs/check` kurulu değil; kurulum **onay ister**. |
+| Self-hosted font | D1 | **Tavsiye: yapmayın** — LCP metin, ölçülmüş avantajı bozar. Karar sahibinde. |
+
+### 🔁 Süregelen disiplin — biten iş değil, her gün geçerli
+
+- **G5 — kaçan çağrı = kaçan iş.** 08:00–20:00 arası açılmayan telefon,
+  hunideki **en pahalı sessiz kayıp**; hiçbir raporda görünmez.
+- **D4 akışı.** Yorum tek seferlik iş değil; tazelik de sinyal. Her iş bitiminde
+  aynı mesaj, **herkese** (seçerek istemek politika ihlali).
+- **Push öncesi kontrol.** `npm run build` çıktısını oku · dört yüzeyi gerçek
+  tarayıcıyla doğrula (telefon · WhatsApp · form · `data-olay`). Ayrıntı
+  "Çalışma şekli"nde.
+- **E2 — künye riski.** Kapatılmadı, sahibi bilerek kabul etti. **Tekrar sormayın.**
+
+### ✔ Kapanmış — tekrar açmayın, sormayın
+
+| Madde | Karar / sonuç |
+|---|---|
+| A1 | `yerelNotlar` yazıldı, sahibi olduğu gibi kabul etti → ilçe kapısı açık, 32 para sayfası |
+| A3 | **Fiyat yayımlanmayacak** — fiyat istemeyin |
+| A4 | **Künye yayımlanmayacak** — ünvan/adres/e-posta/vergi istemeyin (riski E2'de) |
+| A5 | Google işletme profili **bağlandı**; şema adı gerçek işletme adına çekildi |
+| A6 | **Marka listesi tutulmayacak** — marka adı istemeyin |
+| A8 | Alan adı: `cagribeyazesyatamir.com` |
+| D2 | **Hero görseli yok** — fotoğraf istemeyin (profil fotoğrafı ayrı konu, G6) |
+| D3 | Marka yüzeyi gereksiz (A6'nın sonucu) |
+| B1–B4 · B6–B10 | Teknik iş bitti: alan adı · sitemap/robots · gtag yükleyici · 404 · deploy · HTTPS · performans ölçümü · RUM beacon kapatıldı |
+| F | Yayına çıkış listesi — **madde 20 (E1) hariç** hepsi kapandı |
+
+---
+
+## Durum tablosu
+
+**Yayın ve içerik**
 
 | Ölçüt | Şu an | Hedef |
 |---|---|---|
-| Üretilen sayfa | **61** (29 sabit/blog + 32 para sayfası) | ✔ |
-| Geçerli ilçe (`yerelNotlar`) | **4 / 4** ✔ | 4 / 4 |
-| Fiyat yayını | **yok — karar** (A3) | — |
-| Künye yayını | **yok — karar** (A4) | — |
-| `[eksik-veri]` raporundaki satır | **10** — 5'i karar, **5'i gerçek eksik** (yalnızca `mahalleler` + A7) | 5 |
-| Ölçümleme | **yükleyici hazır, kimlik bekliyor** (B3 ✔ / A7) | GA4 + Ads dönüşümleri |
-| JS (gzip) | **2,07 KB** | < 40 KB ✔ |
-| Dış istek | **0** (kimlik girilene kadar) | — |
-| Commit'lenmemiş dosya | **0** ✔ | 0 |
-| Push bekleyen commit | **0** ✔ (29.07.2026) | 0 |
-| Son commit | bkz. `git log` | — |
 | Yayın | **canlı** — https://cagribeyazesyatamir.com | ✔ |
-| Canlı SEO denetimi | **50/50 temiz · açık yok** ✔ | 0 açık |
-| HTTPS | `http://` → **301** → `https://` ✔ | — |
-| **Mobil LCP** (ölçüldü) | **0,50–0,91 sn** ✔ | < 2,0 sn |
-| **Mobil CLS** (ölçüldü) | **0,000** ✔ | < 0,1 |
-| Sayfa ağırlığı (mobil, ölçüldü) | **18,6–21,3 KB** ✔ | < 500 KB |
-| Dış istek | **0** ✔ (B10 kapatıldı) | 0 |
+| Üretilen sayfa | **66** (30 sabit/blog + 36 para sayfası) | ✔ |
+| Kapsam | **4 ilçe × 9 hizmet** (klima montajı eklendi 30.07.2026) | G2 / G3 cevabına bağlı |
+| Geçerli ilçe (`yerelNotlar`) | **4 / 4** ✔ | 4 / 4 |
 | Blog yazısı | **16** — 8 hizmetin hepsi kapsandı | — |
 
-**Rapordaki 10 satırın 5'i karara bağlı ve asla dolmayacak:** 4 × `ulasimDk`
-(A2) + 1 × künye (A4). Gerçekten bekleyen 5 satır: **4 × `mahalleler`** (A2) ve
-**`gaOlcumKimligi`/`adsKimligi`** (A7, tek satırda raporlanıyor). Rapor
-okunurken bu ayrım kaybolursa liste işe yaramaz hale gelir.
+**Ölçüm ve sıralama**
 
-**Rapor 16 → 10'a indi**, çünkü A5 (işletme profili) dolduruldu ve A6 (marka
-listesi) kararla kapatılıp alanı kaldırıldı. Bir alan "asla dolmayacak"
-hâle geldiğinde raporda tutulmaz — gürültülü rapor okunmaz olur.
+| Ölçüt | Şu an | Hedef |
+|---|---|---|
+| Canlı SEO denetimi | **50/50 temiz · açık yok** ✔ | 0 açık |
+| Search Console | **doğrulandı** ✔ (DNS TXT) · **sitemap gönderildi, 60 adres** ✔ | rapor okumak (G1) — 1–2 hafta sonra |
+| Site haritası | **65 adres** (60 → 65, montaj) | push sonrası canlıda doğrulanacak |
+| Ölçümleme | **yükleyici hazır, kimlik bekliyor** (B3 ✔ / A7) | GA4 + Ads dönüşümleri |
+| Google yorumu | **0** (D4) | ilk aşamada 10–15 |
+| Bot / click fraud savunması | **kurulum kapıları yazıldı** (C6 · C7) | reklam açılınca uygulanacak |
+
+**Performans — ölçüldü, 29.07.2026**
+
+| Ölçüt | Şu an | Sınır |
+|---|---|---|
+| Mobil LCP | **0,50–0,91 sn** ✔ | < 2,0 sn |
+| Mobil CLS | **0,000** ✔ | < 0,1 |
+| Sayfa ağırlığı | **18,6–21,3 KB** ✔ | < 500 KB |
+| JS (gzip) | **2,07 KB** ✔ | < 40 KB |
+| Dış istek | **0** ✔ (B10 kapatıldı, kimlik girilene kadar da 0) | 0 |
+| HTTPS | `http://` → **301** → `https://` ✔ | — |
+
+**Yayımlanmayan — karar, eksik değil:** fiyat (A3) · künye (A4) · marka listesi
+(A6) · hero görseli (D2).
+
+### Build raporları — listenin canlı hâli
 
 Her `npm run build` üç rapor basar: `[ilce-kapisi]` (kaç ilçe elendi),
-`[eksik-veri]` (hangi alan boş, sonucu ne) ve `[olcum]` (kimlik biçimi bozuksa).
-**Bu raporlar bu listenin canlı hâlidir** — burası bayatlarsa build çıktısı
-doğruyu söyler.
+`[eksik-veri]` (hangi alan boş, sonucu ne), `[olcum]` (kimlik biçimi bozuksa).
+**Panel bayatlarsa bu çıktı doğruyu söyler.**
+
+`[eksik-veri]` şu an **10 satır** ve ikiye ayrılır — ayrım kaybolursa rapor
+işe yaramaz hâle gelir:
+
+| | Satır | Neden |
+|---|---|---|
+| **Asla dolmayacak** | 4 × `ulasimDk` + 1 × künye | Verilmiş karar (A2 · A4) |
+| **Gerçekten bekliyor** | 4 × `mahalleler` + 1 × ölçüm kimliği | A2 · A7 |
+
+Rapor 16 → 10'a indi: A5 dolduruldu, A6 kararla kapatılıp alanı kaldırıldı.
+Bir alan "asla dolmayacak" hâle geldiğinde raporda tutulmaz — **gürültülü
+rapor okunmaz olur.**
 
 ---
 
-## ⭐ ÖNCELİK SIRASI — 29.07.2026 sonu
+## A–G — ayrıntı ve karar kaydı
 
-**Site yayında ve teknik iş bitti.** Yayın engeli kalmadı, performans bütçesi
-ölçümle doğrulandı, SEO denetiminde açık yok. Bu listenin geri kalanı artık
-"yayına çıkma" listesi değil, **"en üste çıkma" listesidir** ve ağırlığı
-sahibinin tarafına kaydı.
+**Panelin uzun hâli.** Her madde o kararın **neden** verildiğini ve geri
+alınırsa ne olacağını yazıyor; harf-numara (A2 · C6 · G1 …) panelden buraya
+gönderir. Yeni karar alındığında gerekçe **buraya** yazılır, panele tek satır
+düşer.
 
-Amaca (arama sonuçlarında üst sıra → çalan telefon) hizmet sırasına göre:
-
-| # | İş | Kimde | Neden bu sırada |
-|---|---|---|---|
-| **1** | **D4 — yorum toplamak** | **Sahibi** | Yerel aramanın en güçlü sinyali, para maliyeti sıfır, reklamdan bağımsız çalışır. Profil bağlı ama **yorum yok**. |
-| **2** | **D5 — blog yazısı eklemek** | Claude | Organik trafiğin tek kaynağı. 16 yazı var, sekiz hizmet de kapsandı; buradan sonrası derinleşme. |
-| **3** | **A2 — mahalle listeleri** | **Sahibi** | Rakibin kopyalayamayacağı tek içerik türü. İlçe başına 5–8 mahalle yeter. |
-| **4** | **A7 + C — Google Ads** | **Sahibi** | Telefonu **en hızlı** çaldıracak kanal, ama sahibi erteledi ("zamanı gelince söylerim"). Altyapı hazır. |
-| **5** | **E1 — KVKK avukat** | **Sahibi** | Hukuki risk; yayını engellemiyor ama açık. Brifing hazır. |
-
-**Karar bekleyen soru kalmadı.** Şemadaki işletme adı gerçek ada
-(`Çağrı Teknik Servis`) çekildi (29.07.2026); görünen metin değişmedi, Google
-eşleştirmesi düzeldi. Bkz. A5.
-
-**Push politikası karara bağlandı — doğrudan canlıya** (29.07.2026). Ayrıntı
-ve bu politikanın gerektirdiği kontroller "Çalışma şekli" bölümünde.
-
----
+| Bölüm | İçerik | Açık maddeler |
+|---|---|---|
+| **A** | Sahibinden beklenen veri | A2 · A7 |
+| **B** | Teknik işler | B5 |
+| **C** | Reklam tarafı — **ertelendi** | C1–C7 |
+| **D** | İçerik ve iyileştirme | D1 · D4 · D5 |
+| **E** | Hukuk | E1 · E2 |
+| **G** | İş kapma: kapsam · ölçüm · operasyon | G1–G6 |
+| **F** | Yayına çıkış listesi | **arşiv** — yalnızca 20. madde açık |
 
 ### A. Sahibinden beklenen veri
 
@@ -537,6 +747,14 @@ ve bu politikanın gerektirdiği kontroller "Çalışma şekli" bölümünde.
       Bir dönem `[taslak-not]` uyarısı basılıyordu; sahibi doğrulamayacağını
       söyleyince kaldırıldı — asla eyleme dönüşmeyecek uyarı raporu gürültüye
       çevirir (aynı gerekçe A3'te ve `ulasimDk`'de de uygulandı).
+
+      **30.07.2026'da notlara tek düzeltme yapıldı — yeni bilgi değil, bayat
+      rakam.** İki not "sekiz hizmetin tamamı" diyordu; `klima-montaji`
+      eklenince bu **yanlış rakam** oldu. Sayı yazmak yerine kaldırıldı
+      ("hizmetlerin tamamı"), Seyhan notuna da montaj eklendi. Sahibine
+      sorulmadı çünkü yeni bir iddia girmedi — var olan bir sayı düzeltildi.
+      **Ders: ilçe notlarına hizmet SAYISI yazmayın**, her eklemede sessizce
+      yanlışlaşır.
 - [ ] **A2. `mahalleler` × 4 ilçe** (`ilceler.json`) — **öncelik 3, sahibinde.**
       Kapıdan bağımsız; boşken ilçe bloğunun mahalle kutusu basılmıyor.
 
@@ -698,8 +916,23 @@ ve bu politikanın gerektirdiği kontroller "Çalışma şekli" bölümünde.
       eski `UA-…` vermek · `AW-` kimliği yerine dönüşüm **etiketini**
       (`AW-123/AbCd…` eğik çizgiden sonrası) vermek.
 - [x] **A8. Gerçek alan adı** — `cagribeyazesyatamir.com` (28.07.2026). B1 ve B2 kapandı.
-- [x] Telefon + WhatsApp — `0533 667 53 44` / `905336675344` (sahibi aynı numara
-      olduğunu doğruladı). CTA'lar ve form aktif.
+- [x] Telefon + WhatsApp — **`0545 375 11 08` / `905453751108`** (sahibi ikisinin
+      de aynı numara olduğunu doğruladı). CTA'lar ve form aktif.
+
+      **10.08.2026'da değişti** (önceki: `0533 667 53 44`). Numara mimaride
+      **tek yerde** — `firma.json` — ve 66 sayfa oradan besleniyor; değişiklik
+      tek satır oldu, hiçbir bileşene dokunulmadı. Bu yapıyı bozmayın: numarayı
+      ikinci bir yere yazmak, sonraki değişimde birinin geride kalması demektir
+      ve geride kalan yüzey **sessizce** ölü numaraya gider.
+
+      Değiştirirken doğrulanan altı yüzey: `tel:` bağlantıları · `wa.me`
+      bağlantıları · ekranda görünen ad · JSON-LD `telephone` · formun
+      `data-numara` niteliği · `data-olay` ölçüm nitelikleri. Eski numaranın
+      `dist/` içinde **sıfır kalıntısı** kaldığı ayrıca arandı.
+
+      **Numara değişince site dışında da bir iş var:** Google İşletme
+      Profili'ndeki numara aynı olmalı. Site ile profilin numarası ayrışırsa
+      yerel sıralamada güven sinyali zayıflar (D4/G6 tam oradan yürüyor).
 - [x] Sitede görünecek kısa ad — "Adana Klima & Beyaz Eşya Servisi"
 - [x] Çalışma saatleri — "Her gün 08:00–20:00"
 - [x] Garanti — sabit süre **yok**, parçaya göre değişiyor. Alan bu yüzden
@@ -727,7 +960,8 @@ ve bu politikanın gerektirdiği kontroller "Çalışma şekli" bölümünde.
       noindex ile çelişirdi. `lastmod`/`changefreq`/`priority` bilerek yok:
       Google son ikisini yok sayıyor, her build'de bugünün tarihini basmak ise
       içerik değişmemişken sahte tazelik sinyali olurdu.
-      Şu an **12 adres**; ilçeler açılınca kendiliğinden 44'e çıkar.
+      Şu an **60 adres** (29.07.2026'da canlıdan sayıldı); ilçe veya yazı
+      eklendikçe kendiliğinden büyür.
 - [x] **B3. `gtag.js` yükleyicisi yazıldı — 29.07.2026, sahibinin onayıyla
       (yasak 5 istisnası).** `analytics.ts` içinde `gtagYukle()`.
 
@@ -879,6 +1113,28 @@ Aşağıdakiler o gün için duruyor:
 - [ ] **C5.** Yayına aldıktan sonra **test araması ve test formu** ile dönüşümlerin
       gerçekten düştüğünü doğrula. `form_submit` "WhatsApp açıldı" demektir,
       "mesaj ulaştı" demez — raporlarken bu ayrımı koru.
+- [ ] **C6. Bot / geçersiz tıklama savunması — KAMPANYA AÇILIRKEN uygulanacak
+      altı kurulum kapısı.** Gerekçeleriyle birlikte "Bot ve geçersiz tıklama
+      savunması" bölümünde:
+      konum **"bulunma"** (ilgi değil) · arama ortakları + görüntülü ağ
+      **kapalı** · tam/öbek eşleme + ilk günden negatif kelime listesi ·
+      reklam programı **08:00–20:00** · **düşük günlük bütçe** (zarar tavanı) ·
+      ilk hafta konum/IP/cihaz raporlarını her gün oku.
+
+      **Sonradan yapılamaz.** Saldırı başladıktan sonra kurulan kapı, o güne
+      kadar yanan parayı geri getirmez. C4 ile aynı oturumda uygulanmalı.
+- [ ] **C7. Saldırı anı protokolü — erken uyarı bizde hazır.** Ads tıklaması
+      artarken `tel_click` / `whatsapp_click` / `form_submit` artmıyorsa gelen
+      insan değildir; bu oran A7 kimliği girilince kendiliğinden çalışır ve
+      Google'ın raporundan önce haber verir.
+
+      Sıra: **IP hariç tutma** (kampanya başına 500 sınırı, ilk hamle) →
+      **coğrafya/saat/bütçe daralt veya kampanyayı durdur** (reklamı durdurmanın
+      organik sıralamaya zararı yok) → **Google'a geçersiz tıklama incelemesi
+      bildir** → **olayı CLAUDE.md'ye yaz** (tarih, belirti, yapılan, sonuç).
+
+      Üçüncü taraf tıklama koruma script'i **eklenmez** (yasak 5), Cloudflare
+      Bot Fight Mode **düşünmeden açılmaz** (sayfaya JS enjekte eder, B10).
 
 ---
 
@@ -944,7 +1200,17 @@ Aşağıdakiler o gün için duruyor:
       | klima gaz dolumu | 1 (gaz ne zaman biter) |
       | (hizmetsiz) | 1 (ne kadar tutar) |
 
-      Sıradaki adaylar: bulaşık makinesi koku yapıyor, çamaşır makinesi
+      **⚠️ 30.07.2026'da dokuzuncu hizmet eklendi (`klima-montaji`) ve onun
+      yazısı YOK.** Tablo artık 9 hizmetin 8'ini kapsıyor. Yazısı olmayan
+      hizmet organik aramada görünmüyor; **sıradaki yazı buradan seçilmeli.**
+      İki güçlü aday, ikisi de gerçek arama:
+      - **"taşınırken klima nasıl sökülür"** — gazın dış ünitede toplanması
+        anlatılır. Yapılmazsa gaz kaçar, yeni adreste dolum masrafı çıkar.
+        `klima-gazi-ne-zaman-biter` yazısıyla aynı dürüst çizgide.
+      - **"klima montajı nereye yapılmalı"** — iç ünitenin üfleme yönü, dış
+        ünitenin havalandırması, boru mesafesi sınırı.
+
+      Sıradaki diğer adaylar: bulaşık makinesi koku yapıyor, çamaşır makinesi
       kokuyor, buzdolabı çok ses yapıyor, kurutma makinesi hata veriyor,
       klima açılmıyor, fırın kapağı buğulanıyor.
 
@@ -1036,11 +1302,172 @@ Aşağıdakiler o gün için duruyor:
 
 ---
 
-### F. Yayına çıkış kontrol listesi — TAMAMLANDI (E1 hariç)
+### G. İş kapma — kapsam, ölçüm ve operasyon (29.07.2026'da açıldı)
+
+> **Bölüm sırası hakkında:** F yukarıda değil aşağıda; **F bir arşiv**
+> (yayına çıkış kapısı, kapandı), G ise **açık iş**. Açık olan önce geliyor.
+
+Bu bölüm "İş kapma hunisi"nin eyleme dönmüş hâli. **Sitede yapılacak teknik iş
+bitti**; buradaki maddeler ya kapsamı büyütür ya da zincirin kopan halkasını
+onarır. G2–G4 sahibine sorudur ve cevap gelmeden uygulanmaz — hizmet bölgesi ve
+kapasite tahmin edilecek şey değildir.
+
+- [ ] **G1. Search Console — DOĞRULAMA ZATEN YAPILMIŞ, kalan iş raporu okumak.
+      Ayrıntı: `docs/search-console-kurulum.md`.**
+
+      **Düzeltme kaydı (29.07.2026):** bu madde ilk yazıldığında "kurulmadı"
+      diyordu — **yanlıştı**. Sahibi "zaten yapmıştık" deyince dışarıdan
+      kontrol edildi ve haklı çıktı: alan adında
+      `google-site-verification=3o_8Oe38-…` TXT kaydı duruyor, hem Google hem
+      Cloudflare DNS'i aynı değeri döndürüyor. Yani mülk **DNS yöntemiyle,
+      alan adı seviyesinde** doğrulanmış — zaten önerilecek yöntem buydu.
+      Canlı HTML'de `google-site-verification` meta etiketi **yok**, yani
+      sıfır-dış-istek özelliği bozulmamış.
+
+      **Ders: "yapılmadı" demeden önce ölçün.** Panel, sahibinin panelde
+      yaptığı işleri göremez; dışarıdan doğrulanabilen her şey (DNS kaydı,
+      canlı HTML, HTTP başlığı) iddia edilmeden önce kontrol edilmeli.
+
+      **Site haritası da gönderilmiş — sahibi doğruladı (30.07.2026):
+      Sitemaps ekranında 60 adres görünüyor.** Yani kurulum tarafında yapılacak
+      hiçbir şey kalmadı; canlı sitemap'te de 60 adres var ve hepsi 200 dönüyor.
+
+      **Kalan iş yalnızca rapor okumak — dışarıdan görülemez, panel gerekir:**
+      1. **Dizine Ekleme → Sayfalar.** Kaç sayfa dizinde? Düşük sayı normal
+         (site 29.07.2026'da yayına girdi); asıl bakılacak yer "Dizine
+         eklenmedi" **gerekçeleri**.
+      2. **Performans → Sorgular.** Asıl değerli kısım bu; ekran görüntüsü
+         yeterli. **1–2 hafta beklemek gerekir** — bu kadar yeni bir sitede
+         rapor büyük ihtimalle boştur ve bu bozukluk değildir.
+
+      Claude bu raporla ne yapar: **D5 yazı sırasını tahminden ölçüme geçirir**
+      (gösterimi olup tıklanmayan sorgu = yazılacak bir sonraki yazı) ve TO'su
+      düşük sayfalarda `seo.ts` başlık kalıplarını ayarlar.
+
+      **TXT kaydı silinmesin** — silinirse doğrulama iptal olur, veri durur.
+
+- [ ] **G2. Kapsam genişliyor — sahibi 30.07.2026'da "Adana'nın çoğu ilçesine
+      gidiyoruz" dedi. LİSTE BEKLENİYOR.**
+
+      Site şu an **4 ilçe** (Seyhan, Çukurova, Yüreğir, Sarıçam) × 8 hizmet =
+      32 para sayfası. Adana'nın kalan **11 ilçesi** kapsam dışı: Ceyhan,
+      Kozan, İmamoğlu, Karaisalı, Karataş, Yumurtalık, Aladağ, Feke, Saimbeyli,
+      Tufanbeyli, Pozantı. Her biri **8 yeni para sayfası** demek.
+
+      **"Çoğu" yeterli değil, ad ad liste gerekiyor.** Sebep ilçe kapısı: her
+      ilçe için gerçek `yerelNotlar` yazılacak ve gidilmeyen ilçeye sayfa açmak
+      doorway page'dir — ceza tek sayfaya değil **tüm siteye** işler. Tahminle
+      ilçe eklenmez.
+
+      **İkinci soru, birincisi kadar önemli — VAAT UYUMU.** Site "aynı gün"
+      diyor, A1 notları "~2 saat" diyor. Bu, merkez ilçeler için doğru; ama
+      Adana'nın kuzey ilçeleri (Feke, Saimbeyli, Tufanbeyli, Aladağ, Pozantı)
+      saatler süren mesafede. Oralara aynı gün gidilemiyorsa **aynı vaat
+      basılamaz** — uydurma vaat, uydurma rakamla aynı yasağa girer (yasak 1).
+
+      Bu yüzden liste **iki kümeye** ayrılmalı:
+      - **Aynı gün gidilenler** → mevcut kalıpla açılır, `seo.ts` kalıp havuzu
+        aynen çalışır.
+      - **Randevuyla / ertesi gün gidilenler** → açılır ama vaat dili
+        farklılaşır; `ilceler.json`'a bu ayrımı taşıyan bir alan gerekir.
+        **Kod değişikliği bunu gerektirir, liste gelince yapılacak.**
+
+      Notları A1'deki yöntemle Claude yazar (doğrulanabilir kamuya açık coğrafya
+      + sahibinin onayladığı servis bilgileri); sahadan gelen ayrıntı eklenirse
+      değeri artar ama şart değil.
+
+- [ ] **G3. `klima-montaji` EKLENDİ (30.07.2026, sahibi onayladı: "bunu
+      yapıyoruz"). Kalan adaylar için cevap bekleniyor.**
+
+      Yayındaki **9 hizmet**: `klima-servisi` · `klima-bakimi` ·
+      `klima-gaz-dolumu` · **`klima-montaji`** · `camasir-makinesi-tamiri` ·
+      `bulasik-makinesi-tamiri` · `buzdolabi-tamiri` ·
+      `kurutma-makinesi-tamiri` · `firin-ocak-tamiri`.
+
+      **Montaj eklenirken çıkan ve düzeltilen üç şey — hepsi ders:**
+      1. **Sabit metinler arıza dili konuşuyordu.** `tur` alanı bu yüzden
+         doğdu; ayrıntı "Tek generic rota → `tur`" bölümünde.
+      2. **İki ilçe notunda "sekiz hizmet" yazıyordu**, hizmet dokuza çıkınca
+         yanlış rakama dönüştü. Düzeltilirken sayı **kaldırıldı**
+         ("hizmetlerin tamamı") — sayı yazmak, her hizmet eklendiğinde sessizce
+         yanlışlaşan bir bakım borcudur. Seyhan notuna da montaj eklendi.
+      3. **Hub açıklaması 155 sınırını aştı** (`ozet` uzundu), `[seo]` uyarısı
+         yakaladı, `ozet` kısaltıldı. Uyarıyı görmezden gelseydik arama
+         sonucunda "…" ile biten açıklama çıkacaktı.
+
+      **Sahibine sunulan aday listesinin kalanı — hâlâ soru, hiçbiri onaysız
+      eklenmez.** Bunlar bu iş kolunda yaygın hizmetler, firmanın yaptığının
+      iddiası değil:
+
+      | Aday | Not |
+      |---|---|
+      | ~~Klima montajı / demontajı / taşıma~~ | **EKLENDİ** — 1 hub + 4 para sayfası. |
+      | **Ticari soğutma** (vitrin dolabı, soğuk oda, sanayi tipi bulaşık makinesi) | Farklı müşteri (işletme), yüksek bilet, düşük rekabet. |
+      | **Şofben / termosifon (elektrikli su ısıtıcısı)** | Beyaz eşya servislerinin sık yaptığı iş. |
+      | **Davlumbaz / aspiratör** | Fırın-ocak ile aynı mutfakta, doğal ek. |
+      | **Ankastre set montajı** | Montaj işi; tamirle aynı ekip. |
+      | **Mikrodalga fırın** · **derin dondurucu** | Küçük hacim; ayrı sayfa değeri düşük olabilir. |
+      | **Su arıtma / su sebili** | Ayrı uzmanlık; yapılıyorsa eklenir. |
+
+      **⚠️ Kombi ve doğalgazlı cihazlar bilerek listede yok.** Doğalgaz işleri
+      yetki belgesi gerektirir; belgesiz sayfa açmak "yetkili servis" ibaresiyle
+      aynı türden bir risktir (yasak 2). Sahibi belgesi olduğunu söylerse ayrıca
+      değerlendirilir.
+
+      Onaylanan her hizmet `hizmetler.json`'a **tek kayıt** olarak girer →
+      1 hub + (ilçe sayısı) para sayfası, **kod yazılmadan**. Kayda 6 arıza/çözüm
+      ve 5–6 SSS gerekiyor; bunları Claude yazar, sahibi doğrular.
+
+- [x] **G4. Kapasite yeterli — sahibinin cevabı, 30.07.2026:** *"günde tüm
+      işlere yetebilecek kapasitemiz var."*
+
+      Yani kapsam büyütmenin (G2 · G3) ve reklamın önünde **kapasite engeli
+      yok**; hız kesmeye gerek kalmadı. Soru sorulma sebebi şuydu: talep
+      kapasiteyi aşarsa geciken iş → olumsuz yorum → yerel sıralama düşüşü.
+      Cevap "yetiyoruz" olduğuna göre bu risk şimdilik kapalı.
+
+      **Bu cevap siteye hiçbir şey yazdırmaz.** "Sınırsız kapasite" gibi bir
+      vaat sayfaya girmez — sözlü bir kapasite beyanı, ölçülmüş bir servis
+      taahhüdü değildir (yasak 1). Yalnızca **bizim planlama kararımızı**
+      etkiler: kapsamı ve reklamı temkinli açmak gerekmiyor.
+
+      **Yeniden sorulacak tek durum:** yorumlarda "geç geldiler / gelmediler"
+      şikâyeti görülürse. O zaman bu madde yeniden açılır — çünkü kapasitenin
+      gerçek ölçüsü beyan değil, yorumlardır.
+
+- [ ] **G5. Kaçan çağrı = kaçan iş — sahibinde, süregelen kural.**
+      Site "her gün 08:00–20:00" diyor. O saatlerde telefon açılmıyorsa site
+      yanlış söz veriyor demektir ve bu **en pahalı sessiz kayıptır**: reklam
+      parası ödenmiş, sayfa ikna etmiş, iş rakibe gitmiş, hiçbir raporda
+      görünmüyor.
+      - Cevaplanamayan çağrı **aynı gün geri aranır** — WhatsApp'tan tek satır
+        yeter.
+      - Saatler gerçekte tutmuyorsa çözüm çabalamak değil, `firma.json`'daki
+        saati **gerçeğe çekmek**. Yanlış çalışma saati olumsuz yorumla
+        cezalanır, düzeltmek tek satırlık iş.
+
+- [ ] **G6. Google İşletme Profili doldurulmalı — D4'ün yanındaki ikinci iş,
+      tamamı sahibinde.** Yorum tek sinyal değil; profil ne kadar doluysa
+      Haritalar'da o kadar üste çıkar:
+      - **Fotoğraf** — gerçek iş fotoğrafı. Sitedeki hero kararı (D2) burayı
+        **kapsamıyor**; profilde fotoğraf gerçekten sıralama sinyali.
+      - **Hizmet listesi** — sitedeki 8 hizmetin aynısı.
+      - **Hizmet alanı** — G2'nin cevabıyla aynı ilçeler.
+      - **Çalışma saati** — 08:00–20:00, gerçek olan (bkz. G5).
+      - **Soru & cevap** — sitedeki SSS'lerden birkaçı.
+      - **Gönderi** — ara ara kısa not; aktif profil daha üste çıkar.
+
+      Fotoğraf da gönderi de **gerçek olmalı**; stok görsel yasak 3'ün aynı
+      mantığına girer.
+
+---
+
+### F. Yayına çıkış kontrol listesi — ARŞİV, 20/20'nin 19'u kapandı
 
 Bu liste yayın öncesi kapıydı; **site 29.07.2026'da yayına girdi ve E1 hariç
 hepsi kapandı.** Artık geçmiş kaydı olarak duruyor — sonraki büyük değişiklikte
 (örn. yeni hizmet, tema değişikliği) yeniden gözden geçirilir.
+**Açık kalan tek madde 20** (KVKK avukat incelemesi); yayını engellemiyor.
 
 1. [x] `npm run build` → `[eksik-veri]` raporunda **karar dışı sürpriz yok**
     (13 satır: 5 karar + 8 bilinen bekleyen alan). *Maddenin eski hâli "rapor
@@ -1078,16 +1505,9 @@ hepsi kapandı.** Artık geçmiş kaydı olarak duruyor — sonraki büyük değ
     `docs/kvkk-avukat-brifingi.md`. **Veri sorumlusu kimliği bilerek eksik —
     sahibinin kararı, yayını engellemiyor (A4/E2).**
 
-**Site 29.07.2026'da yayına girdi; teknik kontrol listesinin tamamı aynı gün
-kapandı, performans bütçesi ölçümle doğrulandı.**
-
-**Açık kalan tek madde 20 — hukuki inceleme, yayını engellemiyor.**
-
-Bundan sonrası teknik değil içerik işi: yorum toplamak (A5 profili bağlandı
-ama yorum yok), blog yazıları (D5) ve zaman.
-
-**Bundan sonrası teknik değil içerik işi:** yorum toplamak (A5 profili bağlandı
-ama yorum yok), blog yazıları (D5) ve zaman. Sıralamayı bunlar belirleyecek.
+**Bundan sonrası teknik değil içerik işi:** yorum toplamak (D4), işletme
+profilini doldurmak (G6), blog yazıları (D5), kapsamı büyütmek (G2) ve zaman.
+Sıralamayı bunlar belirleyecek.
 
 ---
 
