@@ -53,7 +53,10 @@ export function paraSayfasiTitle(hizmet: Hizmet, ilce: Ilce): string {
     `${ilce.ad} ${hizmet.ad} — Aynı Gün | ${ilce.sehir}`,
     `${ilce.ad} ${hizmet.ad} | 2 Saatte Kapınızda`,
     `${hizmet.ad} ${ilce.ad} — ${ilce.sehir} Servis Hattı`,
-    `${ilce.ad} ${hizmet.ad} | Yerinde Arıza Tespiti`,
+    // Montajın arızası yok — hash bu kalıbı seçtiğinde başlık "Klima Montajı |
+    // Yerinde Arıza Tespiti" oluyordu. Başlık arama sonucunda okunan ilk şey;
+    // alakasız kelime hem tıklanmayı hem Kalite Puanını düşürür.
+    `${ilce.ad} ${hizmet.ad} | ${hizmet.tur === 'montaj' ? 'Yerinde Keşif' : 'Yerinde Arıza Tespiti'}`,
   ];
   const i = kalipIndeksi(`${hizmet.slug}:${ilce.slug}`, kaliplar.length);
   return kirp(kaliplar[i] as string, TITLE_MAX, `title ${hizmet.slug}/${ilce.slug}`);
@@ -67,7 +70,9 @@ export function hubTitle(hizmet: Hizmet, sehir: string): string {
   const kaliplar = [
     `${sehir} ${hizmet.ad} — Aynı Gün Servis`,
     `${sehir} ${hizmet.ad} | 2 Saatte Kapınızda`,
-    `${hizmet.ad} ${sehir} — Yerinde Arıza Tespiti`,
+    // Montajda "arıza tespiti" yanlış; yerine aramada gerçekten yazılan iki
+    // kelime konuyor ("söküm", "taşıma") — hem doğru hem kapsam genişletiyor.
+    `${hizmet.ad} ${sehir} — ${hizmet.tur === 'montaj' ? 'Söküm ve Taşıma' : 'Yerinde Arıza Tespiti'}`,
     `${sehir} ${hizmet.ad} | Servis Hattı`,
   ];
   const i = kalipIndeksi(`hub:${hizmet.slug}`, kaliplar.length);
@@ -105,17 +110,38 @@ export function paraSayfasiDescription(hizmet: Hizmet, ilce: Ilce): string {
         vaat üretiliyordu ki bu iskele metninden daha kötüdür.
     İkisi de kalıbı havuzdan düşürür; seçim kalanlar arasından yapılır.
   */
-  const kaliplar = [
-    `${ilce.ad} ve çevresinde ${ad} için aynı gün gidiyoruz. Yerinde arıza tespiti, kapıda ödeme, değişen parçaya garanti. Hemen arayın.`,
-    ilce.ulasimDk > 0
-      ? `${ilce.sehir} ${ilce.ad}'de ${ad}. Ortalama ${ilce.ulasimDk} dakikada adresinizdeyiz, ücret onayı almadan işleme başlamayız.`
-      : null,
-    `${ilce.ad} ${ad}: arızayı yerinde tespit eder, fiyatı önce söyler, onay alınca başlarız. Kapıda nakit veya kart.`,
-    mahalle
-      ? `${mahalle} dahil ${ilce.ad} genelinde ${ad}. Aynı gün randevu, şeffaf fiyat, değişen parçaya garanti.`
-      : null,
-    `${ilce.ad} için ${ad}: şikâyeti telefonda anlatın, yaklaşık aralığı söyleyelim. Kesin tutar yerinde tespitten sonra, onayınızla.`,
-  ].filter((k): k is string => k !== null);
+  /*
+    Montajın arızası yoktur. Aynı havuzu kullanmak "klima montajı: arızayı
+    yerinde tespit eder" gibi YANLIŞ bir cümle üretiyordu — meta açıklama arama
+    sonucunda okunan metin olduğu için bu doğrudan tıklanma kaybı demek.
+    Kalıp SAYISI ve mantığı aynı (aynı gün · onaysız işlem yok · kapıda ödeme),
+    yalnızca yerinde yapılan işin adı değişiyor.
+  */
+  const kaliplar = (
+    hizmet.tur === 'montaj'
+      ? [
+          `${ilce.ad} ve çevresinde ${ad} için aynı gün gidiyoruz. Yerinde keşif, kapıda ödeme, montaj işçiliğinin arkasındayız. Hemen arayın.`,
+          ilce.ulasimDk > 0
+            ? `${ilce.sehir} ${ilce.ad}'de ${ad}. Ortalama ${ilce.ulasimDk} dakikada adresinizdeyiz, ücret onayı almadan işleme başlamayız.`
+            : null,
+          `${ilce.ad} ${ad}: yeri ve mesafeyi yerinde görür, fiyatı önce söyler, onay alınca başlarız. Kapıda nakit veya kart.`,
+          mahalle
+            ? `${mahalle} dahil ${ilce.ad} genelinde ${ad}, söküm ve taşıma. Aynı gün randevu, şeffaf fiyat.`
+            : null,
+          `${ilce.ad} için ${ad}, söküm ve taşıma. Klimanın yerini telefonda anlatın; kesin tutar yerinde keşiften sonra, onayınızla.`,
+        ]
+      : [
+          `${ilce.ad} ve çevresinde ${ad} için aynı gün gidiyoruz. Yerinde arıza tespiti, kapıda ödeme, değişen parçaya garanti. Hemen arayın.`,
+          ilce.ulasimDk > 0
+            ? `${ilce.sehir} ${ilce.ad}'de ${ad}. Ortalama ${ilce.ulasimDk} dakikada adresinizdeyiz, ücret onayı almadan işleme başlamayız.`
+            : null,
+          `${ilce.ad} ${ad}: arızayı yerinde tespit eder, fiyatı önce söyler, onay alınca başlarız. Kapıda nakit veya kart.`,
+          mahalle
+            ? `${mahalle} dahil ${ilce.ad} genelinde ${ad}. Aynı gün randevu, şeffaf fiyat, değişen parçaya garanti.`
+            : null,
+          `${ilce.ad} için ${ad}: şikâyeti telefonda anlatın, yaklaşık aralığı söyleyelim. Kesin tutar yerinde tespitten sonra, onayınızla.`,
+        ]
+  ).filter((k): k is string => k !== null);
 
   const i = kalipIndeksi(`${ilce.slug}:${hizmet.slug}`, kaliplar.length);
   const metin = kirp(kaliplar[i] as string, DESC_MAX, `description ${hizmet.slug}/${ilce.slug}`);

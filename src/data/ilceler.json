@@ -5,7 +5,7 @@
     "sehir": "Adana",
     "mahalleler": ["{PLACEHOLDER — mahalle adı}", "{PLACEHOLDER — mahalle adı}", "{PLACEHOLDER — mahalle adı}"],
     "ulasimDk": 0,
-    "yerelNotlar": "Seyhan, Adana'nın merkez ilçesi ve şehrin en yoğun yerleşim çekirdeği; aynı sokakta eski apartmanla yeni bloğun yan yana durduğu karma bir doku var. Klima, çamaşır makinesi, bulaşık makinesi, buzdolabı, kurutma makinesi, fırın ve ocak arızalarının tamamına Seyhan'da da bakıyoruz. Her gün 08:00–20:00 arasında çalışıyoruz ve arıza kaydınızı aldıktan sonra genellikle iki saat içinde adreste oluyoruz. Telefonda cihazın markasını ve şikâyeti söylerseniz, yola çıkmadan önce size yaklaşık bir aralık verebiliriz.",
+    "yerelNotlar": "Seyhan, Adana'nın merkez ilçesi ve şehrin en yoğun yerleşim çekirdeği; aynı sokakta eski apartmanla yeni bloğun yan yana durduğu karma bir doku var. Klima, çamaşır makinesi, bulaşık makinesi, buzdolabı, kurutma makinesi, fırın ve ocak arızalarının tamamına Seyhan'da da bakıyor, klima montajı ve sökümü de yapıyoruz. Her gün 08:00–20:00 arasında çalışıyoruz ve arıza kaydınızı aldıktan sonra genellikle iki saat içinde adreste oluyoruz. Telefonda cihazın markasını ve şikâyeti söylerseniz, yola çıkmadan önce size yaklaşık bir aralık verebiliriz.",
     "aktif": true
   },
   {
@@ -23,7 +23,7 @@
     "sehir": "Adana",
     "mahalleler": ["{PLACEHOLDER — mahalle adı}", "{PLACEHOLDER — mahalle adı}", "{PLACEHOLDER — mahalle adı}"],
     "ulasimDk": 0,
-    "yerelNotlar": "Yüreğir, Seyhan Nehri'nin doğusunda kalan ve şehir merkezine köprülerle bağlanan ilçe; bu yüzden ulaşım süresi günün saatine göre değişebiliyor. Randevu saatini telefonda birlikte belirliyoruz, böylece gün içinde boşuna beklemek zorunda kalmıyorsunuz. Sekiz hizmetin tamamı Yüreğir'de de geçerli: klima bakımı ve gaz dolumundan çamaşır makinesi, bulaşık makinesi, buzdolabı, kurutma makinesi ve fırın onarımına kadar. Değişen parça garantili; ödemeyi işlem bittikten sonra kapıda nakit veya kartla yapıyorsunuz.",
+    "yerelNotlar": "Yüreğir, Seyhan Nehri'nin doğusunda kalan ve şehir merkezine köprülerle bağlanan ilçe; bu yüzden ulaşım süresi günün saatine göre değişebiliyor. Randevu saatini telefonda birlikte belirliyoruz, böylece gün içinde boşuna beklemek zorunda kalmıyorsunuz. Hizmetlerin tamamı Yüreğir'de de geçerli: klima montajı, bakımı ve gaz dolumundan çamaşır makinesi, bulaşık makinesi, buzdolabı, kurutma makinesi ve fırın onarımına kadar. Değişen parça garantili; ödemeyi işlem bittikten sonra kapıda nakit veya kartla yapıyorsunuz.",
     "aktif": true
   },
   {
@@ -32,7 +32,7 @@
     "sehir": "Adana",
     "mahalleler": ["{PLACEHOLDER — mahalle adı}", "{PLACEHOLDER — mahalle adı}", "{PLACEHOLDER — mahalle adı}"],
     "ulasimDk": 0,
-    "yerelNotlar": "Sarıçam da 2008'de kurulan ilçelerden; şehrin kuzeydoğusunda, görece yeni ve yayvan bir yerleşim düzeni var. Yerleşimin dağınık olması adresi baştan netleştirmeyi önemli kılıyor: mahalle ve sokakla birlikte varsa site veya blok adını da söylerseniz, adresi aramakla vakit kaybetmeyiz. Klimadan fırına kadar sekiz hizmetin tamamını Sarıçam'da da veriyoruz. Onarımı yaptırırsanız arıza tespiti için ayrıca ücret almıyoruz; tutarı duyduktan sonra vazgeçmeniz durumunda ne olacağını siz sormadan telefonda söylüyoruz.",
+    "yerelNotlar": "Sarıçam da 2008'de kurulan ilçelerden; şehrin kuzeydoğusunda, görece yeni ve yayvan bir yerleşim düzeni var. Yerleşimin dağınık olması adresi baştan netleştirmeyi önemli kılıyor: mahalle ve sokakla birlikte varsa site veya blok adını da söylerseniz, adresi aramakla vakit kaybetmeyiz. Klima montajından fırın onarımına kadar hizmetlerin tamamını Sarıçam'da da veriyoruz. Onarımı yaptırırsanız arıza tespiti için ayrıca ücret almıyoruz; tutarı duyduktan sonra vazgeçmeniz durumunda ne olacağını siz sormadan telefonda söylüyoruz.",
     "aktif": true
   }
 ]

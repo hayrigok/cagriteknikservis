@@ -3,7 +3,17 @@
 // colored containers") — kutu, kartın görsel ağırlığını taşıyan şey.
 import Ikon from './Ikon.astro';
 import { firma, deger } from '@/lib/veri';
-import type { IkonAdi } from '@/lib/types';
+import type { IkonAdi, HizmetTuru } from '@/lib/types';
+
+// Montaj sayfasında "arıza" yok: orada yerinde bakılan şey yer, mesafe ve
+// tesisat. Rozetin vaadi aynı (önce görürüz, sonra tutarı söyleriz), yalnızca
+// işin adı değişiyor — uydurma bir vaat eklemiyoruz.
+interface Props {
+  tur?: HizmetTuru;
+}
+
+const { tur = 'tamir' } = Astro.props;
+const montaj = tur === 'montaj';
 
 // Sabit garanti süresi YOK: sahibi "parçaya göre değişiyor" dedi. Rozete
 // uydurma süre yazmak yerine mekanizmayı anlatıyoruz. İfade hiç yoksa rozet
@@ -22,9 +32,10 @@ const rozetler: Rozet[] = [
     : null,
   {
     ikon: 'arama',
-    baslik: 'Onarımda tespit ücretsiz',
-    aciklama:
-      'Arızayı yerinde belirler, fiyatı önce söyleriz. Onarımı yaptırırsanız tespit için ayrıca ücret almayız.',
+    baslik: montaj ? 'Montajda keşif ücretsiz' : 'Onarımda tespit ücretsiz',
+    aciklama: montaj
+      ? 'Yeri ve mesafeyi yerinde görür, fiyatı önce söyleriz. Montajı yaptırırsanız keşif için ayrıca ücret almayız.'
+      : 'Arızayı yerinde belirler, fiyatı önce söyleriz. Onarımı yaptırırsanız tespit için ayrıca ücret almayız.',
   },
   {
     ikon: 'kart',

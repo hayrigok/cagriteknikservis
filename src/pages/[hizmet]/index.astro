@@ -50,6 +50,8 @@ const { hizmet } = Astro.props;
 const yol = `/${hizmet.slug}/`;
 const h1 = `${firma.sehir} ${hizmet.ad}`;
 const cihaz = hizmet.cihaz.toLocaleLowerCase('tr-TR');
+// Montajın arızası yok; sabit metinlerin dili buradan seçiliyor (bkz. HizmetTuru).
+const montaj = hizmet.tur === 'montaj';
 const waMesaji = `Merhaba, ${hizmet.ad.toLocaleLowerCase('tr-TR')} hakkında bilgi almak istiyorum.`;
 
 // Sayfası ÜRETİLEN ilçeler linklenir; kapıdan geçmeyenler link olmadan, sadece
@@ -85,7 +87,7 @@ const schema = [
     ikon={hizmetIkonu(hizmet.slug)}
     waMesaji={waMesaji}
   />
-  <GuvenRozetleri />
+  <GuvenRozetleri tur={hizmet.tur} />
   <OlcuSeridi />
 
   {/* baslikBos zorunlu: fiyat yayımlamadığımız için başlık "… fiyatları" kalırsa
@@ -95,14 +97,18 @@ const schema = [
     baslik={`${hizmet.ad} fiyatları`}
     baslikBos={`${hizmet.ad} kapsamında yaptığımız işlemler`}
     etiket="Fiyat"
+    aciklamaBos={montaj
+      ? 'Tutar, klimanın yerine ve boru mesafesine göre değişiyor. Yaptığımız işlemler aşağıda; fiyatı yerinde keşiften sonra, işleme başlamadan önce söyleriz.'
+      : undefined}
   />
 
   <ArizaCozum
     arizalar={hizmet.ariza}
     baslik={hizmet.arizaBaslik ?? `En sık çıkan ${cihaz} arızaları`}
+    etiket={montaj ? 'Sık sorulanlar' : undefined}
   />
 
-  <Surec />
+  <Surec tur={hizmet.tur} />
 
   <Bolum
     etiket="Bölgeler"

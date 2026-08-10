@@ -2,26 +2,57 @@
 // 8 — Süreç, 4 adım. Koyu blok: sayfanın ortasında ikinci bir renk alanı,
 // aksi hâlde beyaz/gri sıralaması tekdüze kalıyor.
 import Bolum from './Bolum.astro';
+import type { HizmetTuru } from '@/lib/types';
 
-const adimlar = [
-  {
-    baslik: 'Arayın',
-    metin: 'Cihazın markasını ve şikâyeti söylersiniz, uygun parçayla yola çıkarız.',
-  },
-  {
-    baslik: 'Randevu',
-    metin: 'Size uyan saati birlikte belirleriz. Aynı gün gitmeye çalışırız.',
-  },
-  {
-    baslik: 'Yerinde tespit',
-    metin: 'Arızayı görür, ne yapılacağını ve tutarı söyleriz.',
-  },
-  {
-    baslik: 'Onay ve onarım',
-    metin:
-      'Siz onaylayınca başlarız. Bitince cihazı birlikte test eder, garanti süresini size söyleriz.',
-  },
-];
+// Dört adımın SIRASI ve mantığı her hizmette aynı: ara → randevu → yerinde gör
+// → onay al, sonra başla. Değişen tek şey üçüncü adımda bakılan şeyin adı.
+// Montajda arıza yoktur; yer, mesafe ve tesisat vardır.
+interface Props {
+  tur?: HizmetTuru;
+}
+
+const { tur = 'tamir' } = Astro.props;
+const montaj = tur === 'montaj';
+
+const adimlar = montaj
+  ? [
+      {
+        baslik: 'Arayın',
+        metin: 'Klimanın modelini ve nereye takılacağını söylersiniz, uygun malzemeyle yola çıkarız.',
+      },
+      {
+        baslik: 'Randevu',
+        metin: 'Size uyan saati birlikte belirleriz. Montaj tamirden uzun sürer, saati ona göre ayarlarız.',
+      },
+      {
+        baslik: 'Yerinde keşif',
+        metin: 'Yeri, boru mesafesini ve tahliye güzergâhını görür, ne yapılacağını ve tutarı söyleriz.',
+      },
+      {
+        baslik: 'Onay ve montaj',
+        metin:
+          'Siz onaylayınca başlarız. Bitince klimayı birlikte çalıştırır, su tahliyesini ve soğutmayı test ederiz.',
+      },
+    ]
+  : [
+      {
+        baslik: 'Arayın',
+        metin: 'Cihazın markasını ve şikâyeti söylersiniz, uygun parçayla yola çıkarız.',
+      },
+      {
+        baslik: 'Randevu',
+        metin: 'Size uyan saati birlikte belirleriz. Aynı gün gitmeye çalışırız.',
+      },
+      {
+        baslik: 'Yerinde tespit',
+        metin: 'Arızayı görür, ne yapılacağını ve tutarı söyleriz.',
+      },
+      {
+        baslik: 'Onay ve onarım',
+        metin:
+          'Siz onaylayınca başlarız. Bitince cihazı birlikte test eder, garanti süresini size söyleriz.',
+      },
+    ];
 ---
 
 <Bolum

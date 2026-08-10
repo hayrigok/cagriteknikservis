@@ -14,6 +14,7 @@ const IKONLAR: Record<string, IkonAdi> = {
   'klima-servisi': 'klima',
   'klima-bakimi': 'klima',
   'klima-gaz-dolumu': 'klima',
+  'klima-montaji': 'klima',
   'camasir-makinesi-tamiri': 'camasir',
   'bulasik-makinesi-tamiri': 'bulasik',
   'buzdolabi-tamiri': 'buzdolabi',

@@ -53,9 +53,18 @@ export interface FiyatSatiri {
   not?: string;
 }
 
+/**
+ * Hizmetin niteliği. Sayfa iskeleti aynı kalır, yalnızca SABİT METİNLERİN dili
+ * değişir: tamir sayfası "arıza"dan söz eder, montaj sayfasının arızası yoktur.
+ * Verilmezse 'tamir' — mevcut 8 hizmetin hepsi tamir/bakım.
+ */
+export type HizmetTuru = 'tamir' | 'montaj';
+
 export interface Hizmet {
   slug: string;
   ad: string;
+  /** Bkz. HizmetTuru. Sabit metinlerin dilini seçer, blok sırasını değiştirmez. */
+  tur?: HizmetTuru;
   /** "{ilce}" belirteci ilçe adıyla değiştirilir. Sayfadaki tek H1. */
   h1Sablonu: string;
   /** Somut vaat, H1 altındaki satır. */

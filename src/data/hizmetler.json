@@ -729,5 +729,102 @@
         "cevap": "Onarımı yaptırırsanız arıza tespiti için ayrıca ücret almayız. Arızayı yerinde gördükten sonra tutarı söyleriz; onaylamazsanız işleme başlamayız."
       }
     ]
+  },
+  {
+    "slug": "klima-montaji",
+    "ad": "Klima Montajı",
+    "tur": "montaj",
+    "h1Sablonu": "{ilce} Klima Montajı",
+    "altBaslik": "Montaj, sökme ve taşıma. Aynı gün randevu.",
+    "cihaz": "Klima",
+    "ozet": "Yeni klima montajı, eski klimanın sökülmesi ve taşınan klimanın yeni adrese kurulumu.",
+    "aktif": true,
+    "arizaBaslik": "Montaj ve taşımada en çok karşılaşılan durumlar",
+    "ariza": [
+      {
+        "baslik": "Yeni klima nereye monte edilmeli?",
+        "cozum": "İç ünitenin doğrudan yatak veya oturma yerine üflememesi, dış ünitenin ise önü kapalı olmayan, sıcak hava basmayacağı bir yere gelmesi gerekir. Yeri keşifte birlikte belirler, boru ve tahliye güzergâhını gösterdikten sonra delik açarız."
+      },
+      {
+        "baslik": "Taşınıyorum, klimamı sökebilir misiniz?",
+        "cozum": "Sökmeden önce gazın dış ünitede toplanması gerekir; bu yapılmazsa gaz havaya kaçar ve yeni adreste yeniden dolum masrafı çıkar. Vanaları kapatıp gazı toplar, boruları koruyarak söker, üniteleri taşımaya hazır bırakırız."
+      },
+      {
+        "baslik": "İç ünite ile dış ünite arası uzun, sorun olur mu?",
+        "cozum": "Her modelin izin verdiği boru uzunluğu ve kot farkı sınırlıdır; sınırın üstünde ek gaz gerekir, çok aşılırsa cihaz verimini kaybeder. Mesafeyi keşifte ölçer, modelin sınırını söyler, gerekiyorsa ek gaz miktarını baştan belirtiriz."
+      },
+      {
+        "baslik": "Montajdan sonra iç üniteden su damlıyor",
+        "cozum": "Bu neredeyse her zaman tahliye hattının eğimi ya da güzergâhıdır: su dışarı akacağına içeride birikir. Hattın eğimini yeniden verir, gerekirse güzergâhı değiştirir ve su akışını test ederek bırakırız."
+      },
+      {
+        "baslik": "Montajdan kısa süre sonra soğutma düştü",
+        "cozum": "Bağlantı rakorlarından sızıntı ya da hatta kalan hava ve nem en sık sebeptir. Hattı basınç altında test eder, kaçak noktasını bulup onarır, sonra gazı doğru miktarda tamamlarız."
+      },
+      {
+        "baslik": "Duvar delinecek, riskli bir yer var mı?",
+        "cozum": "Kolon ve kirişler delinmez; ayrıca duvarın içinden geçen elektrik ve su hattı varsa güzergâh değişir. Delmeden önce yeri kontrol eder, uygun değilse alternatif güzergâhı size gösterip onayınızı alırız."
+      }
+    ],
+    "fiyatAraligi": [
+      {
+        "islem": "Yerinde keşif",
+        "altTl": null,
+        "ustTl": null,
+        "not": "Montaj yaptırılırsa ücretsiz."
+      },
+      {
+        "islem": "Duvar tipi klima montajı",
+        "altTl": null,
+        "ustTl": null
+      },
+      {
+        "islem": "Klima sökümü (gaz toplayarak)",
+        "altTl": null,
+        "ustTl": null
+      },
+      {
+        "islem": "Söküm + taşıma + yeni adrese montaj",
+        "altTl": null,
+        "ustTl": null
+      },
+      {
+        "islem": "Ek bakır boru ve tesisat",
+        "altTl": null,
+        "ustTl": null,
+        "not": "Metrajı keşifte belirlenir."
+      },
+      {
+        "islem": "Tahliye hattı düzeltme",
+        "altTl": null,
+        "ustTl": null
+      }
+    ],
+    "sss": [
+      {
+        "soru": "Montaj için aynı gün gelebiliyor musunuz?",
+        "cevap": "Evet, çoğunlukla aynı gün randevu veriyoruz. Montaj işi tamirden uzun sürdüğü için saati telefonda birlikte belirleriz; klimanın yeri ve boru mesafesi hakkında telefonda kısaca bilgi verirseniz uygun malzemeyle geliriz."
+      },
+      {
+        "soru": "Keşif ücretli mi?",
+        "cevap": "Montajı bize yaptırırsanız keşif için ayrıca ücret almayız. Yeri, mesafeyi ve gereken malzemeyi yerinde gördükten sonra tutarı söyleriz; onaylamazsanız işleme başlamayız."
+      },
+      {
+        "soru": "Bakır boru ve malzeme fiyata dahil mi?",
+        "cevap": "Standart montajda kullanılan malzeme ile ek metraj ayrı değerlendirilir. Mesafe keşifte ölçülür ve gereken metraj işleme başlamadan önce size söylenir; sonradan sürpriz kalem çıkmaz."
+      },
+      {
+        "soru": "Taşınırken klimayı sökerken gaz kaybolur mu?",
+        "cevap": "Doğru yapılırsa kaybolmaz. Sökümden önce gaz dış ünitede toplanır ve vanalar kapatılır. Bu adım atlanırsa gaz havaya kaçar, yeni adreste yeniden dolum gerekir; biz sökümü bu adımla yapıyoruz."
+      },
+      {
+        "soru": "Montajın garantisi var mı?",
+        "cevap": "Yaptığımız montaj işçiliğinin arkasındayız; montajdan kaynaklanan su kaçağı veya bağlantı sızıntısı çıkarsa ücret almadan tekrar geliriz. Cihazın kendi garantisi üreticiye aittir, ona karışmayız."
+      },
+      {
+        "soru": "Hangi marka klimaları monte ediyorsunuz?",
+        "cevap": "Marka ayrımı yapmıyoruz; bütün markalarda montaj, söküm ve taşıma yapıyoruz. Bağımsız bir servisiz, hiçbir üreticinin bayisi veya temsilcisi değiliz. Cihazın marka ve modelini söylerseniz uygun malzemeyle geliriz."
+      }
+    ]
   }
 ]

@@ -52,6 +52,8 @@ const { hizmet, ilce } = Astro.props;
 const yol = `/${hizmet.slug}/${ilce.slug}/`;
 const h1 = h1Uret(hizmet, ilce);
 const cihaz = hizmet.cihaz.toLocaleLowerCase('tr-TR');
+// Montajın arızası yok; sabit metinlerin dili buradan seçiliyor (bkz. HizmetTuru).
+const montaj = hizmet.tur === 'montaj';
 const waMesaji = `Merhaba, ${ilce.ad} için ${hizmet.ad.toLocaleLowerCase('tr-TR')} hakkında bilgi almak istiyorum.`;
 
 const schema = [
@@ -80,19 +82,25 @@ const schema = [
     ikon={hizmetIkonu(hizmet.slug)}
     waMesaji={waMesaji}
   />
-  <GuvenRozetleri />
+  <GuvenRozetleri tur={hizmet.tur} />
   <OlcuSeridi />
 
   <FiyatTablosu
     satirlar={hizmet.fiyatAraligi}
     baslik={`${ilce.ad} ${hizmet.ad} fiyatları`}
-    baslikBos={`${ilce.ad} için ${cihaz} servisinde yaptığımız işlemler`}
+    baslikBos={montaj
+      ? `${ilce.ad} için ${hizmet.ad.toLocaleLowerCase('tr-TR')} kapsamında yaptığımız işlemler`
+      : `${ilce.ad} için ${cihaz} servisinde yaptığımız işlemler`}
+    aciklamaBos={montaj
+      ? 'Tutar, klimanın yerine ve boru mesafesine göre değişiyor. Yaptığımız işlemler aşağıda; fiyatı yerinde keşiften sonra, işleme başlamadan önce söyleriz.'
+      : undefined}
   />
   <ArizaCozum
     arizalar={hizmet.ariza}
     baslik={hizmet.arizaBaslik ?? `En sık çıkan ${cihaz} arızaları`}
+    etiket={montaj ? 'Sık sorulanlar' : undefined}
   />
-  <Surec />
+  <Surec tur={hizmet.tur} />
   <IlceBlogu ilce={ilce} hizmetAdi={hizmet.ad} />
   <Yorumlar />
   <Sss sorular={hizmet.sss} />
