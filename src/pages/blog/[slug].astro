@@ -81,6 +81,8 @@ const digerleri = [...ayniHizmet, ...kalanlar].slice(0, 3);
 >
   <StickyUstCubuk />
 
+  <main id="icerik">
+
   <Hero
     h1={yazi.data.baslik}
     altBaslik={yazi.data.ozet}
@@ -143,6 +145,8 @@ const digerleri = [...ayniHizmet, ...kalanlar].slice(0, 3);
 
   <IletisimFormu baglam={`Arıza rehberi: ${yazi.data.baslik}`} zemin="zemin" />
   <AltCta baslik="Kontrol ettiniz, geçmedi mi?" waMesaji={waMesaji} />
+  </main>
+
   <Footer />
   <MobilBar waMesaji={waMesaji} />
   <YanButonlar waMesaji={waMesaji} />

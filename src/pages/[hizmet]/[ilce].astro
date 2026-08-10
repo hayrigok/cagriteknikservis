@@ -75,6 +75,8 @@ const schema = [
   sayfaKimligi={`${hizmet.slug}/${ilce.slug}`}
 >
   <StickyUstCubuk />
+
+  <main id="icerik">
   <Hero
     h1={h1}
     altBaslik={hizmet.altBaslik}
@@ -107,6 +109,8 @@ const schema = [
   <IletisimFormu baglam={`${h1} talebi`} />
   <KomsuIlceler hizmet={hizmet} ilce={ilce} />
   <AltCta baslik={`${ilce.ad} için hemen randevu alın`} waMesaji={waMesaji} />
+  </main>
+
   <Footer />
   <MobilBar waMesaji={waMesaji} />
   <YanButonlar waMesaji={waMesaji} />

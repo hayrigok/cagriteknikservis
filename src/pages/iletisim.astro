@@ -57,6 +57,8 @@ const kunye: Kunye[] = kunyeHam.filter((k): k is Kunye => k.metin !== null);
   sayfaKimligi="iletisim"
 >
   <StickyUstCubuk />
+
+  <main id="icerik">
   <Hero
     h1="İletişim"
     altBaslik="En hızlı yol telefon. Arayın, arızayı anlatın, randevuyu birlikte belirleyelim."
@@ -119,6 +121,8 @@ const kunye: Kunye[] = kunyeHam.filter((k): k is Kunye => k.metin !== null);
   </Bolum>
 
   <AltCta baslik="Arızayı bugün çözelim" waMesaji={waMesaji} />
+  </main>
+
   <Footer />
   <MobilBar waMesaji={waMesaji} />
   <YanButonlar waMesaji={waMesaji} />

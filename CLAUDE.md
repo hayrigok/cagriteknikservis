@@ -258,6 +258,14 @@ ana CTA → 3 güven rozeti → fiyat tablosu → arıza/çözüm → 4 adım s�
 blok → yorumlar → SSS → form → alt CTA + footer → mobil sabit alt çubuk.
 Blok eklerken veya sıra değiştirirken önce sorun.
 
+**`<main id="icerik">` sayfalarda, BaseLayout'ta DEĞİL** (10.08.2026). Her sayfa
+`StickyUstCubuk → <main> … </main> → Footer → MobilBar → YanButonlar` sırasında.
+Gerekçe: `slot`'un tamamı BaseLayout içinde sarılsaydı `<header>`, `<footer>` ve
+`<nav>` main'in **içinde** kalırdı — Lighthouse'un tek uyarısı (`main landmark
+yok`) üçe çıkardı (`banner`/`contentinfo` üst düzeyde değil). "İçeriğe atla"
+bağlantısının hedefi de bu `id`; Hero'dan ve `kvkk.astro`'dan alındı, **iki
+yerde birden tanımlamayın.**
+
 Ana sayfa bunun kısaltılmışı: fiyat tablosu ve ilçe bloğu yok, yerine hizmet ×
 ilçe hub listesi var. Sahibinin onayıyla arıza kartları ve SSS eklendi.
 

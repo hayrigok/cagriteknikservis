@@ -45,6 +45,8 @@ const yazilar = (await getCollection('yazilar')).sort((a, b) => a.data.sira - b.
 >
   <StickyUstCubuk />
 
+  <main id="icerik">
+
   <Hero
     h1="Arıza rehberi"
     altBaslik="Cihazınız ne yapıyor? Belirtiden başlayın. Çoğu arızada servis çağırmadan önce kontrol edebileceğiniz birkaç şey var; gerisi için zaten buradayız."
@@ -86,6 +88,8 @@ const yazilar = (await getCollection('yazilar')).sort((a, b) => a.data.sira - b.
   </Bolum>
 
   <AltCta baslik="Arıza sizde değilse, biz bakalım" waMesaji={waMesaji} />
+  </main>
+
   <Footer />
   <MobilBar waMesaji={waMesaji} />
   <YanButonlar waMesaji={waMesaji} />

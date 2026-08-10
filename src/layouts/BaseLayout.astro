@@ -90,6 +90,12 @@ const { ga: gaKimlik, ads: adsKimlik } = olcumKimlikleri();
   </head>
 
   <body class="font-sans antialiased">
+    {/*
+      Hedefi her sayfadaki <main id="icerik">. main SAYFALARDA, burada değil:
+      slot'un tamamını sarsaydık <header> (StickyUstCubuk), <footer> ve
+      <nav> (MobilBar) main'in İÇİNDE kalırdı — tek uyarıyı üçe çıkarırdı.
+      Sayfa iskeleti bu yüzden StickyUstCubuk → main → Footer sırasında.
+    */}
     <a
       href="#icerik"
       class="sr-only focus:not-sr-only focus:absolute focus:top-2 focus:left-2 focus:z-50 focus:rounded-sm focus:bg-lacivert-900 focus:px-4 focus:py-2 focus:font-semibold focus:text-white"
