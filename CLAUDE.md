@@ -460,8 +460,46 @@ LCP bütçenin **yarısından az**, CLS tam sıfır. Uzun görev süresi JS'ten 
 CPU'da beklenen değer. INP ölçülemedi — gerçek etkileşim gerektiriyor, sentetik
 ortamda üretilemez.
 
-**Bu rakamlar ölçüm kimliği girilmeden önceki hâlin.** gtag.js ~90 KB ve onay
-veren her ziyaretçide iniyor; A7'den sonra ölçüm **tekrarlanmalı**.
+### Ölçüm kimliği girildikten sonra — tekrar ölçüldü, 11.08.2026
+
+GA4 kimliği (`G-818Z2EG00L`) canlıya alındıktan sonra B8 tekrarlandı. Merak
+edilen tek şey vardı: **gtag.js LCP'yi geciktiriyor mu?**
+
+| Sayfa · onay | LCP | CLS | FCP | gtag.js indi |
+|---|---|---|---|---|
+| Ana sayfa · onay **yok** | 0,63 sn | 0,000 | 0,63 sn | — |
+| Ana sayfa · onay **var** | **0,62 sn** | 0,000 | 0,62 sn | 2,89 sn |
+| Para sayfası · onay **yok** | 0,84 sn | 0,000 | 0,63 sn | — |
+| Para sayfası · onay **var** | **0,63 sn** | 0,000 | 0,63 sn | 2,87 sn |
+| Teşekkür sayfası · onay var | 0,54 sn | 0,000 | 0,54 sn | 2,24 sn |
+
+**Cevap: hayır, geciktirmiyor.** Onaylı ve onaysız LCP arasında fark yok
+(0,62'ye karşı 0,63 sn — gürültü seviyesi). Sebep yapısal: gtag.js `async`
+iniyor ve **2,2–2,9 sn'de tamamlanıyor**, yani LCP çoktan olmuş oluyor. LCP
+nesnesi metin olduğu için hiçbir dış dosyayı beklemiyor. Bütçe (< 2,0 sn)
+tamamında karşılanıyor, CLS her satırda tam sıfır.
+
+**Ölçüm yöntemi değişti — Chrome 149 üç tuzak çıkardı, üçü de ölçülerek
+bulundu.** Aynı ölçümü tekrarlayacak olan bunları bilmeli, yoksa **kısıtlama
+sessizce uygulanmaz ve rakamlar sahte iyi çıkar**:
+
+1. **`Emulation.setDeviceMetricsOverride` açıkken ağ kısıtlaması hiç
+   uygulanmıyor.** Ölçüldü: cihaz taklidi yokken TTFB 154 ms, taklit açıkken
+   71–79 ms (150 ms gecikmede imkânsız). Mobil genişlik bu yüzden CDP ile
+   değil, Chrome'a `--window-size=412,823` vererek veriliyor.
+2. **Aynı sekmede ikinci navigasyondan itibaren kısıtlama düşüyor.** İlk satır
+   kısıtlı, sonrakiler kısıtlamasız çıkıyor.
+3. **Yeni sekme açmak yetmiyor** — durum tarayıcı düzeyinde. Çözüm: **her
+   ölçüm için sıfırdan Chrome başlatmak** (1 tarayıcı = 1 ölçüm).
+
+Betiğe bu yüzden bir **kendini denetleme** kuralı konuldu: 150 ms gecikmede
+TTFB 140 ms'nin altına inemez, inen satır `GEÇERSİZ` damgası yer. Bu kural
+olmasaydı ilk üç turun sahte rakamları (TTFB 0,06–0,07 sn) doğru sanılacaktı.
+
+İki küçük fark dürüstlük için yazılı: gerçek genişlik **484 px** çıktı
+(`--window-size` CSS viewport'una birebir yansımıyor, bilinen davranış) ve PSI
+tekrar **429** verdi (anahtarsız kullanımda kota). Rakamlar bu yüzden yine
+CDP'den.
 
 **Dış kaynak isteği sıfır**: CSS tamamen inline, yazı tipi indirilmiyor, ikonlar
 satır içi SVG. HTML içindeki tek `https://` referansı canonical etiketi — o bir
@@ -673,7 +711,7 @@ Hizmet bölgesi **tahmin edilmesi yasak** alan; liste gelmeden sayfa açılmaz.
 | Search Console raporunu okumak | G1 | **Kurulum bitti** (doğrulama + sitemap 60 adres ✔). Rapor için **1–2 hafta** gerek; site 29.07.2026'da yayına girdi, şu an boş olması normal. |
 | Google Ads'i açmak | A7 · C1–C5 | **Başladı** (11.08.2026, sahibi sihirbazı açtı). Dönüşüm adresi `/tesekkurler/` hazır; **eksik olan `AW-…` kimliği** — o girilmeden hiçbir dönüşüm ölçülmez. |
 | Bot / geçersiz tıklama savunması | **C6 · C7** | Kurulum kapıları yazılı; **kampanya açılırken** uygulanacak, sonradan değil. |
-| Performans ölçümünü tekrarlamak | B8 | A7'den sonra — gtag.js ~90 KB, mevcut rakamlar kimliksiz hâlin. |
+| ~~Performans ölçümünü tekrarlamak~~ | B8 | **YAPILDI** (11.08.2026): gtag.js LCP'yi geciktirmiyor, 0,54–0,84 sn. |
 | Tip denetimi | B5 | `@astrojs/check` kurulu değil; kurulum **onay ister**. |
 | Self-hosted font | D1 | **Tavsiye: yapmayın** — LCP metin, ölçülmüş avantajı bozar. Karar sahibinde. |
 
@@ -732,11 +770,11 @@ Hizmet bölgesi **tahmin edilmesi yasak** alan; liste gelmeden sayfa açılmaz.
 
 | Ölçüt | Şu an | Sınır |
 |---|---|---|
-| Mobil LCP | **0,50–0,91 sn** ✔ | < 2,0 sn |
+| Mobil LCP | **0,54–0,84 sn** ✔ (gtag.js ile birlikte, 11.08.2026) | < 2,0 sn |
 | Mobil CLS | **0,000** ✔ | < 0,1 |
 | Sayfa ağırlığı | **18,6–21,3 KB** ✔ | < 500 KB |
-| JS (gzip) | **2,07 KB** ✔ | < 40 KB |
-| Dış istek | **0** ✔ (B10 kapatıldı, kimlik girilene kadar da 0) | 0 |
+| JS (gzip) | **2,07 KB** ✔ (kendi kodumuz) | < 40 KB |
+| Dış istek | **onay yoksa 0** ✔ · onay varsa yalnızca gtag.js (LCP'den sonra iniyor) | 0 / onaylı |
 | HTTPS | `http://` → **301** → `https://` ✔ | — |
 
 **Yayımlanmayan — karar, eksik değil:** fiyat (A3) · künye (A4) · marka listesi
@@ -1137,7 +1175,11 @@ düşer.
       ölçüm Chrome DevTools Protocol ile yerel yapıldı — 4× CPU yavaşlatma +
       kısıtlı 4G. **INP ölçülemedi**, gerçek etkileşim gerektiriyor.
 
-      **A7'den sonra tekrarlanmalı** (gtag.js ~90 KB).
+      **11.08.2026'da TEKRARLANDI** — GA4 kimliği girildikten sonra. Sonuç:
+      gtag.js LCP'yi geciktirmiyor (onaylı 0,62 sn / onaysız 0,63 sn), çünkü
+      `async` iniyor ve 2,2–2,9 sn'de tamamlanıyor — LCP çoktan olmuş oluyor.
+      Chrome 149'un üç ölçüm tuzağı ve yeni yöntem "Performans bütçesi"
+      bölümünde yazılı; **o tuzakları okumadan ölçüm tekrarlamayın.**
 - [x] **B10. Cloudflare RUM beacon'ı kapatıldı — 29.07.2026, doğrulandı.**
       B8 ölçümü sırasında yakalanmıştı: Cloudflare kenar sunucuda HTML'e
       `static.cloudflareinsights.com/beacon.min.js` enjekte ediyordu.
