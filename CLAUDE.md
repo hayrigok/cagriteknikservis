@@ -724,7 +724,7 @@ Hizmet bölgesi **tahmin edilmesi yasak** alan; liste gelmeden sayfa açılmaz.
 | Canlı SEO denetimi | **50/50 temiz · açık yok** ✔ | 0 açık |
 | Search Console | **doğrulandı** ✔ (DNS TXT) · **sitemap gönderildi, 60 adres** ✔ | rapor okumak (G1) — 1–2 hafta sonra |
 | Site haritası | **65 adres** (60 → 65, montaj) | push sonrası canlıda doğrulanacak |
-| Ölçümleme | **yükleyici hazır, kimlik bekliyor** (B3 ✔ / A7) | GA4 + Ads dönüşümleri |
+| Ölçümleme | **GA4 çalışıyor** — `G-818Z2EG00L` (11.08.2026) · **Ads kimliği yok** | + `AW-…` dönüşümleri (A7 · C1) |
 | Google yorumu | **0** (D4) | ilk aşamada 10–15 |
 | Bot / click fraud savunması | **kurulum kapıları yazıldı** (C6 · C7) | reklam açılınca uygulanacak |
 
@@ -950,10 +950,26 @@ düşer.
 
       "Yetkili servis" ibaresi hâlâ yasak (yasak 2) — kapsayıcı cevap yazılırken
       de kullanılmadı, kullanılmayacak.
-- [ ] **A7. GA4 ölçüm kimliği (`gaOlcumKimligi`, `G-…`) + Google Ads dönüşüm
-      kimliği (`adsKimligi`, `AW-…`)** — **B3 bitti (29.07.2026), artık tek
-      eksik bu.** Kimlik girilir girilmez ölçüm çalışmaya başlar, kod
-      değişikliği gerekmez.
+- [ ] **A7. GA4 GİRİLDİ (11.08.2026) — `G-818Z2EG00L`. Kalan tek eksik Ads
+      dönüşüm kimliği (`adsKimligi`, `AW-…`).**
+
+      Sahibi gtag.js snippet'inin tamamını yapıştırdı; **snippet siteye
+      konmadı**, yalnızca kimlik `firma.json`'a girildi. Sebep: snippet
+      koşulsuz yükleniyor, bizim yükleyicimiz (B3) ise onay kapısının
+      arkasında. Snippet olduğu gibi konsaydı reddeden ziyaretçiye de gtag.js
+      inerdi ve `/kvkk/` metnindeki *"yalnızca siz onay verirseniz çalışır"*
+      ifadesi yanlışlanırdı — B10'da Cloudflare beacon'ı tam bu sebeple
+      kapatılmıştı. **Bir daha snippet yapıştırılmasın, kimlik yeter.**
+
+      **Onay kapısı gerçek kimlikle yeniden test edildi (11.08.2026, headless
+      Chrome, 10/10):** karar verilmeden gtag.js inmiyor · **reddedilince de
+      inmiyor** ve ret sonrası tıklama olayı gitmiyor · kabul edilince doğru
+      kimlikle iniyor, sıra doğru (`consent default` → `update` → `js` →
+      `config G-818Z2EG00L`) · dönen ziyaretçide bant çıkmadan ölçüm çalışıyor.
+
+      **Ads dönüşümü hâlâ ölçülmüyor.** GA4 davranış raporu verir; reklam
+      dönüşümü için `AW-…` gerekir (C1). İkisi ayrı iş, biri diğerinin yerine
+      geçmez.
 
       İkisinden **herhangi biri** yeterli: Ads dönüşümü GA4 olmadan da ölçülür.
       Reklam için kritik olan `AW-`, davranış raporu için `G-`.
