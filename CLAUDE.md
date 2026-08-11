@@ -723,6 +723,11 @@ amaca (üst sıra → çalan telefon) hizmet ettikleri ölçüde yapıldı.
 | 4 | **Mahalle listeleri** · A2 | Sahibi | İlçe başına 5–8 mahalle adı; rakibin kopyalayamayacağı tek içerik. |
 | 5 | **KVKK metnini avukata okutmak** · E1 | Sahibi | Brifing hazır: `docs/kvkk-avukat-brifingi.md`. |
 
+**⏭ Bir sonraki oturumun ilk işi: C8 — Ads kampanya kurulumu, ayar ayar
+birlikte.** Sahibi ekran görüntüsü atacak, ayarlar birlikte girilecek.
+Başlamadan önce sahibinden **`AW-…` dönüşüm kimliği** istenir (A7); o
+girilmeden kampanya yayına alınmaz.
+
 ### ❓ Cevap bekleyen sorular — cevapsız uygulanmaz
 
 Hizmet bölgesi **tahmin edilmesi yasak** alan; liste gelmeden sayfa açılmaz.
@@ -739,7 +744,7 @@ Hizmet bölgesi **tahmin edilmesi yasak** alan; liste gelmeden sayfa açılmaz.
 | İş | Madde | Durum |
 |---|---|---|
 | Search Console raporunu okumak | G1 | **Kurulum bitti** (doğrulama + sitemap 60 adres ✔). Rapor için **1–2 hafta** gerek; site 29.07.2026'da yayına girdi, şu an boş olması normal. |
-| Google Ads'i açmak | A7 · C1–C5 | **Başladı** (11.08.2026, sahibi sihirbazı açtı). Dönüşüm adresi `/tesekkurler/` hazır; **eksik olan `AW-…` kimliği** — o girilmeden hiçbir dönüşüm ölçülmez. |
+| Google Ads'i açmak | **C8** · A7 · C1–C5 | **Kurulum oturumu bekliyor** — sahibi *"birlikte tek tek ayar yapacağız"* dedi (12.08.2026). 12 adımlık sıra C8'de. Kampanya o oturumdan önce **yayına alınmaz**. |
 | Bot / geçersiz tıklama savunması | **C6 · C7** | Kurulum kapıları yazılı; **kampanya açılırken** uygulanacak, sonradan değil. |
 | ~~Performans ölçümünü tekrarlamak~~ | B8 | **YAPILDI** (11.08.2026): gtag.js LCP'yi geciktirmiyor, 0,54–0,84 sn. |
 | Tip denetimi | B5 | `@astrojs/check` kurulu değil; kurulum **onay ister**. |
@@ -1301,6 +1306,45 @@ Aşağıdakiler o gün için duruyor:
 
       Üçüncü taraf tıklama koruma script'i **eklenmez** (yasak 5), Cloudflare
       Bot Fight Mode **düşünmeden açılmaz** (sayfaya JS enjekte eder, B10).
+
+- [ ] **C8. KAMPANYA KURULUM OTURUMU — birlikte, ayar ayar yapılacak.**
+
+      **Sahibinin kararı (12.08.2026, gece):** *"bunların ayarlarını yarın
+      yapacağız birlikte tek tek ayar yapacağız."* Yani kurulum tek başına
+      yapılmayacak; her ekranda ekran görüntüsü gelecek, ayar birlikte
+      girilecek. **Bu oturum başlamadan kampanya YAYINA ALINMAZ.**
+
+      Gerekçe C6'nın aynısı: bu ayarlar kampanya açılırken **bir kez** yapılır
+      ve sonradan telafisi yoktur — yanlış kurulmuş bir kampanyada yanan para
+      geri gelmez. Sahibi panelde, Claude yanında; ikisi olmadan ilerlenmez.
+
+      **Oturumun sırası — atlanan adım para yakar:**
+
+      | # | Ekran | Ne girilecek | Atlanırsa |
+      |---|---|---|---|
+      | 1 | Kampanya türü | **Arama** | PMax/Görüntülü bütçeyi alakasız yere dağıtır |
+      | 2 | Hedef | "Hedef belirlemeden" · sorarsa `/tesekkurler/` | Sihirbaz kilitler |
+      | 3 | Teklif | **Tıklamalar / Manuel TBM + üst sınır** | Dönüşüm verisi yokken akıllı teklif körü körüne harcar |
+      | 4 | Konum | Adana · **"bulunma"** (ilgi DEĞİL) | Şehir dışı tıklamasını biz öderiz |
+      | 5 | Ağlar | Arama ortakları ❌ · Görüntülü ❌ | İkisi de **işaretli gelir** |
+      | 6 | Program | **08:00–20:00** | Gece: bot yoğun + telefon açılmıyor |
+      | 7 | Bütçe | Düşük başla | Bütçe = günlük zarar **tavanı** |
+      | 8 | Reklam grubu | **Cihaz başına bir grup** (7 grup) | Sayfa-kelime uyumu düşer, TBM artar |
+      | 9 | Kelimeler | **Tam/öbek** (`"…"` · `[…]`) | Geniş eşleme alakasız her şeyi eşler |
+      | 10 | Negatifler | ücretsiz · iş ilanı · eleman · kurs · nasıl yapılır · kendim · devre şeması · video · ikinci el · satılık · yedek parça · bayilik | Tıklar, arayan olmaz |
+      | 11 | Reklam metni | Başlıklar sayfa H1'iyle **aynı kelimeler** · açılış = ilgili para sayfası | Kalite Puanı düşer |
+      | 12 | Uzantı | Arama uzantısı `0545 375 11 08` | Siteye girmeden arama kaybedilir |
+
+      ⚠️ **11. adımda "yetkili servis" yazılmaz** (yasak 2) — marka şikâyeti
+      bütün reklamları yayından kaldırır.
+
+      **Yayına almadan önceki iki kapı:**
+      1. **`AW-…` kimliği girilmiş ve test edilmiş olmalı** (A7 · C1). Kimliksiz
+         yayın = para akar, rapor boş görünür, sahibi kurulumu doğru sanır.
+      2. **C5 testi:** gerçek arama + gerçek form ile dönüşümlerin düştüğü
+         doğrulanır.
+
+      **İlk hafta:** konum / IP / cihaz raporları **her gün** okunur (C6 · C7).
 
 ---
 
