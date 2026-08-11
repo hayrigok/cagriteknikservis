@@ -18,7 +18,16 @@
  * tarayıcıya indirirdi. Aynı gerekçeyle sayfa kimliği de data-sayfa'dan geliyor.
  */
 
-export type Konum = 'header' | 'hero' | 'sticky' | 'footer' | 'mobil_bar' | 'yan_buton';
+// 'tesekkur' = /tesekkurler/ sayfasındaki iki düğme. Ayrı tutuluyor çünkü
+// oradaki tıklama bir şeyi haber veriyor: otomatik açma çalışmamış demektir.
+export type Konum =
+  | 'header'
+  | 'hero'
+  | 'sticky'
+  | 'footer'
+  | 'mobil_bar'
+  | 'yan_buton'
+  | 'tesekkur';
 
 export type Olay =
   | { ad: 'tel_click'; konum: Konum }

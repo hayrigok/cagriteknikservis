@@ -157,10 +157,32 @@ const alan =
     const sayfa = document.documentElement.dataset.sayfa ?? 'bilinmiyor';
 
     const metin = `${baglam}\n\nAd: ${ad}\nTelefon: ${telefon}\nArıza: ${ariza}`;
+    const adres = `https://wa.me/${numara}?text=${encodeURIComponent(metin)}`;
 
     // Yönlendirmeden ÖNCE tetikle: sayfa terk edilince olay gönderilemez.
     izle({ ad: 'form_submit', sayfa });
 
-    window.location.href = `https://wa.me/${numara}?text=${encodeURIComponent(metin)}`;
+    /*
+      wa.me'ye DOĞRUDAN gitmiyoruz, önce /tesekkurler/ sayfasına uğruyoruz.
+      İki sebep, ikisi de o sayfanın başındaki yorumda uzun uzun yazılı:
+      dönüşümün karşılığı olan bir adres doğuyor (Ads bunu istiyor) ve WhatsApp
+      açılmazsa ziyaretçi boşlukta kalmıyor.
+
+      Mesaj sorgu dizesiyle değil sessionStorage ile taşınıyor: ad, telefon ve
+      arıza açıklaması adres çubuğuna, erişim kayıtlarına ve ölçüm raporlarına
+      girmesin. Bayrak "bu ziyaret formdan geldi" demek — teşekkür sayfası
+      WhatsApp'ı yalnızca o zaman kendiliğinden açar.
+
+      sessionStorage kapalıysa (bazı gizli mod / kısıtlı tarayıcı ayarları)
+      eski davranışa düşüyoruz: doğrudan wa.me. Ölçüm kaybolur, mesaj gider —
+      bu sıralama bilinçli, mesaj ölçümden önce gelir.
+    */
+    try {
+      sessionStorage.setItem('cs_wa', adres);
+      sessionStorage.setItem('cs_wa_oto', '1');
+      window.location.href = '/tesekkurler/';
+    } catch {
+      window.location.href = adres;
+    }
   });
 </script>

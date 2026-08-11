@@ -1,0 +1,231 @@
+---
+/*
+  /tesekkurler/ — form gönderildikten SONRA açılan tek sayfa.
+
+  NEDEN VAR: iki iş birden yapıyor, ikisi de gerçek.
+
+  1. ÖLÇÜM. Google Ads dönüşümü "şu adrese ulaşan ziyaretçi" olarak tanımlanır.
+     Formumuz backend'e POST etmiyor, doğrudan wa.me'ye yönlendiriyordu; yani
+     dönüşüm anına karşılık gelen HİÇBİR adres yoktu ve reklam tarafında "form
+     dolduruldu" ölçülemiyordu. Bu sayfa o adresi veriyor. Uydurma bir teşekkür
+     sayfası değil: buraya YALNIZCA formu geçerli şekilde gönderen düşer.
+
+  2. KURTARMA. Eski akışta wa.me yönlendirmesi bir sebeple açılmazsa (uygulama
+     kurulu değil, tarayıcı engelledi, bağlantı koptu) ziyaretçi elinde hiçbir
+     şey olmadan kalıyordu — form dolduruldu, mesaj gitmedi, kimse haberdar
+     değil. En pahalı sessiz kayıp tipi. Artık düşülecek bir yer var: buton
+     duruyor, numara duruyor.
+
+  NOINDEX: arama sonucunda görünmemeli — hem ziyaretçiye anlamsız gelir hem
+  dönüşüm adresine organik trafik akarsa Ads raporu kirlenir. Aynı sebeple
+  sitemap'ten de hariç (integrations/site-haritasi.mjs → HARIC).
+
+  MESAJ SESSIONSTORAGE'DA TAŞINIYOR, sorgu dizesinde DEĞİL: ad, telefon ve arıza
+  açıklaması kişisel veri. Sorgu dizesine konsaydı adres çubuğunda görünür,
+  Cloudflare erişim kayıtlarına ve (onay verilmişse) ölçüm raporlarına düşerdi.
+  Dönüşüm adresi de sabit kalıyor — Ads tarafında tek kural yetiyor.
+*/
+import BaseLayout from '@/layouts/BaseLayout.astro';
+import Bolum from '@/components/Bolum.astro';
+import StickyUstCubuk from '@/components/StickyUstCubuk.astro';
+import Footer from '@/components/Footer.astro';
+import MobilBar from '@/components/MobilBar.astro';
+import YanButonlar from '@/components/YanButonlar.astro';
+import Ikon from '@/components/Ikon.astro';
+
+import type { IkonAdi } from '@/lib/types';
+import { firma, telLink, whatsappLink, deger } from '@/lib/veri';
+
+const waMesaji = 'Merhaba, siteden servis talebi göndermiştim.';
+
+// Yedek link: JS kapalıysa veya sessionStorage okunamıyorsa buton yine çalışır,
+// yalnızca mesaj kişiselleştirilmemiş olur. Ölü butona tıklatmayız.
+const waYedek = whatsappLink(waMesaji);
+const tel = telLink();
+const numara = deger(firma.telefon);
+const saatler = deger(firma.calismaSaatleri);
+
+const adimlar: { ikon: IkonAdi; baslik: string; metin: string }[] = [
+  {
+    ikon: 'whatsapp',
+    baslik: 'Mesajınız bize düşer',
+    // calismaSaatleri "Her gün 08:00–20:00" biçiminde, yani büyük harfle
+    // başlıyor. Cümlenin ortasına gömmek yerine iki nokta ile ayırıyoruz.
+    metin: saatler
+      ? `Çalışma saatlerimiz: ${saatler}. Bu saatler içinde gelen mesaja dönüş yaparız.`
+      : 'Mesajı görür görmez dönüş yaparız.',
+  },
+  {
+    ikon: 'telefon',
+    baslik: 'Arızayı netleştiririz',
+    metin: 'Cihazın markasını ve şikâyeti konuşuruz; uygun parçayla yola çıkarız.',
+  },
+  {
+    ikon: 'onay',
+    baslik: 'Önce görür, sonra söyleriz',
+    metin: 'Fiyatı yerinde gördükten sonra söyleriz. Onayınızı almadan işleme başlamayız.',
+  },
+];
+---
+
+<BaseLayout
+  title={`Talebiniz alındı — ${firma.kisaAd}`}
+  description="Servis talebiniz hazır. WhatsApp'ı hazır mesajla açıyoruz; açılmazsa buradaki düğmeden gönderebilir veya doğrudan arayabilirsiniz."
+  yol="/tesekkurler/"
+  sayfaKimligi="tesekkurler"
+  dizinlenmesin={true}
+>
+  <StickyUstCubuk />
+
+  <main id="icerik">
+    <section class="koyu-blok relative overflow-hidden bg-lacivert-900">
+      {/* Doku: saf CSS nokta ızgarası, Hero ile aynı. Görsel indirilmiyor. */}
+      <div
+        aria-hidden="true"
+        class="pointer-events-none absolute inset-0"
+        style="background-image: radial-gradient(circle at 1px 1px, rgb(255 255 255 / .07) 1px, transparent 0); background-size: 26px 26px;"
+      >
+      </div>
+
+      <div class="kap relative py-16 lg:py-24">
+        <div class="max-w-2xl">
+          <p class="plaka flex items-center gap-2 text-turuncu-300">
+            <Ikon ad="onay" boyut={18} />
+            Talebiniz hazır
+          </p>
+
+          <h1 class="text-h1 mt-4 leading-[1.03] font-bold tracking-tight text-balance text-white">
+            Son adım: mesajı gönderin
+          </h1>
+
+          <p class="text-lead mt-5 leading-relaxed text-lacivert-200">
+            Yazdıklarınızı WhatsApp mesajına çevirdik. WhatsApp kendiliğinden açılır;
+            açılmazsa aşağıdaki düğmeye dokunun. Siz bir şey yazmayacaksınız.
+          </p>
+
+          <div class="mt-8 flex max-w-md flex-col gap-3">
+            {/*
+              Bu sayfada sıra BİLEREK ters: sitenin geri kalanında birincil eylem
+              telefon, burada WhatsApp. Sebep basit — ziyaretçi zaten WhatsApp'ı
+              seçip formu doldurdu, hazır mesaj elinde. Onu telefona çevirmek
+              yaptığı işi çöpe atardı.
+
+              href sunucudan yedek mesajla basılıyor; script sessionStorage'daki
+              kişiselleştirilmiş mesajla değiştiriyor.
+            */}
+            <a
+              data-wa
+              href={waYedek ?? '#'}
+              rel="noopener"
+              data-olay="whatsapp_click"
+              data-konum="tesekkur"
+              aria-disabled={waYedek ? undefined : 'true'}
+              class:list={[
+                'inline-flex min-h-14 items-center justify-center gap-2 rounded-sm bg-yesil-600 px-6 text-lead font-bold text-white transition-colors duration-150 hover:bg-yesil-700',
+                !waYedek && 'pointer-events-none opacity-55',
+              ]}
+            >
+              <Ikon ad="whatsapp" boyut={22} />
+              WhatsApp'ı Aç ve Gönder
+            </a>
+
+            <a
+              href={tel ?? '#'}
+              data-olay="tel_click"
+              data-konum="tesekkur"
+              aria-disabled={tel ? undefined : 'true'}
+              class:list={[
+                'inline-flex min-h-12 items-center justify-center gap-2 rounded-sm border-2 border-white/35 px-6 font-semibold text-white transition-colors duration-150 hover:bg-white/10',
+                !tel && 'pointer-events-none opacity-55',
+              ]}
+            >
+              <Ikon ad="telefon" boyut={20} />
+              Acelesi varsa arayın
+              {numara && <span class="rakam hidden sm:inline">{numara}</span>}
+            </a>
+          </div>
+
+          {/*
+            Bekleme metni JS ile açılıyor: otomatik açılma yoksa (doğrudan bu
+            adrese gelen ziyaretçi) "açılıyor" demek yalan olurdu.
+          */}
+          <p
+            data-durum
+            hidden
+            class="mt-4 flex items-start gap-2 text-kucuk leading-relaxed text-lacivert-300"
+          >
+            <Ikon ad="saat" boyut={16} class="mt-0.5 shrink-0 text-turuncu-300" />
+            WhatsApp birkaç saniye içinde açılıyor…
+          </p>
+        </div>
+      </div>
+    </section>
+
+    <Bolum etiket="Sırada ne var" baslik="Bundan sonrası bizde" zemin="zemin">
+      <ol class="grid gap-4 sm:grid-cols-3">
+        {
+          adimlar.map((a, i) => (
+            <li class="rounded-md border border-lacivert-100 bg-white p-6">
+              <span class="flex h-11 w-11 items-center justify-center rounded-sm bg-lacivert-900 text-white">
+                <Ikon ad={a.ikon} boyut={20} />
+              </span>
+              <p class="plaka mt-4 text-metin-soluk">Adım {i + 1}</p>
+              <p class="mt-2 text-lead leading-snug font-bold text-lacivert-900">{a.baslik}</p>
+              <p class="mt-2 leading-relaxed text-metin-soluk">{a.metin}</p>
+            </li>
+          ))
+        }
+      </ol>
+    </Bolum>
+  </main>
+
+  <Footer />
+  <MobilBar waMesaji={waMesaji} />
+  <YanButonlar waMesaji={waMesaji} />
+</BaseLayout>
+
+<script>
+  /*
+    Formun hazırladığı mesajı alıp butona bağlar ve WhatsApp'ı açar.
+
+    OTOMATİK AÇMA TEK SEFERLİK. Bayrak okunur okunmaz siliniyor; aksi halde
+    ziyaretçi WhatsApp'tan geri tuşuyla döndüğünde sayfa onu tekrar WhatsApp'a
+    fırlatır ve çıkamadığı bir döngüye girer.
+
+    GECİKME KEYFİ DEĞİL: bu sayfaya ulaşmak Ads tarafında dönüşümün kendisi.
+    Ölçüm etiketi varsa sayfayı hemen terk etmek, dönüşümün kaydedilmesinden
+    önce çıkmak demek olabilir — reklam parası ödenir, dönüşüm görünmez.
+    Etiket yokken (şu anki hâl) beklenecek bir şey de yok, kısa gecikme yeter.
+  */
+  const ANAHTAR = 'cs_wa';
+  const BAYRAK = 'cs_wa_oto';
+
+  const buton = document.querySelector<HTMLAnchorElement>('[data-wa]');
+  const durum = document.querySelector<HTMLElement>('[data-durum]');
+
+  let hedef: string | null = null;
+  let otomatik = false;
+  try {
+    hedef = sessionStorage.getItem(ANAHTAR);
+    otomatik = sessionStorage.getItem(BAYRAK) === '1';
+    if (otomatik) sessionStorage.removeItem(BAYRAK);
+  } catch {
+    /* sessionStorage kapalı: buton sunucudan gelen yedek mesajla çalışır */
+  }
+
+  if (hedef && buton) {
+    buton.href = hedef;
+    buton.classList.remove('pointer-events-none', 'opacity-55');
+    buton.removeAttribute('aria-disabled');
+  }
+
+  if (hedef && otomatik) {
+    durum?.removeAttribute('hidden');
+    const kok = document.documentElement.dataset;
+    const olcumVar = Boolean(kok.ga || kok.ads);
+    const adres = hedef;
+    window.setTimeout(() => {
+      window.location.href = adres;
+    }, olcumVar ? 1800 : 500);
+  }
+</script>

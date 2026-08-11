@@ -16,8 +16,12 @@
  */
 import { writeFile } from 'node:fs/promises';
 
-/** noindex basan sayfalar sitemap'e girmez — ikisi çelişirse Google'a karışık sinyal gider. */
-const HARIC = new Set(['404']);
+/**
+ * noindex basan sayfalar sitemap'e girmez — ikisi çelişirse Google'a karışık
+ * sinyal gider. tesekkurler: form sonrası dönüşüm adresi, arama sonucunda
+ * görünmemeli; oraya organik trafik akarsa Ads dönüşüm raporu da kirlenir.
+ */
+const HARIC = new Set(['404', 'tesekkurler']);
 
 const kacir = (s) => s.replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/>/g, '&gt;');
 

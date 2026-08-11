@@ -236,7 +236,11 @@ Tıklama olayları tek bir delege dinleyiciyle toplanır: bileşenlere `data-ola
 
 `konum` değerleri: `header` (üst çubuk) · `hero` · `sticky` · `footer` ·
 `mobil_bar` (mobilde alt çubuk) · `yan_buton` (sağ kenarda sabit ara/WhatsApp
-düğmeleri, `YanButonlar.astro`). **`yan_buton` yalnızca md ve üstünde görünür:**
+düğmeleri, `YanButonlar.astro`) · `tesekkur` (`/tesekkurler/` sayfasındaki iki
+düğme). **`tesekkur` bir teşhis sinyali:** oradaki tıklama, WhatsApp'ın
+kendiliğinden açılmadığı anlamına gelir. Sayısı artıyorsa otomatik açma
+bozulmuş demektir — o yüzden ayrı tutuluyor, `hero`'ya karıştırmayın.
+**`yan_buton` yalnızca md ve üstünde görünür:**
 mobilde `MobilBar` zaten aynı iki eylemi tam genişlikte basıyor, üstte de
 `StickyUstCubuk`'un Ara düğmesi var; üçüncü kopya küçük ekranda içeriği kapatır.
 Reklam raporlarında hangi yüzeyin çalıştığını bu ayrımla göreceksiniz.
@@ -244,12 +248,59 @@ Reklam raporlarında hangi yüzeyin çalıştığını bu ayrımla göreceksiniz
 Google Ads tarafında birincil dönüşüm form + 60 sn üzeri çağrı olacak, `tel_click`
 ikincil kalacak — aksi halde akıllı teklif yanlış tıklamalara optimize eder.
 
-### Form → WhatsApp
+### Form → /tesekkurler/ → WhatsApp
 
-Backend yok. Form 3 alan + KVKK onayı toplar, doğrular, sonra `wa.me` adresine
-ön-doldurulmuş mesajla yönlendirir. `form_submit` **yönlendirmeden hemen önce**
-tetiklenir; yani "WhatsApp açıldı" demektir, "mesaj ulaştı" demez. Bu ayrımı
-dönüşüm kurulumunda akılda tutun.
+Backend yok. Form 3 alan + KVKK onayı toplar, doğrular, mesajı kurar — sonra
+**doğrudan `wa.me`'ye gitmez**, önce `/tesekkurler/` sayfasına uğrar. O sayfa
+WhatsApp'ı kendiliğinden açar.
+
+**Ara sayfa 11.08.2026'da eklendi ve iki ayrı işi birden yapıyor:**
+
+1. **Dönüşümün bir adresi oldu.** Google Ads kampanya sihirbazı "müşteri
+   iletişim isteğinde bulundu" işlemi için *"iletişim alındı sayfasının
+   adresi"* istiyor ve alan adı kökünü kabul etmiyor. Formumuz POST etmediği
+   için böyle bir adres **yoktu**; sihirbaz geçilemiyordu. Sayfa o adresi
+   veriyor ve uydurma değil: buraya yalnızca formu geçerli şekilde gönderen
+   düşer. `/iletisim/` adresini dönüşüm olarak vermek alternatifti ve **yanlış
+   olurdu** — o sayfayı açan herkes "müşteri adayı" sayılır, akıllı teklif
+   yanlış veriyle eğitilirdi.
+2. **Kurtarma noktası.** Eskiden wa.me yönlendirmesi açılmazsa (uygulama yok,
+   tarayıcı engelledi, bağlantı koptu) ziyaretçi **elinde hiçbir şey olmadan**
+   kalıyordu: form dolduruldu, mesaj gitmedi, kimsenin haberi yok. Sessiz
+   kaybın ta kendisi. Artık düşülecek bir yer var — buton ve numara duruyor.
+
+**Mesaj `sessionStorage` ile taşınıyor, sorgu dizesiyle DEĞİL.** Ad, telefon ve
+arıza açıklaması kişisel veri; sorgu dizesine konsaydı adres çubuğunda görünür,
+Cloudflare erişim kayıtlarına ve onay verilmişse ölçüm raporlarına düşerdi.
+Yan fayda: dönüşüm adresi sabit kalıyor, Ads tarafında tek kural yetiyor.
+
+**Üç davranış kuralı — üçü de test edildi, bozmayın:**
+
+| Kural | Neden |
+|---|---|
+| Otomatik açma **tek seferlik** (`cs_wa_oto` bayrağı okunur okunmaz silinir) | Bayrak kalsaydı ziyaretçi WhatsApp'tan geri tuşuyla döndüğünde tekrar fırlatılır, çıkamadığı bir döngüye girerdi |
+| `sessionStorage` yazılamazsa **eski akışa düşülür** (doğrudan wa.me) | Ölçüm kaybolur ama mesaj gider. Sıra bilinçli: **mesaj ölçümden önce gelir** |
+| Gecikme ölçüm kimliğine bağlı: kimlik yoksa 500 ms, varsa **1800 ms** | Bu sayfaya ulaşmak Ads tarafında dönüşümün kendisi. Etiket yüklenmeden sayfayı terk etmek = para ödenir, dönüşüm görünmez |
+
+Sayfa **noindex** ve sitemap'ten hariç (`integrations/site-haritasi.mjs` →
+`HARIC`): arama sonucunda görünmesi hem ziyaretçiye anlamsız gelir hem de
+dönüşüm adresine organik trafik akıtıp Ads raporunu kirletir.
+
+`form_submit` olayı **hâlâ yönlendirmeden hemen önce**, para sayfasında
+tetikleniyor; yani "WhatsApp'a gönderildi" demektir, "mesaj ulaştı" demez. Bu
+ayrımı dönüşüm kurulumunda akılda tutun.
+
+**Uçtan uca test edildi (11.08.2026, headless Chrome + CDP, 21/21):** form
+doğrulaması (boş form ve KVKK onaysız gönderim tutuluyor), yönlendirme, mesajın
+eksiksiz gitmesi, adres çubuğunda kişisel veri olmaması, geri tuşu döngüsü
+olmaması, doğrudan gelen ziyaretçinin fırlatılmaması, kimlik varken gecikmenin
+uzaması, noindex. Betik scratchpad'de kaldı, repoya girmedi.
+
+**Testte iki tuzak yaşandı, tekrarlanmasın:** (1) ara durumu ölçmek için
+otomatik açılmayı beklemek yetmiyor — 500 ms'de sayfa terk ediliyor, ölçüm
+boşa çıkıyor; kontroller **500 ms'den önce** yapılmalı. (2) wa.me isteğini
+CDP'de askıda tutmak işe yaramıyor: **askıdaki navigasyon `Runtime.evaluate`'i
+de kilitliyor**, o andan sonra hiçbir komut cevap dönmüyor.
 
 ### Para sayfası iskeleti
 
@@ -620,7 +671,7 @@ Hizmet bölgesi **tahmin edilmesi yasak** alan; liste gelmeden sayfa açılmaz.
 | İş | Madde | Durum |
 |---|---|---|
 | Search Console raporunu okumak | G1 | **Kurulum bitti** (doğrulama + sitemap 60 adres ✔). Rapor için **1–2 hafta** gerek; site 29.07.2026'da yayına girdi, şu an boş olması normal. |
-| Google Ads'i açmak | A7 · C1–C5 | **Sahibi erteledi** ("zamanı gelince söylerim"). Kimlik istemeyin. |
+| Google Ads'i açmak | A7 · C1–C5 | **Başladı** (11.08.2026, sahibi sihirbazı açtı). Dönüşüm adresi `/tesekkurler/` hazır; **eksik olan `AW-…` kimliği** — o girilmeden hiçbir dönüşüm ölçülmez. |
 | Bot / geçersiz tıklama savunması | **C6 · C7** | Kurulum kapıları yazılı; **kampanya açılırken** uygulanacak, sonradan değil. |
 | Performans ölçümünü tekrarlamak | B8 | A7'den sonra — gtag.js ~90 KB, mevcut rakamlar kimliksiz hâlin. |
 | Tip denetimi | B5 | `@astrojs/check` kurulu değil; kurulum **onay ister**. |
@@ -661,7 +712,7 @@ Hizmet bölgesi **tahmin edilmesi yasak** alan; liste gelmeden sayfa açılmaz.
 | Ölçüt | Şu an | Hedef |
 |---|---|---|
 | Yayın | **canlı** — https://cagribeyazesyatamir.com | ✔ |
-| Üretilen sayfa | **66** (30 sabit/blog + 36 para sayfası) | ✔ |
+| Üretilen sayfa | **67** (31 sabit/blog + 36 para sayfası) | ✔ |
 | Kapsam | **4 ilçe × 9 hizmet** (klima montajı eklendi 30.07.2026) | G2 / G3 cevabına bağlı |
 | Geçerli ilçe (`yerelNotlar`) | **4 / 4** ✔ | 4 / 4 |
 | Blog yazısı | **16** — 8 hizmetin hepsi kapsandı | — |
@@ -1100,16 +1151,35 @@ düşer.
 
 ### C. Reklam tarafı
 
-**ERTELENDİ — sahibinin kararı, 29.07.2026: "google ads şimdi değil, yapacağımız
-zaman söyleyeceğim."** Teknik taraf hazır (B3 yükleyicisi + biçim kapısı); eksik
-olan yalnızca `AW-…` / `G-…` kimlikleri (A7). **Sahibinden kimlik istemeyin,
-kendisi gündeme getirecek.**
+**ERTELEME KALKTI — sahibi 11.08.2026'da kampanya sihirbazını açtı** ve dönüşüm
+adımında takıldı ("iletişim alındı sayfası" adresi isteniyordu). Sihirbazı
+geçebilmek için `/tesekkurler/` sayfası eklendi (C1).
+
+Teknik taraf hazır (B3 yükleyicisi + biçim kapısı + dönüşüm adresi); eksik olan
+yalnızca `AW-…` / `G-…` kimlikleri (A7). Kimlik gelmeden **hiçbir dönüşüm
+ölçülmez ve bu sessizce olur** — kampanya yayına girerse para akar, rapor boş
+görünür. Artık kimlik istemek meşru: erteleme kararını sahibi kendisi kaldırdı.
+
+**C6 bu yüzden şimdi kritik:** kurulum kapıları kampanya açılırken **bir kez**
+uygulanır, sonradan telafisi yoktur.
 
 Aşağıdakiler o gün için duruyor:
 
 - [ ] **C1. Dönüşümler:** birincil = form gönderimi + **60 sn üzeri** çağrı,
       ikincil = `tel_click`. Sıralama önemli: `tel_click` birincil yapılırsa akıllı
       teklif yanlış tıklamalara optimize eder.
+
+      **Form gönderiminin adresi hazır: `/tesekkurler/`** (11.08.2026'da
+      eklendi, gerekçesi "Form → /tesekkurler/ → WhatsApp" bölümünde). Ads'in
+      "sayfa ziyareti" tipindeki dönüşümü buraya kurulur.
+
+      **Buraya `/iletisim/` YAZILMAZ.** Sihirbaz bir alt sayfa yolu dayattığı
+      için akla ilk gelen o oluyor; yanlış olur — iletişim sayfasını **açan
+      herkes** müşteri adayı sayılır, gerçekte kimse yazmamışken dönüşüm
+      görünür ve akıllı teklif o yanlış veriyle eğitilir.
+
+      Dönüşüm çalışmıyorsa ilk bakılacak yer **A7**: etiket olmadan sayfa
+      ziyareti dönüşümü hiç tetiklenmez ve bu **sessizce** olur.
 - [ ] **C2. Çağrı süresi ölçümü için karar gerekiyor.** 60 sn eşiği ancak Google'ın
       yönlendirme numarasıyla ölçülebilir; o da sayfadaki numarayı **dinamik olarak
       değiştirmeyi** gerektirir. Bu, "numara sayfanın en değerli pikseli" kuralıyla
