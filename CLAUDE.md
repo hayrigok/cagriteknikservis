@@ -248,6 +248,36 @@ Reklam raporlarında hangi yüzeyin çalıştığını bu ayrımla göreceksiniz
 Google Ads tarafında birincil dönüşüm form + 60 sn üzeri çağrı olacak, `tel_click`
 ikincil kalacak — aksi halde akıllı teklif yanlış tıklamalara optimize eder.
 
+#### "Web sitenizde Google Analytics bulunamadı" uyarısı BEKLENEN DAVRANIŞTIR
+
+Google'ın etiket kurulum sihirbazı bu uyarıyı basıyor ve **bir arıza değil**:
+denetim, sayfanın HTML'inde snippet'i **statik olarak** arıyor. Bizde gtag.js
+onay kapısının arkasında, yani Google'ın robotu (onay vermeyen bir ziyaretçi
+gibi) onu göremiyor. Uyarı görmezden gelinir, sihirbazda devam edilir.
+
+**Ölçülerek doğrulandı (11.08.2026, canlı site, headless Chrome):**
+
+| Durum | gtag.js | GA4 veri isteği |
+|---|---|---|
+| Onay verilmeden | **0** | **0** |
+| Kabul edildikten sonra | 1 | **2** (`/g/collect`, `tid=G-818Z2EG00L`) |
+
+Dört tıklama yüzeyi tek tek denendi: `tel_click(hero)` · `whatsapp_click(hero)`
+· `tel_click(footer)` · `tel_click(mobil_bar)` — **dördü de doğru `konum`
+parametresiyle GA4'e gitti.**
+
+**Uyarıyı susturmanın tek yolu snippet'i koşulsuz yüklemek olurdu; YAPILMAZ.**
+Reddeden ziyaretçiye de gtag.js iner, `/kvkk/` metnindeki söz yanlışlanır,
+sıfır-dış-istek özelliği ölür. Doğrulama sihirbazdan değil **GA4 → Raporlar →
+Gerçek zamanlı** ekranından yapılır.
+
+**Bu olayları test ederken tuzak:** `data-olay` taşıyan öğeler gerçek
+bağlantıdır (`tel:` / `wa.me`). Tıklatınca sayfa **gerçekten gidiyor** ve
+sonraki bütün ölçümler başka bir belgede yapılıyor — ilk denemede tam bu
+yüzden "`tel_click` gitmiyor" diye **yanlış** sonuç alındı. Doğru yöntem:
+yakalama aşamasında `preventDefault()` eklemek; gezinme iptal olur, sitenin
+kendi dinleyicisi yine çalışır.
+
 ### Form → /tesekkurler/ → WhatsApp
 
 Backend yok. Form 3 alan + KVKK onayı toplar, doğrular, mesajı kurar — sonra
