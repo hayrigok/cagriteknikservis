@@ -248,12 +248,47 @@ Reklam raporlarında hangi yüzeyin çalıştığını bu ayrımla göreceksiniz
 Google Ads tarafında birincil dönüşüm form + 60 sn üzeri çağrı olacak, `tel_click`
 ikincil kalacak — aksi halde akıllı teklif yanlış tıklamalara optimize eder.
 
-#### "Web sitenizde Google Analytics bulunamadı" uyarısı BEKLENEN DAVRANIŞTIR
+#### gtag.js KOŞULSUZ yükleniyor — 12.08.2026, sahibinin kararı
 
-Google'ın etiket kurulum sihirbazı bu uyarıyı basıyor ve **bir arıza değil**:
-denetim, sayfanın HTML'inde snippet'i **statik olarak** arıyor. Bizde gtag.js
-onay kapısının arkasında, yani Google'ın robotu (onay vermeyen bir ziyaretçi
-gibi) onu göremiyor. Uyarı görmezden gelinir, sihirbazda devam edilir.
+**Önceki kural tersine çevrildi.** 29.07–12.08 arası script yalnızca onay
+verildikten sonra enjekte ediliyordu ve bu, sıfır-dış-istek özelliğinin
+temeliydi. Sahibi 12.08.2026'da bilerek değiştirdi.
+
+**Sebep:** Google Ads'in etiket doğrulaması ("Bağlantıyı test et") sayfayı
+onay vermeden tarıyor, gizli etiketi göremiyor ve *"Web sitenizde Google
+Analytics bulunamadı"* diyordu. Bu uyarı **kalıcıydı** — robot hiçbir zaman
+onay vermeyeceği için hiçbir zaman geçmeyecekti — ve dönüşüm kurulumu
+sihirbazı bu yüzden tamamlanamıyordu. Sahibine bedeli tek tek anlatıldı
+(dış istek sıfır olmaktan çıkar · reddeden ziyaretçiye de ~90 KB iner ·
+`/kvkk/` metni değişmeli), **"yap" dedi.**
+
+**Onay HÂLÂ bir şey yapıyor — "kod iniyor" ile "ölçüm yapılıyor" ayrı:**
+
+| Onay | gtag.js iner | Çerez yazılır | Tıklama olayı gider |
+|---|---|---|---|
+| Karar verilmemiş | ✅ | ❌ | ❌ (kuyrukta) |
+| **Reddedildi** | ✅ | ❌ | ❌ (kuyruk atılır) |
+| Kabul edildi | ✅ | ✅ | ✅ |
+
+Uygulanan şey Google'ın standart Consent Mode kurulumu: script yüklenir,
+izinler `denied` başlar, kabulde `update` ile açılır. **Sıra bozulmamalı** —
+`consent default` → (varsa) `consent update` → script. Ters sırada ilk istek
+yanlış izin durumunda gider.
+
+**Canlıda ölçülerek doğrulandı (12.08.2026, headless Chrome, 5/5):**
+onay verilmeden gtag.js iniyor ✔ · onay verilmeden **çerez yazılmıyor** ✔ ·
+`dataLayer`'ın ilk kaydı `consent default` + dört izin de `denied` ✔ ·
+kabul sonrası `_ga` çerezi yazılıyor ✔ · kabul sonrası `tel_click` gidiyor ✔.
+
+**`/kvkk/` metni aynı anda düzeltildi.** Eski cümle ("ölçümleme çerezleri
+yalnızca siz onay verirseniz çalışır") teknik olarak hâlâ doğru ama eksikti;
+yeni metin kodun yüklendiğini, çerez yazılmadığını ve Google'a yalnızca
+kimliksiz bir sayfa kaydı ulaştığını açıkça söylüyor. **İkisini birlikte
+değiştirin** — biri değişip diğeri kalırsa site yanlış söz vermiş olur.
+
+**Geri alınırsa** `analytics.ts` → `baglat()` içindeki koşulsuz `gtagYukle()`
+çağrısı yeniden `onayDurumu() === 'kabul'` dalına taşınır ve `/kvkk/` metni
+eski hâline döner.
 
 **Ölçülerek doğrulandı (11.08.2026, canlı site, headless Chrome):**
 
@@ -531,14 +566,17 @@ olmasaydı ilk üç turun sahte rakamları (TTFB 0,06–0,07 sn) doğru sanılac
 tekrar **429** verdi (anahtarsız kullanımda kota). Rakamlar bu yüzden yine
 CDP'den.
 
-**Dış kaynak isteği sıfır**: CSS tamamen inline, yazı tipi indirilmiyor, ikonlar
-satır içi SVG. HTML içindeki tek `https://` referansı canonical etiketi — o bir
-kaynak yüklemesi değil.
+**Kendi kaynaklarımızda dış istek sıfır**: CSS tamamen inline, yazı tipi
+indirilmiyor, ikonlar satır içi SVG. HTML içindeki tek `https://` referansı
+canonical etiketi — o bir kaynak yüklemesi değil.
 
-**Tek planlı istisna gtag.js** (B3) ve o da iki kapıdan geçiyor: kimlik
-girilmemişse hiç yüklenmez, girilmişse yalnızca **onay veren** ziyaretçide
-`async` iner. Bu istisnayı genişletmeyin — başka üçüncü taraf script eklemek
-yasak 5'e tabidir.
+**Tek istisna gtag.js ve 12.08.2026'dan beri KOŞULSUZ iniyor** (sahibinin
+kararı, gerekçesi "Ölçümleme ve çerez onayı" bölümünde). Geriye tek kapı
+kaldı: **kimlik girilmemişse hiç yüklenmez.** Yani "onay yoksa dış istek 0"
+artık **doğru değil**; doğru olan "kimlik yoksa dış istek 0".
+
+Bu istisnayı genişletmeyin — başka üçüncü taraf script eklemek yasak 5'e
+tabidir ve o yasak gevşemedi.
 
 **Bir kez bozuldu ve düzeltildi — Cloudflare RUM beacon'ı (29.07.2026, B10).**
 Cloudflare, ürettiğimiz HTML'e **kenar sunucuda**
@@ -809,7 +847,7 @@ Hizmet bölgesi **tahmin edilmesi yasak** alan; liste gelmeden sayfa açılmaz.
 | Mobil CLS | **0,000** ✔ | < 0,1 |
 | Sayfa ağırlığı | **18,6–21,3 KB** ✔ | < 500 KB |
 | JS (gzip) | **2,07 KB** ✔ (kendi kodumuz) | < 40 KB |
-| Dış istek | **onay yoksa 0** ✔ · onay varsa yalnızca gtag.js (LCP'den sonra iniyor) | 0 / onaylı |
+| Dış istek | **yalnızca gtag.js** — 12.08.2026'dan beri koşulsuz iniyor (LCP'den sonra, izinler `denied`) | gtag.js dışında 0 |
 | HTTPS | `http://` → **301** → `https://` ✔ | — |
 
 **Yayımlanmayan — karar, eksik değil:** fiyat (A3) · künye (A4) · marka listesi
@@ -1113,13 +1151,16 @@ düşer.
 - [x] **B3. `gtag.js` yükleyicisi yazıldı — 29.07.2026, sahibinin onayıyla
       (yasak 5 istisnası).** `analytics.ts` içinde `gtagYukle()`.
 
+      **⚠️ 1. kural 12.08.2026'da KALDIRILDI** — sahibinin kararıyla script
+      artık koşulsuz yükleniyor. Aşağıdaki hâli tarihsel kayıt olarak duruyor;
+      yürürlükteki davranış ve gerekçe "Ölçümleme ve çerez onayı" bölümünde.
+
       **İki sert kural, ikisi de test edildi:**
-      1. Script yalnızca **onay verildikten sonra** enjekte edilir. Consent
-         Mode'un "denied" başlaması tek başına yetmez — reddeden ziyaretçi
-         `googletagmanager.com`'a **hiçbir istek yapmaz**.
+      1. ~~Script yalnızca **onay verildikten sonra** enjekte edilir.~~
+         **Artık geçerli değil.** Yerine geçen kural: script koşulsuz iner,
+         izinler `denied` başlar, çerez ve olay onaysız gitmez.
       2. Kimlik yoksa hiçbir şey yüklenmez. `gaOlcumKimligi` ve `adsKimligi`
-         boşken **dış istek sıfır kalır** — sitenin sıfır-dış-istek hedefi
-         kimlikler girilene kadar bozulmuyor.
+         boşken **dış istek sıfır kalır** — bu kural **yürürlükte.**
 
       **Kimlikler bu modüle import EDİLMEZ**, `<html data-ga>` / `<html data-ads>`
       niteliklerinden okunur. Sebep bütçe: `analytics.ts` istemci paketine
