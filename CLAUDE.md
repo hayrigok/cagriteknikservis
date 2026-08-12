@@ -835,7 +835,7 @@ Hizmet bölgesi **tahmin edilmesi yasak** alan; liste gelmeden sayfa açılmaz.
 | Canlı SEO denetimi | **50/50 temiz · açık yok** ✔ | 0 açık |
 | Search Console | **doğrulandı** ✔ (DNS TXT) · **sitemap gönderildi, 60 adres** ✔ | rapor okumak (G1) — 1–2 hafta sonra |
 | Site haritası | **65 adres** (60 → 65, montaj) | push sonrası canlıda doğrulanacak |
-| Ölçümleme | **GA4 çalışıyor** — `G-818Z2EG00L` (11.08.2026) · **Ads kimliği yok** | + `AW-…` dönüşümleri (A7 · C1) |
+| Ölçümleme | **GA4 + Ads çalışıyor** — `G-818Z2EG00L` · `AW-18353257077` (12.08.2026, canlıda ölçüldü) | ✔ |
 | Google yorumu | **0** (D4) | ilk aşamada 10–15 |
 | Bot / click fraud savunması | **kurulum kapıları yazıldı** (C6 · C7) | reklam açılınca uygulanacak |
 
@@ -1061,8 +1061,31 @@ düşer.
 
       "Yetkili servis" ibaresi hâlâ yasak (yasak 2) — kapsayıcı cevap yazılırken
       de kullanılmadı, kullanılmayacak.
-- [ ] **A7. GA4 GİRİLDİ (11.08.2026) — `G-818Z2EG00L`. Kalan tek eksik Ads
-      dönüşüm kimliği (`adsKimligi`, `AW-…`).**
+- [x] **A7. İKİSİ DE BAĞLANDI. GA4 `G-818Z2EG00L` (11.08.2026) · Ads
+      `AW-18353257077` (12.08.2026).**
+
+      **⚠️ `firma.json` → `adsKimligi` BİLEREK BOŞ BIRAKILDI — doldurmayın.**
+      Ads kimliği siteye bizim kodumuzla değil, Google'ın **"Destination"**
+      mekanizmasıyla bağlandı: Ads panelinde *"Web sitemde bulunan Google
+      etiketini kullan"* seçildi ve Google, `AW-18353257077`'yi sunucu tarafında
+      `G-818Z2EG00L` etiketinin hedefi olarak ekledi. Yani `gtag/js?id=G-…`
+      indiği anda Ads de kendiliğinden yapılandırılıyor.
+
+      `adsKimligi` doldurulursa `gtagYukle()` ayrıca `gtag('config', 'AW-…')`
+      çağırır ve **aynı dönüşüm iki kez sayılır.** Alan boş görünüyor diye
+      "eksik" sanmayın; `[eksik-veri]` raporundaki satır bu yüzden duruyor.
+
+      Doğrulaması (12.08.2026, canlı): `gtag/js?id=G-818Z2EG00L` yanıtının
+      içinde `AW-18353257077` geçiyor ve `/tesekkurler/` açıldığında
+      `pagead2.googlesyndication.com/ccm/collect?tid=AW-18353257077&en=page_view`
+      isteği gidiyor.
+
+      **Ölçülen önemli ayrıntı — dönüşüm ONAYSIZ da tetikleniyor.** Consent
+      Mode "denied" durumunda istekler `gcs=G100` ve `npa=1` ile, **çerezsiz**
+      gidiyor. Yani reddeden ziyaretçinin dönüşümü de Google'a ulaşıyor, sadece
+      kimliksiz ve modellenmiş olarak. Çerez yazılmadığı ölçüldü. Bu, "onay
+      vermeyen ziyaretçi raporda hiç görünmez" beklentisini **yanlışlıyor** —
+      rapor sanılandan az eksik çıkacak.
 
       Sahibi gtag.js snippet'inin tamamını yapıştırdı; **snippet siteye
       konmadı**, yalnızca kimlik `firma.json`'a girildi. Sebep: snippet
