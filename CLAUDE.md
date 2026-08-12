@@ -81,8 +81,8 @@ bakılacak yer daha fazla sayfa değil, **kopan halka**.
 
 | # | Halka | Neye bağlı | Şu an |
 |---|---|---|---|
-| 1 | **Görünmek** | Ads (gün) · Haritalar (hafta) · organik (ay) | Ads kapalı · Haritalar yorumsuz · organik yeni |
-| 2 | **Tıklanmak** | Başlık/açıklama · yıldız · mesafe | Başlıklar benzersiz ✔ · **yıldız yok** |
+| 1 | **Görünmek** | Ads (gün) · Haritalar (hafta) · organik (ay) | Ads kapalı · **Haritalar 18 yorumla çalışıyor** · organik yeni |
+| 2 | **Tıklanmak** | Başlık/açıklama · yıldız · mesafe | Başlıklar benzersiz ✔ · **yıldız var** (18 yorum) ✔ |
 | 3 | **İkna olmak** | Sayfanın kendisi | Ölçüldü, hazır ✔ |
 | 4 | **Aramak** | Numaranın her yüzeyde olması | Hazır ✔ (6 yüzey) |
 | 5 | **Cevap vermek** | **Telefonu açan kişi** | Ölçülmüyor |
@@ -755,7 +755,7 @@ amaca (üst sıra → çalan telefon) hizmet ettikleri ölçüde yapıldı.
 
 | # | İş | Kimde | Tek cümlede |
 |---|---|---|---|
-| 1 | **Yorum toplamak** · D4 | Sahibi | Profil bağlı ama **yorum yok**; yerel aramanın en güçlü sinyali, maliyeti sıfır. |
+| 1 | **Yorum akışını sürdürmek** · D4 | Sahibi | **18 yorum var** (12.08.2026) — ilk hedef aşıldı; tazelik de sinyal olduğu için durmuyor. |
 | 2 | **İşletme profilini doldurmak** · G6 | Sahibi | Fotoğraf · hizmet listesi · hizmet alanı · çalışma saati · S&C · gönderi. |
 | 3 | **Blog yazısı eklemek** · D5 | Claude | 16 yazı var ama **`klima-montaji`'nin yazısı yok** — 9 hizmetin 8'i kapsanıyor. Sıradaki yazı buradan. |
 | 4 | **Mahalle listeleri** · A2 | Sahibi | İlçe başına 5–8 mahalle adı; rakibin kopyalayamayacağı tek içerik. |
@@ -836,7 +836,7 @@ Hizmet bölgesi **tahmin edilmesi yasak** alan; liste gelmeden sayfa açılmaz.
 | Search Console | **doğrulandı** ✔ (DNS TXT) · **sitemap gönderildi, 60 adres** ✔ | rapor okumak (G1) — 1–2 hafta sonra |
 | Site haritası | **65 adres** (60 → 65, montaj) | push sonrası canlıda doğrulanacak |
 | Ölçümleme | **GA4 + Ads çalışıyor** — `G-818Z2EG00L` · `AW-18353257077` (12.08.2026, canlıda ölçüldü) | ✔ |
-| Google yorumu | **0** (D4) | ilk aşamada 10–15 |
+| Google yorumu | **18** (12.08.2026, sahibi bildirdi) — ilk hedef (10–15) **aşıldı** ✔ | akışı sürdürmek (D4) |
 | Bot / click fraud savunması | **kurulum kapıları yazıldı** (C6 · C7) | reklam açılınca uygulanacak |
 
 **Performans — ölçüldü, 29.07.2026**
@@ -1002,8 +1002,8 @@ düşer.
       `HVACBusiness` şemasına **`sameAs`** — Google'a "bu site şu profile ait"
       demenin resmî yolu.
 
-      **⚠️ Profilde henüz yorum YOK.** Blok bağlandı ama boş bir profile
-      götürüyor. Asıl iş şimdi başlıyor: **D4**.
+      **Profilde 18 yorum var** (12.08.2026, sahibi bildirdi). Blok artık dolu
+      bir profile götürüyor — bağlandığı gün boştu, o uyarı kalktı. Devamı D4.
 
       **Ad uyuşmazlığı giderildi — 29.07.2026.** `firma.isletmeAdi` alanı
       eklendi (`"Çağrı Teknik Servis"`) ve şemadaki `name` artık oradan
@@ -1504,15 +1504,19 @@ Aşağıdakiler o gün için duruyor:
 
       Yazı eklemek = `src/content/yazilar/`
       içine tek markdown dosyası; rota, sitemap ve liste kendiliğinden güncellenir.
-- [ ] **D4. YORUM TOPLAMA — A5 bağlandı, bu artık listenin en yüksek getirili
-      maddesi ve tamamı sahibinin elinde. Kod tarafında yapılacak hiçbir şey
-      yok.**
+- [ ] **D4. YORUM — İLK HEDEF AŞILDI (18 yorum, 12.08.2026). Madde kapanmadı,
+      niteliği değişti: "toplamak"tan "akışı sürdürmek"e döndü.**
 
-      Profil bağlı ama **yorum yok**; blok şu an boş bir profile götürüyor.
-      Yerel aramada sıralamayı belirleyen en güçlü sinyallerden biri yorum
-      sayısı ve **tazeliğidir** — reklam bütçesinden tamamen bağımsız çalışır
-      ve para maliyeti sıfırdır. Sahibinin "en üste çıkma" amacına en doğrudan
-      hizmet eden iş budur.
+      **Panelin uzun süre yanlış olduğu yer burasıydı.** 29.07'de "0 yorum"
+      yazılmıştı ve iki hafta boyunca öyle kaldı; sahibi 12.08'de düzeltti.
+      **Ders: sahibinin panelde yaptığı işi bu dosya göremez** — G1'de aynı
+      hata olmuştu (Search Console "kurulmadı" sanılmıştı). Sahibe ait bir
+      sayı yazarken tarihini ve kaynağını da yazın, yoksa bayatladığı fark
+      edilmez.
+
+      **Neden kapanmıyor:** yerel sıralamada yorum **sayısı kadar tazeliği**
+      de sinyal. Üç ay yorum gelmeyen profil, 18 yorumla da olsa zayıflar.
+      Maliyeti sıfır olduğu için durdurmanın gerekçesi yok.
 
       **Sahibine verilen şablon** (her iş bitiminde WhatsApp'tan):
 
