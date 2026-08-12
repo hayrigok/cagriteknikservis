@@ -85,6 +85,9 @@ const schema = [
     ikon={hizmetIkonu(hizmet.slug)}
     waMesaji={waMesaji}
   />
+  {/* Form hero'nun hemen altında — sahibinin isteği, 12.08.2026. Zemin "zemin":
+      lacivert (hero) → zemin (form) → beyaz (rozetler) ritmi korunuyor. */}
+  <IletisimFormu baglam={`${h1} talebi`} zemin="zemin" />
   <GuvenRozetleri tur={hizmet.tur} />
   <OlcuSeridi />
 
@@ -108,7 +111,6 @@ const schema = [
   <IlceBlogu ilce={ilce} hizmetAdi={hizmet.ad} />
   <Yorumlar />
   <Sss sorular={hizmet.sss} />
-  <IletisimFormu baglam={`${h1} talebi`} />
   <KomsuIlceler hizmet={hizmet} ilce={ilce} />
   <AltCta baslik={`${ilce.ad} için hemen randevu alın`} waMesaji={waMesaji} />
   </main>

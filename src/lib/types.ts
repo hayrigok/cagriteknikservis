@@ -118,6 +118,21 @@ export interface Firma {
   vergiDairesi: string;
   vergiNo: string;
   calismaSaatleri: string;
+  /**
+   * WhatsApp hattının erişilebilirliği — `calismaSaatleri`'nden AYRI alan.
+   *
+   * Sahibi 12.08.2026'da *"7/24 WhatsApp'tan ulaşabilirler"* dedi. Servis
+   * saatiyle (08:00–20:00) aynı kutuya yazılamaz, ikisi farklı şey: biri
+   * "ne zaman geliriz", diğeri "ne zaman yazabilirsiniz".
+   *
+   * ⚠️ Metin bilerek "7/24 açık — gece de yazabilirsiniz"; **"7/24 cevap
+   * veriyoruz" DEĞİL.** İkincisi gece dönülmediğinde olumsuz yoruma dönüşür
+   * ve yerel sıralamada en pahalı kayıp odur (G5). Hat açık olmak doğru,
+   * anında cevap sözü vermek risktir.
+   *
+   * Boşsa kutu hiç basılmaz. Numara doldurulmamışsa da basılmaz.
+   */
+  whatsappSaatleri: string;
   googleIsletmeUrl: string;
   /**
    * Garanti ifadesi. Bilerek "süre" değil: sahibi tek bir süre vermiyor,

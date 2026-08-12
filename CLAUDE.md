@@ -370,10 +370,25 @@ de kilitliyor**, o andan sonra hiçbir komut cevap dönmüyor.
 ### Para sayfası iskeleti
 
 Sıra sabittir, her blok ayrı bileşendir: sticky üst çubuk → H1 → alt başlık →
-ana CTA → 3 güven rozeti → fiyat tablosu → arıza/çözüm → **marka şeridi** →
-4 adım süreç → ilçeye özgü blok → yorumlar → SSS → form → alt CTA + footer →
-mobil sabit alt çubuk.
+ana CTA → künye paneli → **form** → 3 güven rozeti → fiyat tablosu →
+arıza/çözüm → **marka şeridi** → 4 adım süreç → ilçeye özgü blok → yorumlar →
+SSS → alt CTA + footer → mobil sabit alt çubuk.
 Blok eklerken veya sıra değiştirirken önce sorun.
+
+**⚠️ FORM 12.08.2026'da YUKARI TAŞINDI — sahibinin isteği, hero'nun hemen
+altına.** Eskiden SSS'ten sonra, sayfanın dibindeydi. Zemin `"zemin"` verildi
+ki renk ritmi bozulmasın (lacivert → zemin → beyaz).
+
+**Bunun bir bedeli var ve ölçülmeli:** form artık ikna edici içeriğin
+(rozetler · fiyat · arıza · marka · süreç · yorumlar · SSS) **öncesinde**
+soruluyor. Yukarıdaki form, kararını vermiş ziyaretçiyi daha hızlı yakalar;
+kararsız ziyaretçiden ise henüz sebep vermeden bilgi ister. Hangisinin ağır
+bastığı **`form_submit` sayısıyla** görülür — GA4'te olay zaten hazır.
+Sayı düşerse eski yerine döndürmek tek satırlık iş.
+
+**İki sayfada form İKİ KEZ basılıyordu** (yeni yer + eski yer); alttakiler
+kaldırıldı. Aynı sayfada iki form = tekrarlanan `id="f-ad"` demek ve
+`<label for>` bağları bozulur. Formu taşırken bunu kontrol edin.
 
 **Marka şeridi (`Markalar.astro`) 12.08.2026'da sahibinin onayıyla eklendi** —
 arıza/çözümden hemen sonra, çünkü "cihazımda bu arıza var" dedikten sonraki
@@ -1336,6 +1351,16 @@ düşer.
       yerel sıralamada güven sinyali zayıflar (D4/G6 tam oradan yürüyor).
 - [x] Sitede görünecek kısa ad — "Adana Klima & Beyaz Eşya Servisi"
 - [x] Çalışma saatleri — "Her gün 08:00–20:00"
+- [x] **WhatsApp hattı 7/24 — sahibi bildirdi, 12.08.2026.** Hero künye
+      panelinde çalışma saatinin hemen altında ayrı kutu olarak duruyor
+      (`firma.whatsappSaatleri`). **Ayrı olması şart:** aynı satıra
+      sıkıştırılsaydı ziyaretçi 7/24 servise geliyoruz sanardı (yasak 1).
+
+      Metin bilerek **"7/24 açık — gece de yazabilirsiniz"**, *"7/24 cevap
+      veriyoruz"* DEĞİL. Hattın açık olması doğrulanabilir bir gerçek; anında
+      cevap sözü ise gece dönülmediğinde olumsuz yoruma dönüşür ve yerel
+      sıralamada en pahalı kayıp odur (G5). **Sahibi gece de cevap verdiğini
+      söylerse metin güçlendirilebilir; söylemeden güçlendirmeyin.**
 - [x] Garanti — sabit süre **yok**, parçaya göre değişiyor. Alan bu yüzden
       `garantiSuresi` değil **`garantiIfadesi`** ("Değişen parça garantili").
 - [x] Tespit ücreti — sahibi "yazmaya gerek yok" dedi. Sitede **onarım kabul

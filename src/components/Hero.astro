@@ -8,7 +8,7 @@
 */
 import AraButonu from './AraButonu.astro';
 import Ikon from './Ikon.astro';
-import { firma, tumIlceler, deger } from '@/lib/veri';
+import { firma, tumIlceler, deger, doldurulmusMu } from '@/lib/veri';
 import type { IkonAdi } from '@/lib/types';
 
 interface Props {
@@ -34,6 +34,20 @@ const bolgeler = tumIlceler()
 // genişliğe yayılır (bkz. veri.ts → deger()).
 const kunye: { ikon: IkonAdi; etiket: string; metin: string }[] = [
   { ikon: 'saat', etiket: 'Çalışma saatleri', metin: deger(firma.calismaSaatleri) ?? '' },
+  /*
+    WhatsApp satırı çalışma saatinin HEMEN ALTINDA duruyor çünkü ikisi
+    birbirini tamamlıyor: "08:00–20:00 geliriz" ama "gece de yazabilirsiniz".
+    Ayrı kutu olması şart — aynı satıra sıkıştırılsa ziyaretçi 7/24 servise
+    geliyoruz sanar (yasak 1).
+
+    Numara doldurulmamışsa satır düşer: yazılacak bir hat yokken "7/24 açık"
+    demek {PLACEHOLDER} basmaktan kötüdür.
+  */
+  {
+    ikon: 'whatsapp',
+    etiket: 'WhatsApp hattı',
+    metin: doldurulmusMu(firma.whatsapp) ? (deger(firma.whatsappSaatleri) ?? '') : '',
+  },
   { ikon: 'konum', etiket: 'Hizmet bölgesi', metin: bolgeler ? `${firma.sehir} — ${bolgeler}` : '' },
 ].filter((k) => k.metin !== '');
 ---

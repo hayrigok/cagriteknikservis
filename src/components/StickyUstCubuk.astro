@@ -17,36 +17,44 @@ const ad = doldurulmusMu(firma.kisaAd)
   anlatmak yerine tek cihaz gösteriyordu. 12.08.2026'da sahibi televizyon ve
   kombinin başlıkta görünmesini isteyince buraya CİHAZ ÇEŞİTLİLİĞİ kondu.
 
-  Liste elle seçili çünkü amaç "ilk N hizmet" değil, DÖRT AYRI CİHAZ göstermek.
+  Liste elle seçili çünkü amaç "ilk N hizmet" değil, AYRI CİHAZLAR göstermek.
   Yeni hizmet eklemek burayı değiştirmez; kapsamı temsil eden set değişirse
   bilerek güncellenir. Slug bulunamazsa sessizce düşer, menü bozulmaz.
 
-  Etiket olarak `ad` DEĞİL `cihaz` basılıyor ("Klima", "Çamaşır makinesi") —
-  ölçülerek bulundu: tam hizmet adlarıyla ("Kombi Bakım ve Onarım" gibi) menü
-  1280 px'te marka adını sıkıştırıp kesiyor ve çubuğu 65→69 px büyütüyordu.
+  Etiket `hizmetler.json`'dan DEĞİL, buradaki tanımdan geliyor ve bilerek
+  KISA ("Çamaşır", "Bulaşık") — üç kademede kısaldı, her kademe ölçümle:
+    · `ad` ("Kombi Bakım ve Onarım") → 1280 px'te marka adını kesiyor,
+      çubuğu 65→69 px büyütüyordu.
+    · `cihaz` ("Çamaşır makinesi") → 4 bağlantı sığıyor, 5. sığmıyordu
+      (1280 px'te 97 px kalıyor, "Bulaşık makinesi" 136 px sürüyor).
+    · Kısa etiket → 5 bağlantı sığıyor. Sahibi bulaşık makinesini de
+      istedi (12.08.2026), bu yüzden gerekti.
   Menü zaten bir kapsam ipucu, hizmetin tam adı değil; tam ad hedef sayfanın
-  H1'inde zaten var.
+  H1'inde zaten var. Yan yana dururken ("Klima · Çamaşır · Bulaşık ·
+  Buzdolabı · Kombi") kategori olduğu anlaşılıyor.
 
   ⚠️ KAÇ TANE SIĞAR — ölçüldü, 12.08.2026. Menü `lg` (1024 px) breakpoint'inde
-  görünmeye başlıyor, yani EN DAR YER 1024'tür ve orada yalnızca **2** hizmet
-  sığıyor. 1280 px'te **4** sığıyor; `.kap` 1200 px ile sınırlı olduğu için
+  görünmeye başlıyor, yani EN DAR YER 1024'tür. Kısa etiketle orada **3**,
+  1280 px'te **5** bağlantı sığıyor; `.kap` 1200 px ile sınırlı olduğu için
   1440 ve 1920'de fazladan yer AÇILMIYOR (ölçüldü: üçü de 659 px).
 
-  Bu yüzden 3. ve 4. bağlantı `hidden xl:inline` ile taşınıyor ve listenin
+  Bu yüzden 4. ve 5. bağlantı `hidden xl:block` ile taşınıyor ve listenin
   sonunda **"Tüm hizmetler"** duruyor: 11 hizmetin hepsini başlığa sığdırmak
   fiziksel olarak mümkün değil, ama hepsine tek tıkla gidilebilmesi lazım.
   Buraya bağlantı eklerken genişliği 1024'te YENİDEN ÖLÇÜN.
 */
-const MENU_SLUGLARI = [
-  'klima-servisi',
-  'camasir-makinesi-tamiri',
-  'buzdolabi-tamiri',
-  'kombi-bakim-onarim',
+const MENU_TANIMI = [
+  { slug: 'klima-servisi', etiket: 'Klima' },
+  { slug: 'camasir-makinesi-tamiri', etiket: 'Çamaşır' },
+  { slug: 'bulasik-makinesi-tamiri', etiket: 'Bulaşık' },
+  { slug: 'buzdolabi-tamiri', etiket: 'Buzdolabı' },
+  { slug: 'kombi-bakim-onarim', etiket: 'Kombi' },
 ];
 const hepsi = aktifHizmetler();
-const menu = MENU_SLUGLARI.map((s) => hepsi.find((h) => h.slug === s)).filter(
-  (h): h is NonNullable<typeof h> => h !== undefined
-);
+const menu = MENU_TANIMI.map((m) => {
+  const h = hepsi.find((x) => x.slug === m.slug);
+  return h ? { slug: h.slug, etiket: m.etiket } : null;
+}).filter((m): m is { slug: string; etiket: string } => m !== null);
 ---
 
 <header
@@ -68,14 +76,14 @@ const menu = MENU_SLUGLARI.map((s) => hepsi.find((h) => h.slug === s)).filter(
     <nav aria-label="Hizmetler" class="hidden lg:block">
       <ul class="flex items-center gap-6">
         {
-          menu.map((h, i) => (
-            // 1024 px'te yalnızca ilk iki bağlantı sığıyor (ölçüldü); kalanı xl'de açılır.
-            <li class:list={[i >= 2 && 'hidden xl:block']}>
+          menu.map((m, i) => (
+            // 1024 px'te yalnızca ilk üç bağlantı sığıyor (ölçüldü); kalanı xl'de açılır.
+            <li class:list={[i >= 3 && 'hidden xl:block']}>
               <a
-                href={`/${h.slug}/`}
+                href={`/${m.slug}/`}
                 class="text-kucuk font-medium text-metin-soluk transition-colors duration-150 hover:text-lacivert-700"
               >
-                {h.cihaz}
+                {m.etiket}
               </a>
             </li>
           ))
