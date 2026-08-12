@@ -6,6 +6,8 @@ export type IkonAdi =
   | 'buzdolabi'
   | 'kurutma'
   | 'firin'
+  | 'televizyon'
+  | 'kombi'
   | 'kucuk-ev'
   | 'telefon'
   | 'whatsapp'
@@ -56,7 +58,8 @@ export interface FiyatSatiri {
 /**
  * Hizmetin niteliği. Sayfa iskeleti aynı kalır, yalnızca SABİT METİNLERİN dili
  * değişir: tamir sayfası "arıza"dan söz eder, montaj sayfasının arızası yoktur.
- * Verilmezse 'tamir' — mevcut 8 hizmetin hepsi tamir/bakım.
+ * Verilmezse 'tamir' — klima montajı dışındaki hizmetlerin hepsi tamir/bakım.
+ * Buraya hizmet SAYISI yazmayın: her hizmet eklendiğinde sessizce yanlışlaşır.
  */
 export type HizmetTuru = 'tamir' | 'montaj';
 
@@ -121,14 +124,60 @@ export interface Firma {
    * garanti takılan parçaya göre değişiyor. Rozette olduğu gibi basılır.
    */
   garantiIfadesi: string;
-  /*
-    `markalar: string[]` alanı 29.07.2026'da KALDIRILDI. Sahibi marka listesi
-    vermeyeceğini, çünkü ayrım yapmadan **bütün markalara** baktıklarını
-    söyledi. Liste tutmak bu durumda yanlış: hem asla dolmayacak bir alanı her
-    build'de raporlar, hem de listede olmayan bir marka sahibini "bakmıyorlar"
-    diye düşündürüp arama kaybettirir. Cevap artık `hizmetler.json` içindeki
-    marka SSS'inde düz metin olarak duruyor.
-  */
+  /**
+   * Örnek marka adları. 29.07.2026'da KALDIRILMIŞTI (A6: sahibi liste
+   * vermiyordu, asla dolmayacak alan raporu kirletir), **12.08.2026'da
+   * sahibinin isteğiyle GERİ EKLENDİ** — bu sefer dolu geliyor, yani
+   * kaldırılma gerekçesi ortadan kalktı.
+   *
+   * A6'nın ASIL uyarısı hâlâ geçerli ve mimariyle karşılanıyor: listede adı
+   * geçmeyen bir markanın sahibi "bakmıyorlar" sanıp aramazsa liste, kapsayıcı
+   * cevaptan DAHA AZ iş getirir. Bu yüzden liste hiçbir yerde tek başına
+   * basılmaz; her geçtiği cümle "… dahil BÜTÜN markalar" kalıbıyla biter.
+   * Kalıbı bozmayın — marka adları arama için, kapsayıcı cümle iş için.
+   *
+   * Tek kaynak: burası. SSS cevaplarına `{markalar}` belirteciyle giriyor
+   * (`veri.ts` → `sssCoz()`), 11 hizmete elle kopyalanmıyor. Telefon
+   * numarasındaki dersin aynısı: ikinci bir yere yazılan değer, sonraki
+   * değişimde sessizce geride kalır.
+   *
+   * ⚠️ "Yetkili servis" ibaresi yasak (yasak 2) — marka adı geçmesi bunu
+   * DEĞİŞTİRMEZ. İzinli kalıp: "{Marka} ürünlerinde tamir ve bakım hizmeti".
+   */
+  markalar: string[];
+  /**
+   * Hizmet verilen ilçelerdeki mahalle kapsamı — TEK CÜMLE, liste değil.
+   *
+   * 12.08.2026'da sahibinin beyanıyla dolduruldu: *"Seyhan, Yüreğir, Çukurova,
+   * Sarıçam'daki tüm mahalleler semtler hepsine gidiyoruz."* Mahalle ADLARINI
+   * ayrı ayrı yazmayı istemedi (A2), ama kapsamı net söyledi — ikisi farklı
+   * şey: A2 bir liste kararıydı, bu bir kapsam beyanı.
+   *
+   * `Ilce.mahalleler` (ad listesi) doluysa O basılır, bu alan yedeğe düşer;
+   * ikisi de boşsa mahalle kutusu hiç basılmaz. Yani {PLACEHOLDER} sözleşmesi
+   * aynen işliyor, yalnızca bir kademe daha kazandı.
+   *
+   * ⚠️ Bu alan bir VAATTİR. Kapsam daralırsa (örn. bir ilçenin uzak
+   * mahallelerine gidilmiyorsa) burası hemen güncellenir — yasak 1.
+   */
+  mahalleKapsami: string;
+  /**
+   * Yedek parça politikası — `Markalar.astro` şeridinde basılır.
+   *
+   * 12.08.2026'da sahibinin cevabıyla dolduruldu: **"önce orijinal, yoksa
+   * muadil."** Sahibi başta *"tüm marka orijinal tamiri yapılır"* yazılmasını
+   * istemişti; sorulduğunda gerçek işleyişin bu olduğu ortaya çıktı.
+   *
+   * **Koşulsuz "orijinal parça" iddiası BİLEREK yazılmadı.** Bağımsız bir
+   * servis için 11 markanın tamamında orijinal parça garantisi vermek güçlü
+   * bir iddiadır; bir müşteri muadil çıktığını söylerse savunması yok ve
+   * yanıltıcı reklam (Ticari Reklam Yönetmeliği) kapsamına girer — sahte yorum
+   * yasağıyla (yasak 3) aynı yönetmelik. Şu anki metin hem doğru hem de
+   * sitenin "önce söyleriz" çizgisiyle tutarlı.
+   *
+   * Boşsa parça kutusu hiç basılmaz, şerit yalnızca marka adlarını gösterir.
+   */
+  parcaPolitikasi: string;
   /** GA4 ölçüm kimliği, `G-` ile başlar. Boşken gtag.js hiç yüklenmez. */
   gaOlcumKimligi: string;
   /**

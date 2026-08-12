@@ -370,9 +370,52 @@ de kilitliyor**, o andan sonra hiçbir komut cevap dönmüyor.
 ### Para sayfası iskeleti
 
 Sıra sabittir, her blok ayrı bileşendir: sticky üst çubuk → H1 → alt başlık →
-ana CTA → 3 güven rozeti → fiyat tablosu → arıza/çözüm → 4 adım süreç → ilçeye özgü
-blok → yorumlar → SSS → form → alt CTA + footer → mobil sabit alt çubuk.
+ana CTA → 3 güven rozeti → fiyat tablosu → arıza/çözüm → **marka şeridi** →
+4 adım süreç → ilçeye özgü blok → yorumlar → SSS → form → alt CTA + footer →
+mobil sabit alt çubuk.
 Blok eklerken veya sıra değiştirirken önce sorun.
+
+**Marka şeridi (`Markalar.astro`) 12.08.2026'da sahibinin onayıyla eklendi** —
+arıza/çözümden hemen sonra, çünkü "cihazımda bu arıza var" dedikten sonraki
+soru "benim markama bakıyor mu?" oluyor. Zemini **beyaz**: komşuları zemin ve
+lacivert, renk ritmi bozulmuyor. Ayrıntı D3'te.
+
+**Üst çubuktaki isim `kisaAd`, menü ise CİHAZ ÇEŞİTLİLİĞİ gösterir (12.08.2026).**
+Sahibi televizyon ve kombinin başlıkta görünmesini istedi. `kisaAd`'ı liste
+hâline getirmek **ölçülerek elendi** — iki ayrı sebeple:
+
+1. **Fiziksel yer yok.** 412 px'te marka kutusu **229 px**; "Adana Klima,
+   Beyaz Eşya, TV ve Kombi Servisi" **279 px** sürüyor, yani `truncate` ile
+   "…TV v…" diye kesiliyor ve **Kombi hiç görünmüyor.** 360 px'te mevcut isim
+   bile (205 px) sığmıyor — orada zaten kesiliyor.
+2. **`kisaAd` yalnızca başlıkta kullanılmıyor.** `og:site_name` · şema
+   `alternateName` / `author` / `publisher` · dört sayfa başlığı ve
+   **`/kvkk/` veri sorumlusu satırı** (`unvan ?? kisaAd`) oradan besleniyor.
+   Virgüllü bir kategori listesi KVKK künyesinde saçma durur ve
+   "Arıza Rehberi — {kisaAd}" başlığını **tam 60 karaktere** dayardı.
+
+Çözüm menüye taşındı: eskiden `slice(0, 3)` idi ve `hizmetler.json` sırası
+yüzünden **üçü de klima** çıkıyordu — yani menü sitenin kapsamını anlatmak
+yerine tek cihaz gösteriyordu. Etiket `ad` değil **`cihaz`**; tam adlarla
+("Kombi Bakım ve Onarım") menü 1280 px'te marka adını kesip çubuğu 65→69 px
+büyütüyordu.
+
+**Kaç bağlantı sığar — ölçüldü, 12.08.2026:**
+
+| Ekran | Menüye kalan yer | Sığan hizmet |
+|---|---|---|
+| **1024 px** (menünün göründüğü ilk genişlik) | 468 px | **2** |
+| 1280 px | 659 px | **4** |
+| 1440 / 1920 px | 659 px | 4 — `.kap` 1200 px sınırlı, **fazladan yer açılmıyor** |
+
+Bu yüzden düzen şu: dört hizmet basılır, **3. ve 4. `hidden xl:block`** ile
+taşınır, listenin sonunda **"Tüm hizmetler"** (`/#hizmetler`) durur.
+11 hizmeti başlığa sığdırmak fiziksel olarak mümkün değil; hepsine tek tıkla
+gidilebilmesi bu bağlantıyla sağlanıyor ve o yüzden vurgulu renkte.
+**Menüye bağlantı eklerken genişliği 1024 px'te YENİDEN ÖLÇÜN.**
+
+Menü `hidden lg:block`, yani mobilde görünmez; mobilde kapsamı ana sayfadaki
+hizmet ızgarası ve para sayfalarının kendi H1'leri anlatır.
 
 **`<main id="icerik">` sayfalarda, BaseLayout'ta DEĞİL** (10.08.2026). Her sayfa
 `StickyUstCubuk → <main> … </main> → Footer → MobilBar → YanButonlar` sırasında.
@@ -479,6 +522,42 @@ trafik gelmemesi bozukluk değildir, telefonu yakın vadede reklam çaldırır.
 düzenli çalışan bir betik olarak durmuyor — build zaten `[seo]` uyarısıyla
 sınırları koruyor, benzersizliği de `seo.ts` içindeki `benzersizMi()` bekçisi
 build sırasında yakalıyor.
+
+#### Denetim tekrarlandı — 12.08.2026, 80 sayfa (11 hizmet · 19 yazı)
+
+İki hizmet ve üç yazı eklendikten sonra `dist/` üzerinde **14 kontrol** koştu,
+**hepsi 0 bulgu**: title/description varlığı ve sınırı · H1 tekliği · başlık
+hiyerarşisinde atlama · canonical'ın kendini göstermesi · `lang="tr"` ·
+boş `href` / boş anchor metni · `alt`sız görsel · OG etiketleri · viewport +
+charset · kopya title/description/H1 · **yetim sayfa** · sitemap ↔
+indekslenebilir sayfa birebir eşleşmesi · JSON-LD ayrıştırma · `{PLACEHOLDER`
+sızıntısı · gtag dışı dış kaynak.
+
+Sayılar: **80 sayfa · 78 indekslenebilir · sitemap 78 (birebir)** · JSON-LD
+208 blok 0 bozuk · iç link sayfa başına **en az 2, ortalama 25,7** ·
+noindex yalnızca 404 ve `/tesekkurler/`.
+
+**Mobil düzen ölçümü (CDP, gerçek 412 px viewport):** yatay taşma **0 px**,
+taşan öğe yok, ölçüm olayı taşıyan bütün CTA'lar **44 px ve üstü**
+(header 44 · hero 88/52 · footer 88/52/44 · mobil bar 56).
+
+**⚠️ Bu ölçümde İKİ TUZAK yaşandı, tekrarlayacak olan bilsin:**
+
+1. **`--window-size=412` ekran görüntüsü için de yanıltıyor.** Sayfa daha geniş
+   bir viewport'ta dizilip 412 px'e **kırpılıyor**; sağdan kesik bir görüntü
+   çıkıyor ve "mobilde bozuk" sanılıyor. Doğrusu CDP
+   `Emulation.setDeviceMetricsOverride`. (B8'deki not ağ kısıtlaması içindi;
+   burada ağ ölçülmediği için bu API doğru araç.) Doğrulaması basit:
+   `innerWidth` gerçekten 412 mi diye sorun, değilse ölçüm geçersizdir.
+2. **WCAG 2.5.8 (dokunma hedefi) yanlış ölçüldü ve 20 sahte ihlal raporlandı.**
+   İlk betik hedefler arası **kenar-kenar** mesafeye bakıyordu; şartname ise
+   her hedefin merkezine **24 px çaplı daire** koyup dairelerin kesişmemesini
+   istiyor (yani merkez-merkez ≥ 24 px) ve **cümle içi linkleri muaf tutuyor**.
+   Doğru testle ihlal **0**: footer'daki 18 link Spacing istisnasıyla, 2 link
+   Inline istisnasıyla geçiyor. Ayrıca `<input>` değil onu saran `<label>`
+   sayılır — KVKK onay kutusunun etkin hedefi 20×20 değil **322×68 px**.
+   **Ders: erişilebilirlik iddiası şartnameye göre ölçülür, sezgiye göre
+   değil; fazla katı ölçüm de yanlış ölçümdür ve olmayan işi yaptırır.**
 
 **Denetimde çıkan tek yapısal zayıflık ve YANLIŞ ÇIKAN TAHMİN:** iki blog
 yazısı yalnızca 1 iç link alıyordu. O sırada "yazı sayısı artınca dağılım
@@ -686,6 +765,14 @@ yapılınca yanan para geri gelmez (C6):
    rekabet ve marka şikâyeti demek, bu da tüm Google Ads reklamlarını yayından
    kaldırır. İzinli kullanım: "{Marka} ürünlerinde tamir ve bakım hizmeti".
    Footer'daki reddi beyan bu ibareyi kullanmadan yazılmıştır, öyle kalsın.
+
+   **⚠️ 12.08.2026'dan beri sitede marka adı GEÇİYOR (A6 tersine çevrildi) ve
+   bu yasağı GEVŞETMEZ.** Marka adını yazmak serbest, yetki ima etmek değil.
+   Sınır şurada: *"Beko ürünlerinde tamir ve bakım hizmeti"* ✔ ·
+   *"Beko yetkili servisi"* ✘ · *"Beko servisi"* ✘ (yetki ima eder) ·
+   üretici **logosu basmak** ✘ (ibarenin görsel hâli). Her marka cümlesi
+   "… dahil bütün markalar" ile biter ve footer'daki "anılan marka adları …
+   sahiplerine aittir" cümlesi kalkmaz.
 3. **Sahte yorum, sahte yıldız, sahte müşteri sayacı yazmayın.** Uydurma müşteri
    yorumu Ticari Reklam ve Haksız Ticari Uygulamalar Yönetmeliği kapsamında
    yanıltıcı reklamdır (idari para cezası + erişim engeli) ve Google'ın sahte
@@ -756,26 +843,49 @@ amaca (üst sıra → çalan telefon) hizmet ettikleri ölçüde yapıldı.
 | # | İş | Kimde | Tek cümlede |
 |---|---|---|---|
 | 1 | **Yorum akışını sürdürmek** · D4 | Sahibi | **18 yorum var** (12.08.2026) — ilk hedef aşıldı; tazelik de sinyal olduğu için durmuyor. |
-| 2 | **İşletme profilini doldurmak** · G6 | Sahibi | Fotoğraf · hizmet listesi · hizmet alanı · çalışma saati · S&C · gönderi. |
-| 3 | **Blog yazısı eklemek** · D5 | Claude | 16 yazı var ama **`klima-montaji`'nin yazısı yok** — 9 hizmetin 8'i kapsanıyor. Sıradaki yazı buradan. |
-| 4 | **Mahalle listeleri** · A2 | Sahibi | İlçe başına 5–8 mahalle adı; rakibin kopyalayamayacağı tek içerik. |
+| 2 | **İşletme profilini doldurmak** · G6 | Sahibi | **Televizyon + kombi eklendi** (sahibi bildirdi 12.08.2026) ✔ · kalan: fotoğraf · hizmet alanı · S&C · gönderi. |
+| 3 | **Blog yazısı eklemek** · D5 | Claude | 19 yazı · **11 hizmetin 11'i kapsandı** ✔ — yazısız hizmet kalmadı. Bundan sonrası derinleştirme; sıradaki adaylar D5'te. |
+| 4 | ~~İlçe listesi~~ · G2 | — | **CEVAPLANDI 12.08.2026:** dört ilçe (Seyhan · Yüreğir · Çukurova · Sarıçam), hepsinin **bütün mahalle ve semtleri**. Yeni ilçe açılmayacak. |
 | 5 | **KVKK metnini avukata okutmak** · E1 | Sahibi | Brifing hazır: `docs/kvkk-avukat-brifingi.md`. |
 
 **⏭ Bir sonraki oturumun ilk işi: C8 — Ads kampanya kurulumu, ayar ayar
 birlikte.** Sahibi ekran görüntüsü atacak, ayarlar birlikte girilecek.
-Başlamadan önce sahibinden **`AW-…` dönüşüm kimliği** istenir (A7); o
-girilmeden kampanya yayına alınmaz.
+
+**⚠️ Sahibi 12.08.2026'da "akıllı kampanya kullanıyorum, gerek var mı?" diye
+sordu. Cevap C8'in başında:** C6'daki altı savunmanın **beşi** akıllı
+kampanyada teknik olarak yok (negatif kelime · reklam saati · IP hariç tutma ·
+Görüntülü ağı kapatma · konum "bulunma"). Tavsiye **standart Arama kampanyası**;
+ısrar hâlinde asgari koruma listesi de C8'de.
 
 ### ❓ Cevap bekleyen sorular — cevapsız uygulanmaz
 
-Hizmet bölgesi **tahmin edilmesi yasak** alan; liste gelmeden sayfa açılmaz.
-**G4 kapandı** (30.07.2026): kapasite yeterli, kapsam büyütmenin önünde engel yok.
+Hizmet bölgesi **tahmin edilmesi yasak** alandı; **G2 12.08.2026'da cevaplandı**
+(dört ilçe, hepsinin bütün mahalle ve semtleri) ve kapsam sabitlendi.
+**G4 kapandı** (30.07.2026): kapasite yeterli.
 
 | Soru | Madde | Cevabın etkisi |
 |---|---|---|
-| Kalan **11 ilçeden hangilerine** gidiyorsunuz? ("çoğu" dendi — ad ad liste gerek) | G2 | Her ilçe **8 para sayfası**. Kapsamı en çok büyütecek cevap bu. |
-| Hangisine **aynı gün**, hangisine **randevuyla** gidiliyor? | G2 | Uzak ilçeye "aynı gün" vaadi basılamaz (yasak 1). Liste ikiye ayrılmalı. |
-| Aday listesinden hangi hizmetleri **gerçekten yapıyorsunuz**? | G3 | Her hizmet **1 hub + N para sayfası**, kod yazılmadan. |
+| Aday listesinden hangi hizmetleri **gerçekten yapıyorsunuz**? | G3 | Her hizmet **1 hub + 4 para sayfası**, kod yazılmadan. |
+
+**R22 CEVAPLANDI — 12.08.2026, sahibi: *"basıyoruz."*** `/klima-gaz-dolumu/`
+sayfalarındaki "R22 gaz dolumu" satırı artık **doğrulanmış** bir hizmet;
+`{PLACEHOLDER — R22 hizmeti veriliyor mu?}` notu kaldırıldı ve `hizmetler.json`
+içinde **hiç `{PLACEHOLDER}` kalmadı.**
+
+Bu satır uzun süre **sessiz bir risk** olarak durdu ve nedeni öğretici: soru bir
+fiyat satırının `not` alanına yazılmıştı, A3 kararıyla fiyat tablosu hiç
+basılmadığı için **not da hiçbir zaman ekrana çıkmadı** — yani soru sahibine
+hiç ulaşmadı, ama "R22 gaz dolumu" işlemi işlem listesinde ziyaretçiye
+görünmeye devam etti. **Ders: doğrulanmamış bir hizmet iddiasının sorusunu,
+ekrana basılmayan bir alana yazmayın;** `[eksik-veri]` raporuna veya bu
+dosyadaki soru tablosuna yazın.
+
+**Değerlendirilmemiş fırsat:** R22 üretimden kalktığı için birçok servis eski
+klimalara gaz basmıyor. Yapıyor olmak gerçek bir ayrışma noktası ve
+"eski klima gaz dolumu" / "R22 bulunur mu" aramalarını karşılayabilir.
+`klima-gaz-dolumu` SSS'inde şu an R22 geçmiyor (6 sorunun hiçbirinde).
+Sahibine önerildi, **onayı beklemeden yazılmaz** — R22'nin bulunabilirliği ve
+fiyatı sahanın bilgisi.
 
 ### ⏸ Tetiği sahibi çekecek — altyapı hazır, bekliyor
 
@@ -807,7 +917,8 @@ Hizmet bölgesi **tahmin edilmesi yasak** alan; liste gelmeden sayfa açılmaz.
 | A3 | **Fiyat yayımlanmayacak** — fiyat istemeyin |
 | A4 | **Künye yayımlanmayacak** — ünvan/adres/e-posta/vergi istemeyin (riski E2'de) |
 | A5 | Google işletme profili **bağlandı**; şema adı gerçek işletme adına çekildi |
-| A6 | **Marka listesi tutulmayacak** — marka adı istemeyin |
+| A6 | **TERSİNE ÇEVRİLDİ 12.08.2026** — 11 marka eklendi, tek kaynak `firma.json`, her cümle "… dahil bütün markalar" ile biter |
+| A2 | **Mahalle listesi yayımlanmayacak** (12.08.2026) — mahalle adı istemeyin |
 | A8 | Alan adı: `cagribeyazesyatamir.com` |
 | D2 | **Hero görseli yok** — fotoğraf istemeyin (profil fotoğrafı ayrı konu, G6) |
 | D3 | Marka yüzeyi gereksiz (A6'nın sonucu) |
@@ -823,10 +934,10 @@ Hizmet bölgesi **tahmin edilmesi yasak** alan; liste gelmeden sayfa açılmaz.
 | Ölçüt | Şu an | Hedef |
 |---|---|---|
 | Yayın | **canlı** — https://cagribeyazesyatamir.com | ✔ |
-| Üretilen sayfa | **67** (31 sabit/blog + 36 para sayfası) | ✔ |
-| Kapsam | **4 ilçe × 9 hizmet** (klima montajı eklendi 30.07.2026) | G2 / G3 cevabına bağlı |
+| Üretilen sayfa | **80** (36 sabit/blog + 44 para sayfası) | ✔ |
+| Kapsam | **4 ilçe × 11 hizmet** — ilçelerin **bütün mahalle ve semtleri** (G2 cevaplandı 12.08.2026) | ✔ sabitlendi |
 | Geçerli ilçe (`yerelNotlar`) | **4 / 4** ✔ | 4 / 4 |
-| Blog yazısı | **16** — 8 hizmetin hepsi kapsandı | — |
+| Blog yazısı | **19** — **11 hizmetin 11'i kapsandı** ✔ (yazısız hizmet kalmadı) | — |
 
 **Ölçüm ve sıralama**
 
@@ -834,7 +945,7 @@ Hizmet bölgesi **tahmin edilmesi yasak** alan; liste gelmeden sayfa açılmaz.
 |---|---|---|
 | Canlı SEO denetimi | **50/50 temiz · açık yok** ✔ | 0 açık |
 | Search Console | **doğrulandı** ✔ (DNS TXT) · **sitemap gönderildi, 60 adres** ✔ | rapor okumak (G1) — 1–2 hafta sonra |
-| Site haritası | **65 adres** (60 → 65, montaj) | push sonrası canlıda doğrulanacak |
+| Site haritası | **78 adres** (60 → 65 montaj → 75 televizyon + kombi → 78 üç yazı) | push sonrası canlıda doğrulanacak |
 | Ölçümleme | **GA4 + Ads çalışıyor** — `G-818Z2EG00L` · `AW-18353257077` (12.08.2026, canlıda ölçüldü) | ✔ |
 | Google yorumu | **18** (12.08.2026, sahibi bildirdi) — ilk hedef (10–15) **aşıldı** ✔ | akışı sürdürmek (D4) |
 | Bot / click fraud savunması | **kurulum kapıları yazıldı** (C6 · C7) | reklam açılınca uygulanacak |
@@ -925,14 +1036,40 @@ düşer.
       sorulmadı çünkü yeni bir iddia girmedi — var olan bir sayı düzeltildi.
       **Ders: ilçe notlarına hizmet SAYISI yazmayın**, her eklemede sessizce
       yanlışlaşır.
-- [ ] **A2. `mahalleler` × 4 ilçe** (`ilceler.json`) — **öncelik 3, sahibinde.**
-      Kapıdan bağımsız; boşken ilçe bloğunun mahalle kutusu basılmıyor.
 
-      **Neden değerli:** mahalle adı, rakibin sitesinden kopyalayamayacağı
-      türden bir yerel sinyal ve "Seyhan'da X mahallesi beyaz eşya servisi"
-      aramalarını karşılar. A1 notunda yazan "sahadan gelmeli" içeriğin en
-      kolay parçası bu — ilçe başına **5–8 mahalle adı** yeter, cümle
-      kurmasına gerek yok.
+      **12.08.2026'da aynı ders bir kez daha çıktı — bu sefer LİSTE.** Seyhan
+      ve Yüreğir notları cihazları tek tek sayıyordu ("klima, çamaşır makinesi,
+      bulaşık makinesi, buzdolabı, kurutma makinesi, fırın ve ocak…").
+      Televizyon ve kombi eklenince bu listeler **eksik** kaldı: not, sitenin
+      geri kalanının verdiği hizmeti vermiyormuş gibi okunuyordu. İkisi de
+      Sarıçam'da zaten kullanılan **aralık kalıbına** çevrildi ("X'ten Y'ye
+      kadar hizmetlerin tamamı"), çünkü aralık yeni hizmet eklendiğinde
+      bozulmaz. Sahibine sorulmadı — yeni iddia girmedi, eksilen kapsam
+      tamamlandı.
+
+      **Genel kural: ilçe notuna ne SAYI ne de kapalı LİSTE yazılır.** İkisi de
+      aynı bakım borcudur; fark yalnızca sayının hemen, listenin sessizce
+      yanlışlaşmasıdır.
+- [x] **A2. MAHALLE LİSTESİ YAYIMLANMAYACAK — karar, 12.08.2026. Sahibinden
+      mahalle adı İSTEMEYİN.** Sözleriyle: *"liste liste mahalle mahalle
+      yazmasına gerek yok."*
+
+      Teklif edilmişti ve değeri anlatılmıştı: mahalle adı rakibin sitesinden
+      kopyalayamayacağı türden bir yerel sinyal, "Seyhan'da X mahallesi beyaz
+      eşya servisi" aramalarını karşılar ve ilçe başına 5–8 ad yeterliydi
+      (cümle kurmak gerekmiyordu). Sahibi istemedi.
+
+      **Bu A3/A4 ile aynı sınıfta: verilmiş karar, eksik veri değil.**
+      `mahalleler` alanları `{PLACEHOLDER}` kalmaya devam ediyor, `IlceBlogu`
+      mahalle kutusunu hiç basmıyor ve `seo.ts` meta kalıp havuzundan mahalleli
+      kalıp kendiliğinden düşüyor — mekanizma zaten doğru davranıyor,
+      **kod değişikliği gerekmiyor.**
+
+      `[eksik-veri]` raporundaki 4 `mahalleler` satırı **bilerek duruyor**:
+      A3'teki 48 fiyat satırı gibi tamamen silinmedi çünkü sayısı az (4 satır,
+      gürültü yaratmıyor) ve karar geri alınırsa nerenin açılacağını gösteriyor.
+      Karar geri alınırsa kod değişmez, `ilceler.json`'a ad girilince kutu ve
+      meta kalıbı kendiliğinden açılır.
       **`ulasimDk` bilerek `0` bırakıldı — 28.07.2026, sahibinin kararı.**
       Gerçek varış süresi ~2 saat, ama `IlceBlogu` bu sayıyı büyük puntoyla
       basıyor ve meta "Ortalama 120 dakikada adresinizdeyiz" oluyor; acil arama
@@ -1044,23 +1181,78 @@ düşer.
       sayfasının blok sırasını değiştireceği için **onay istendi, cevap
       gelmedi, eklenmedi.** Yorumlar bloğu artık basıldığına göre bu öneri
       büyük ölçüde gereksizleşti.
-- [x] **A6. Marka listesi TUTULMAYACAK — karar, 29.07.2026. Sahibinden marka
-      adı istemeyin.** Gerekçesi: *"tüm markaları yapıyoruz."*
+- [x] **A6. KARAR TERSİNE ÇEVRİLDİ — marka listesi 12.08.2026'da EKLENDİ.
+      Sahibinin isteği: *"markaları da göm ki SEO'da aramalarımız artsın."***
 
-      Bu bir eksik veri değil, **daha iyi bir cevap**. Liste tutmak iki türlü
-      zarar verirdi: (1) asla dolmayacak bir alan her build'de raporlanır,
-      (2) listede adı geçmeyen bir markanın sahibi "bakmıyorlar" diye düşünüp
-      aramaz — yani **liste, kapsayıcı cevaptan daha az iş getirir.**
+      **29.07.2026'daki karar** liste tutmamaktı ve gerekçesi şuydu: (1) asla
+      dolmayacak bir alan her build'de raporlanır, (2) listede adı geçmeyen bir
+      markanın sahibi "bakmıyorlar" diye düşünüp aramaz — yani **liste,
+      kapsayıcı cevaptan daha az iş getirir.**
 
-      Yapılanlar: `firma.markalar` alanı **kaldırıldı** (`firma.json`,
-      `types.ts`, `veri.ts` raporu). Gizli duran marka SSS'i **açıldı** ve
-      gerçek cevapla dolduruldu — marka ayrımı yapılmadığı, bağımsız servis
-      olunduğu ve marka/model telefonda söylenirse uygun parçayla gelindiği
-      yazıyor. Footer'daki reddi beyan da düzeltildi: sitede artık hiçbir marka
-      adı geçmediği için "anılan markaların" ifadesi yanlış kalmıştı.
+      **Birinci gerekçe ortadan kalktı** (alan artık dolu). **İkincisi hâlâ
+      geçerli ve mimariyle karşılandı:** liste hiçbir yerde tek başına
+      basılmıyor, geçtiği her cümle **"… dahil BÜTÜN markalar"** kalıbıyla
+      bitiyor. Ölçüldü: kapsayıcı kapanışı olmayan marka cevabı **0**.
+      **Bu kalıbı bozmayın** — marka adları arama için, kapsayıcı cümle iş için.
 
-      "Yetkili servis" ibaresi hâlâ yasak (yasak 2) — kapsayıcı cevap yazılırken
-      de kullanılmadı, kullanılmayacak.
+      **Yapılanlar:**
+      - `firma.markalar` geri eklendi: Arçelik · Beko · Bosch · Siemens ·
+        Samsung · LG · Profilo · Altus · Grundig · Electrolux · Miele.
+      - **11 hizmetin hepsine marka SSS'i** kondu (4'ü vardı, 7'si eklendi).
+        Her cevap cihaza özgü ("… bütün markaların **çamaşır makinelerinde**")
+        çünkü gerçek arama "beko çamaşır makinesi servisi" biçiminde yapılıyor,
+        çıplak marka listesi biçiminde değil.
+      - Ana sayfaya veriden türeyen marka SSS'i eklendi.
+      - Footer reddi beyanına "anılan marka adları … sahiplerine aittir"
+        cümlesi **geri geldi** — 29.07'de sitede marka adı kalmadığı için
+        kaldırılmıştı. **İkisi birlikte hareket eder.**
+
+      **Liste TEK YERDE: `firma.json`.** SSS cevaplarına `{markalar}`
+      belirteciyle giriyor, 11 hizmete kopyalanmıyor (telefon numarasındaki
+      dersin aynısı). Belirteç `veri.ts` → `sssCoz()` içinde, **veri
+      katmanında** çözülüyor; sebebi aynı SSS listesinin iki yere gitmesi:
+      ekrandaki `<Sss>` ve JSON-LD'deki `faqPage()`. Sayfada çözülseydi biri
+      atlandığında **görünen metin ile şema ayrışırdı** — Google'a ekranda
+      olmayan cevap bildirmek yapılandırılmış veri ihlalidir. Ölçüldü:
+      56 sayfada şema ↔ görünür metin **uyumu tam, ayrışma 0**.
+
+      **⚠️ "Gömmek" GİZLEMEK DEĞİL.** Sahibinin kelimesi buydu ama gizli metin
+      (`display:none`, sıfır punto, zemin rengiyle yazı) Google'ın spam
+      politikasının doğrudan ihlalidir ve yaptırımı **tüm siteye** işler —
+      yani istenen şeyin tam tersini yapar. Marka adları **görünür** metinde,
+      okunan cümlelerin içinde duruyor. Ölçüldü: gizli metinde marka adı **0**,
+      en yüksek marka yoğunluğu **%0,83** (doldurma seviyesinin çok altında).
+
+      **Meta açıklamalara da girdi — ama TAMAMI değil, DÖRT ad (12.08.2026).**
+      Sahibi *"markaları açıklamalarda da göster"* dedi. Matematik izin
+      vermiyor: 11 markanın tamamı **87 karakter** sürüyor, description sınırı
+      **155** — hepsini yazmak tıklamayı asıl sağlayan cümleyi (aynı gün ·
+      kapıda ödeme · garanti) dışarı iter. Çözüm `seo.ts` havuzuna **markalı
+      bir kalıp eklemek** oldu: havuza EK olarak giriyor, mevcutların yerine
+      geçmiyor. Böylece sayfaların bir kısmı marka aramasını, kalanı
+      aciliyet/fiyat mesajını karşılıyor ve yakın-kopya açıklama üretilmiyor.
+      Ölçüldü: **11 sayfada** marka geçen açıklama, en uzunu **142 karakter**,
+      kopya description **0**. Marka listesi boşalırsa kalıp havuza hiç girmez
+      (`ulasimDk = 0` iken süreli kalıbın düşmesiyle aynı mantık).
+
+      **Beklenti dürüstçe: bu, "beko servisi" aramasında ilk sırayı VERMEZ.**
+      Marka adının metinde geçmesi *marka + cihaz + ilçe* biçimindeki uzun
+      kuyruk aramalarında (ör. "sarıçam beko bulaşık makinesi tamiri") makul
+      bir kazanç sağlar. Çıplak "beko servisi" aramasında markanın kendi
+      yetkili servisleri ve büyük dizinler önde olur; oraya girmenin yolu metne
+      marka adı serpmek değil, **gerçek yorum (D4), otorite ve zaman**.
+      Bu satır, sonuç beklendiği kadar hızlı gelmediğinde "marka eklendi ama
+      olmadı" tartışması çıkmasın diye yazıldı.
+
+      **"Yetkili servis" ibaresi hâlâ yasak (yasak 2) ve marka adı geçmesi bunu
+      DEĞİŞTİRMEZ.** İzinli kalıp: "{Marka} ürünlerinde tamir ve bakım
+      hizmeti". Ölçüldü: 80 sayfanın hiçbirinde "yetkili servis" geçmiyor.
+
+      **Marka bazlı AYRI SAYFA açılmadı ve onaysız açılmaz.** "Beko servisi
+      Adana" gibi sayfalar en yüksek SEO değerini verirdi ama her biri gerçek,
+      markaya özgü içerik ister; şablondan üretilen 11 marka × 11 hizmet
+      sayfası **doorway page** olur ve ceza tek sayfaya değil tüm siteye işler
+      (ilçe kapısıyla aynı gerekçe). İstenirse ayrı bir karar olarak tartışılır.
 - [x] **A7. İKİSİ DE BAĞLANDI. GA4 `G-818Z2EG00L` (11.08.2026) · Ads
       `AW-18353257077` (12.08.2026).**
 
@@ -1373,6 +1565,46 @@ Aşağıdakiler o gün için duruyor:
 
 - [ ] **C8. KAMPANYA KURULUM OTURUMU — birlikte, ayar ayar yapılacak.**
 
+      **⚠️ SAHİBİ "AKILLI KAMPANYA KULLANIYORUM, GEREK VAR MI?" DİYE SORDU —
+      12.08.2026. Cevap: C6'daki altı savunmanın BEŞİ akıllı kampanyada
+      teknik olarak YOK.** Bu bir tercih meselesi değil, panelin sunmadığı
+      ayarlar meselesi:
+
+      | C6 kapısı | Standart Arama | **Akıllı kampanya** |
+      |---|---|---|
+      | Konum "bulunma" (ilgi değil) | ✔ tam kontrol | kısıtlı |
+      | Arama ortakları + Görüntülü **kapatma** | ✔ | **✘ yok** — Arama, Haritalar, Görüntülü ve YouTube'a birlikte çıkar |
+      | Tam/öbek eşleme + **negatif kelime** | ✔ | **✘ yok** — yalnızca "anahtar kelime temaları" |
+      | Reklam programı 08:00–20:00 | ✔ | **✘ yok** — gece de yayında |
+      | Düşük günlük bütçe (zarar tavanı) | ✔ | ✔ |
+      | **IP hariç tutma** (C7'nin ilk hamlesi) | ✔ | **✘ yok** |
+
+      **Sonuç: geçersiz tıklama başlarsa elde tek kaldıraç kalır — kampanyayı
+      durdurmak.** C7'deki sıra (IP hariç tut → coğrafya/saat daralt → Google'a
+      bildir) akıllı kampanyada uygulanamaz. Ayrıca C8'in 10. adımındaki negatif
+      liste (ücretsiz · iş ilanı · nasıl yapılır · ikinci el …) ve 10b'deki
+      kombiye özel liste (doğalgaz aboneliği · gaz kaçağı · kombi montajı)
+      **girilemez** — yani yapmadığımız işin tıklaması ödenir.
+
+      **Tavsiye: Standart Arama kampanyası.** Kurulum bir kereliktir (C8'in 12
+      adımı), akıllı kampanyanın kolaylığı ise her gün para olarak geri ödenir.
+
+      **Sahibi yine de akıllı kampanyada ısrar ederse** asgari koruma — bunlar
+      panelde VAR:
+      1. **Günlük bütçeyi çok düşük başlat.** Tek gerçek zarar tavanı bu.
+      2. **Konumu Adana ile sınırla**, "ilgi" seçeneği varsa kapat.
+      3. **Anahtar kelime temalarını haftada bir oku**, alakasız olanı sil —
+         negatif kelime yerine geçecek tek araç bu.
+      4. **Erken uyarı oranını izle (C7):** tıklama artarken `tel_click` +
+         `whatsapp_click` + `form_submit` artmıyorsa gelen insan değildir.
+         Bu ölçüm GA4'te hazır ve kampanya tipinden bağımsız çalışır.
+
+      **"Reklam gerekli mi?" sorusunun ayrı cevabı:** telefonu **bu hafta**
+      çaldıracak tek kanal reklamdır (Haritalar hafta, organik ay alır).
+      Ama Haritalar artık **18 yorumla çalışıyor** — oradan çağrı geliyorsa
+      reklamı ertelemek meşru bir karardır. Reklam açmamak organik sıralamaya
+      zarar vermez; para yakmak verir.
+
       **Sahibinin kararı (12.08.2026, gece):** *"bunların ayarlarını yarın
       yapacağız birlikte tek tek ayar yapacağız."* Yani kurulum tek başına
       yapılmayacak; her ekranda ekran görüntüsü gelecek, ayar birlikte
@@ -1393,9 +1625,10 @@ Aşağıdakiler o gün için duruyor:
       | 5 | Ağlar | Arama ortakları ❌ · Görüntülü ❌ | İkisi de **işaretli gelir** |
       | 6 | Program | **08:00–20:00** | Gece: bot yoğun + telefon açılmıyor |
       | 7 | Bütçe | Düşük başla | Bütçe = günlük zarar **tavanı** |
-      | 8 | Reklam grubu | **Cihaz başına bir grup** (7 grup) | Sayfa-kelime uyumu düşer, TBM artar |
+      | 8 | Reklam grubu | **Cihaz başına bir grup** (9 grup — televizyon ve kombi 12.08.2026'da eklendi) | Sayfa-kelime uyumu düşer, TBM artar |
       | 9 | Kelimeler | **Tam/öbek** (`"…"` · `[…]`) | Geniş eşleme alakasız her şeyi eşler |
       | 10 | Negatifler | ücretsiz · iş ilanı · eleman · kurs · nasıl yapılır · kendim · devre şeması · video · ikinci el · satılık · yedek parça · bayilik | Tıklar, arayan olmaz |
+      | 10b | **Kombi grubuna ÖZEL negatifler** | doğalgaz aboneliği · gaz açtırma · iç tesisat · gaz kaçağı · kombi montajı · kombi fiyatları · petek fiyatları · kombi satış | **Yapmadığımız işin tıklamasını öderiz.** Kombide kapsam gaz devresi HARİÇ (G3) — bu satır atlanırsa sayfa alakasız gelir, Kalite Puanı düşer |
       | 11 | Reklam metni | Başlıklar sayfa H1'iyle **aynı kelimeler** · açılış = ilgili para sayfası | Kalite Puanı düşer |
       | 12 | Uzantı | Arama uzantısı `0545 375 11 08` | Siteye girmeden arama kaybedilir |
 
@@ -1448,20 +1681,67 @@ Aşağıdakiler o gün için duruyor:
       > Not: Google İşletme Profili'ne fotoğraf eklemek ayrı bir konu ve orada
       > gerçekten işe yarar (yerel sıralama sinyali). Sitedeki hero kararı onu
       > kapsamıyor; sahibi isterse profil tarafında ayrıca değerlendirilir.
-- [x] **D3. Marka yüzeyi GEREKSİZ — A6 kararıyla kapandı (29.07.2026).**
-      Marka listesi tutulmayacağı için basılacak marka adı yok; bileşen
-      yazılmadı. Cevap SSS'te düz metin olarak duruyor, o yeterli.
+- [x] **D3. `Markalar.astro` şeridi EKLENDİ — sahibinin onayıyla, 12.08.2026.**
 
-      Karar geri alınır ve marka adları istenirse: "yetkili servis" ibaresi
-      **kullanılmayacak** (yasak 2), izinli kalıp "{Marka} ürünlerinde tamir ve
-      bakım hizmeti".
+      Marka adları önce yalnızca SSS metnine konmuştu; sahibi *"gözüksün
+      açıklamalarda falan"* deyince görünür bir şerit soruldu ve **"evet, ayrı
+      bir şerit ekle"** cevabı geldi. Blok sırasına kutu eklemek onay
+      gerektiriyor (iskele kuralı), onay alındı.
+
+      **Yeri: `ArizaCozum` ile `Surec` arasında.** Gerekçe akış: ziyaretçi
+      "cihazımda bu arıza var" dedikten hemen sonra aklına gelen soru
+      *"peki BENİM markama bakıyor mu?"* — cevap tam orada veriliyor, sonra
+      "nasıl çalışıyoruz" (Surec) geliyor. **Zemin beyaz**, çünkü komşuları
+      zemin ve lacivert: renk ritmi zemin → beyaz → lacivert korunuyor.
+
+      Şeridin üç parçası ve hiçbiri süs değil:
+      1. **Marka rozetleri** (11 ad) — düz metin.
+      2. **Turuncu "ve diğer bütün markalar" rozeti** — A6'nın kapsayıcılık
+         kuralının GÖRSEL hâli. Kapalı liste, listede olmayan markanın
+         sahibini kaybettirir. **Kaldırmayın.**
+      3. **"Yedek parça" kutusu** — `firma.parcaPolitikasi`.
+
+      **⚠️ ÜRETİCİ LOGOSU BASILMAZ.** Logo, "yetkili servis" ibaresinin görsel
+      hâlidir ve yasak 2'nin aynı riskine girer. Şeridin altındaki reddi beyan
+      (bayilik yok · marka adları sahiplerine aittir) da kalkmaz.
+
+      Ölçüldü: 412 px'te yatay taşma **0**, sayfa 87,5 → **92 KB** ham
+      (bütçe 500 KB), yeni JS **yok**, marka yoğunluğu %0,83 → **%1,55**
+      (doldurma seviyesinin hâlâ çok altında).
+
+- [x] **D6. Yedek parça politikası yazıldı — 12.08.2026. "Önce orijinal,
+      yoksa muadil."**
+
+      Sahibi başta *"tüm marka orijinal tamiri yapılır yaz"* dedi. **Koşulsuz
+      "orijinal parça" iddiası yazılmadı**, önce soruldu — ve gerçek işleyişin
+      farklı olduğu ortaya çıktı: orijinal öncelikli, bulunmayan modellerde
+      muadil.
+
+      **Neden sorulması şarttı:** bağımsız bir servisin 11 markanın tamamında
+      orijinal parça garantisi vermesi güçlü bir iddiadır; bir müşteri muadil
+      çıktığını söylerse savunması yoktur ve **yanıltıcı reklam** (Ticari
+      Reklam ve Haksız Ticari Uygulamalar Yönetmeliği) kapsamına girer —
+      sahte yorum yasağıyla (yasak 3) aynı yönetmelik. Ayrıca marka adının
+      yanında "orijinal" demek yetki imasına yaklaşır (yasak 2).
+
+      Yazılan metin hem doğru hem de sitenin **"önce söyleriz"** çizgisiyle
+      tutarlı: hangi parçanın takıldığı ve varsa fiyat farkı işleme başlamadan
+      söyleniyor. **Ders: sahibinden gelen bir cümle bile olsa, iddia
+      içeriyorsa doğrulanmadan yazılmaz.**
 - [ ] **D5. Arıza rehberine yazı ekle — teknik SEO bittiğine göre artık
       sıralamayı gerçekten değiştirecek iki işten biri (diğeri A5).**
 
-      **16 yazı yayında (29.07.2026'da 6 → 11 → 16).**
-      **Sekiz hizmetin HEPSİ artık en az bir yazıyla temsil ediliyor** —
-      ikinci turda bilerek `klima-bakimi` ve `klima-gaz-dolumu` boşlukları
-      kapatıldı, çünkü yazısı olmayan hizmet organik aramada hiç görünmüyordu.
+      **19 yazı yayında (29.07.2026'da 6 → 11 → 16 · 12.08.2026'da 19).**
+      **11 hizmetin 11'i de en az bir yazıyla temsil ediliyor — yazısız hizmet
+      kalmadı.** İlk turlarda o günkü sekiz hizmetin boşlukları kapatılmıştı;
+      sonradan üç hizmet eklenince oran 8/11'e düştü ve 12.08.2026'da televizyon,
+      kombi ve klima montajı yazılarıyla **11/11'e** çıkarıldı.
+
+      **Bundan sonrası "boşluk kapatma" değil "derinleştirme".** Ölçüt de
+      değişti: yeni yazı artık *hangi hizmetin yazısı yok* diye değil,
+      **G1'deki Search Console raporuna göre** seçilmeli — gösterimi olup
+      tıklanmayan sorgu, yazılacak bir sonraki yazıdır. Tahminle yazmaya devam
+      etmek, veri varken veriyi görmezden gelmek olur.
 
       | Hizmet | Yazı |
       |---|---|
@@ -1472,21 +1752,53 @@ Aşağıdakiler o gün için duruyor:
       | fırın/ocak | 2 (fırın ısınmıyor · ocak ateşleme yapmıyor) |
       | kurutma makinesi | 1 · klima bakımı | 1 (kötü kokuyor) |
       | klima gaz dolumu | 1 (gaz ne zaman biter) |
+      | **kombi** | **1** (petekler ısınmıyor) |
+      | **televizyon** | **1** (ses var görüntü yok) |
+      | **klima montajı** | **1** (taşınırken nasıl sökülür) |
       | (hizmetsiz) | 1 (ne kadar tutar) |
 
-      **⚠️ 30.07.2026'da dokuzuncu hizmet eklendi (`klima-montaji`) ve onun
-      yazısı YOK.** Tablo artık 9 hizmetin 8'ini kapsıyor. Yazısı olmayan
-      hizmet organik aramada görünmüyor; **sıradaki yazı buradan seçilmeli.**
-      İki güçlü aday, ikisi de gerçek arama:
-      - **"taşınırken klima nasıl sökülür"** — gazın dış ünitede toplanması
-        anlatılır. Yapılmazsa gaz kaçar, yeni adreste dolum masrafı çıkar.
-        `klima-gazi-ne-zaman-biter` yazısıyla aynı dürüst çizgide.
-      - **"klima montajı nereye yapılmalı"** — iç ünitenin üfleme yönü, dış
-        ünitenin havalandırması, boru mesafesi sınırı.
+      **12.08.2026'da eklenen üç yazı — üçü de kapsam sınırına göre
+      seçildi, keyfî değil:**
 
-      Sıradaki diğer adaylar: bulaşık makinesi koku yapıyor, çamaşır makinesi
-      kokuyor, buzdolabı çok ses yapıyor, kurutma makinesi hata veriyor,
-      klima açılmıyor, fırın kapağı buğulanıyor.
+      - **`petekler-isinmiyor`** (kombi) bilerek **hava alma ve dolaşım**
+        üzerine kuruldu. Kombinin en yüksek hacimli şikâyet aramalarından biri
+        olmasının yanında, **gaz devresine hiç girmeden** yazılabilen tek güçlü
+        konu buydu — G3'teki kapsam sınırıyla birebir uyumlu. Yazı sonunda gaz
+        hattına bakmadığımız ayrıca yazılı, yani blog ile para sayfası aynı şeyi
+        söylüyor. Ölçüldü: yazıda gaz/yetki vaadi **0**.
+      - **`televizyon-ses-var-goruntu-yok`** okuyucuya **el feneri testini**
+        yaptırıyor. Bu bilinçli: test on saniye sürüyor, hiçbir riski yok ve
+        sonucu bize telefonda söylendiğinde arızanın aydınlatmada mı
+        elektronikte mi olduğunu yola çıkmadan ayırıyor — yani yazı hem
+        okuyucuya hem servise yarıyor.
+      - **`tasinirken-klima-nasil-sokulur`** (klima montajı) **gaz toplama**
+        (pump down) üzerine kuruldu. Sebebi ticari: söküm + taşıma + yeni adrese
+        montaj, sitedeki en yüksek bilet işlerinden biri ve arayan kişi zaten
+        taşınma tarihi belli olduğu için **niyeti kesin** olan bir müşteri.
+        Yazının asıl işlevi okuyucuya **ustayı denetleyecek sırayı** vermesi:
+        dördüncü adımda manometre kullanılmıyorsa işlem "yaklaşık" yapılıyor
+        demektir. Rakip siteler bu adımı hiç anlatmıyor.
+
+      **Üçünde de uyarı kutusu var ve cihaza özgü** (kural: okuyucuya elle
+      iş yaptıran her yazıda zorunlu, giriş paragrafından hemen sonra):
+      kombide **purjörü sökmeyin/gevşetin** ayrımı, 70 dereceyi aşan kalorifer
+      suyu ve gaz kokusunda elektrik düğmesine dokunmama; televizyonda **arka
+      kapağı açmayın** — fiş çekildikten sonra bile gerilim tutan kondansatörler
+      ve desteklenmeden kaldırıldığında çatlayan cam panel; klima sökümünde
+      **rakordan çıkan gazın soğuk yanığı** ve dış ünitenin iple indirilecek bir
+      yük olmadığı.
+
+      **Üçü de sert doğruyu söylüyor, yumuşatmayın:** kombi yazısı "su
+      eklemek çözüm değil, kaçağı geciktirir ve tesisatı çamurlandırır" diyor;
+      televizyon yazısı **panel değişimini açıkça önermiyor** ("karşılığını
+      almayacağınız bir işe para harcatmak bizim işimiz değil"); montaj yazısı
+      **klimanın söktürülmeye değmeyeceği üç durumu** sayıyor. Üçü de kısa
+      vadede bir iş kaçırabilir — `klima-gazi-ne-zaman-biter` ile aynı duruş.
+
+      Sıradaki diğer adaylar: kombi basıncı sürekli düşüyor, ekranı kırık
+      televizyon tamir edilir mi, bulaşık makinesi koku yapıyor, çamaşır
+      makinesi kokuyor, buzdolabı çok ses yapıyor, kurutma makinesi hata
+      veriyor, klima açılmıyor, fırın kapağı buğulanıyor.
 
       **`klima-gazi-ne-zaman-biter` yazısı bilerek sert bir doğruyu söylüyor:**
       gaz "bitmez", kaçar; kaçak bulunmadan yapılan dolum aynı parayı birkaç ay
@@ -1497,8 +1809,10 @@ Aşağıdakiler o gün için duruyor:
 
       **İlk turda düzeltilen iki şey:** (1) ilgili yazı seçimi döngüsel hâle
       getirildi — iç link dağılımı 1–11'den 2–6'ya indi, ayrıntı ve yanlış
-      çıkan tahminin kaydı "Canlı SEO denetimi" bölümünde. 16 yazıyla ölçüm
-      tekrarlandı, dağılım **2–6 aralığında kaldı**, yetim yazı yok.
+      çıkan tahminin kaydı "Canlı SEO denetimi" bölümünde. Ölçüm 16 ve
+      **18 yazıyla** tekrarlandı, dağılım her ikisinde de **2–6 aralığında
+      kaldı**, yetim yazı yok. Yani döngüsel seçim yazı sayısı arttıkça
+      bozulmuyor — asıl kanıtlanmak istenen buydu.
       (2) `buzdolabi-sogutmuyor` yazısında uyarı kutusu eksikti, eklendi (buzu
       sivri cisimle kazımak — borular buzun hemen altında).
 
@@ -1624,13 +1938,48 @@ kapasite tahmin edilecek şey değildir.
 
       **TXT kaydı silinmesin** — silinirse doğrulama iptal olur, veri durur.
 
-- [ ] **G2. Kapsam genişliyor — sahibi 30.07.2026'da "Adana'nın çoğu ilçesine
-      gidiyoruz" dedi. LİSTE BEKLENİYOR.**
+- [x] **G2. CEVAP GELDİ — hizmet bölgesi DÖRT İLÇE, hepsi tam kapsam.
+      12.08.2026.** Sahibinin sözleriyle: *"Adana'daki Seyhan, Yüreğir,
+      Çukurova, Sarıçam'daki tüm mahalleler semtler hepsine gidiyoruz."*
 
-      Site şu an **4 ilçe** (Seyhan, Çukurova, Yüreğir, Sarıçam) × 8 hizmet =
-      32 para sayfası. Adana'nın kalan **11 ilçesi** kapsam dışı: Ceyhan,
+      **Bu, 30.07'deki "Adana'nın çoğu ilçesine gidiyoruz" ifadesini
+      NETLEŞTİRİYOR** — ad ad sorulduğunda gelen liste bu dört ilçe. Yeni ilçe
+      **açılmayacak**; Ceyhan, Kozan, İmamoğlu, Karaisalı, Karataş, Yumurtalık,
+      Aladağ, Feke, Saimbeyli, Tufanbeyli ve Pozantı kapsam dışı kalıyor.
+
+      **Kapsam 4 ilçe × 11 hizmet = 44 para sayfası olarak sabitlendi.**
+      Gidilmeyen ilçeye sayfa açmak doorway page'dir ve ceza tüm siteye işler;
+      elimizde artık net bir liste olduğu için o riski almaya gerek yok.
+
+      **Sitede yapılan karşılığı — tereddütlü dil kesin dile çevrildi.**
+      Sayfalar "gidiyorsak", "geliyorsak" gibi hedge'lerle yazılmıştı; sahibi
+      kesin konuşurken sitenin tereddüt etmesi dönüşüm kaybıdır:
+      - Ana sayfa SSS'i: *"…geliyorsak kaç dakikada varacağımızı…"* →
+        *"bu ilçelerin bütün mahalle ve semtlerine"*
+      - `/iletisim/` ve hizmet hub'ları aynı şekilde güncellendi
+      - `IlceBlogu` mahalle kutusu **geri geldi** (aşağıda)
+
+      **⚠️ Aynı anda GERÇEK BİR YANLIŞ VAAT düzeltildi.** Ana sayfa
+      *"Her ilçe için ayrı sayfa hazırlıyoruz: **ulaşım süresi**, gittiğimiz
+      mahalleler ve o bölgede sık çıkan arızalar orada yazılı"* diyordu.
+      Ulaşım süresi `ulasimDk = 0` kararıyla **hiç basılmıyor** (A2), mahalle
+      kutusu da o gün basılmıyordu — yani ziyaretçiye iki şey vaat edilip
+      ikisi de verilmiyordu. A3'te düzeltilen "söz veren metin, karşılığı
+      olmayan içerik" hatasının aynısı. Cümle gerçeğe çekildi.
+
+      **Kapsam daralırsa** (uzak bir mahalleye gidilmiyorsa)
+      `firma.mahalleKapsami` **hemen** güncellenir — o alan artık bir vaattir,
+      yasak 1'e tabidir.
+
+      Kapsam yeniden büyütülmek istenirse madde yeniden açılır; o zaman aşağıdaki
+      "aynı gün / randevuyla" ayrımı yine gerekir.
+
+      <details><summary>Kapanmadan önceki hâli (kayıt)</summary>
+
+      Site şu an **4 ilçe** (Seyhan, Çukurova, Yüreğir, Sarıçam) × 11 hizmet =
+      44 para sayfası. Adana'nın kalan **11 ilçesi** kapsam dışı: Ceyhan,
       Kozan, İmamoğlu, Karaisalı, Karataş, Yumurtalık, Aladağ, Feke, Saimbeyli,
-      Tufanbeyli, Pozantı. Her biri **8 yeni para sayfası** demek.
+      Tufanbeyli, Pozantı. Her biri **11 yeni para sayfası** demek.
 
       **"Çoğu" yeterli değil, ad ad liste gerekiyor.** Sebep ilçe kapısı: her
       ilçe için gerçek `yerelNotlar` yazılacak ve gidilmeyen ilçeye sayfa açmak
@@ -1654,13 +2003,17 @@ kapasite tahmin edilecek şey değildir.
       + sahibinin onayladığı servis bilgileri); sahadan gelen ayrıntı eklenirse
       değeri artar ama şart değil.
 
-- [ ] **G3. `klima-montaji` EKLENDİ (30.07.2026, sahibi onayladı: "bunu
-      yapıyoruz"). Kalan adaylar için cevap bekleniyor.**
+      </details>
 
-      Yayındaki **9 hizmet**: `klima-servisi` · `klima-bakimi` ·
-      `klima-gaz-dolumu` · **`klima-montaji`** · `camasir-makinesi-tamiri` ·
+- [ ] **G3. `klima-montaji` (30.07.2026) · `televizyon-tamiri` +
+      `kombi-bakim-onarim` (12.08.2026) EKLENDİ. Kalan adaylar için cevap
+      bekleniyor.**
+
+      Yayındaki **11 hizmet**: `klima-servisi` · `klima-bakimi` ·
+      `klima-gaz-dolumu` · `klima-montaji` · `camasir-makinesi-tamiri` ·
       `bulasik-makinesi-tamiri` · `buzdolabi-tamiri` ·
-      `kurutma-makinesi-tamiri` · `firin-ocak-tamiri`.
+      `kurutma-makinesi-tamiri` · `firin-ocak-tamiri` ·
+      **`televizyon-tamiri`** · **`kombi-bakim-onarim`**.
 
       **Montaj eklenirken çıkan ve düzeltilen üç şey — hepsi ders:**
       1. **Sabit metinler arıza dili konuşuyordu.** `tur` alanı bu yüzden
@@ -1680,6 +2033,8 @@ kapasite tahmin edilecek şey değildir.
       | Aday | Not |
       |---|---|
       | ~~Klima montajı / demontajı / taşıma~~ | **EKLENDİ** — 1 hub + 4 para sayfası. |
+      | ~~Televizyon tamiri~~ | **EKLENDİ** 12.08.2026 — 1 hub + 4 para sayfası. |
+      | ~~Kombi bakım ve onarım~~ | **EKLENDİ** 12.08.2026 — gaz devresi HARİÇ, aşağıya bakın. |
       | **Ticari soğutma** (vitrin dolabı, soğuk oda, sanayi tipi bulaşık makinesi) | Farklı müşteri (işletme), yüksek bilet, düşük rekabet. |
       | **Şofben / termosifon (elektrikli su ısıtıcısı)** | Beyaz eşya servislerinin sık yaptığı iş. |
       | **Davlumbaz / aspiratör** | Fırın-ocak ile aynı mutfakta, doğal ek. |
@@ -1687,14 +2042,66 @@ kapasite tahmin edilecek şey değildir.
       | **Mikrodalga fırın** · **derin dondurucu** | Küçük hacim; ayrı sayfa değeri düşük olabilir. |
       | **Su arıtma / su sebili** | Ayrı uzmanlık; yapılıyorsa eklenir. |
 
-      **⚠️ Kombi ve doğalgazlı cihazlar bilerek listede yok.** Doğalgaz işleri
-      yetki belgesi gerektirir; belgesiz sayfa açmak "yetkili servis" ibaresiyle
-      aynı türden bir risktir (yasak 2). Sahibi belgesi olduğunu söylerse ayrıca
-      değerlendirilir.
+      **⚠️ KOMBİ — GAZ DEVRESİ HARİÇ AÇILDI. Sınırı gevşetmeyin.**
+
+      Kombi bu listede **bilerek yoktu**: doğalgaz işleri yetki belgesi
+      gerektirir, belgesiz sayfa açmak "yetkili servis" ibaresiyle aynı türden
+      bir risktir (yasak 2) ve yaptırım reklam hesabına işler. 12.08.2026'da
+      sahibine belge sorusu **soruldu**; cevabı şu oldu:
+
+      > *"gaz hattı yok işte bakım onarım yapılır gibi yaz"*
+
+      Yani belge **yok**, iş **yapılıyor**. Sayfa bu yüzden dar bir kapsamla
+      açıldı: **kombinin su tarafı, tesisatı ve elektroniği.** Yazılanlar —
+      petek ısınmaması, basınç düşmesi, sıcak su, sirkülasyon pompası, plakalı
+      eşanjör, üç yollu vana, conta/rakor kaçakları, petek ve tesisat tadilatı.
+
+      **Sayfaya ASLA girmeyecekler** (yazarken tek tek kontrol edildi, `dist/`
+      üzerinde arandı, **0 sonuç**): gaz hattı çekme · gaz kaçağı tespiti · gaz
+      vanası · brülör · baca gazı ölçümü · "yetkili servis".
+
+      İlk SSS bunu **açıkça söylüyor** ve yumuşatılmayacak: gaz hattına
+      dokunulmadığı, o işin dağıtım şirketinin yetkilendirdiği firmalara ait
+      olduğu, gaz kokusunda ne yapılacağı (vanayı kapat · pencereyi aç ·
+      elektrik düğmesine dokunma · dağıtım şirketinin acil hattını ara) yazılı.
+      Fırın-ocak sayfasındaki gaz kokusu SSS'iyle aynı çizgi.
+
+      **Neden "hayır" ile başlayan bir SSS dönüşümü düşürmüyor:** o cümle aynı
+      paragrafta ne YAPTIĞIMIZI sayıyor. Ziyaretçinin aklındaki itirazı
+      karşılamak, itirazı görmezden gelmekten daha çok arattırır — sitenin
+      `klima-gazi-ne-zaman-biter` yazısındaki duruşun aynısı.
+
+      **Kalan risk, sıfırlanmadı:** kombi fiziksel olarak gazlı bir cihaz.
+      Kapsam daraltıldı ama "kombiye bakıyoruz" demenin kendisi bir tartışma
+      açabilir. Sahibi bilgilendirildi ve devam dedi; A4/E2 gibi **kabul
+      edilmiş risk** olarak kayda geçti. Belge alınırsa kapsam genişletilebilir
+      — o zaman bu madde yeniden açılır.
+
+      **⚠️ Şofben / termosifon adayında aynı ayrım geçerli:** elektrikli
+      su ısıtıcısı sorunsuz, **gazlı şofben** kombiyle aynı sınıra girer.
+
+      **Televizyon — sahibinin cevabıyla yazıldı.** Site her yerde "aynı gün,
+      2 saatte yerinde" diyor; TV'de bu çoğu zaman böyle işlemiyor, o yüzden
+      soruldu. Cevap: *"yerinde bakarız, gerekirse atölyeye alırız."* Sayfa
+      bu akışı olduğu gibi anlatıyor — `altBaslik` "Aynı gün yerinde bakarız.
+      Atölye gerekirse alır, onarır, geri getiririz." **Sormadan "aynı gün
+      yerinde onarım" yazılsaydı yasak 1'e giren bir vaat basılmış olurdu.**
+
+      İkinci dürüst sınır TV'de de var ve yumuşatılmayacak: **ekranı kırık
+      televizyonda panel maliyeti çoğu modelde yeni cihaza yaklaşır**, SSS bunu
+      söylüyor ve onarımı önermiyor. Kısa vadede bir iş kaçırabilir; siteyi
+      ayakta tutan "önce bakarız, sonra söyleriz" duruşunun karşılığı budur.
 
       Onaylanan her hizmet `hizmetler.json`'a **tek kayıt** olarak girer →
       1 hub + (ilçe sayısı) para sayfası, **kod yazılmadan**. Kayda 6 arıza/çözüm
       ve 5–6 SSS gerekiyor; bunları Claude yazar, sahibi doğrular.
+
+      **12.08.2026'da kodda değişen tek şey ikon oldu** (veri dışında):
+      `IkonAdi`'ye `televizyon` ve `kombi` eklendi, `Ikon.astro`'ya iki SVG,
+      `veri.ts` → `IKONLAR`'a iki satır. **Üçü birlikte güncellenir**; biri
+      atlanırsa hizmet sessizce genel `arac` (anahtar) ikonuna düşer ve bu
+      hiçbir uyarı basmaz. Kombi ikonuna **alev çizilmedi** — gaz devresine
+      dokunmadığımız için görsel de bunu ima etmemeli.
 
 - [x] **G4. Kapasite yeterli — sahibinin cevabı, 30.07.2026:** *"günde tüm
       işlere yetebilecek kapasitemiz var."*
@@ -1729,7 +2136,10 @@ kapasite tahmin edilecek şey değildir.
       Haritalar'da o kadar üste çıkar:
       - **Fotoğraf** — gerçek iş fotoğrafı. Sitedeki hero kararı (D2) burayı
         **kapsamıyor**; profilde fotoğraf gerçekten sıralama sinyali.
-      - **Hizmet listesi** — sitedeki 8 hizmetin aynısı.
+      - [x] **Hizmet listesi — televizyon ve kombi profile EKLENDİ**, sahibi
+        bildirdi (12.08.2026). Önemliydi: profildeki liste siteyle ayrışırsa
+        Haritalar o hizmetlerde hiç çıkmaz. Yeni hizmet eklendiğinde profil de
+        güncellenmeli — bu ikisi birlikte hareket eder.
       - **Hizmet alanı** — G2'nin cevabıyla aynı ilçeler.
       - **Çalışma saati** — 08:00–20:00, gerçek olan (bkz. G5).
       - **Soru & cevap** — sitedeki SSS'lerden birkaçı.

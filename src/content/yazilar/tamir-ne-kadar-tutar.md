@@ -44,6 +44,14 @@ Değişen parça garantilidir. Garanti süresi parçaya göre değiştiği için
 
 Kapıda nakit veya kart ile ödeyebilirsiniz. İşlem bitmeden ödeme istemiyoruz.
 
+## Beyaz eşya dışındaki cihazlarda da aynı mı?
+
+Evet, ücretlendirmenin işleyişi bütün hizmetlerimizde aynı: önce bakarız, tutarı söyleriz, siz onaylamadan işleme başlamayız. Yalnızca birkaç noktada pratik fark var:
+
+- **Televizyon.** Önce adresinizde bakarız. Panel, arka aydınlatma veya anakart gibi masa işi gerektiren onarımlarda cihazı alır, onarır ve geri getiririz; alma ve teslim bunun içindedir. Ekranı kırık televizyonlarda panel maliyeti çoğu modelde yeni cihaza yaklaşır — böyle bir durumda tutarı söyler ve onarımı **önermeyiz**.
+- **Kombi ve petek tesisatı.** Bakım ve onarım aynı şekilde ilerler. Petek yeri değişikliği gibi tadilat işlerinde metraj yerinde ölçülür ve tutar işe başlamadan önce netleşir. Gaz hattına ve gaz kaçağına müdahale etmiyoruz; o işler dağıtım şirketinin yetkilendirdiği firmalara aittir.
+- **Klima montajı ve taşıma.** Boru mesafesi ve dış ünitenin yeri işi doğrudan etkilediği için keşifte ölçülür; ek malzeme gerekiyorsa miktarı baştan söylenir.
+
 ## Telefonda daha isabetli bir aralık almak için
 
 Üç bilgi işi çok kolaylaştırıyor:

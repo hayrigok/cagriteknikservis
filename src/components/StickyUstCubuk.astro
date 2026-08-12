@@ -8,9 +8,45 @@ const ad = doldurulmusMu(firma.kisaAd)
   ? firma.kisaAd
   : `${firma.sehir} Beyaz Eşya ve Klima Servisi`;
 
-// Masaüstünde birkaç ana bağlantı; mobilde gizli, orada alt çubuk var.
-// Aşırı yüklenmiş menü yerine 3 bağlantı (nav-hierarchy kuralı).
-const menu = aktifHizmetler().slice(0, 3);
+/*
+  Masaüstünde birkaç ana bağlantı; mobilde gizli, orada alt çubuk var.
+  Aşırı yüklenmiş menü yerine az sayıda bağlantı (nav-hierarchy kuralı).
+
+  ⚠️ Eskiden `slice(0, 3)` idi ve `hizmetler.json` sırası yüzünden ÜÇÜ DE KLİMA
+  çıkıyordu (servisi · bakımı · gaz dolumu). Yani menü, sitenin kapsamını
+  anlatmak yerine tek cihaz gösteriyordu. 12.08.2026'da sahibi televizyon ve
+  kombinin başlıkta görünmesini isteyince buraya CİHAZ ÇEŞİTLİLİĞİ kondu.
+
+  Liste elle seçili çünkü amaç "ilk N hizmet" değil, DÖRT AYRI CİHAZ göstermek.
+  Yeni hizmet eklemek burayı değiştirmez; kapsamı temsil eden set değişirse
+  bilerek güncellenir. Slug bulunamazsa sessizce düşer, menü bozulmaz.
+
+  Etiket olarak `ad` DEĞİL `cihaz` basılıyor ("Klima", "Çamaşır makinesi") —
+  ölçülerek bulundu: tam hizmet adlarıyla ("Kombi Bakım ve Onarım" gibi) menü
+  1280 px'te marka adını sıkıştırıp kesiyor ve çubuğu 65→69 px büyütüyordu.
+  Menü zaten bir kapsam ipucu, hizmetin tam adı değil; tam ad hedef sayfanın
+  H1'inde zaten var.
+
+  ⚠️ KAÇ TANE SIĞAR — ölçüldü, 12.08.2026. Menü `lg` (1024 px) breakpoint'inde
+  görünmeye başlıyor, yani EN DAR YER 1024'tür ve orada yalnızca **2** hizmet
+  sığıyor. 1280 px'te **4** sığıyor; `.kap` 1200 px ile sınırlı olduğu için
+  1440 ve 1920'de fazladan yer AÇILMIYOR (ölçüldü: üçü de 659 px).
+
+  Bu yüzden 3. ve 4. bağlantı `hidden xl:inline` ile taşınıyor ve listenin
+  sonunda **"Tüm hizmetler"** duruyor: 11 hizmetin hepsini başlığa sığdırmak
+  fiziksel olarak mümkün değil, ama hepsine tek tıkla gidilebilmesi lazım.
+  Buraya bağlantı eklerken genişliği 1024'te YENİDEN ÖLÇÜN.
+*/
+const MENU_SLUGLARI = [
+  'klima-servisi',
+  'camasir-makinesi-tamiri',
+  'buzdolabi-tamiri',
+  'kombi-bakim-onarim',
+];
+const hepsi = aktifHizmetler();
+const menu = MENU_SLUGLARI.map((s) => hepsi.find((h) => h.slug === s)).filter(
+  (h): h is NonNullable<typeof h> => h !== undefined
+);
 ---
 
 <header
@@ -32,17 +68,26 @@ const menu = aktifHizmetler().slice(0, 3);
     <nav aria-label="Hizmetler" class="hidden lg:block">
       <ul class="flex items-center gap-6">
         {
-          menu.map((h) => (
-            <li>
+          menu.map((h, i) => (
+            // 1024 px'te yalnızca ilk iki bağlantı sığıyor (ölçüldü); kalanı xl'de açılır.
+            <li class:list={[i >= 2 && 'hidden xl:block']}>
               <a
                 href={`/${h.slug}/`}
                 class="text-kucuk font-medium text-metin-soluk transition-colors duration-150 hover:text-lacivert-700"
               >
-                {h.ad}
+                {h.cihaz}
               </a>
             </li>
           ))
         }
+        <li>
+          <a
+            href="/#hizmetler"
+            class="text-kucuk font-semibold text-lacivert-700 transition-colors duration-150 hover:text-turuncu-700"
+          >
+            Tüm hizmetler
+          </a>
+        </li>
         <li>
           <a
             href="/blog/"

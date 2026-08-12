@@ -1,0 +1,78 @@
+---
+/*
+  Marka şeridi — sahibinin onayıyla eklendi (12.08.2026).
+
+  Blok sırasına yeni bir kutu eklemek onay gerektiriyor (CLAUDE.md "Para
+  sayfası iskeleti"); sahibi *"evet, ayrı bir şerit ekle"* dedi. Yeri
+  ArizaCozum ile Surec arasında: ziyaretçi "cihazımda bu arıza var" dedikten
+  hemen sonra aklına gelen soru "peki BENİM markama bakıyor mu?" — cevap tam
+  orada veriliyor, sonra "nasıl çalışıyoruz" (Surec) geliyor.
+
+  Zemin BEYAZ, çünkü komşuları zemin (ArizaCozum) ve lacivert (Surec):
+  renk bloğu ritmi zemin → beyaz → lacivert olarak korunuyor.
+
+  ⚠️ ÜRETİCİ LOGOSU BASILMAZ. Logo, "yetkili servis" ibaresinin görsel hâlidir
+  ve yasak 2'nin aynı riskine girer (marka şikâyeti → bütün Ads reklamları
+  yayından kalkar). Yalnızca düz metin marka adı.
+
+  ⚠️ Kapsayıcı kapanış ZORUNLU. A6'nın dersi: kapalı bir liste, listede adı
+  geçmeyen markanın sahibini "bakmıyorlar" diye düşündürüp arama kaybettirir.
+  Bu yüzden listenin sonunda "ve diğer bütün markalar" rozeti var ve açıklama
+  cümlesi de aynı şeyi söylüyor. Bu ikisini kaldırmayın.
+
+  Veri yoksa blok HİÇ BASILMAZ ({PLACEHOLDER} sözleşmesi).
+*/
+import Bolum from './Bolum.astro';
+import Ikon from './Ikon.astro';
+import { deger, degerListesi, firma } from '@/lib/veri';
+
+interface Props {
+  /** Cihaz adı, küçük harfle ("çamaşır makinesi"). Başlığı somutlaştırır. */
+  cihaz?: string;
+}
+
+const { cihaz } = Astro.props;
+
+const markalar = degerListesi(firma.markalar);
+const parca = deger(firma.parcaPolitikasi);
+---
+
+{
+  markalar.length > 0 && (
+    <Bolum
+      etiket="Markalar"
+      baslik={cihaz ? `Baktığımız ${cihaz} markaları` : 'Baktığımız markalar'}
+      aciklama="Marka ayrımı yapmıyoruz. Aşağıdakiler en sık çağrıldığımız markalar; cihazınızın markası listede yoksa da arayın, bakıp bakmadığımızı bekletmeden söyleriz."
+      zemin="beyaz"
+    >
+      <ul class="flex flex-wrap gap-2">
+        {markalar.map((m) => (
+          <li class="rounded-sm border border-lacivert-100 bg-zemin px-4 py-2.5 text-kucuk font-bold text-lacivert-900">
+            {m}
+          </li>
+        ))}
+        <li class="rounded-sm border border-turuncu-600 bg-turuncu-600 px-4 py-2.5 text-kucuk font-bold text-white">
+          ve diğer bütün markalar
+        </li>
+      </ul>
+
+      {parca && (
+        <div class="mt-8 flex items-start gap-4 rounded-md bg-zemin p-6 lg:p-8">
+          <span class="flex h-11 w-11 shrink-0 items-center justify-center rounded-sm bg-lacivert-900 text-white">
+            <Ikon ad="kalkan" boyut={22} />
+          </span>
+          <div>
+            <p class="text-h3 font-bold text-lacivert-900">Yedek parça</p>
+            <p class="mt-2 leading-relaxed text-metin">{parca}</p>
+          </div>
+        </div>
+      )}
+
+      <p class="mt-6 text-kucuk leading-relaxed text-metin-soluk">
+        Bağımsız bir servisiz; hiçbir üreticinin bayisi veya temsilcisi değiliz. Marka adları
+        yalnızca hangi ürünlerde hizmet verdiğimizi belirtmek için yazılmıştır ve ilgili
+        sahiplerine aittir.
+      </p>
+    </Bolum>
+  )
+}

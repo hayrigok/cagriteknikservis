@@ -12,6 +12,21 @@
   "calismaSaatleri": "Her gün 08:00–20:00",
   "googleIsletmeUrl": "https://share.google/8Kle71MrAvOuPlJS6",
   "garantiIfadesi": "Değişen parça garantili",
+  "mahalleKapsami": "Bütün mahalle ve semtler",
+  "parcaPolitikasi": "Öncelikle orijinal yedek parça kullanıyoruz. Orijinali bulunmayan modellerde muadil takıyor, hangisini taktığımızı ve varsa fiyat farkını işleme başlamadan önce söylüyoruz.",
+  "markalar": [
+    "Arçelik",
+    "Beko",
+    "Bosch",
+    "Siemens",
+    "Samsung",
+    "LG",
+    "Profilo",
+    "Altus",
+    "Grundig",
+    "Electrolux",
+    "Miele"
+  ],
   "gaOlcumKimligi": "G-818Z2EG00L",
   "adsKimligi": "{PLACEHOLDER — AW-XXXXXXXXX}"
 }

@@ -1,5 +1,24 @@
 import type { Hizmet, Ilce } from './types';
-import { degerListesi } from './veri';
+import { degerListesi, firma } from './veri';
+
+/**
+ * Meta açıklamada kullanılacak ÖRNEK marka adları — tamamı değil.
+ *
+ * Sebep matematiksel: 11 markanın tamamı 87 karakter sürüyor ve description
+ * sınırı 155. Hepsini yazmak, tıklamayı asıl sağlayan cümleyi (aynı gün ·
+ * kapıda ödeme · garanti) dışarı iter. Dört ad, "dahil bütün markalar"
+ * kapanışıyla birlikte hem marka aramasını yakalar hem yer bırakır.
+ *
+ * Liste `firma.json`'dan geliyor, burada elle yazılmıyor (A6 tek kaynak
+ * kuralı). Sıra oradaki sıradır; en bilinen dördü başa konmuştur.
+ */
+const META_MARKA_ADEDI = 4;
+
+function metaMarkalar(): string | null {
+  const liste = degerListesi(firma.markalar).slice(0, META_MARKA_ADEDI);
+  if (liste.length < 2) return null;
+  return liste.join(', ');
+}
 
 export const TITLE_MAX = 60;
 export const DESC_MAX = 155;
@@ -101,6 +120,7 @@ export function paraSayfasiDescription(hizmet: Hizmet, ilce: Ilce): string {
   */
   const ad = hizmet.ad.toLocaleLowerCase('tr-TR');
   const mahalle = degerListesi(ilce.mahalleler)[0];
+  const markalar = metaMarkalar();
 
   /*
     Havuza yalnızca VERİSİ OLAN kalıp girer. Kapı sadece yerelNotlar'ı zorunlu
@@ -141,7 +161,22 @@ export function paraSayfasiDescription(hizmet: Hizmet, ilce: Ilce): string {
             : null,
           `${ilce.ad} için ${ad}: şikâyeti telefonda anlatın, yaklaşık aralığı söyleyelim. Kesin tutar yerinde tespitten sonra, onayınızla.`,
         ]
-  ).filter((k): k is string => k !== null);
+  )
+    .concat(
+      /*
+        MARKALI KALIP — havuza 12.08.2026'da eklendi (sahibinin isteği).
+        Havuza EK olarak giriyor, mevcutların yerine geçmiyor: böylece
+        sayfaların bir kısmı marka aramasını, kalanı aciliyet/fiyat mesajını
+        karşılıyor ve yakın-kopya açıklama üretilmiyor.
+
+        Marka listesi boşsa kalıp havuza HİÇ girmez — `ulasimDk = 0` iken
+        süreli kalıbın düşmesiyle aynı mantık: verisi olmayan cümle kurulmaz.
+      */
+      markalar
+        ? [`${ilce.ad} ${ad}: ${markalar} dahil bütün markalar. Aynı gün gidiyoruz, fiyatı önce söyler, onayınızı alırız.`]
+        : []
+    )
+    .filter((k): k is string => k !== null);
 
   const i = kalipIndeksi(`${ilce.slug}:${hizmet.slug}`, kaliplar.length);
   const metin = kirp(kaliplar[i] as string, DESC_MAX, `description ${hizmet.slug}/${ilce.slug}`);

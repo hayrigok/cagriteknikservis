@@ -45,8 +45,8 @@ const kunye: Kunye[] = kunyeHam.filter((k): k is Kunye => k.metin !== null);
 ---
 
 <BaseLayout
-  title={`İletişim — ${firma.sehir} Klima ve Beyaz Eşya Servisi`}
-  description={`${firma.sehir} genelinde klima ve beyaz eşya servisi. Telefon, çalışma saatleri, hizmet verdiğimiz ilçeler ve servis talep formu.`}
+  title={`İletişim — ${firma.sehir} Klima, Beyaz Eşya ve TV Servisi`}
+  description={`${firma.sehir} genelinde klima, beyaz eşya, televizyon ve kombi servisi. Telefon, çalışma saatleri, hizmet verdiğimiz ilçeler ve servis talep formu.`}
   yol="/iletisim/"
   schema={[
     breadcrumb(Astro.site!, [
@@ -92,7 +92,7 @@ const kunye: Kunye[] = kunyeHam.filter((k): k is Kunye => k.metin !== null);
   <Bolum
     etiket="Bölge"
     baslik="Hizmet verdiğimiz ilçeler"
-    aciklama={`${firma.sehir} içinde aşağıdaki ilçelere gidiyoruz. Mahallenizi telefonda söyleyin, kaç dakikada varacağımızı da söyleyelim.`}
+    aciklama={`${firma.sehir} içinde aşağıdaki ilçelere, bu ilçelerin bütün mahalle ve semtlerine gidiyoruz. Mahallenizi telefonda söyleyin, ne zaman orada olacağımızı da söyleyelim.`}
   >
     <ul class="flex flex-wrap gap-3">
       {

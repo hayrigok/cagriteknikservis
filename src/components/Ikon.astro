@@ -37,6 +37,14 @@ const konturlu: Partial<Record<IkonAdi, string>> = {
   firin: `<rect x="3.25" y="3.25" width="17.5" height="17.5" rx="2"/>
     <path d="M3.25 9h17.5"/><circle cx="7" cy="6.1" r=".9"/><circle cx="10.5" cy="6.1" r=".9"/>
     <rect x="6.75" y="12" width="10.5" height="6" rx="1"/>`,
+  televizyon: `<rect x="2.75" y="4.25" width="18.5" height="12.5" rx="2"/>
+    <path d="M12 16.75v3"/><path d="M8.25 19.75h7.5"/>`,
+  // Duvar tipi kombi: gövde + gösterge + kumanda düğmesi + alttan çıkan üç
+  // tesisat borusu. Alev çizilmedi — gaz devresine dokunmuyoruz (bkz. G3).
+  kombi: `<rect x="4.75" y="3.25" width="14.5" height="12.5" rx="2"/>
+    <path d="M7.75 7h4.5"/><circle cx="16" cy="7" r=".9"/>
+    <path d="M7.75 11.25h8.5"/>
+    <path d="M8.5 15.75v4M12 15.75v4M15.5 15.75v4"/>`,
   'kucuk-ev': `<rect x="2.75" y="5.25" width="18.5" height="13.5" rx="2"/>
     <rect x="5.5" y="8" width="9" height="8" rx="1"/>
     <path d="M17.5 8.5v1M17.5 12v1M17.5 15.5v1"/>`,

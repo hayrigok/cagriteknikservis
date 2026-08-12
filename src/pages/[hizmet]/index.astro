@@ -18,6 +18,7 @@ import GuvenRozetleri from '@/components/GuvenRozetleri.astro';
 import OlcuSeridi from '@/components/OlcuSeridi.astro';
 import FiyatTablosu from '@/components/FiyatTablosu.astro';
 import ArizaCozum from '@/components/ArizaCozum.astro';
+import Markalar from '@/components/Markalar.astro';
 import Surec from '@/components/Surec.astro';
 import Yorumlar from '@/components/Yorumlar.astro';
 import Sss from '@/components/Sss.astro';
@@ -110,12 +111,13 @@ const schema = [
     etiket={montaj ? 'Sık sorulanlar' : undefined}
   />
 
+  <Markalar cihaz={cihaz} />
   <Surec tur={hizmet.tur} />
 
   <Bolum
     etiket="Bölgeler"
     baslik={`${hizmet.ad} verdiğimiz ilçeler`}
-    aciklama={`${firma.sehir} içinde aşağıdaki ilçelere gidiyoruz. Mahallenizi telefonda söyleyin, kaç dakikada varacağımızı da söyleyelim.`}
+    aciklama={`${firma.sehir} içinde aşağıdaki ilçelere, bu ilçelerin bütün mahalle ve semtlerine gidiyoruz. Mahallenizi telefonda söyleyin, ne zaman orada olacağımızı da söyleyelim.`}
   >
     {
       linkliIlceler.length > 0 && (

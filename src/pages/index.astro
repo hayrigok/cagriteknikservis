@@ -22,7 +22,7 @@ import YanButonlar from '@/components/YanButonlar.astro';
 import Ikon from '@/components/Ikon.astro';
 
 import type { SssOgesi } from '@/lib/schema';
-import { aktifHizmetler, firma, gecerliIlceler, hizmetIkonu, tumIlceler } from '@/lib/veri';
+import { aktifHizmetler, firma, gecerliIlceler, hizmetIkonu, markaMetni, tumIlceler } from '@/lib/veri';
 import { faqPage, hvacBusiness } from '@/lib/schema';
 
 const hizmetler = aktifHizmetler();
@@ -41,7 +41,7 @@ const bolgeAdlari = tumIlceler()
 
 /*
   Ana sayfaya ÖZEL SSS. Bilerek hizmetler.json'daki sorulardan farklı:
-  oradaki "garanti / ödeme / tespit" cevapları sekiz hizmette de benzer;
+  oradaki "garanti / ödeme / tespit" cevapları her hizmette benzer;
   ana sayfaya da konsaydı aynı paragraf sitede defalarca geçer ve hizmet
   sayfalarının kendine ait içeriği zayıflardı.
 
@@ -52,7 +52,7 @@ const anaSss: SssOgesi[] = [
   {
     soru: 'Hangi cihazlara bakıyorsunuz?',
     cevap:
-      'Klima ve beyaz eşyanın tamamına bakıyoruz, küçük ev aletleri dahil. En sık çağrıldığımız cihazlar ve o cihazlarda çıkan arızalar şunlar. Listede olmayan bir cihazınız varsa yine arayın, bakıp bakmadığımızı bekletmeden söyleriz.',
+      'Klima ve beyaz eşyanın tamamına bakıyoruz; televizyon, kombi ve küçük ev aletleri de dahil. En sık çağrıldığımız cihazlar ve o cihazlarda çıkan arızalar şunlar. Listede olmayan bir cihazınız varsa yine arayın, bakıp bakmadığımızı bekletmeden söyleriz.',
     maddeler: [
       {
         ad: 'Klima',
@@ -84,15 +84,41 @@ const anaSss: SssOgesi[] = [
           'ısıtmama, termostat arızası, kapak camı ve conta değişimi, ocakta ateşleme sorunu, davlumbazın çekmemesi',
       },
       {
+        ad: 'Televizyon',
+        detay:
+          'açılmama, ekranın karanlık kalması, görüntüde çizgi ve leke, ses arızası, kumandayı görmeme, smart TV donması',
+      },
+      {
+        ad: 'Kombi ve petek tesisatı',
+        detay:
+          'peteklerin ısınmaması, basınç düşmesi, sıcak su gelmemesi, sirkülasyon pompası ve vana arızası, petek yeri değişikliği (gaz hattı işleri hariç)',
+      },
+      {
         ad: 'Küçük ev aletleri',
         detay:
           'mikrodalga, elektrikli süpürge, ütü ve benzeri cihazlarda çalışmama, ısıtmama, kablo ve şalter arızası',
       },
     ],
   },
+  /*
+    Marka sorusu ana sayfada da var çünkü "adana beko servisi" gibi aramalar
+    marka adıyla yapılıyor. Liste `firma.json`'dan türüyor, burada elle
+    yazılmıyor — 11 hizmetin SSS'i de aynı kaynaktan besleniyor.
+
+    Kapanış cümlesi ("listede olmasa da …") ZORUNLU: A6'nın dersi, kapalı bir
+    listenin listede adı geçmeyen markanın sahibini kaybettirmesiydi.
+  */
+  ...(markaMetni()
+    ? [
+        {
+          soru: 'Hangi markalara bakıyorsunuz?',
+          cevap: `${markaMetni()} dahil bütün markalara bakıyoruz. Bağımsız bir servisiz, hiçbir üreticinin bayisi veya temsilcisi değiliz; bu yüzden marka ayrımı yapmıyoruz. Cihazınızın markası listede olmasa da arayın, bakıp bakmadığımızı bekletmeden söyleriz.`,
+        },
+      ]
+    : []),
   {
     soru: 'Hangi ilçelere geliyorsunuz?',
-    cevap: `${firma.sehir}'da ${bolgeAdlari} ilçelerine gidiyoruz. Mahallenizi söyleyin; geliyorsak kaç dakikada varacağımızı da telefonda söyleriz.`,
+    cevap: `${firma.sehir}'da ${bolgeAdlari} ilçelerine gidiyoruz — bu ilçelerin bütün mahalle ve semtlerine. Mahallenizi telefonda söyleyin, ne zaman orada olacağımızı da söyleyelim.`,
   },
   {
     soru: 'Çalışma saatleriniz ne?',
@@ -112,8 +138,8 @@ const anaSss: SssOgesi[] = [
 ---
 
 <BaseLayout
-  title={`${firma.sehir} Beyaz Eşya ve Klima Servisi — Aynı Gün`}
-  description={`${firma.sehir} genelinde klima ve beyaz eşya arızalarına aynı gün gidiyoruz. Yerinde arıza tespiti, şeffaf fiyat, kapıda ödeme. Hemen arayın.`}
+  title={`${firma.sehir} Klima, Beyaz Eşya, TV ve Kombi Servisi`}
+  description={`${firma.sehir} genelinde klima, beyaz eşya, televizyon ve kombi arızalarına aynı gün gidiyoruz. Yerinde arıza tespiti, kapıda ödeme. Hemen arayın.`}
   yol="/"
   schema={[hvacBusiness(Astro.site!), faqPage(anaSss)]}
   sayfaKimligi="anasayfa"
@@ -160,7 +186,7 @@ const anaSss: SssOgesi[] = [
       <Bolum
         etiket="Bölgeler"
         baslik="Bölgenize özel sayfalar"
-        aciklama="Her ilçe için ayrı sayfa hazırlıyoruz: ulaşım süresi, gittiğimiz mahalleler ve o bölgede sık çıkan arızalar orada yazılı."
+        aciklama="Her ilçe için ayrı sayfa hazırlıyoruz: o bölgeye özgü notlar, gittiğimiz mahalleler ve sık çıkan arızalar orada yazılı."
       >
         <div class="grid gap-8 sm:grid-cols-2 lg:grid-cols-4">
           {hizmetler.map((h) => (

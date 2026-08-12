@@ -20,6 +20,8 @@ const IKONLAR: Record<string, IkonAdi> = {
   'buzdolabi-tamiri': 'buzdolabi',
   'kurutma-makinesi-tamiri': 'kurutma',
   'firin-ocak-tamiri': 'firin',
+  'televizyon-tamiri': 'televizyon',
+  'kombi-bakim-onarim': 'kombi',
 };
 
 export function hizmetIkonu(slug: string): IkonAdi {
@@ -140,8 +142,15 @@ function eksikVeriRaporu(): void {
     kontrol('firma.gaOlcumKimligi   → GA4 yok, yalnızca Ads dönüşümü ölçülüyor', firma.gaOlcumKimligi);
     kontrol('firma.adsKimligi       → Ads dönüşümü ölçülmüyor, yalnızca GA4 var', firma.adsKimligi);
   }
-  // firma.markalar kaldırıldı (29.07.2026): ayrım yapmadan bütün markalara
-  // bakılıyor, liste tutmak yanlış olurdu. Gerekçe types.ts içinde.
+  /*
+    firma.markalar 12.08.2026'da geri eklendi (A6 kararı sahibinin isteğiyle
+    tersine çevrildi). Boşalırsa sessizce kaybolmasın: `{markalar}` taşıyan
+    marka SSS'i 11 hizmette birden düşer, yani tek bir boş alan 55 sayfadan
+    içerik siler. Raporlanacak kadar pahalı.
+  */
+  if (degerListesi(firma.markalar).length === 0) {
+    satirlar.push('firma.markalar         → marka SSS\'i 11 hizmette birden basılmıyor (FAQPage şeması dahil)');
+  }
 
   /*
     Fiyat YAYIMLAMAMAK bir karardır (28.07.2026), eksik veri değil: amaç aramayı
@@ -167,10 +176,31 @@ function eksikVeriRaporu(): void {
     }
   }
 
-  for (const i of ilceler.filter((x) => x.aktif)) {
-    if (degerListesi(i.mahalleler).length === 0) {
-      satirlar.push(`ilceler.${i.slug}.mahalleler → mahalle kutusu basılmıyor`);
-    }
+  /*
+    MAHALLE ADLARI YAYIMLANMAYACAK — karar, 12.08.2026 (A2).
+
+    Eskiden ilçe başına bir satır basılıyordu ve metni "mahalle kutusu
+    basılmıyor" diyordu. İKİSİ DE ARTIK YANLIŞTI: (1) alan asla dolmayacak,
+    yani her build'de 4 satır gürültü, (2) kutu artık BASILIYOR —
+    `firma.mahalleKapsami` cümlesine düşüyor ("Bütün mahalle ve semtler").
+
+    Yanlış rapor, gürültülü rapordan daha zararlıdır: okuyan kişiyi olmayan
+    bir eksiği kovalamaya gönderir. Bu yüzden dört satır tek satıra indirildi
+    (A4 künye satırındaki kalıbın aynısı) ve rapordan tamamen silinmedi ki
+    karar geri alınırsa nerenin açılacağı görünsün.
+  */
+  const aktifIlceler = ilceler.filter((x) => x.aktif);
+  const adliMahalle = aktifIlceler.filter((i) => degerListesi(i.mahalleler).length > 0).length;
+  if (adliMahalle === 0) {
+    satirlar.push(
+      `ilceler.*.mahalleler   → KARAR: mahalle ADI yayımlanmıyor (12.08.2026). Kutu ${deger(firma.mahalleKapsami) ? 'firma.mahalleKapsami cümlesiyle basılıyor' : 'HİÇ BASILMIYOR — kapsam cümlesi de boş'}`
+    );
+  } else if (adliMahalle < aktifIlceler.length) {
+    satirlar.push(
+      `ilceler.*.mahalleler   → ${adliMahalle}/${aktifIlceler.length} ilçede ad listesi var, kalanı kapsam cümlesine düşüyor`
+    );
+  }
+  for (const i of aktifIlceler) {
     if (!(i.ulasimDk > 0)) {
       satirlar.push(`ilceler.${i.slug}.ulasimDk   → ulaşım süresi kutusu basılmıyor`);
     }
@@ -259,8 +289,48 @@ export function tumIlceler(): Ilce[] {
   return ilceler;
 }
 
+/**
+ * Marka adları, okunacak cümleye hazır: "Arçelik, Beko … ve Miele".
+ * Liste boşsa null döner ve `{markalar}` taşıyan SSS hiç basılmaz —
+ * {PLACEHOLDER} sözleşmesinin aynısı.
+ */
+export function markaMetni(): string | null {
+  const liste = degerListesi(firma.markalar);
+  if (liste.length === 0) return null;
+  if (liste.length === 1) return liste[0] as string;
+  return `${liste.slice(0, -1).join(', ')} ve ${liste[liste.length - 1]}`;
+}
+
+/*
+  SSS BELİRTEÇ ÇÖZÜMÜ — tek noktada.
+
+  `{markalar}` cevabın içine `firma.markalar`dan giriyor. Çözümün BURADA
+  yapılmasının sebebi, aynı SSS listesinin iki ayrı yere gitmesi: ekrandaki
+  <Sss> bileşenine ve JSON-LD'deki faqPage()'e. Sayfada çözülseydi biri
+  atlandığında görünen metin ile yapılandırılmış veri AYRIŞIRDI — Google'a
+  ekranda olmayan bir cevap bildirmek yapılandırılmış veri ihlalidir.
+
+  Çözülemeyen belirteç (liste boş) cevabı doldurulmamış sayar: `deger()` null
+  döner, soru hem sayfadan hem FAQPage şemasından düşer. Yani yarım cümle
+  ("… dahil bütün markalarda") asla basılmaz.
+*/
+function sssCoz(h: Hizmet): Hizmet {
+  if (!h.sss.some((s) => s.cevap.includes('{markalar}'))) return h;
+  const m = markaMetni();
+  return {
+    ...h,
+    sss: h.sss.map((s) =>
+      s.cevap.includes('{markalar}')
+        ? { ...s, cevap: m ? s.cevap.replaceAll('{markalar}', m) : '' }
+        : s
+    ),
+  };
+}
+
+const cozulmusHizmetler = hizmetler.map(sssCoz);
+
 export function aktifHizmetler(): Hizmet[] {
-  return hizmetler.filter((h) => h.aktif);
+  return cozulmusHizmetler.filter((h) => h.aktif);
 }
 
 export function hizmetBul(slug: string): Hizmet | undefined {

@@ -48,8 +48,7 @@
       {
         "islem": "Gaz dolumu (R410A / R32)",
         "altTl": null,
-        "ustTl": null,
-        "not": "{PLACEHOLDER — gaz tipine göre değişiyor mu?}"
+        "ustTl": null
       },
       {
         "islem": "Gaz kaçağı tespiti ve onarımı",
@@ -85,8 +84,8 @@
         "cevap": "Kapıda nakit veya kart ile ödeyebilirsiniz. İşlem bitmeden ödeme istemiyoruz."
       },
       {
-        "soru": "Hangi markalara bakıyorsunuz?",
-        "cevap": "Marka ayrımı yapmıyoruz; klima ve beyaz eşyanın bütün markalarında tamir ve bakım hizmeti veriyoruz. Bağımsız bir servisiz, hiçbir üreticinin bayisi veya temsilcisi değiliz. Cihazınızın marka ve modelini telefonda söylerseniz uygun parçayla geliriz."
+        "soru": "Hangi marka klimalara bakıyorsunuz?",
+        "cevap": "{markalar} dahil bütün markaların klimalarında tamir, bakım ve gaz işlemleri yapıyoruz. Marka ayrımı yapmıyoruz; bağımsız bir servisiz, hiçbir üreticinin bayisi veya temsilcisi değiliz. Telefonda cihazın markasını ve modelini söylerseniz uygun parçayla geliriz."
       },
       {
         "soru": "Gaz dolumu öncesi kaçak kontrolü yapıyor musunuz?",
@@ -181,6 +180,10 @@
       {
         "soru": "Bakım elektrik faturasını gerçekten düşürür mü?",
         "cevap": "Kirli filtre ve eşanjör kompresörü daha uzun çalıştırdığı için tüketim artar. Temizlik sonrası cihaz hedef sıcaklığa daha çabuk indiği için çalışma süresi kısalır."
+      },
+      {
+        "soru": "Hangi marka klimaların bakımını yapıyorsunuz?",
+        "cevap": "{markalar} dahil bütün markaların klimalarında bakım yapıyoruz. Bakım işlemi markadan bağımsızdır: filtre, kanatçık ve tahliye hattı her cihazda aynı mantıkla temizlenir. Bağımsız bir servisiz, hiçbir üreticinin bayisi veya temsilcisi değiliz."
       }
     ]
   },
@@ -239,8 +242,7 @@
       {
         "islem": "R22 gaz dolumu",
         "altTl": null,
-        "ustTl": null,
-        "not": "{PLACEHOLDER — R22 hizmeti veriliyor mu?}"
+        "ustTl": null
       },
       {
         "islem": "Rekor / boru kaçağı onarımı",
@@ -273,6 +275,10 @@
       {
         "soru": "Kaçak onarılamazsa ne oluyor?",
         "cevap": "Eşanjör gövdesinden kaçıran cihazlarda onarım her zaman ekonomik olmuyor. Böyle bir durumda maliyeti açıkça söyler, gereksiz işlem önermeyiz."
+      },
+      {
+        "soru": "Hangi marka klimalara gaz basıyorsunuz?",
+        "cevap": "{markalar} dahil bütün markaların klimalarında gaz kaçağı tespiti ve dolum yapıyoruz. Gaz tipi markaya değil cihazın etiketine göre belirlenir; miktarı da o etikete göre tartılarak basılır. Bağımsız bir servisiz, hiçbir üreticinin bayisi veya temsilcisi değiliz."
       }
     ]
   },
@@ -367,6 +373,10 @@
       {
         "soru": "Ödemeyi nasıl yapabilirim?",
         "cevap": "Kapıda nakit veya kart ile ödeyebilirsiniz. İşlem bitmeden ödeme istemiyoruz."
+      },
+      {
+        "soru": "Hangi marka çamaşır makinelerine bakıyorsunuz?",
+        "cevap": "{markalar} dahil bütün markaların çamaşır makinelerinde tamir ve bakım yapıyoruz. Marka ayrımı yapmıyoruz; bağımsız bir servisiz, hiçbir üreticinin bayisi veya temsilcisi değiliz. Ekranda bir hata kodu varsa markayla birlikte onu da söyleyin, uygun parçayla gelelim."
       }
     ]
   },
@@ -457,6 +467,10 @@
       {
         "soru": "Eski bulaşık makinesini tamir ettirmeye değer mi?",
         "cevap": "Onarım tutarı yeni cihazın önemli bir kısmına yaklaşıyorsa bunu açıkça söyleriz. Gereksiz tamir önermeyiz."
+      },
+      {
+        "soru": "Hangi marka bulaşık makinelerine bakıyorsunuz?",
+        "cevap": "{markalar} dahil bütün markaların bulaşık makinelerinde tamir ve bakım yapıyoruz. Marka ayrımı yapmıyoruz; bağımsız bir servisiz, hiçbir üreticinin bayisi veya temsilcisi değiliz. Ankastre modellerde de aynı işi yapıyoruz, dolaptan çıkarma dahil."
       }
     ]
   },
@@ -547,6 +561,10 @@
       {
         "soru": "Arıza tespiti ücretli mi?",
         "cevap": "Onarımı yaptırırsanız arıza tespiti için ayrıca ücret almayız. Arızayı yerinde gördükten sonra tutarı söyleriz; onaylamazsanız işleme başlamayız."
+      },
+      {
+        "soru": "Hangi marka buzdolaplarına bakıyorsunuz?",
+        "cevap": "{markalar} dahil bütün markaların buzdolabı ve derin dondurucularında tamir ve bakım yapıyoruz. Marka ayrımı yapmıyoruz; bağımsız bir servisiz, hiçbir üreticinin bayisi veya temsilcisi değiliz. No-frost ve gardırop tipi modeller de buna dahil."
       }
     ]
   },
@@ -637,6 +655,10 @@
       {
         "soru": "Makineyi atölyeye götürmeniz gerekir mi?",
         "cevap": "Filtre, rezistans, kayış ve pompa işlerini evde hallediyoruz. Tambur sökümü gerektiren ağır işlerde atölye gerekebilir, bunu yerinde görüp söyleriz."
+      },
+      {
+        "soru": "Hangi marka kurutma makinelerine bakıyorsunuz?",
+        "cevap": "{markalar} dahil bütün markaların kurutma makinelerinde tamir ve bakım yapıyoruz. Isı pompalı ve yoğuşmalı modellerin ikisine de bakıyoruz. Bağımsız bir servisiz, hiçbir üreticinin bayisi veya temsilcisi değiliz."
       }
     ]
   },
@@ -727,6 +749,10 @@
       {
         "soru": "Arıza tespiti ücretli mi?",
         "cevap": "Onarımı yaptırırsanız arıza tespiti için ayrıca ücret almayız. Arızayı yerinde gördükten sonra tutarı söyleriz; onaylamazsanız işleme başlamayız."
+      },
+      {
+        "soru": "Hangi marka fırın ve ocaklara bakıyorsunuz?",
+        "cevap": "{markalar} dahil bütün markaların fırın, ocak ve davlumbazlarında tamir ve bakım yapıyoruz. Ankastre setler de buna dahil. Bağımsız bir servisiz, hiçbir üreticinin bayisi veya temsilcisi değiliz; cihazın marka ve modelini söylerseniz uygun parçayla geliriz."
       }
     ]
   },
@@ -823,7 +849,198 @@
       },
       {
         "soru": "Hangi marka klimaları monte ediyorsunuz?",
-        "cevap": "Marka ayrımı yapmıyoruz; bütün markalarda montaj, söküm ve taşıma yapıyoruz. Bağımsız bir servisiz, hiçbir üreticinin bayisi veya temsilcisi değiliz. Cihazın marka ve modelini söylerseniz uygun malzemeyle geliriz."
+        "cevap": "{markalar} dahil bütün markaların klimalarında montaj, söküm ve taşıma yapıyoruz. Bağımsız bir servisiz, hiçbir üreticinin bayisi veya temsilcisi değiliz. Cihazın marka ve modelini söylerseniz uygun malzemeyle geliriz."
+      }
+    ]
+  },
+  {
+    "slug": "televizyon-tamiri",
+    "ad": "Televizyon Tamiri",
+    "h1Sablonu": "{ilce} Televizyon Tamiri",
+    "altBaslik": "Aynı gün yerinde bakarız. Atölye gerekirse alır, onarır, geri getiririz.",
+    "cihaz": "Televizyon",
+    "ozet": "Açılmayan, görüntü vermeyen, sesi gitmeyen televizyonlarda yerinde tespit; gerekirse atölyede onarım.",
+    "aktif": true,
+    "ariza": [
+      {
+        "baslik": "Televizyon açılmıyor, ön ışık yanıp sönüyor",
+        "cozum": "Çoğunlukla güç kartındaki şişmiş kondansatörler ya da besleme katı arızasıdır; cihaz açılmak için gereken gerilimi bulamaz. Kartı yerinde ölçer, arızayı görürüz; onarım masa işi gerektiriyorsa televizyonu alıp onardıktan sonra geri getiririz."
+      },
+      {
+        "baslik": "Ses geliyor ama ekran karanlık",
+        "cozum": "Panel çalışıyor, arka aydınlatması sönmüş demektir; karanlık ekrana ışık tutunca soluk görüntü seçilir. Arızalı LED barları belirler, aynı değerde yenisiyle değiştirir ve ekranın her bölgesini eşit aydınlandığını kontrol ederiz."
+      },
+      {
+        "baslik": "Ekranda dikey veya yatay çizgiler var",
+        "cozum": "Panel ile kart arasındaki flex bağlantısı veya T-CON kartı sorunludur; bir kısmında ise panelin kendisi arızalıdır. Hangisi olduğunu ayırırız, panel arızasıysa maliyeti önce söyler, kararı size bırakırız."
+      },
+      {
+        "baslik": "Görüntü var, ses yok veya cızırtılı",
+        "cozum": "Ses yükseltici katı ya da hoparlör bobini arızalanmıştır. Sesi hem hoparlörden hem çıkış ucundan test eder, arızanın kartta mı hoparlörde mi olduğunu ayırır ve yalnızca bozuk olan parçayı değiştiririz."
+      },
+      {
+        "baslik": "Kumandaya cevap vermiyor",
+        "cozum": "Arıza çoğu zaman kumandanın kendisinde ya da televizyonun alıcı gözündedir ve ikisi kolayca ayrılır. Alıcıyı test eder, arızalıysa değiştiririz; sorun kumandadaysa yeni cihaz almanıza gerek olmadığını da söyleriz."
+      },
+      {
+        "baslik": "Smart TV donuyor, uygulamalar açılmıyor",
+        "cozum": "Yazılım bozulmuş veya anakart üzerindeki bellek yıpranmış olabilir. Önce yazılım tarafını deneriz; sorun kartta ise bunu ölçerek gösterir, onarımın tutarını işleme başlamadan söyleriz."
+      }
+    ],
+    "fiyatAraligi": [
+      {
+        "islem": "Arıza tespiti",
+        "altTl": null,
+        "ustTl": null,
+        "not": "Onarım yaptırılırsa ücretsiz."
+      },
+      {
+        "islem": "Güç kartı onarımı veya değişimi",
+        "altTl": null,
+        "ustTl": null
+      },
+      {
+        "islem": "Arka aydınlatma (LED bar) değişimi",
+        "altTl": null,
+        "ustTl": null
+      },
+      {
+        "islem": "T-CON veya anakart onarımı",
+        "altTl": null,
+        "ustTl": null
+      },
+      {
+        "islem": "Ses katı ve hoparlör onarımı",
+        "altTl": null,
+        "ustTl": null
+      },
+      {
+        "islem": "Atölyede onarım",
+        "altTl": null,
+        "ustTl": null,
+        "not": "Alma ve teslim dahil."
+      }
+    ],
+    "sss": [
+      {
+        "soru": "Televizyonu evden götürmeniz gerekiyor mu?",
+        "cevap": "Önce yerinde bakarız; kumanda, ayar, kablo ve besleme kaynaklı işlerin çoğu adreste çözülür. Panel, LED bar veya anakart gibi masa işi gerektiren onarımlarda televizyonu alır, onarır ve geri getiririz. Hangisinin gerektiğini yerinde gördükten sonra söyleriz."
+      },
+      {
+        "soru": "Ekranı kırık televizyon tamir edilir mi?",
+        "cevap": "Teknik olarak panel değişir, ama panelin maliyeti çoğu modelde yeni bir televizyonun fiyatına yaklaşır. Böyle bir durumda tutarı olduğu gibi söyler ve zorlamayız; karşılığını almayacağınız bir onarımı size önermeyiz."
+      },
+      {
+        "soru": "Onarım ne kadar sürer?",
+        "cevap": "Yerinde çözülen işler aynı gün biter. Atölye gereken onarımlarda süre parçanın teminine bağlıdır; televizyonu alırken tahmini süreyi söyler, parça beklenecekse bunu baştan bildiririz."
+      },
+      {
+        "soru": "Hangi marka televizyonlara bakıyorsunuz?",
+        "cevap": "{markalar} dahil bütün markaların televizyonlarında tamir yapıyoruz; LED, LCD ve smart modellerin hepsi buna dahil. Bağımsız bir servisiz, hiçbir üreticinin bayisi veya temsilcisi değiliz. Cihazın marka ve modelini telefonda söylerseniz uygun parçayla geliriz."
+      },
+      {
+        "soru": "Yapılan onarımın garantisi var mı?",
+        "cevap": "Değişen parça garantili ve yaptığımız işçiliğin arkasındayız; aynı arıza tekrar ederse ücret almadan tekrar bakarız. Televizyonunuz hâlâ üretici garantisi altındaysa bunu telefonda konuşalım, garantinizi riske atmanızı istemeyiz."
+      },
+      {
+        "soru": "Arıza tespiti ücretli mi?",
+        "cevap": "Onarımı yaptırırsanız arıza tespiti için ayrıca ücret almayız. Arızayı yerinde gördükten sonra tutarı söyleriz; onaylamazsanız işleme başlamayız."
+      }
+    ]
+  },
+  {
+    "slug": "kombi-bakim-onarim",
+    "ad": "Kombi Bakım ve Onarım",
+    "h1Sablonu": "{ilce} Kombi Bakım ve Onarım",
+    "altBaslik": "Aynı gün, 2 saat içinde kapınızda.",
+    "cihaz": "Kombi",
+    "ozet": "Petek ısıtmayan, basınç düşüren, sıcak su vermeyen kombilerde bakım, onarım ve tesisat tadilatı.",
+    "aktif": true,
+    "arizaBaslik": "Kombi ve peteklerde en sık çıkan şikâyetler",
+    "ariza": [
+      {
+        "baslik": "Petekler ısınmıyor, üst kısmı soğuk kalıyor",
+        "cozum": "Peteğin içinde hava kalmış ya da yıllar içinde çamur birikmiştir; sıcak su üst bölmeye ulaşamaz. Purjörden havayı alır, tesisat çamurlanmışsa petek temizliğini de yapar, ısınmayı sizin yanınızda kontrol ederiz."
+      },
+      {
+        "baslik": "Basınç sürekli düşüyor, her gün su ekliyoruz",
+        "cozum": "Su eklemek arızayı çözmez, yalnızca geciktirir: kapalı bir devrede su eksiliyorsa bir yerden kaçıyordur. Kaçağın kombi içinde mi petek ve tesisatta mı olduğunu bulur, noktayı size gösterip onarırız."
+      },
+      {
+        "baslik": "Musluktan sıcak su gelmiyor veya geç geliyor",
+        "cozum": "Kireçli suda plakalı eşanjörün tıkanması en sık sebeptir; üç yollu vananın sıkışması da aynı şikâyeti verir. Eşanjörün kirecini çözer, vana arızalıysa değiştirir, sıcak su akışını ölçerek bırakırız."
+      },
+      {
+        "baslik": "Kombi çalışıyor ama ev ısınmıyor, sık sık duruyor",
+        "cozum": "Sirkülasyon pompası sıkışmış, genleşme tankının basıncı kaçmış ya da sıcaklık sensörü yanlış okuyor olabilir. Üçünü sırayla ölçer, arızalı olanı değiştirir, tesisattaki dolaşımı baştan sona kontrol ederiz."
+      },
+      {
+        "baslik": "Kombiden veya petek vanasından su damlıyor",
+        "cozum": "Rakor contaları sertleşmiş, pompa salmastrası ya da petek vanası sızdırıyordur. Damlayan noktayı bulur, contayı veya vanayı yeniler, basınç verip sızdırmazlığı test ettikten sonra çıkarız."
+      },
+      {
+        "baslik": "Petek yerini değiştirmek veya tesisatı yenilemek istiyorum",
+        "cozum": "Petek yeri değişikliği, ilave petek ve boru güzergâhı düzenlemesi yapıyoruz. Yeri ve metrajı önce yerinde görür, tesisatı boşaltmadan önce ne yapılacağını ve tutarı söyler, onayınızı alırız."
+      }
+    ],
+    "fiyatAraligi": [
+      {
+        "islem": "Arıza tespiti",
+        "altTl": null,
+        "ustTl": null,
+        "not": "Onarım yaptırılırsa ücretsiz."
+      },
+      {
+        "islem": "Kombi bakımı (eşanjör ve filtre temizliği)",
+        "altTl": null,
+        "ustTl": null
+      },
+      {
+        "islem": "Sirkülasyon pompası onarımı veya değişimi",
+        "altTl": null,
+        "ustTl": null
+      },
+      {
+        "islem": "Plakalı eşanjör kireç çözme",
+        "altTl": null,
+        "ustTl": null
+      },
+      {
+        "islem": "Üç yollu vana değişimi",
+        "altTl": null,
+        "ustTl": null
+      },
+      {
+        "islem": "Petek ve tesisat tadilatı",
+        "altTl": null,
+        "ustTl": null,
+        "not": "Metrajı yerinde belirlenir."
+      }
+    ],
+    "sss": [
+      {
+        "soru": "Gaz hattına ve gaz kaçağına müdahale ediyor musunuz?",
+        "cevap": "Hayır. Doğalgaz hattı ve gaz kaçağı işleri dağıtım şirketinin yetkilendirdiği firmalara aittir, biz o tarafa dokunmuyoruz. Yaptığımız iş kombinin su tarafı, tesisat ve elektronik kısmıdır: petek ısınmaması, basınç düşmesi, sıcak su, pompa, vana ve tadilat. Gaz kokusu alırsanız vanayı kapatın, pencereleri açın, elektrik düğmelerine dokunmayın ve dağıtım şirketinin acil hattını arayın."
+      },
+      {
+        "soru": "Kombi bakımı ne sıklıkla yapılmalı?",
+        "cevap": "Isıtma sezonu başlamadan önce yılda bir kez yeterlidir. Kışın ortasında peteklerin ısıtmadığını fark etmek yerine sezon öncesinde eşanjörü ve filtreyi temizletmek hem daha ucuza gelir hem de sizi soğukta beklemekten kurtarır."
+      },
+      {
+        "soru": "Basınç düşüyor, sadece su eklesem olmaz mı?",
+        "cevap": "Kısa vadede ısıtır ama arızayı büyütür: sürekli taze su eklemek tesisata her seferinde yeni kireç ve oksijen taşır, bu da kombinin içindeki parçaları yıpratır. Kaçağı bulup onarmak bir kerelik iştir; su eklemek her hafta tekrarladığınız bir iş hâline gelir."
+      },
+      {
+        "soru": "Petek yerini değiştirebilir misiniz?",
+        "cevap": "Evet; petek yeri değişikliği, ilave petek ve boru tadilatı yapıyoruz. Yeni yerin ısıtma açısından uygun olup olmadığını da söyleriz, çünkü peteği kapalı bir nişe veya perde arkasına almak odanın ısınmasını düşürür."
+      },
+      {
+        "soru": "Hangi marka kombilere bakıyorsunuz?",
+        "cevap": "{markalar} dahil bütün markaların kombilerinde bakım ve onarım yapıyoruz — kombinin su tarafı, tesisat ve elektronik kısmında. Bağımsız bir servisiz, hiçbir üreticinin bayisi veya temsilcisi değiliz. Kombiniz üretici garantisi altındaysa bunu telefonda konuşalım, garantinizi riske atmanızı istemeyiz."
+      },
+      {
+        "soru": "Arıza tespiti ücretli mi?",
+        "cevap": "Onarımı yaptırırsanız arıza tespiti için ayrıca ücret almayız. Arızayı yerinde gördükten sonra tutarı söyleriz; onaylamazsanız işleme başlamayız."
       }
     ]
   }

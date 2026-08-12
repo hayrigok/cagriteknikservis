@@ -14,6 +14,7 @@ import GuvenRozetleri from '@/components/GuvenRozetleri.astro';
 import OlcuSeridi from '@/components/OlcuSeridi.astro';
 import FiyatTablosu from '@/components/FiyatTablosu.astro';
 import ArizaCozum from '@/components/ArizaCozum.astro';
+import Markalar from '@/components/Markalar.astro';
 import Surec from '@/components/Surec.astro';
 import IlceBlogu from '@/components/IlceBlogu.astro';
 import Yorumlar from '@/components/Yorumlar.astro';
@@ -102,6 +103,7 @@ const schema = [
     baslik={hizmet.arizaBaslik ?? `En sık çıkan ${cihaz} arızaları`}
     etiket={montaj ? 'Sık sorulanlar' : undefined}
   />
+  <Markalar cihaz={cihaz} />
   <Surec tur={hizmet.tur} />
   <IlceBlogu ilce={ilce} hizmetAdi={hizmet.ad} />
   <Yorumlar />
