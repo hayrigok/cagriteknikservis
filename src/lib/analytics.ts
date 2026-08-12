@@ -3,14 +3,22 @@
  * onay öncesi tetiklenenler kuyrukta bekler, onay gelince sırayla akar.
  * Onay reddedilirse kuyruk atılır.
  *
- * gtag.js YÜKLEYİCİSİ de burada. İki sert kural var:
+ * gtag.js YÜKLEYİCİSİ de burada. Kalan iki kural:
  *
- *  1. Script yalnızca ONAY VERİLDİKTEN SONRA enjekte edilir, önce değil.
- *     Reddeden veya karar vermeyen ziyaretçi googletagmanager.com'a hiçbir
- *     istek yapmaz — Consent Mode'un "denied" başlaması tek başına yetmez,
- *     script'in kendisi de yüklenmemeli.
+ *  1. Script KOŞULSUZ yüklenir, Consent Mode varsayılanı "denied" ile.
+ *     12.08.2026'da sahibinin kararıyla değişti — önceden yalnızca onay
+ *     verildikten sonra enjekte ediliyordu. Gerekçe: Google Ads'in etiket
+ *     doğrulaması sayfayı onay vermeden tarıyor, gizli etiketi göremiyor ve
+ *     kurulum sihirbazı hiçbir zaman tamamlanmıyordu. Bedeli kabul edildi:
+ *     dış istek artık sıfır değil, reddeden ziyaretçiye de ~90 KB iniyor.
+ *     Karşılığında Google'ın standart Consent Mode kurulumu uygulanıyor.
  *  2. Kimlik yoksa hiçbir şey yüklenmez. firma.json'daki alanlar boşken bu
  *     dosyanın maliyeti birkaç yüz bayt, dış istek SIFIR kalır.
+ *
+ * ÖNEMLİ — onay hâlâ bir şeyi kapatıyor: çerez yazılmaz (consent denied) ve
+ * tıklama olayları gönderilmez (kuyrukta bekler, ret gelince atılır). Yani
+ * "kod iniyor" ile "ölçüm yapılıyor" aynı şey değil; /kvkk/ metni bu ayrımı
+ * anlatacak şekilde yazıldı, ikisini birlikte değiştirin.
  *
  * Kimlikler bu modüle IMPORT EDİLMEZ, <html> üzerindeki data- niteliklerinden
  * okunur. Sebep bütçe: analytics.ts istemci paketine giriyor, buradan
@@ -62,13 +70,13 @@ function kimlik(ad: 'ga' | 'ads'): string {
 let gtagYuklendi = false;
 
 /**
- * gtag.js'i enjekte eder. YALNIZCA onay verildikten sonra çağrılır.
+ * gtag.js'i enjekte eder. Her ziyarette çağrılır; consent varsayılanı bu
+ * çağrıdan ÖNCE "denied" yazılmış olmalı (baglat() sırayı koruyor).
  *
- * Bütçe notu: bu script ~90 KB ve sitenin geri kalanının (~1,8 KB JS, sıfır dış
- * istek) tamamından büyük. Bilerek kabul edildi — ölçülmeyen reklam harcaması
- * kör harcamadır. Zararı sınırlayan üç şey: onay öncesi hiç yüklenmiyor,
- * `async` ile yükleniyor (render'ı bloklamaz) ve LCP metin olduğu için ilk
- * boyamaya girmiyor.
+ * Bütçe notu: bu script ~90 KB ve sitenin geri kalanının (~1,8 KB JS)
+ * tamamından büyük. Zararı sınırlayan iki şey kaldı: `async` yükleniyor
+ * (render'ı bloklamaz) ve LCP metin olduğu için ilk boyamaya girmiyor —
+ * 11.08.2026'da ölçüldü, onaylı/onaysız LCP farkı yok (0,62 / 0,63 sn).
  */
 function gtagYukle(): void {
   if (gtagYuklendi) return;
@@ -165,9 +173,9 @@ export function baglat(sayfa: string): void {
   consentVarsayilani();
 
   /*
-    Daha önce onay vermiş ziyaretçi: bant hiç görünmez, o yüzden onayVer()
-    çağrılmaz ve script bu satır olmadan hiç yüklenmezdi. İkinci ziyaretten
-    itibaren ölçüm ancak burada açılıyor.
+    Sıra bozulmamalı: önce consent default (denied), sonra varsa daha önce
+    verilmiş onayın update'i, EN SON script. Script izin durumu yazılmadan
+    yüklenirse ilk isteğini yanlış durumda atar.
   */
   if (onayDurumu() === 'kabul') {
     gtag('consent', 'update', {
@@ -176,8 +184,11 @@ export function baglat(sayfa: string): void {
       ad_personalization: 'granted',
       analytics_storage: 'granted',
     });
-    gtagYukle();
   }
+
+  // Koşulsuz: karar vermemiş ve reddetmiş ziyaretçide de yüklenir, ama
+  // "denied" durumunda — çerez yazılmaz, olaylar izle() tarafından tutulur.
+  gtagYukle();
 
   document.addEventListener(
     'click',
