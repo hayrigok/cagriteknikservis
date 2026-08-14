@@ -20,7 +20,7 @@ const saatler = deger(firma.calismaSaatleri);
 // Karşılığı olmayan ölçü hiç basılmaz; "—" veya iskele metni yazmayız.
 // Sütun sayısı kalan ölçüye göre ayarlanır, boş hücre bırakılmaz.
 const olculer = [
-  { sayi: String(hizmetSayisi), birim: 'cihaz grubu', not: 'klimadan fırına' },
+  { sayi: String(hizmetSayisi), birim: 'cihaz grubu', not: 'klimadan kombiye' },
   { sayi: String(ilceSayisi), birim: 'ilçe', not: `${firma.sehir} genelinde` },
   { sayi: '2', birim: 'saat', not: 'ortalama varış' },
   saatler ? { sayi: '7', birim: 'gün açık', not: saatler } : null,

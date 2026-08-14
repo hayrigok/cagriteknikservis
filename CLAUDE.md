@@ -313,6 +313,69 @@ yüzden "`tel_click` gitmiyor" diye **yanlış** sonuç alındı. Doğru yöntem
 yakalama aşamasında `preventDefault()` eklemek; gezinme iptal olur, sitenin
 kendi dinleyicisi yine çalışır.
 
+### Ücretli tıklama sayacı — `worker/index.js` (14.08.2026)
+
+**Sitenin önünde artık bir Cloudflare Worker var.** Uzun süre yalnızca statik
+dosya sunuluyordu ("sıfır sunucu mantığı"); bu değişti ve gerekçesi ticari:
+
+> **Google Ads, tıklayanların IP adresini hiçbir raporda göstermiyor.** IP
+> hariç tutma kutusu var ama engellenecek adresi *zaten biliyor olmanız*
+> gerekiyor. Sahibi sahte tıklama şüphesini dile getirdi, elimizde ölçecek
+> hiçbir şey yoktu.
+
+**Sayılan şey sayfa ziyareti DEĞİL, ücretli tıklamadır.** Ayrım mekanizmanın
+merkezi: aynı IP'den siteye birkaç kez girmek şüpheli değil, **iyidir** —
+kararsız müşteri geri gelir. Şüpheli olan, her biri para yakan ayrı reklam
+tıklamalarıdır. Google reklamdan geleni `?gclid=` ile gönderdiği için ikisi
+ayırt edilebiliyor. **Bu koşulu gevşetmeyin:** gclid'siz istekleri saymaya
+başlarsanız sayaç gerçek müşterileri işaretler ve liste çöpe döner.
+
+**Pencere 7 gün, gün sınırı yok.** İlk tasarım "aynı gün 3 tıklama" arıyordu
+ve sahibi haklı olarak itiraz etti: günde bir kez tıklayan biri hiçbir zaman
+eşiğe ulaşmıyordu, oysa üç günde üç tıklama tam olarak sabırlı bir saldırganın
+deseni. Kayıt artık IP başına tutuluyor (`ip:<adres>`), içinde gün gün döküm
+var, 7 günden eski günler her yazımda budanıyor.
+
+**Dört sert kural — hiçbiri gevşetilmez:**
+
+| Kural | Neden |
+|---|---|
+| Sayma `try/catch` + `waitUntil` içinde, yanıt yolunda **hiç `await` yok** | Ölçüm asla siteyi bozmaz. Betikte ne olursa olsun ziyaretçi sayfayı görür |
+| `env.TIKLAMA` yoksa **sessizce geçilir** | Yapılandırma yarım kalırsa site düşmez, sadece sayaç çalışmaz |
+| Kayıtlar **7 gün** sonra silinir (`expirationTtl`) | IP kişisel veri; süre `/kvkk/` metninde de yazılı, **ikisi birlikte değişir** |
+| Rapor **mobil operatörleri ayrı bölüme** koyar | CGNAT: tek mobil IP'nin arkasında binlerce abone var. Engellemek gerçek müşteriyi keser |
+
+**`run_worker_first: true` şart.** Varsayılan davranışta statik dosyaya eşleşen
+istek Worker'a hiç uğramaz; `gclid` bir **sorgu** parametresi olduğu için dosya
+yolunu değiştirmiyor ve sayaç hiç çalışmazdı. Bunu kapatırsanız sistem sessizce
+ölür, hiçbir hata basmaz.
+
+**Rapor:** `/_tiklama/?k=<RAPOR_ANAHTARI>` — anahtar yanlışsa **404** döner
+(401 adresin var olduğunu doğrulardı). Anahtar `wrangler.jsonc` → `vars`
+içinde, panelde **değil**: panelden "Text" olarak eklenen değişkenleri bir
+sonraki `wrangler deploy` siliyor ve rapor günün birinde sessizce 404 dönmeye
+başlardı. **Depo özel olduğu için kabul edildi; depo herkese açılırsa anahtar
+sızar, o gün değiştirin.**
+
+**Bu sistem tıklamayı ENGELLEMEZ, kanıtlar.** Para tıklandığı anda ödeniyor;
+elde ettiğimiz şey Ads'in IP hariç tutma kutusuna yapıştırılacak liste ve
+Google'a geçersiz tıklama incelemesi açarken sunulacak desen. Aynı sebeple
+reCAPTCHA ve Cloudflare Bot Fight Mode **reddedildi** — ikisi de sitede
+çalışır, para siteye varmadan önce gitmiştir; üstelik ikisi de sayfaya kod
+enjekte edip sıfır-dış-istek özelliğini bozar.
+
+**Tarayıcıya inen kod yok**, npm paketi eklenmedi, sayfa ağırlığı ve LCP
+değişmedi. Deploy sonrası dört kritik yüzey (telefon ×6 · WhatsApp ×4 ·
+`tel_click` ×6 · `whatsapp_click` ×4) canlıdan sayılarak doğrulandı, hepsi
+deploy öncesiyle birebir aynı.
+
+**İlk turda çıkan ders — kendi IP'nizi tanıyın.** Sunucu kayıtlarında 114
+istekle en tepede duran `176.33.113.108` günlerce "İstanbul'dan siteyi
+inceleyen rakip" sanıldı ve engelleme listesine kondu. Sayaç kurulunca
+görüldü ki **sahibinin kendi bağlantısı**. Ayrıca konum verisi güvenilmez:
+aynı adres bir serviste İstanbul, Cloudflare'de Gaziantep görünüyor. **Türk
+operatörlerinin havuz adreslerinde şehir bilgisine dayanarak karar vermeyin.**
+
 ### Form → /tesekkurler/ → WhatsApp
 
 Backend yok. Form 3 alan + KVKK onayı toplar, doğrular, mesajı kurar — sonra
@@ -660,6 +723,13 @@ olmasaydı ilk üç turun sahte rakamları (TTFB 0,06–0,07 sn) doğru sanılac
 tekrar **429** verdi (anahtarsız kullanımda kota). Rakamlar bu yüzden yine
 CDP'den.
 
+**Sitenin önünde artık bir Worker var (14.08.2026) ama tarayıcı tarafında
+hiçbir maliyeti yok.** `worker/index.js` yalnızca sunucuda çalışıyor: inen
+kod yok, istek yok, sayfa ağırlığı ve LCP değişmiyor. Ölçülen CPU süresi
+**0,62 ms**. Yine de `run_worker_first` bütün istekleri Worker'dan geçiriyor;
+bir sonraki B8 ölçümünde **TTFB'ye ayrıca bakın** — bu satır o ölçüm
+yapılmadan "etkisi yok" diye kapatılmasın.
+
 **Kendi kaynaklarımızda dış istek sıfır**: CSS tamamen inline, yazı tipi
 indirilmiyor, ikonlar satır içi SVG. HTML içindeki tek `https://` referansı
 canonical etiketi — o bir kaynak yüklemesi değil.
@@ -859,7 +929,7 @@ amaca (üst sıra → çalan telefon) hizmet ettikleri ölçüde yapıldı.
 |---|---|---|---|
 | 1 | **Yorum akışını sürdürmek** · D4 | Sahibi | **18 yorum var** (12.08.2026) — ilk hedef aşıldı; tazelik de sinyal olduğu için durmuyor. |
 | 2 | **İşletme profilini doldurmak** · G6 | Sahibi | **Televizyon + kombi eklendi** (sahibi bildirdi 12.08.2026) ✔ · kalan: fotoğraf · hizmet alanı · S&C · gönderi. |
-| 3 | **Blog yazısı eklemek** · D5 | Claude | 19 yazı · **11 hizmetin 11'i kapsandı** ✔ — yazısız hizmet kalmadı. Bundan sonrası derinleştirme; sıradaki adaylar D5'te. |
+| 3 | **Blog yazısı eklemek** · D5 | Claude | 17 yazı · **10 hizmetin 10'u kapsandı** ✔ — yazısız hizmet kalmadı. Bundan sonrası derinleştirme; sıradaki adaylar D5'te. |
 | 4 | ~~İlçe listesi~~ · G2 | — | **CEVAPLANDI 12.08.2026:** dört ilçe (Seyhan · Yüreğir · Çukurova · Sarıçam), hepsinin **bütün mahalle ve semtleri**. Yeni ilçe açılmayacak. |
 | 5 | **KVKK metnini avukata okutmak** · E1 | Sahibi | Brifing hazır: `docs/kvkk-avukat-brifingi.md`. |
 
@@ -949,10 +1019,10 @@ fiyatı sahanın bilgisi.
 | Ölçüt | Şu an | Hedef |
 |---|---|---|
 | Yayın | **canlı** — https://cagribeyazesyatamir.com | ✔ |
-| Üretilen sayfa | **80** (36 sabit/blog + 44 para sayfası) | ✔ |
-| Kapsam | **4 ilçe × 11 hizmet** — ilçelerin **bütün mahalle ve semtleri** (G2 cevaplandı 12.08.2026) | ✔ sabitlendi |
+| Üretilen sayfa | **73** (33 sabit/blog + 40 para sayfası) — fırın-ocak kapatıldı 14.08.2026 (G3) | ✔ |
+| Kapsam | **4 ilçe × 10 hizmet** — ilçelerin **bütün mahalle ve semtleri** (G2 cevaplandı 12.08.2026) | ✔ sabitlendi |
 | Geçerli ilçe (`yerelNotlar`) | **4 / 4** ✔ | 4 / 4 |
-| Blog yazısı | **19** — **11 hizmetin 11'i kapsandı** ✔ (yazısız hizmet kalmadı) | — |
+| Blog yazısı | **17** — **10 hizmetin 10'u kapsandı** ✔ (yazısız hizmet kalmadı) | — |
 
 **Ölçüm ve sıralama**
 
@@ -960,7 +1030,7 @@ fiyatı sahanın bilgisi.
 |---|---|---|
 | Canlı SEO denetimi | **50/50 temiz · açık yok** ✔ | 0 açık |
 | Search Console | **doğrulandı** ✔ (DNS TXT) · **sitemap gönderildi, 60 adres** ✔ | rapor okumak (G1) — 1–2 hafta sonra |
-| Site haritası | **78 adres** (60 → 65 montaj → 75 televizyon + kombi → 78 üç yazı) | push sonrası canlıda doğrulanacak |
+| Site haritası | **71 adres** (78 → 71: fırın-ocak kapatıldı, 14.08.2026) | push sonrası canlıda doğrulanacak |
 | Ölçümleme | **GA4 + Ads çalışıyor** — `G-818Z2EG00L` · `AW-18353257077` (12.08.2026, canlıda ölçüldü) | ✔ |
 | Google yorumu | **18** (12.08.2026, sahibi bildirdi) — ilk hedef (10–15) **aşıldı** ✔ | akışı sürdürmek (D4) |
 | Bot / click fraud savunması | **kurulum kapıları yazıldı** (C6 · C7) | reklam açılınca uygulanacak |
@@ -1668,6 +1738,59 @@ Aşağıdakiler o gün için duruyor:
 
       **İlk hafta:** konum / IP / cihaz raporları **her gün** okunur (C6 · C7).
 
+- [x] **C9. OLAY KAYDI — akıllı kampanyada ₺1.025 yandı, teşhis edildi,
+      standart kampanyaya geçildi. 14.08.2026.** C7 "olayı bu dosyaya yaz"
+      diyor; bu madde odur.
+
+      **Belirti:** sahibi *"fake tıklama geliyor rakip firmadan"* dedi.
+      Rakamlar: **1.530 gösterim · 92 tıklama · ₺1.025,50 · 1 telefon
+      tıklaması · 0 dönüşüm.** Ertesi gün 50 tıklama daha, yine 0 arama.
+
+      **İlk refleks doğruydu: ölçmek.** TO **%6,7** çıktı — yerel servis
+      araması için tamamen sağlıklı bir oran. **Geçersiz tıklama saldırısında
+      TO fırlar**, %6,7 gerçek insan davranışıdır. Yani saldırı kanıtı yoktu.
+
+      **Asıl bulgu arama terimleri tablosundaydı:** 92 tıklamanın yalnızca
+      **6'sında** arama terimi görünüyordu (₺275,81). Kalan **~86 tıklama
+      (~₺750) aramadan gelmemişti** — Görüntülü ağ ve YouTube. Arama
+      kampanyasında her tıklamanın bir arama terimi vardır; bu fark
+      gizlenmeyle açıklanamaz. Yanlışlıkla basılan banner tıklaması niyeti
+      sıfır olan trafiktir, aramaz.
+
+      **İkinci bulgu teklifti:** tıklama başı ₺40–63'e çıkmıştı
+      (*"beyaz eşya tamircisi"* ₺41, *"adana beyaz eşya tamir…"* ₺63).
+      Adana'da yerel servis için bu tutar piyasanın çok üzerinde. Sebep
+      "Tıklama sayısını en üst düzeye çıkarma" stratejisinin **teklif üst
+      sınırı olmadan** çalışmasıydı.
+
+      **Üçüncü bulgu sahibinin gözlemiydi ve teşhisi tamamladı:**
+      *"önceden az az gelirdi, şimdi 400-500-600 gidiyor."* **Gösterim de
+      fırlamıştı.** Bir saldırgan tıklama üretebilir ama **gösterim
+      üretemez** — gösterim Google'ın reklamı nereye koyduğudur. Gösterim 10
+      katına çıktıysa hedefleme genişlemiştir. Ekranda zaten yazıyordu:
+      *"kampanyanızda ayrıntılı düzenlemeler yapıyoruz."* Akıllı kampanyada
+      bu **kapatılamıyor** — panelde Öneriler/otomatik uygulama ekranı yok.
+
+      **Yapılanlar:** standart Arama kampanyası kuruldu — arama ortakları ❌ ·
+      Görüntülü ❌ · bütçe ₺100 · **maksimum TBM ₺5** · geniş eşleme devre
+      dışı · otomatik öğeler kapalı · konum dört ilçe + "bulunma" · dil
+      yalnızca Türkçe · negatif kelime listesi · IP hariç tutma. On reklam
+      grubu (cihaz başına bir grup), her birinde kelimeler tam/öbek eşleme ve
+      **H1 ile aynı kelimeleri taşıyan** duyarlı arama reklamı.
+
+      **Ders 1:** "fake tıklama" şüphesi geldiğinde önce TO ve arama
+      terimlerine bakın. Yanma sebebi sahtekârlık değil, **hedefleme ve
+      teklif** olabilir — ve çözümü tamamen farklıdır.
+
+      **Ders 2:** akıllı kampanyanın kolaylığı her gün para olarak geri
+      ödeniyor. C8'deki tablo teorikti; bu olay onun faturasıdır.
+
+      **Ders 3 — Google'ın filtresi çalışıyor.** Harcama bir gün içinde
+      kendiliğinden ₺130'dan ₺90'a indi: geçersiz bulunan tıklamalar geriye
+      dönük faturadan düşülüyor. "Hiç önlem yok" durumu değil; eksik olan,
+      filtrenin kaçırdığını **sahibinin kesebilmesi** — o da yalnızca standart
+      kampanyada mümkün.
+
 ---
 
 ### D. İçerik ve iyileştirme — sıralamayı buradan yükselteceğiz
@@ -1774,7 +1897,6 @@ Aşağıdakiler o gün için duruyor:
       | klima servisi | 2 (soğutmuyor · su damlatıyor) |
       | bulaşık makinesi | 2 (su almıyor · kurutmuyor) |
       | buzdolabı | 2 (soğutmuyor · su akıtıyor) |
-      | fırın/ocak | 2 (fırın ısınmıyor · ocak ateşleme yapmıyor) |
       | kurutma makinesi | 1 · klima bakımı | 1 (kötü kokuyor) |
       | klima gaz dolumu | 1 (gaz ne zaman biter) |
       | **kombi** | **1** (petekler ısınmıyor) |
@@ -2034,11 +2156,36 @@ kapasite tahmin edilecek şey değildir.
       `kombi-bakim-onarim` (12.08.2026) EKLENDİ. Kalan adaylar için cevap
       bekleniyor.**
 
-      Yayındaki **11 hizmet**: `klima-servisi` · `klima-bakimi` ·
+      Yayındaki **10 hizmet**: `klima-servisi` · `klima-bakimi` ·
       `klima-gaz-dolumu` · `klima-montaji` · `camasir-makinesi-tamiri` ·
       `bulasik-makinesi-tamiri` · `buzdolabi-tamiri` ·
-      `kurutma-makinesi-tamiri` · `firin-ocak-tamiri` ·
-      **`televizyon-tamiri`** · **`kombi-bakim-onarim`**.
+      `kurutma-makinesi-tamiri` · `televizyon-tamiri` · `kombi-bakim-onarim`.
+
+      **⚠️ `firin-ocak-tamiri` KAPATILDI — 14.08.2026, sahibi bildirdi:
+      *"fırın ocak tamiri yapmıyoruz."*** Hizmet uzun süre yayındaydı ve
+      **yapılmayan bir işi vaat ediyordu** (yasak 1): 1 hub + 4 ilçe sayfası,
+      menüde, ana sayfada, iki blog yazısı. "adana fırın tamiri" arayan biri
+      organik olarak düşüp arayabilirdi — gelen çağrıya "biz ona bakmıyoruz"
+      demek en pahalı kayıp türüdür.
+
+      Yapılanlar: `hizmetler.json` → `aktif: false` (kayıt **silinmedi**, iş
+      bir gün yapılırsa tek satırla geri açılır) · iki blog yazısı
+      (`firin-isinmiyor`, `ocak-atesleme-yapmiyor`) **silindi** · Sarıçam
+      `yerelNotlar` aralığı "klima montajından **kombi bakımına**" oldu ·
+      ana sayfa cihaz listesinden ve `OlcuSeridi` notundan çıkarıldı.
+      Sayfa **80 → 73**, sitemap **78 → 71**, blog **19 → 17**.
+
+      **Blog yazıları neden bırakılmadı:** yapmadığımız bir işin arıza
+      rehberi, arayıp olumsuz cevap alacak insan getirir. O trafik kazanç
+      değil, kaybettirilmiş bir çağrıdır. Ads tarafında da `fırın` ve `ocak`
+      negatif kelime yapıldı — site ile reklam aynı şeyi söylüyor.
+      **`ankastre` negatif YAPILMAZ**, ankastre bulaşık makinesi verilen
+      hizmettir.
+
+      Kalan `Fırın`/`ankastre` geçişleri denetlendi ve meşru: bulaşık
+      makinesi SSS'indeki "ankastre modeller" ve `buzdolabi-sogutmuyor`
+      yazısındaki "fırının yanına koymayın" tavsiyesi. Kırık link **0**,
+      sitemap'te `firin` **0**.
 
       **Montaj eklenirken çıkan ve düzeltilen üç şey — hepsi ders:**
       1. **Sabit metinler arıza dili konuşuyordu.** `tur` alanı bu yüzden

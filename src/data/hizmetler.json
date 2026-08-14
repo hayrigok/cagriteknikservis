@@ -669,7 +669,7 @@
     "altBaslik": "Aynı gün, 2 saat içinde kapınızda.",
     "cihaz": "Fırın ve ocak",
     "ozet": "Isıtmayan fırın, ateşlemeyen ocak, çalışmayan davlumbaz ve ankastre grubunda yerinde onarım.",
-    "aktif": true,
+    "aktif": false,
     "ariza": [
       {
         "baslik": "Fırın ısınmıyor veya geç ısınıyor",
