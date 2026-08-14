@@ -2201,8 +2201,15 @@ kapasite tahmin edilecek şey değildir.
       rehberi, arayıp olumsuz cevap alacak insan getirir. O trafik kazanç
       değil, kaybettirilmiş bir çağrıdır. Ads tarafında da `fırın` ve `ocak`
       negatif kelime yapıldı — site ile reklam aynı şeyi söylüyor.
-      **`ankastre` negatif YAPILMAZ**, ankastre bulaşık makinesi verilen
-      hizmettir.
+      **Çıplak `ankastre` negatif YAPILMAZ** — ankastre bir cihaz türü değil,
+      montaj şeklidir ve ankastre bulaşık makinesi verilen hizmettir. Doğru
+      negatifler öbek eşlemeyle daraltılmış hâlidir: `"ankastre fırın"` ·
+      `"ankastre ocak"` · `"ankastre set"`. Sahibi 14.08.2026'da doğruladı
+      (*"onlara da bakıyoruz problem yok"*); soru bir kez "ankastre fırın ocak
+      bakmıyoruz" diye anlaşılıp yanlış negatif eklenmesine ramak kalmıştı.
+      **Ders: cihaz adı ile montaj şeklini ayırt etmeden negatif kelime
+      yazmayın** — çıplak `ankastre`, verilen bir hizmetin aramasını sessizce
+      kapatır ve bunu hiçbir raporda göremezsiniz.
 
       Kalan `Fırın`/`ankastre` geçişleri denetlendi ve meşru: bulaşık
       makinesi SSS'indeki "ankastre modeller" ve `buzdolabi-sogutmuyor`
