@@ -26,9 +26,22 @@
   makinesinde `npx wrangler deploy` ile bir kez indiriliyor. Sitenin paketine
   hiçbir şey eklemiyor, onaylı paket listesi değişmedi.
 
-  Worker script'i YOK: yalnızca "assets" tanımlı, bu geçerli bir yapılandırma.
-  Kod çalıştırmıyoruz, dosya sunuyoruz — sıfır sunucu mantığı, sıfır soğuk
-  başlangıç.
+  WORKER SCRIPT'İ EKLENDİ — 14.08.2026, sahibinin isteğiyle. Uzun süre yalnızca
+  "assets" tanımlıydı (sıfır sunucu mantığı). Değişti çünkü Google Ads,
+  tıklayanların IP adresini hiçbir raporda göstermiyor; sahte tıklama şüphesi
+  ölçülemiyordu. worker/index.js reklamdan gelen (gclid taşıyan) istekleri
+  sayıyor, gerekçesi o dosyanın başında yazılı.
+
+  BAĞIMLILIK YOK: düz JS, npm paketi eklenmedi, onaylı liste değişmedi.
+  TARAYICIYA İNEN KOD YOK: iş sunucu tarafında bitiyor, sayfa ağırlığı ve LCP
+  değişmiyor.
+
+  run_worker_first NEDEN AÇIK: varsayılan davranışta statik bir dosyaya
+  eşleşen istek Worker'a hiç uğramaz. gclid bir SORGU parametresi, dosya
+  yolunu değiştirmiyor — yani /klima-servisi/?gclid=... yine statik dosyaya
+  eşleşir ve sayaç hiç çalışmazdı. Bu yüzden istek önce Worker'dan geçiyor,
+  Worker da dosyayı ASSETS bağlaması üzerinden servis ediyor. html_handling
+  ve not_found_handling ayarları bu yolda da aynen geçerli.
 */
 {
   "name": "cagriteknikservis",
@@ -52,9 +65,31 @@
   "workers_dev": false,
   "preview_urls": false,
 
+  "main": "./worker/index.js",
+
   "assets": {
     "directory": "./dist",
+    "binding": "ASSETS",
+    "run_worker_first": true,
     "html_handling": "force-trailing-slash",
     "not_found_handling": "404-page"
-  }
+  },
+
+  /*
+    Tıklama sayacının deposu. KV kaydı Cloudflare panelinden açılıyor
+    (Storage & Databases → KV → Create), aşağıdaki "id" oradan yapıştırılır.
+
+    id YANLIŞSA DEPLOY BAŞARISIZ OLUR ve Cloudflare eski sürümü canlıda
+    tutar — yani ziyaretçi bozuk sayfa görmez. Bu bilinçli: yarım
+    yapılandırmayla yayına çıkmaktansa yayının hiç güncellenmemesi iyidir.
+
+    Kayıtlar 7 gün sonra kendiliğinden siliniyor (worker/index.js →
+    SAKLAMA_SN). Süre /kvkk/ metninde de yazılı, ikisi birlikte değişir.
+  */
+  "kv_namespaces": [
+    {
+      "binding": "TIKLAMA",
+      "id": "128f5423c4a748c694c37a002499a1d6"
+    }
+  ]
 }
