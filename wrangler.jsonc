@@ -86,6 +86,26 @@
     Kayıtlar 7 gün sonra kendiliğinden siliniyor (worker/index.js →
     SAKLAMA_SN). Süre /kvkk/ metninde de yazılı, ikisi birlikte değişir.
   */
+  /*
+    Rapor sayfasının (/_tiklama/) erişim anahtarı. Yanlış veya eksikse sayfa
+    404 döner — 401 dönmek adresin var olduğunu doğrulardı, 404 hiçbir şey
+    söylemiyor.
+
+    NEDEN PANELDE DEĞİL, BURADA: Cloudflare panelinden "Text" olarak eklenen
+    değişkenler yapılandırmanın parçası sayılıyor ve bir sonraki
+    `wrangler deploy` bunları siliyor — rapor günün birinde sessizce 404
+    dönmeye başlar, sebebi aranırken vakit gider. "Secret" olarak eklenenler
+    korunuyor ama panelin bu sürümünde kaydetme adımı belirsiz kaldı
+    (14.08.2026). Yapılandırmaya yazmak tek deterministik yol.
+
+    DEPO ÖZEL OLDUĞU İÇİN kabul edilebilir (doğrulandı: GitHub API 404).
+    DEPO HERKESE AÇILIRSA bu anahtar sızar ve rapordaki IP kayıtları
+    okunabilir hâle gelir — o gün anahtarı DEĞİŞTİRİN.
+  */
+  "vars": {
+    "RAPOR_ANAHTARI": "odAxDWGrKO0aXojDTzLqSv10kSIQq4fC"
+  },
+
   "kv_namespaces": [
     {
       "binding": "TIKLAMA",
