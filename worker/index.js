@@ -129,7 +129,7 @@ async function sayacaEkle(request, url, env) {
 
   const kayit = onceki ?? {
     gunler: {},
-    sayfalar: [],
+    tiklamalar: [],
     ilk: new Date().toISOString(),
     bildirildi: false,
   };
@@ -143,7 +143,18 @@ async function sayacaEkle(request, url, env) {
   kayit.sehir = request.cf?.city ?? '';
   kayit.asn = request.cf?.asn ?? '';
   kayit.operator = request.cf?.asOrganization ?? '';
-  if ((kayit.sayfalar || []).length < 15) kayit.sayfalar.push(`${g} ${url.pathname}`);
+
+  /*
+    Tek tek tıklama zamanları. Gün toplamı "kaç kere" der, saat "hangi ritimle"
+    der — asıl deseni gösteren ikincisi: kırk saniye arayla üç tıklama insan
+    davranışı değildir, üç ayrı akşam bir tıklama olabilir. Son 20 kayıt
+    tutuluyor, penceresi geçenler her yazımda düşüyor (gün dökümüyle aynı
+    kural — saklama süresi tek yerden yönetiliyor).
+  */
+  const zamanSiniri = new Date(Date.now() - PENCERE_GUN * 86400000).toISOString();
+  kayit.tiklamalar = (kayit.tiklamalar || []).filter((t) => t && t.z >= zamanSiniri).slice(-19);
+  kayit.tiklamalar.push({ z: kayit.son, y: url.pathname });
+  delete kayit.sayfalar; // eski biçim; hiçbir yerde basılmıyordu
 
   const toplam = Object.values(kayit.gunler).reduce((a, b) => a + b, 0);
 
@@ -257,10 +268,21 @@ async function rapor(env) {
     });
   }
 
-  kayitlar.sort((a, b) => b.toplam - a.toplam);
-
   const supheli = kayitlar.filter((k) => k.toplam >= ESIK);
   const normal = kayitlar.filter((k) => k.toplam < ESIK);
+
+  /*
+    İki tablo iki farklı soruya cevap veriyor, sıralamaları da o yüzden ayrı:
+
+    - Şüpheliler'de karar "engelleyeyim mi" — belirleyici olan TOPLAM, eşitlik
+      hâlinde en son tıklayan üstte.
+    - Eşiğin altında hepsinin toplamı zaten 1–2; orada toplama göre sıralamak
+      hiçbir şey söylemiyor ve liste rastgele görünüyordu. EN YENİ ÜSTTE:
+      sayfayı açtığında yeni girenleri en başta görürsün.
+  */
+  const sonAn = (k) => k.son || k.ilk || '';
+  supheli.sort((a, b) => b.toplam - a.toplam || sonAn(b).localeCompare(sonAn(a)));
+  normal.sort((a, b) => sonAn(b).localeCompare(sonAn(a)));
   const engellenebilir = supheli.filter((k) => !k.mobil);
   const mobilSupheli = supheli.filter((k) => k.mobil);
 
@@ -320,7 +342,13 @@ async function rapor(env) {
     }
 
     <h2>Eşiğin altında — ${normal.length}</h2>
-    ${normal.length ? tablo(normal) : '<p class="not">Kayıt yok.</p>'}
+    ${
+      normal.length
+        ? `<p class="not"><strong>En yeni üstte.</strong> Saatler Türkiye saatiyle.
+           Buradakiler normal ziyaretçi sayılır; tek tıklama şüphe değildir.</p>
+           ${tablo(normal)}`
+        : '<p class="not">Kayıt yok.</p>'
+    }
   `);
 }
 
@@ -332,7 +360,7 @@ async function rapor(env) {
  */
 function tablo(satirlar, secilebilir = false) {
   return `<div class="kaydir"><table>
-    <tr>${secilebilir ? "<th>Ads'e eklendi</th>" : ''}<th>IP</th><th>Toplam</th><th>Gün</th><th>Döküm</th><th>Operatör</th><th>Konum</th></tr>
+    <tr>${secilebilir ? "<th>Ads'e eklendi</th>" : ''}<th>IP</th><th>Son tıklama</th><th>Toplam</th><th>Gün</th><th>Tıklama saatleri</th><th>Operatör</th><th>Konum</th></tr>
     ${satirlar
       .map(
         (k) => `<tr class="${k.mobil ? 'mobil' : ''}${!k.mobil && k.engellendi ? ' eklendi' : ''}">
@@ -344,18 +372,55 @@ function tablo(satirlar, secilebilir = false) {
               : ''
           }
           <td><code>${kacir(k.ip)}</code></td>
+          <td class="kucuk zaman">${kacir(anBicimi(k.son || k.ilk))}</td>
           <td class="adet">${k.toplam}</td>
           <td>${k.gunSayisi}</td>
-          <td class="kucuk">${Object.entries(k.gunler)
-            .sort()
-            .map(([g, a]) => `${kacir(g)}: ${a}`)
-            .join('<br>')}</td>
+          <td class="kucuk">${saatDokumu(k)}</td>
           <td class="kucuk">${kacir(k.operator || '—')}${k.mobil ? ' <strong class="uyari">· MOBİL</strong>' : ''}</td>
           <td class="kucuk">${kacir(k.sehir || '—')} / ${kacir(k.ulke || '—')}</td>
         </tr>`,
       )
       .join('')}
   </table></div>`;
+}
+
+/*
+  Saatler TÜRKİYE saatiyle basılıyor. Worker UTC'de çalışıyor; ham ISO damgası
+  basılsaydı rapordaki saat sahibinin telefonundakinden 3 saat geride görünür
+  ve "bu tıklama gece 4'te gelmiş" gibi yanlış bir sonuca götürürdü.
+*/
+const BICIM = new Intl.DateTimeFormat('tr-TR', {
+  timeZone: 'Europe/Istanbul',
+  day: '2-digit',
+  month: '2-digit',
+  hour: '2-digit',
+  minute: '2-digit',
+});
+
+function anBicimi(iso) {
+  const d = new Date(iso || '');
+  return isNaN(d.getTime()) ? '—' : BICIM.format(d).replace(', ', ' · ');
+}
+
+/**
+ * Tek tek tıklama saatleri, en yeni üstte. Eski kayıtlarda saat verisi yok
+ * (alan 14.08.2026'da eklendi); o satırlar gün dökümüne düşer, boş kalmaz.
+ */
+function saatDokumu(k) {
+  const liste = (k.tiklamalar || []).filter((t) => t && t.z);
+  if (!liste.length) {
+    return Object.entries(k.gunler)
+      .sort()
+      .reverse()
+      .map(([g, a]) => `${kacir(g)}: ${a}`)
+      .join('<br>');
+  }
+  const gosterilen = liste.slice().reverse().slice(0, 8);
+  const gizli = k.toplam - gosterilen.length;
+  return (
+    gosterilen.map((t) => kacir(anBicimi(t.z))).join('<br>') +
+    (gizli > 0 ? `<br><span class="soluk">+${gizli} daha</span>` : '')
+  );
 }
 
 function kacir(s) {
@@ -441,6 +506,8 @@ function sayfa(icerik) {
       tr.eklendi code{text-decoration:line-through}
       .adet{font-weight:700}
       .kucuk{font-size:12px;color:#475569;max-width:240px;word-break:break-word}
+      .zaman{white-space:nowrap;font-weight:600;color:#0f172a}
+      .soluk{color:#94a3b8}
       .isaret label{display:flex;align-items:center;gap:8px;cursor:pointer;font-size:13px;min-height:32px}
       .isaret input{width:20px;height:20px;flex:none;accent-color:#c2410c}
       .tamam{color:#166534;background:#f0fdf4;border:1px solid #bbf7d0;padding:10px 12px;border-radius:6px;font-size:14px;max-width:62ch}

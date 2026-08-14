@@ -357,6 +357,17 @@ sonraki `wrangler deploy` siliyor ve rapor günün birinde sessizce 404 dönmeye
 başlardı. **Depo özel olduğu için kabul edildi; depo herkese açılırsa anahtar
 sızar, o gün değiştirin.**
 
+**Rapor tek tek tıklama SAATLERİNİ de tutuyor (14.08.2026).** Gün toplamı
+"kaç kere" der, saat "hangi ritimle" der — deseni gösteren ikincisidir: kırk
+saniye arayla üç tıklama insan davranışı değil, üç ayrı akşam bir tıklama
+olabilir. Son 20 zaman damgası saklanıyor, penceresi geçen düşüyor. Saatler
+**Türkiye saatiyle** basılıyor; Worker UTC'de çalıştığı için ham damga
+basılsaydı rapor sahibinin telefonundakinden 3 saat geride görünür ve
+"bu tıklama gece 4'te gelmiş" gibi yanlış sonuca götürürdü. Eşiğin altındaki
+tablo **en yeniden eskiye** sıralı (şüpheliler toplama göre, eşitlikte en son
+tıklayan üstte) — hepsi "1" olan satırlarda toplama göre sıralamak listeyi
+rastgele gösteriyordu.
+
 **Raporda "Ads'e eklendi" işareti var (14.08.2026, sahibinin isteği).** Her
 engellenebilir adresin yanındaki kutu işaretlenince adres **yapıştırma
 listesinden düşer**; liste böylece yalnızca *henüz eklenmemiş* adresleri
