@@ -955,14 +955,17 @@ amaca (üst sıra → çalan telefon) hizmet ettikleri ölçüde yapıldı.
 | 4 | ~~İlçe listesi~~ · G2 | — | **CEVAPLANDI 12.08.2026:** dört ilçe (Seyhan · Yüreğir · Çukurova · Sarıçam), hepsinin **bütün mahalle ve semtleri**. Yeni ilçe açılmayacak. |
 | 5 | **KVKK metnini avukata okutmak** · E1 | Sahibi | Brifing hazır: `docs/kvkk-avukat-brifingi.md`. |
 
-**⏭ Bir sonraki oturumun ilk işi: C8 — Ads kampanya kurulumu, ayar ayar
-birlikte.** Sahibi ekran görüntüsü atacak, ayarlar birlikte girilecek.
+**✅ REKLAM YAYINDA — 14.08.2026.** Standart Arama kampanyası kuruldu ve
+etkinleştirildi, **akıllı kampanya aynı anda duraklatıldı**. 11 reklam grubu ·
+112 kelime · ₺100 günlük bütçe · ₺5 maksimum TBM · çağrı dönüşümü 60 sn.
+Ayrıntı ve kurulan her ayar **C8**'de, teşhis geçmişi **C9**'da.
 
-**⚠️ Sahibi 12.08.2026'da "akıllı kampanya kullanıyorum, gerek var mı?" diye
-sordu. Cevap C8'in başında:** C6'daki altı savunmanın **beşi** akıllı
-kampanyada teknik olarak yok (negatif kelime · reklam saati · IP hariç tutma ·
-Görüntülü ağı kapatma · konum "bulunma"). Tavsiye **standart Arama kampanyası**;
-ısrar hâlinde asgari koruma listesi de C8'de.
+**⏭ Bir sonraki oturumun ilk işi: ilk haftanın rakamlarını okumak.** Sırasıyla:
+**(1)** arama gösterim payı — ₺5 teklif piyasanın altında kalıyorsa reklam hiç
+görünmez ve bu "talep yok" sanılır; **önce teklif, sonra bütçe**. **(2)** arama
+terimleri raporu — kelime listesi buradan büyür, tahminle değil. **(3)** tıklama
+sayacı (`/_tiklama/`) — tekrar eden IP var mı. **(4)** C5 testi: form dönüşümü
+gerçekten düşüyor mu (çağrı tarafı kuruldu, form tarafı **doğrulanmadı**).
 
 ### ❓ Cevap bekleyen sorular — cevapsız uygulanmaz
 
@@ -999,8 +1002,8 @@ fiyatı sahanın bilgisi.
 | İş | Madde | Durum |
 |---|---|---|
 | Search Console raporunu okumak | G1 | **Kurulum bitti** (doğrulama + sitemap 60 adres ✔). Rapor için **1–2 hafta** gerek; site 29.07.2026'da yayına girdi, şu an boş olması normal. |
-| Google Ads'i açmak | **C8** · A7 · C1–C5 | **Kurulum oturumu bekliyor** — sahibi *"birlikte tek tek ayar yapacağız"* dedi (12.08.2026). 12 adımlık sıra C8'de. Kampanya o oturumdan önce **yayına alınmaz**. |
-| Bot / geçersiz tıklama savunması | **C6 · C7** | Kurulum kapıları yazılı; **kampanya açılırken** uygulanacak, sonradan değil. |
+| ~~Google Ads'i açmak~~ | **C8** · C1 · C2 | **YAPILDI 14.08.2026** — kampanya yayında, akıllı kampanya duraklatıldı. Kalan: C5 testi (form dönüşümü doğrulanmadı). |
+| Bot / geçersiz tıklama savunması | **C6 · C7** | Kurulum kapıları **uygulandı** (ağlar kapalı · konum "bulunma" · tam/öbek eşleme · negatif liste · bütçe tavanı · IP hariç tutma hazır). Erken uyarı oranı C7'de: tıklama artarken `tel_click` artmıyorsa gelen insan değildir. |
 | ~~Performans ölçümünü tekrarlamak~~ | B8 | **YAPILDI** (11.08.2026): gtag.js LCP'yi geciktirmiyor, 0,54–0,84 sn. |
 | Tip denetimi | B5 | `@astrojs/check` kurulu değil; kurulum **onay ister**. |
 | Self-hosted font | D1 | **Tavsiye: yapmayın** — LCP metin, ölçülmüş avantajı bozar. Karar sahibinde. |
@@ -1055,7 +1058,8 @@ fiyatı sahanın bilgisi.
 | Site haritası | **71 adres** (78 → 71: fırın-ocak kapatıldı, 14.08.2026) | push sonrası canlıda doğrulanacak |
 | Ölçümleme | **GA4 + Ads çalışıyor** — `G-818Z2EG00L` · `AW-18353257077` (12.08.2026, canlıda ölçüldü) | ✔ |
 | Google yorumu | **18** (12.08.2026, sahibi bildirdi) — ilk hedef (10–15) **aşıldı** ✔ | akışı sürdürmek (D4) |
-| Bot / click fraud savunması | **kurulum kapıları yazıldı** (C6 · C7) | reklam açılınca uygulanacak |
+| **Google Ads** | **YAYINDA** (14.08.2026) — standart Arama · 11 grup · 112 kelime · ₺100/gün · ₺5 maks. TBM · çağrı dönüşümü 60 sn | ilk hafta okunacak (C8) |
+| Bot / click fraud savunması | **kurulum kapıları uygulandı** (C6) + **ücretli tıklama sayacı canlı** (`/_tiklama/`) | saldırı olursa C7 sırası |
 
 **Performans — ölçüldü, 29.07.2026**
 
@@ -1631,9 +1635,34 @@ uygulanır, sonradan telafisi yoktur.
 
 Aşağıdakiler o gün için duruyor:
 
-- [ ] **C1. Dönüşümler:** birincil = form gönderimi + **60 sn üzeri** çağrı,
-      ikincil = `tel_click`. Sıralama önemli: `tel_click` birincil yapılırsa akıllı
-      teklif yanlış tıklamalara optimize eder.
+- [ ] **C1. ÇAĞRI TARAFI KURULDU (14.08.2026) · form tarafı doğrulanmadı.**
+      Birincil = form gönderimi + **60 sn üzeri** çağrı, ikincil = `tel_click`.
+      Sıralama önemli: `tel_click` birincil yapılırsa akıllı teklif yanlış
+      tıklamalara optimize eder.
+
+      **Çağrı dönüşümü hazır ve doğru ayarlı:** `Reklamlardan sesli arama
+      yapma` · **arama süresi 60 saniye** · sayım **Bir** · **Birincil** ·
+      30 gün · veriye dayalı ilişkilendirme.
+
+      **⚠️ YENİ DÖNÜŞÜM İŞLEMİ OLUŞTURMAYIN — üç tanesi zaten vardı.**
+      Sihirbaz "yeni oluştur" akışına sokuyor ve kategori ekranında küçük
+      puntoyla *"bu kategori için 3 dönüşüm işlemi daha önceden ölçüldü"*
+      diyor. Dördüncüsü oluşturulsaydı **aynı arama iki kez sayılacaktı** ve
+      maliyet hesabı yarı yarıya yanlış çıkacaktı. Mevcut üçü:
+      `Calls from Smart Campaign Ads` (kilitli, akıllı kampanyaya ait,
+      duraklatıldı) · `Reklamlardan sesli arama yapma` (**kullanılan bu**) ·
+      `Tıkla ve ara` (etkin değil). **Ders: dönüşüm kurmadan önce
+      Hedefler → Dönüşümler → Özet listesine bakın.**
+
+      **`Değer = ₺5` uydurma bir varsayılan.** Manuel teklifte zararsız ama
+      raporlardaki **"Dönüşüm değeri" sütunu anlamsız** — 6 arama için "₺30
+      değer ürettin" der. O sütuna bakıp kâr/zarar yorumu yapmayın. Gerçek
+      değer, sahibinden **iş başına ortalama kâr** öğrenilince yazılacak.
+
+      **Form dönüşümü (`/tesekkurler/`) henüz doğrulanmadı.** Sihirbazda
+      "Web sitesindeki dönüşümler" işaretliydi ve GA4 (`549577275`) bağlı
+      görünüyor, ama sayfa ziyareti dönüşümünün gerçekten kurulu olduğu
+      **ölçülerek görülmedi**. C5 testinde ilk bakılacak yer burası.
 
       **Form gönderiminin adresi hazır: `/tesekkurler/`** (11.08.2026'da
       eklendi, gerekçesi "Form → /tesekkurler/ → WhatsApp" bölümünde). Ads'in
@@ -1646,11 +1675,28 @@ Aşağıdakiler o gün için duruyor:
 
       Dönüşüm çalışmıyorsa ilk bakılacak yer **A7**: etiket olmadan sayfa
       ziyareti dönüşümü hiç tetiklenmez ve bu **sessizce** olur.
-- [ ] **C2. Çağrı süresi ölçümü için karar gerekiyor.** 60 sn eşiği ancak Google'ın
-      yönlendirme numarasıyla ölçülebilir; o da sayfadaki numarayı **dinamik olarak
-      değiştirmeyi** gerektirir. Bu, "numara sayfanın en değerli pikseli" kuralıyla
-      ve sıfır-dış-istek hedefiyle çelişir. Seçenekler tartılıp karar bu dosyaya
-      yazılmalı — sessizce uygulanmamalı.
+- [x] **C2. KARAR VERİLDİ — 14.08.2026: çağrı süresi REKLAMIN İÇİNDEN
+      ölçülüyor, siteye dokunulmuyor.**
+
+      Madde "60 sn eşiği ancak yönlendirme numarasıyla ölçülür, o da sayfadaki
+      numarayı değiştirmeyi gerektirir" diye açılmıştı. **Bu varsayım yanlış
+      çıktı: Google'ın iki ayrı ürünü var ve karıştırılıyor.**
+
+      | | Ne yapar | Site | Karar |
+      |---|---|---|---|
+      | **Arama öğesi** (call asset) | Yönlendirme numarasını **reklamın içinde** gösterir, konuşma süresini ölçer | dokunmaz | ✅ **kullanılıyor** |
+      | **Web sitesi araması** dönüşümü | Siteye kod ekleyip **sayfadaki numarayı** ziyaretçiye göre değiştirir | değiştirir | ❌ **reddedildi** |
+
+      İkincisi dönüşüm sihirbazında "Telefon aramaları" kutusunun altında
+      **kendiliğinden listeleniyor** ve tek tek seçilemiyor. Endişe etmeye
+      gerek yok: **siteye o kod eklenmediği sürece hiçbir şey yapmaz** —
+      numara değişmez, dönüşüm kaydedilmez, satır sonsuza kadar sıfırda kalır.
+      Listede boş bir satır olarak durması zararsız.
+
+      Reddetme gerekçesi duruyor ve gevşetilmez: numara sayfanın en değerli
+      pikseli; onu bir script'in sağlıklı yüklenmesine bağlamak, script geç
+      gelirse veya hiç gelmezse **reklam parası ödenmiş ama telefon çalmamış**
+      demektir. Üstelik sıfır-dış-istek hedefini de bozar.
 - [ ] **C3.** Reklam başlıklarını sayfa H1'leriyle **birebir** eşleştir.
       H1'ler `hizmetler.json` → `h1Sablonu` içinde, tek yerde.
 - [ ] **C4.** Hizmet × ilçe bazında reklam grubu kurgusu (32 kombinasyon).
@@ -1680,7 +1726,41 @@ Aşağıdakiler o gün için duruyor:
       Üçüncü taraf tıklama koruma script'i **eklenmez** (yasak 5), Cloudflare
       Bot Fight Mode **düşünmeden açılmaz** (sayfaya JS enjekte eder, B10).
 
-- [ ] **C8. KAMPANYA KURULUM OTURUMU — birlikte, ayar ayar yapılacak.**
+- [x] **C8. KAMPANYA YAYINDA — 14.08.2026, kurulum sahibiyle ekran ekran
+      birlikte yapıldı ve bitti.** Sahibi bildirdi: 11 reklam grubu ve kampanya
+      etkinleştirildi, **akıllı kampanya aynı anda duraklatıldı.**
+
+      **Kurulan yapı:** standart Arama · günlük bütçe ₺100 · maksimum TBM ₺5 ·
+      arama ortakları ve Görüntülü **kapalı** · AI Max, geniş eşleme ve
+      otomatik öğeler **kapalı** · konum dört ilçe + "bulunma" · dil yalnızca
+      Türkçe · **11 reklam grubu, 112 anahtar kelime** (tam/öbek eşleme) ·
+      her grupta H1 ile aynı kelimeleri taşıyan duyarlı arama reklamı.
+
+      **11. grup sonradan eklendi ve gerekçesi ölçülebilir:** ilk on grup
+      cihaz adına dayanıyordu, oysa insanların bir kısmı cihaz yazmadan
+      *"beyaz eşya servisi"* arıyor — akıllı kampanyada tıklama alan
+      terimlerden biri tam olarak buydu. `Beyaz Eşya Servisi` grubu ana
+      sayfaya bağlandı (H1 zaten birebir uyuyor) ve **gruba özel alışveriş
+      negatifleri** kondu (fiyatları · mağaza · taksitle · sıfır · outlet …),
+      çünkü "beyaz eşya" kelimesini almak isteyenler de arıyor.
+
+      **Öğeler:** arama uzantısı `0545 375 11 08` · WhatsApp mesaj öğesi ·
+      dört açıklama metni · site bağlantıları. Hepsi sitenin söylediğiyle
+      birebir aynı şeyi söylüyor.
+
+      **⚠️ NEGATİF KELİMEDE İKİ KEZ AZ KALSIN KENDİ KELİMEMİZİ ÖLDÜRÜYORDUK.**
+      Her ikisi de aynı hata: geniş bir kelimeyi kampanya seviyesine yazmak.
+      | Yanlış olurdu | Ne öldürürdü | Doğrusu |
+      |---|---|---|
+      | çıplak `ankastre` (kampanya) | "ankastre bulaşık makinesi tamiri" | `"ankastre fırın"` · `"ankastre ocak"` · `"ankastre set"` |
+      | `gaz kaçağı` (kampanya) | "klima gaz kaçağı adana" | kombi grubuna, **reklam grubu** seviyesinde |
+      | `fiyatları` (kampanya) | "klima bakım fiyatı adana" | beyaz eşya grubuna, **reklam grubu** seviyesinde |
+      **Kural: bir negatif kelimeyi kampanyaya yazmadan önce, o kelimenin
+      BAŞKA bir grubun pozitif kelimesinde geçip geçmediğine bakın.** Negatif
+      her zaman pozitifi ezer ve bu **hiçbir raporda görünmez** — sadece
+      "o aramadan hiç çağrı gelmiyor" dersiniz.
+
+      <details><summary>Kurulum öncesi tartışma (kayıt)</summary>
 
       **⚠️ SAHİBİ "AKILLI KAMPANYA KULLANIYORUM, GEREK VAR MI?" DİYE SORDU —
       12.08.2026. Cevap: C6'daki altı savunmanın BEŞİ akıllı kampanyada
@@ -1758,7 +1838,13 @@ Aşağıdakiler o gün için duruyor:
       2. **C5 testi:** gerçek arama + gerçek form ile dönüşümlerin düştüğü
          doğrulanır.
 
+      </details>
+
       **İlk hafta:** konum / IP / cihaz raporları **her gün** okunur (C6 · C7).
+      İlk bakılacak yer tıklama başı maliyet değil, **arama gösterim payı**:
+      maksimum TBM ₺5 piyasanın altında kalırsa reklam hiç görünmez, bütçe
+      harcanmaz ve bu "talep yok" sanılır. **Sıra: önce teklif, sonra bütçe** —
+      teklif yetersizken bütçe büyütmek hiçbir şeyi değiştirmez.
 
 - [x] **C9. OLAY KAYDI — akıllı kampanyada ₺1.025 yandı, teşhis edildi,
       standart kampanyaya geçildi. 14.08.2026.** C7 "olayı bu dosyaya yaz"
