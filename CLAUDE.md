@@ -357,6 +357,17 @@ sonraki `wrangler deploy` siliyor ve rapor günün birinde sessizce 404 dönmeye
 başlardı. **Depo özel olduğu için kabul edildi; depo herkese açılırsa anahtar
 sızar, o gün değiştirin.**
 
+**Raporda "Ads'e eklendi" işareti var (14.08.2026, sahibinin isteği).** Her
+engellenebilir adresin yanındaki kutu işaretlenince adres **yapıştırma
+listesinden düşer**; liste böylece yalnızca *henüz eklenmemiş* adresleri
+gösterir ve iki kez yapıştırma karışıklığı olmaz. İşaret tarayıcıda değil
+**KV'de** duruyor — telefondan işaretleyip bilgisayardan bakınca da aynı.
+İki ayrıntı bilerek böyle: **mobil satırlarda kutu yok** (o adresler zaten
+engellenmemeli, kutu koymak yanlış işi davet ederdi) ve işaretleme **saklama
+süresini uzatmaz** — kayıt `expirationTtl` yerine **mutlak bitiş zamanıyla**
+yazılıyor, yoksa her tik ömrü 7 gün öteler ve `/kvkk/` metnindeki süre
+yanlışlanırdı.
+
 **Bu sistem tıklamayı ENGELLEMEZ, kanıtlar.** Para tıklandığı anda ödeniyor;
 elde ettiğimiz şey Ads'in IP hariç tutma kutusuna yapıştırılacak liste ve
 Google'a geçersiz tıklama incelemesi açarken sunulacak desen. Aynı sebeple
