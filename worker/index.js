@@ -72,6 +72,16 @@ const SAKLAMA_SN = PENCERE_GUN * 24 * 60 * 60;
 /** Rapor sayfasının adresi. Sitemap'te yok, dist'te yok, noindex basılıyor. */
 const RAPOR_YOLU = '/_tiklama/';
 
+/*
+  Google'ın kendi ağı (AS15169). Reklam incelemesi ve açılış sayfası denetimi
+  sayfayı `gclid` ile açıyor, yani sayaca ÜCRETLİ TIKLAMA gibi görünüyor —
+  oysa bu ziyaretlerin parası ödenmiyor. Ayrı tutulmalarının asıl sebebi
+  şu: eşiği aşarlarsa "Ads'e yapıştır" listesine düşerler ve sahibi
+  Google'ın kendi denetçisini engellemeye çalışır. Kazancı sıfır, kafa
+  karışıklığı kesin.
+*/
+const GOOGLE_ASN = 15169;
+
 /** Operatör adında bunlardan biri geçiyorsa rapor "engelleme" uyarısı basar. */
 const MOBIL_IZLERI = ['turkcell iletisim', 'vodafone', 'avea', 'tt mobil', 'mobil', 'gsm', 'wireless'];
 
@@ -204,6 +214,14 @@ function mobilMi(operator) {
   return MOBIL_IZLERI.some((iz) => ad.includes(iz));
 }
 
+/** Google'ın kendi ağı mı — ASN kesin bilgi, ad yalnızca yedek kontrol. */
+function googleMi(kayit) {
+  if (Number(kayit.asn) === GOOGLE_ASN) return true;
+  return String(kayit.operator || '')
+    .toLocaleLowerCase('tr-TR')
+    .includes('google');
+}
+
 /* ---------------------------------------------------- "Ads'e ekledim" işareti */
 
 /**
@@ -265,11 +283,20 @@ async function rapor(env) {
       toplam,
       gunSayisi: Object.keys(gunler).length,
       mobil: mobilMi(veri.operator),
+      google: googleMi(veri),
     });
   }
 
-  const supheli = kayitlar.filter((k) => k.toplam >= ESIK);
-  const normal = kayitlar.filter((k) => k.toplam < ESIK);
+  /*
+    Google'ın denetim ziyaretleri şüpheli/normal ayrımına HİÇ girmiyor;
+    kendi bölümünde duruyor. Sayılmaya devam ediyorlar (ne olup bittiğini
+    görmek iyidir) ama hiçbir zaman engelleme listesine düşemezler.
+  */
+  const dogrulama = kayitlar.filter((k) => k.google);
+  const insanlar = kayitlar.filter((k) => !k.google);
+
+  const supheli = insanlar.filter((k) => k.toplam >= ESIK);
+  const normal = insanlar.filter((k) => k.toplam < ESIK);
 
   /*
     İki tablo iki farklı soruya cevap veriyor, sıralamaları da o yüzden ayrı:
@@ -283,6 +310,7 @@ async function rapor(env) {
   const sonAn = (k) => k.son || k.ilk || '';
   supheli.sort((a, b) => b.toplam - a.toplam || sonAn(b).localeCompare(sonAn(a)));
   normal.sort((a, b) => sonAn(b).localeCompare(sonAn(a)));
+  dogrulama.sort((a, b) => sonAn(b).localeCompare(sonAn(a)));
   const engellenebilir = supheli.filter((k) => !k.mobil);
   const mobilSupheli = supheli.filter((k) => k.mobil);
 
@@ -338,6 +366,19 @@ async function rapor(env) {
            <strong>gerçek müşterilerin</strong> de reklamı göremez. Ayrıca mobil adresler
            saatlik değişiyor, engellediğin adres yarın bambaşka birinde olur.</p>
            ${tablo(mobilSupheli)}`
+        : ''
+    }
+
+    ${
+      dogrulama.length
+        ? `<h2>Google'ın kendi denetimi — ${dogrulama.length}</h2>
+           <p class="not"><strong>Bunlar müşteri değil, Google'ın kendi sunucuları.</strong>
+           Reklam incelemesi ve açılış sayfası denetimi sırasında sayfayı açıyorlar;
+           <code>gclid</code> taşıdıkları için sayaca düşüyorlar ama
+           <strong>parasını ödemiyorsunuz</strong>. Şüpheli listesine hiç girmezler,
+           yapıştırma listesinde de yer almazlar. <strong>Engellemeyin</strong> —
+           kazancı sıfır, karşılığı kafa karışıklığı.</p>
+           ${tablo(dogrulama)}`
         : ''
     }
 
