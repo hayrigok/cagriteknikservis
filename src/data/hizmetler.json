@@ -923,6 +923,10 @@
     ],
     "sss": [
       {
+        "soru": "Uydu, çanak anten veya yayın sorunlarına bakıyor musunuz?",
+        "cevap": "Hayır. Biz televizyonun kendi arızasına bakıyoruz: açılmaması, görüntü vermemesi, ekranda çizgi ve leke, ses arızası, arka aydınlatma ve elektronik kart. Uydu alıcısı, çanak anten, kablo yayını ve internet bağlantısı bizim işimiz değil. Ayrımı telefonda on saniyede yapabiliriz: televizyonun kendi menüsü ekranda görünüyorsa televizyon çalışıyordur, sorun yayın tarafındadır ve yayın sağlayıcınızı ya da anten servisini aramanız gerekir. Menü de görünmüyorsa arıza televizyondadır, ona biz bakarız."
+      },
+      {
         "soru": "Televizyonu evden götürmeniz gerekiyor mu?",
         "cevap": "Önce yerinde bakarız; kumanda, ayar, kablo ve besleme kaynaklı işlerin çoğu adreste çözülür. Panel, LED bar veya anakart gibi masa işi gerektiren onarımlarda televizyonu alır, onarır ve geri getiririz. Hangisinin gerektiğini yerinde gördükten sonra söyleriz."
       },

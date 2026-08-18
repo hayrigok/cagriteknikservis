@@ -35,7 +35,7 @@ Servise gelen bazı televizyonlarda hiçbir arıza çıkmıyor. Önce bunlara ba
 
 **3. "Ekranı kapat" modu açık kalmış.** Birçok smart televizyonda müzik dinlerken ekranı söndüren bir özellik vardır. Kumandadan herhangi bir tuşa basıldığında ekran geri geliyorsa arıza yoktur.
 
-**4. Uydu veya kutu tarafındaki sorun.** Televizyonun menüsü görünüyor ama yayın siyahsa arıza televizyonda değildir.
+**4. Uydu veya kutu tarafındaki sorun.** Televizyonun menüsü görünüyor ama yayın siyahsa arıza televizyonda değildir. Uydu alıcısını, çanağı veya yayın aboneliğinizi kontrol ettirmeniz gerekir. **Biz uydu, çanak anten ve yayın işlerine bakmıyoruz** — televizyonun kendi arızasına bakıyoruz, o yüzden bu durumda bizi aramanız işinizi çözmez.
 
 Bu dördü elendiyse ve el feneri testi de yapıldıysa, artık gerçek bir donanım arızasından söz ediyoruz.
 
