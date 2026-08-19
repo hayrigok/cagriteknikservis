@@ -1840,6 +1840,45 @@ Aşağıdakiler o gün için duruyor:
 
       </details>
 
+      **İLK GERÇEK GÜN — 19.08.2026: 91 gösterim · 6 tıklama · TO %6,59 ·
+      ₺88,36 · ort. TBM ₺14,73 · 0 arama.** Kampanya 14.08'de açıldı ama ilk
+      günler neredeyse boştu (12 gösterim, 0 tıklama, ₺0). Sıçramanın sebebi
+      tek bir düzeltme:
+
+      **Dört klima grubunda KONUMSUZ kelime yoktu.** 14 kelimenin 14'ünde de
+      "adana" ya da ilçe adı geçiyordu; yani *"klima servisi"* yazan Adanalıya
+      reklam **hiç çıkmıyordu** — çıkması için kendi şehrinin adını yazması
+      gerekiyordu. Cihaz grupları (çamaşır, buzdolabı, TV…) doğru kurulmuştu,
+      klima grupları ilk gün kurulduğu için gözden kaçmıştı. Konumsuz kelimeler
+      eklenince gösterim **12 → 91**. **Ders: konum hedeflemesi zaten şehri
+      sınırlıyor; kelimeye de şehir yazmak aynı filtreyi ikinci kez uygulamak
+      ve havuzu gereksiz daraltmaktır.**
+
+      **⚠️ GOOGLE KENDİ KENDİNE 20 GENİŞ EŞLEME KELİMESİ EKLEMİŞ.** Listede
+      `eca kombi petek ısınıyor su ısıtmıyor`, `baymak kombide sıcak su
+      gelmiyor`, `en yakın televizyon tamircisi` gibi satırlar çıktı — bunlar
+      anahtar kelime değil, insanların yazdığı **arama terimleri**. Kaynağı
+      **Öneriler → otomatik uygulama**. C8 kurulumunda geniş eşleme bilerek
+      kapatılmıştı; Google onu kelime tarafından geri açıyor. Kelimeleri silmek
+      **yetmez, otomatik uygulama ayarı kapatılmalı** yoksa ertesi gün geri
+      gelir. İçlerinden değerli olanlar (`kombi tamircisi`, `tv tamircisi`,
+      `buzdolabı tamircisi` …) **öbek eşlemeyle** geri eklendi — kelime iyiydi,
+      eşleme türü yanlıştı.
+
+      **Açık artırma tablosu (11–19.08) yanlış bir teşhisi önledi.** "Gösterim
+      az, demek ki teklif düşük" varsayımı **ölçülünce çürüdü**: gösterim payı
+      **%40,89** ve bu tablodaki **en yüksek** oran (rakiplerin hepsi %16'nın
+      altında). Yani teklif seni açık artırmadan atmıyordu, **havuz küçüktü** —
+      sebebi de yukarıdaki konumsuz kelime eksiği. Tablonun gösterdiği gerçek
+      zayıflık başka: **sayfanın üst kısmı oranı %44,35, mutlak üst %15,40** ve
+      rakipler birlikte görününce **%73–100** oranında üstte çıkıyor. Acil
+      arıza arayan kişi sayfanın dibindeki reklama bakmaz. **Takip edilecek
+      rakam tıklama sayısı değil, "sayfanın üst kısmı oranı" — hedef %80.**
+
+      **Karar eşiği 30 tıklama.** 6 tıklamada 0 arama istatistiksel olarak
+      normal aralıkta; "reklam çalışmıyor" demek için veri yok. 30 tıklamada
+      hâlâ 0 arama varsa sorun reklamda değil sayfada veya telefonda aranır.
+
       **İlk hafta:** konum / IP / cihaz raporları **her gün** okunur (C6 · C7).
       İlk bakılacak yer tıklama başı maliyet değil, **arama gösterim payı**:
       maksimum TBM ₺5 piyasanın altında kalırsa reklam hiç görünmez, bütçe
