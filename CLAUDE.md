@@ -1938,6 +1938,63 @@ Aşağıdakiler o gün için duruyor:
       filtrenin kaçırdığını **sahibinin kesebilmesi** — o da yalnızca standart
       kampanyada mümkün.
 
+- [x] **C10. ARAMA TERİMLERİ DENETİMİ — ilk 10 günde ₺1.915,63 harcandı,
+      149 tıklama, 0 dönüşüm. 20.08.2026.**
+
+      Kampanya toplamı (11–20.08): **2.854 gösterim · 149 tıklama · ₺1.915,63 ·
+      ort. TBM ₺12,86 · 0 dönüşüm.** Sahibi "para gidiyor, arama gelmiyor"
+      dedi; **arama terimleri raporu** ilk kez okundu ve paranın nereye gittiği
+      kelime kelime görüldü. **Ders: anahtar kelime raporu senin yazdığını
+      gösterir, arama terimleri raporu insanların YAZDIĞINI gösterir — israf
+      yalnızca ikincisinde görünür.**
+
+      **Beş delik bulundu:**
+
+      | # | Kategori | Örnek | Ödenen |
+      |---|---|---|---|
+      | 1 | **Oto/araç klima** | araba klima taktırma · megane klima gazı kaç gram · ford focus klima soğutmuyor | ~₺28 + onlarca gösterim |
+      | 2 | **Şehir dışı** | tatvan · gaziantep · kadirli · osmaniye · iskenderun | **₺63,71** (5 tıklama) |
+      | 3 | **Marka yetkili servisi** | fujiplus (60+ gösterim) · klimacı nihat · iklimsa · daylux | **₺45,07** |
+      | 4 | **"neden" araştırması** | buzdolabı neden soğutmaz (37 gös. · 4 tık.) · klima neden soğutmaz (20 · 1) | **₺91,57** |
+      | 5 | **Hata kodu / ürün** | ch 38 · e5 · er 07 · klima temizleme spreyi koçtaş | **₺67** |
+
+      **Konum hedeflemesi şehir dışını KESMİYOR.** Hedefleme kullanıcının
+      bulunduğu yere bakar; arama metnindeki şehir adına bakmaz. Adana'daki
+      biri "tatvan klima servisi" yazınca reklam çıkıyor ve tıklaması ödeniyor.
+      **Şehir adları ayrıca negatif yazılmalı.**
+
+      **TO farkı teşhisin merkezi:** *usta arayan* kelimeler
+      (`klima taktırma` %100 · `klima montaj servisi` %67 · `beyaz eşya servis`
+      %33) ile *araştırma yapan* kelimeler (`buzdolabı neden soğutmaz` %10,8 ·
+      `klima neden soğutmaz` %5) aynı parayı ödüyor ama biri müşteri, diğeri
+      okuyucu getiriyor. Düşük TO ayrıca Kalite Puanını düşürüp **aynı gruptaki
+      bütün kelimelerin** tıklama fiyatını yükseltiyor.
+
+      **"neden/nasıl" ailesi neden reklamdan kesildi — bu tartışıldı, sahibi
+      "bunlar para kazandırmaz mı?" diye haklı olarak sordu.** Kesme gerekçesi
+      "bu insanlar müşteri değil" değil; **bu aramaları kazanmak BLOG'un işi.**
+      `src/content/yazilar/` altında tam bu sorgular için yazılmış 17 yazı var
+      (`buzdolabi-sogutmuyor`, `klima-sogutmuyor`, `bulasik-makinesi-su-almiyor`
+      …). Aynı aramayı bir de ₺14'e satın almak **aynı müşteriye iki kez para
+      ödemektir.** Belirleyici olan bütçe kıtlığı: ₺100/gün ÷ ₺14 = **günde 7
+      tıklama** — o 7 kişi tornavidayı değil telefonu eline almış olmalı.
+
+      **Geri açılırsa doğru yolu şu:** ayrı `Arıza Araştırma` grubu, maksimum
+      TBM **₺6**, açılış sayfası hizmet sayfası değil **ilgili blog yazısı**.
+      Ana grupların Kalite Puanını bozmaz, ayrı ölçülür. Bugün yapılmadı —
+      doğrulanmış iş çıkmamışken kampanya büyütülmez, sadeleştirilir.
+
+      **Yapılan:** araba/oto · şehir dışı · marka yetkili servisi · araştırma ·
+      ürün satın alma kategorilerinin tamamı kampanya negatifi olarak eklendi
+      (sahibi 20.08.2026'da uyguladı). Her negatif, **başka bir grubun pozitif
+      kelimesinde geçip geçmediği tek tek kontrol edilerek** yazıldı — C8'deki
+      ankastre/gaz kaçağı/fiyatları dersinin uygulaması.
+
+      **Kapatılmamış çelişki:** `"adana klima temizliği fiyatları"` 3 tıklama ·
+      ₺44,68 aldı, ama A3 kararıyla sitede **fiyat yok**. Parayla getirilen
+      kişi aradığını bulamadan çıkıyor. Ya fiyat aramaları kesilecek ya siteye
+      aralık konacak; sahibine soruldu, karar bekliyor.
+
 ---
 
 ### D. İçerik ve iyileştirme — sıralamayı buradan yükselteceğiz
