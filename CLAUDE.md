@@ -960,7 +960,15 @@ etkinleştirildi, **akıllı kampanya aynı anda duraklatıldı**. 11 reklam gru
 112 kelime · ₺100 günlük bütçe · ₺5 maksimum TBM · çağrı dönüşümü 60 sn.
 Ayrıntı ve kurulan her ayar **C8**'de, teşhis geçmişi **C9**'da.
 
-**⏭ Bir sonraki oturumun ilk işi: ilk haftanın rakamlarını okumak.** Sırasıyla:
+**⏭ Bir sonraki oturumun ilk işi: 3 GÜNLÜK TEMİZ TESTİN SONUCU.**
+20.08.2026'da kampanya ilk kez temiz hâle geldi (C10 negatifleri). Karar
+kuralı: **₺100/gün × 3 gün = ₺300'e en az 1 iş geliyor mu?** Gelmezse reklam
+durdurulup enerji Haritalar'a (D4 yorum akışı) yönlendirilir — ikisi de meşru
+karar. **Ölçüm yalnızca sahibinin çağrı kaydından gelebilir** (sebebi C12'de).
+Bekleyen üç ayar: **bütçe ₺350 → ₺100** · **Televizyon grubu duraklatılmış,
+açılacak** · **yeni ödeme profiline bakiye yüklenecek** (₺0 ise reklam durur).
+
+**⏭ Eski madde — ilk haftanın rakamlarını okumak.** Sırasıyla:
 **(1)** arama gösterim payı — ₺5 teklif piyasanın altında kalıyorsa reklam hiç
 görünmez ve bu "talep yok" sanılır; **önce teklif, sonra bütçe**. **(2)** arama
 terimleri raporu — kelime listesi buradan büyür, tahminle değil. **(3)** tıklama
@@ -1058,7 +1066,7 @@ fiyatı sahanın bilgisi.
 | Site haritası | **71 adres** (78 → 71: fırın-ocak kapatıldı, 14.08.2026) | push sonrası canlıda doğrulanacak |
 | Ölçümleme | **GA4 + Ads çalışıyor** — `G-818Z2EG00L` · `AW-18353257077` (12.08.2026, canlıda ölçüldü) | ✔ |
 | Google yorumu | **18** (12.08.2026, sahibi bildirdi) — ilk hedef (10–15) **aşıldı** ✔ | akışı sürdürmek (D4) |
-| **Google Ads** | **YAYINDA** (14.08.2026) — standart Arama · 11 grup · 112 kelime · ₺100/gün · ₺5 maks. TBM · çağrı dönüşümü 60 sn | ilk hafta okunacak (C8) |
+| **Google Ads** | **YAYINDA** — 11 grup · **250+ kelime** · bütçe **₺350/gün (₺100'e indirilecek)** · teklif stratejisi **öğrenme aşamasında** · 10 günde **₺1.915,63 · 149 tıklama · 0 dönüşüm** | C10 negatifleri uygulandı · 3 günlük temiz test bekliyor |
 | Bot / click fraud savunması | **kurulum kapıları uygulandı** (C6) + **ücretli tıklama sayacı canlı** (`/_tiklama/`) | saldırı olursa C7 sırası |
 
 **Performans — ölçüldü, 29.07.2026**
@@ -1994,6 +2002,96 @@ Aşağıdakiler o gün için duruyor:
       ₺44,68 aldı, ama A3 kararıyla sitede **fiyat yok**. Parayla getirilen
       kişi aradığını bulamadan çıkıyor. Ya fiyat aramaları kesilecek ya siteye
       aralık konacak; sahibine soruldu, karar bekliyor.
+
+- [x] **C11. HESAP KİMLİĞİ BABANIN FİRMASINDAN SAHİBİNİN KENDİ ADINA
+      TAŞINDI — 20.08.2026.**
+
+      Ödeme profili **"Çağrı Beyaz Eşya Teknik Servis"** → **"Hayri Gök"
+      (bireysel)**. Kimlik + fotoğraf doğrulaması yapıldı.
+
+      **Neden taşındı:** doğrulama ekranı kuruluş tescil belgesi istiyordu ve
+      hesap **Gökpluss** (babanın firması) üzerinden beyan edilmişti. İki risk
+      vardı: **(1)** ortak ödeme profiline bağlı hesaplarda bir yaptırım
+      diğerine de işleyebiliyor — babanın `gokplussyetkiliservis.com` alan adı
+      **"yetkili servis"** ibaresi taşıyor ve marka şikâyeti riski var
+      (yasak 2'nin tam olarak koruduğu şey). **(2)** Baba ayrı bir Ads
+      hesabından **aynı şehirde aynı hizmetlere** reklam veriyor; iki hesap da
+      Gökpluss adına olsaydı Google'ın **çoklu hesap / çift yayın** politikası
+      kapsamına girerdi.
+
+      **Bireysel profil vergi levhası istemiyor** — yalnızca kimlik. Sahibinin
+      kayıtlı işletmesi yok, bu yüzden tek uygun yol buydu.
+
+      **⚠️ DÜZELTME — "ödeme profili değiştirilemez, yeni hesap gerekir" dedim,
+      YANLIŞTI.** Faturalandırma → **"Ödeyecek kişiyi değiştirin"** düğmesiyle
+      panelden yapılabiliyor. Kampanya, geçmiş ve kelimeler korunuyor.
+
+      **Doğrulama son tarihi: 18 Eylül 2026.** Kaçırılırsa reklamlar durur.
+      Bant ayrıca *"reklamlarınızdan bazıları duraklatılmış veya sınırlanmış
+      olabilir"* diyor — düşük gösterimin bir sebebi bu olabilir.
+
+      **Para tarafı:** eski profildeki bakiye iadeye çıktı — **₺3.046,96**,
+      26 Ağustos'a kadar Mastercard ••••5025'e. (₺61 fark promosyon kredisi,
+      iade edilmiyor.) **Yeni profil ₺0 ile başlıyor ve ödeme yöntemi MANUEL —
+      bakiye sıfırken reklam durur.** Profil değiştirildiğinde kart da
+      taşınmıyor, ayrıca eklenmeli.
+
+- [x] **C12. AÇIK ARTIRMA TABLOSU: SORUN GÖRÜNMEMEK DEĞİL, DİPTE GÖRÜNMEK —
+      20.08.2026.**
+
+      Sahibi *"elemanlar üst sırada olduğu için onlar aranıyor"* dedi;
+      11–20.08 tablosu bunu doğruladı ama tabloda daha önemli iki şey vardı.
+
+      | Ölçüt | Siz | Rakipler |
+      |---|---|---|
+      | **Gösterim payı** | **%44,20** (tablodaki **en yüksek**) | %10–16 |
+      | Sayfanın üst kısmı oranı | **%45,83** | %62–93 |
+      | Mutlak 1. sıra | **%16,50** | %22–70 |
+
+      Rakiplerin "daha üst konum oranı" %78–100 arasında
+      (`adanaklimaservisi.com.tr` **%99,36**, `724servismerkezi.com` ve
+      `adanaserviskayit.com.tr` **%100**).
+
+      **Teşhis: açık artırmadan atılmıyorsun, dibe düşüyorsun.** Küçük bütçeyle
+      yapılabilecek en kötü takas bu: **%44 açık artırmada 5. sırada olmak,
+      %20'sinde 1. sırada olmaktan kötüdür** — dipteki gösterim tıklanmaz,
+      yalnızca TO'yu ve Kalite Puanını aşağı çeker, sonraki tıklamayı
+      pahalılaştırır.
+
+      **⚠️ SENİ GEÇENLERİN YARISI TAMİRCİ DEĞİL — ÇAĞRI TOPLAYICI.**
+      `yetkiliservisliste.com.tr` · `adanaserviskayit.com.tr` ·
+      `724servismerkezi.com` · `arizakayitmerkezi.com.tr` ·
+      `bolgeselmerkezservisi.com` · `armut.com` kendileri tamir yapmıyor;
+      çağrıyı alıp ustaya yönlendiriyor veya satıyorlar. Bir çağrıyı klimacıya
+      da tesisatçıya da satabildikleri için **tıklama başına yapısal olarak
+      daha fazla ödeyebiliyorlar.** Gerçek rakipler yalnızca `adanabelisklima`,
+      `oskarservis`, `adanaklimaservisi`, `aslanteknikservis` ve
+      `gokplussyetkiliservis` (babanın firması).
+
+      **Sonuç — bu bir strateji kuralıdır:** zirveyi teklifle satın almaya
+      çalışmak, iş modeli farklı firmalarla fiyat yarışına girmektir ve
+      sürdürülebilir değildir. Çağrı toplayıcılar **Haritalar'da** senin yerini
+      alamaz (dükkânları da yorumları da yok). Reklamda 1. sıra her gün
+      yeniden satın alınır; **Haritalar'da 1. sıra bir kez kazanılır** — D4
+      neden kapanmıyor, sebebi bu.
+
+      **Teklif stratejisi "öğreniliyor" durumunda — bir hafta DOKUNMAYIN.**
+      Her strateji değişikliği öğrenmeyi baştan başlatır ve net sonuç hiç
+      görünmez. Bu süreçte tek değişken **bütçe** olmalı.
+
+      **Huninin çalıştığı kanıtlandı (20.08):** arama öğesi **5 tıklama** aldı,
+      sahibine **2 gerçek arama** geldi. Butona basıp vazgeçme normaldir; hat,
+      numara ve yönlendirme sağlam. Yani "çağrılar kayboluyor" ihtimali elendi.
+      **Ama `Dönüşümler = 0` kimsenin aramadığını KANITLAMAZ:** kurulumda
+      yalnızca reklamın içindeki arama butonundan yapılan çağrılar sayılıyor
+      (C2 kararı — siteye numara değiştiren kod eklenmedi). Siteye girip
+      oradaki numarayı arayan **hiçbir raporda görünmez.** Reklamın iş getirip
+      getirmediği bu yüzden **yalnızca sahibinin tuttuğu çağrı kaydıyla**
+      bilinebilir.
+
+      **İki arama öğesi var, ikisi de aynı numara** — 13 Ağu (TO %9,09) ve
+      14 Ağu (TO %2,63). Gösterim ikiye bölünüyor; ölçüm yapan hangisiyse o
+      kalmalı, diğeri duraklatılmalı.
 
 ---
 
