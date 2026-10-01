@@ -480,7 +480,34 @@ arıza/çözümden hemen sonra, çünkü "cihazımda bu arıza var" dedikten son
 soru "benim markama bakıyor mu?" oluyor. Zemini **beyaz**: komşuları zemin ve
 lacivert, renk ritmi bozulmuyor. Ayrıntı D3'te.
 
-**Üst çubuktaki isim `kisaAd`, menü ise CİHAZ ÇEŞİTLİLİĞİ gösterir (12.08.2026).**
+**⚠️ 01.10.2026 — İSİM DEĞİŞTİ: `kisaAd` = "Adana Beyaz Eşya TV Klima Kombi
+Servisi"** (sahibinin isteği). Aşağıdaki 12.08 kararının iki gerekçesi
+ölçülerek çözüldü, karar bu yüzden tersine döndü:
+1. **Kesilme:** isim artık `truncate` değil **`line-clamp-2`** — mobilde iki
+   satıra iner ("Adana Beyaz Eşya TV / Klima Kombi Servisi"), **hiçbir
+   genişlikte kesilmiyor.** Çubuk yüksekliği **65 px, değişmedi** (iki satır
+   13 px metin, yanındaki 44 px Ara düğmesinden kısa).
+2. **Diğer kullanımlar:** isim virgülsüz, KVKK satırında ad gibi okunuyor;
+   en uzun sayfa başlığı **58 karakter** ("Talebiniz alındı — …" ve
+   "Sayfa bulunamadı — …"), sınır 60.
+
+Paylaşım görseli (`public/og.png`) da yenilendi; `tools/og-uret.mjs` artık
+ad, saat ve cihaz satırını **veriden** okuyor — görselde fırın kapatıldıktan
+sonra bile "Fırın" kalmıştı. **İsim, saat veya hizmet değişince betiği
+yeniden çalıştırın** (`node tools/og-uret.mjs`), build onu çalıştırmıyor.
+
+**Ölçüm (01.10.2026, gerçek genişlikte iframe, headless Chrome):**
+| Ekran | İsim | Menüde görünen | Çakışma / taşma |
+|---|---|---|---|
+| 360 · 412 px | **2 satır**, kesik değil | (menü mobilde gizli) | 0 |
+| 640 px | 1 satır | — | 0 |
+| **1024 px** | 1 satır | Klima · **TV** · Çamaşır | 0 |
+| 1280 · 1440 px | 1 satır | Klima · TV · Çamaşır · Bulaşık · Buzdolabı · Kombi | 0 |
+
+**Menüye TV eklendi** (sahibinin isteği), ikinci sıraya — 1024 px'te de
+görünsün diye. Bulaşık 1280'e kaydı. Aşağıdaki 12.08 tablosu tarihsel.
+
+**Üst çubuktaki isim `kisaAd`, menü ise CİHAZ ÇEŞİTLİLİĞİ gösterir (12.08.2026 — isim kısmı yukarıda tersine döndü).**
 Sahibi televizyon ve kombinin başlıkta görünmesini istedi. `kisaAd`'ı liste
 hâline getirmek **ölçülerek elendi** — iki ayrı sebeple:
 
@@ -1472,7 +1499,7 @@ düşer.
       **Numara değişince site dışında da bir iş var:** Google İşletme
       Profili'ndeki numara aynı olmalı. Site ile profilin numarası ayrışırsa
       yerel sıralamada güven sinyali zayıflar (D4/G6 tam oradan yürüyor).
-- [x] Sitede görünecek kısa ad — "Adana Klima & Beyaz Eşya Servisi"
+- [x] Sitede görünecek kısa ad — **"Adana Beyaz Eşya TV Klima Kombi Servisi"** (01.10.2026; önceki: "Adana Klima & Beyaz Eşya Servisi")
 - [x] Çalışma saatleri — **"Her gün 08:00–23:00"** (01.10.2026, sahibi). Önceki
       "08:00–20:00" İşletme Profili'yle çelişiyordu (profilde 23:00 yazıyordu,
       doğrusu oymuş). Saat yalnızca `firma.json`'da durur — Seyhan

@@ -9,6 +9,21 @@ import sharp from 'sharp';
 import { readFileSync, writeFileSync } from 'node:fs';
 
 const firma = JSON.parse(readFileSync('src/data/firma.json', 'utf8'));
+const hizmetler = JSON.parse(readFileSync('src/data/hizmetler.json', 'utf8'));
+
+/*
+  Ad ve cihaz satırı VERİDEN — 01.10.2026. Önceden elle yazılıydı ve iki kez
+  eskidi: fırın kapatıldıktan (14.08) sonra görselde "Fırın" kaldı, TV ve kombi
+  eklendiğinde hiç girmedi. Cihaz adındaki " makinesi" atılır (satır sığsın).
+  Firma adı, saat veya hizmet değişince bu betik YENİDEN ÇALIŞTIRILIR.
+*/
+const cihazlar = [
+  ...new Set(
+    hizmetler
+      .filter((h) => h.aktif)
+      .map((h) => h.cihaz.replace(/ makinesi$/i, ''))
+  ),
+].join(' · ');
 
 const G = 1200;
 const Y = 630;
@@ -34,7 +49,7 @@ const svg = `<svg xmlns="http://www.w3.org/2000/svg" width="${G}" height="${Y}" 
 
   <text x="86" y="150" font-family="Segoe UI, Arial, Helvetica, sans-serif"
         font-size="26" font-weight="600" letter-spacing="4" fill="${TURUNCU}">
-    ${kacir(firma.sehir.toUpperCase())} · KLİMA VE BEYAZ EŞYA SERVİSİ
+    ${kacir(firma.kisaAd.toLocaleUpperCase('tr-TR'))}
   </text>
 
   <text x="86" y="268" font-family="Segoe UI, Arial, Helvetica, sans-serif"
@@ -44,7 +59,7 @@ const svg = `<svg xmlns="http://www.w3.org/2000/svg" width="${G}" height="${Y}" 
 
   <text x="86" y="446" font-family="Segoe UI, Arial, Helvetica, sans-serif"
         font-size="30" font-weight="400" fill="${ACIK}">
-    Klima · Çamaşır · Bulaşık · Buzdolabı · Kurutma · Fırın
+    ${kacir(cihazlar)}
   </text>
 
   <rect x="86" y="492" width="470" height="84" rx="6" fill="${TURUNCU}"/>

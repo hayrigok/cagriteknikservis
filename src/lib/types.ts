@@ -108,7 +108,7 @@ export interface Firma {
    * kullanılır, ekranda hiçbir yerde basılmaz.
    *
    * `kisaAd`'dan ayrı tutulmasının sebebi ikisinin FARKLI İŞ GÖRMESİ:
-   * - `kisaAd` ("Adana Klima & Beyaz Eşya Servisi") ziyaretçiye ne iş
+   * - `kisaAd` ("Adana Beyaz Eşya TV Klima Kombi Servisi") ziyaretçiye ne iş
    *   yaptığımızı anlatır ve tıklatır — sahibinin açık isteği (29.07.2026).
    * - `isletmeAdi` ("Çağrı Teknik Servis") Google'a KİM olduğumuzu söyler ve
    *   Haritalar profiliyle eşleşmesi gerekir.

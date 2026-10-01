@@ -42,9 +42,16 @@ const ad = doldurulmusMu(firma.kisaAd)
   sonunda **"Tüm hizmetler"** duruyor: 11 hizmetin hepsini başlığa sığdırmak
   fiziksel olarak mümkün değil, ama hepsine tek tıkla gidilebilmesi lazım.
   Buraya bağlantı eklerken genişliği 1024'te YENİDEN ÖLÇÜN.
+
+  01.10.2026: "TV" ikinci sıraya eklendi (sahibinin isteği) ve isim
+  "Adana Beyaz Eşya TV Klima Kombi Servisi" oldu. Yeniden ölçüldü: 1024'te
+  Klima · TV · Çamaşır, 1280'de altısı da sığıyor; çakışma ve taşma 0, çubuk
+  65 px. İsim `truncate` yerine `line-clamp-2`: mobilde iki satıra iner,
+  kesilmez. Ayrıntı CLAUDE.md "Para sayfası iskeleti".
 */
 const MENU_TANIMI = [
   { slug: 'klima-servisi', etiket: 'Klima' },
+  { slug: 'televizyon-tamiri', etiket: 'TV' },
   { slug: 'camasir-makinesi-tamiri', etiket: 'Çamaşır' },
   { slug: 'bulasik-makinesi-tamiri', etiket: 'Bulaşık' },
   { slug: 'buzdolabi-tamiri', etiket: 'Buzdolabı' },
@@ -70,7 +77,7 @@ const menu = MENU_TANIMI.map((m) => {
       >
         <Ikon ad="arac" boyut={20} />
       </span>
-      <span class="truncate text-[13px] leading-tight font-bold sm:text-[15px]">{ad}</span>
+      <span class="line-clamp-2 text-[13px] leading-tight font-bold text-balance sm:text-[15px]">{ad}</span>
     </a>
 
     <nav aria-label="Hizmetler" class="hidden lg:block">

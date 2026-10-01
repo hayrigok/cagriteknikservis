@@ -89,7 +89,7 @@ export function hvacBusiness(site: URL) {
       iki farklı ad gösterirsek Google site ile profili eşleştirmekte tereddüt
       eder ve bağ zayıflar.
 
-      Ekranda basılan ad bu DEĞİL — orası `kisaAd` ("Adana Klima & Beyaz Eşya
+      Ekranda basılan ad bu DEĞİL — orası `kisaAd` ("Adana Beyaz Eşya TV Klima
       Servisi") ve öyle kalacak (sahibinin kararı, 29.07.2026): ziyaretçiye ne
       iş yaptığımızı anlatan ad tıklatan addır. İkisi farklı iş görüyor.
 
