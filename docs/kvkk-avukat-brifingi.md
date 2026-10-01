@@ -174,8 +174,8 @@ sitede yazılmasını istedi.
 ### 8.1 Sitede şu an yazan (taslak)
 
 - **`/kullanim-kosullari/`** — kapsam · işi kim yapar · sorumluluk · ücret ve
-  onay · marka adları · arıza rehberindeki bilgilerin niteliği · şikâyet yolları
-  (tüketici hakem heyeti / tüketici mahkemesi) · kişisel veriler. Sayfanın
+  onay · marka adları · arıza rehberindeki bilgilerin niteliği · "bir sorun
+  olursa önce bizi arayın" · kişisel veriler. Sayfanın
   özü: *"Firmamız aracı kurum olarak hizmet verir … Sorumluluk firmamıza
   değil, işi yapan ustaya aittir."*
 - **Footer** — metin footer'da **görünmüyor**, her sayfanın altında yalnızca
@@ -219,8 +219,10 @@ Metin işletme sahibinin istediği ifadelerle yazıldı:
    sözleşme kurulmuyor, yalnızca WhatsApp'a yönlendiriliyor.
    Kendi ekibin yaptığı işleri de kapsayan sorumluluk reddi ayrıca
    değerlendirilmeli (1. soru).
-6. **Şikâyet yolları bölümü** (hakem heyeti / tüketici mahkemesi / e-Devlet)
-   doğru ve yeterli mi?
+6. **Şikâyet yolları:** Sayfada tüketici hakem heyeti / tüketici mahkemesi
+   bilgisi **yok**; ilk taslakta vardı, işletme sahibinin isteğiyle
+   kaldırıldı. Sitede bulunması gerekiyor mu? Gerekiyorsa metni sizin
+   yazmanızı istiyoruz.
 7. **Komisyon:** Firma dışarı verilen işlerden yalnızca komisyon alıyor.
    Sitede komisyon yazmıyor. Bunun müşteriye açıklanması gerekir mi?
 

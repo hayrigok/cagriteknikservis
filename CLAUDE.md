@@ -2360,7 +2360,9 @@ Aşağıdakiler o gün için duruyor:
       **Yapılanlar:**
       - **`/kullanim-kosullari/`** — yeni sayfa, sitemap'te (71 → 72). Kapsam ·
         işi kim yapar · sorumluluk · ücret ve onay · marka adları · arıza rehberi
-        bilgilendirmesi · şikâyet yolları · kişisel veriler.
+        bilgilendirmesi · "bir sorun olursa önce bizi arayın" · kişisel veriler.
+        **Hakem heyeti / tüketici mahkemesi paragrafı kaldırıldı** (sahibi:
+        "olmamış, avukat yazsın") — metni avukat yazmadan geri konmaz.
       - **Footer'da METİN YOK, yalnızca bağlantı** — "Site" sütununda
         "Kullanım koşulları". Sahibi: *"ana sayfada gözükmesin, tıklayıp
         görsünler."* Önce footer'a görünür bir hukuk bloğu konmuştu, bu istekle

@@ -53,7 +53,7 @@ const sorumluluk = [
 
 <BaseLayout
   title="Kullanım Koşulları"
-  description="Servis işlerini kimin yaptığı, sorumluluğun kime ait olduğu, ücret ve onay, arıza rehberindeki bilgilerin niteliği ve şikâyet yolları."
+  description="Servis işlerini kimin yaptığı, sorumluluğun kime ait olduğu, ücret ve onay ile arıza rehberindeki bilgilerin niteliği."
   yol="/kullanim-kosullari/"
   schema={[
     breadcrumb(Astro.site!, [
@@ -140,20 +140,17 @@ const sorumluluk = [
     </p>
   </Bolum>
 
-  <Bolum etiket="7" baslik="Şikâyet ve başvuru yolları" zemin="zemin">
-    <div class="max-w-3xl space-y-4 leading-relaxed text-metin">
+  <!--
+    Hakem heyeti / tüketici mahkemesi paragrafı 01.10.2026'da KALDIRILDI —
+    sahibinin isteği. Gerekiyorsa metni avukat yazar (brifing 8.3/6).
+  -->
+  <Bolum etiket="7" baslik="Bir sorun olursa" zemin="zemin">
+    <div class="max-w-3xl leading-relaxed text-metin">
       <p>
         Bir sorun yaşarsanız önce bizi arayın{telefon && (
           <>: <span class="rakam font-semibold text-lacivert-900">{telefon}</span></>
         )}. Anlaşmalı bir ustanın yaptığı işlerde ustanın adı, onun kestiği faturada
         yazar; bize sorarsanız da söyleriz.
-      </p>
-      <p>
-        Sorun çözülemezse, Ticaret Bakanlığı'nın her yıl belirlediği parasal sınırların
-        altındaki uyuşmazlıklarda <strong class="text-lacivert-900">tüketici hakem
-        heyetine</strong>, üzerindeki uyuşmazlıklarda <strong class="text-lacivert-900">tüketici
-        mahkemesine</strong> başvurabilirsiniz. Hakem heyeti başvurusu e-Devlet üzerinden
-        de yapılabilir.
       </p>
     </div>
   </Bolum>
