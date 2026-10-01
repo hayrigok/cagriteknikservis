@@ -2695,7 +2695,7 @@ kapasite tahmin edilecek şey değildir.
       |---|---|---|
       | Ana kategori | Beyaz Eşya Tamirhanesi | ✔ doğru, **dokunulmaz** |
       | Açıklama | fırın · ocak · mikrodalga · davlumbaz vardı; TV ve kombi yoktu; koşulsuz "orijinal parça" | yeni metin verildi (663 kr.) — sahibi yapıştıracak |
-      | Hizmet bölgesi | yalnızca Reşatbey | 4 ilçe eklenecek |
+      | Hizmet bölgesi | yalnızca Reşatbey | ✔ **4 ilçe eklendi** (sahibi bildirdi, 01.10.2026) |
       | Sohbet | SMS | WhatsApp'a çevrilecek |
       | Ek kategoriler | yok | klima · televizyon · kombi aranacak |
       | Çalışma saati | 08:00–23:00 | ✔ doğruymuş, **site** düzeltildi |
