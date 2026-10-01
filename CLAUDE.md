@@ -1049,7 +1049,7 @@ fiyatı sahanın bilgisi.
 | A3 | **Fiyat yayımlanmayacak** — fiyat istemeyin |
 | A4 | **Künye yayımlanmayacak** — ünvan/adres/e-posta/vergi istemeyin (riski E2'de) |
 | A5 | Google işletme profili **bağlandı**; şema adı gerçek işletme adına çekildi |
-| A6 | **TERSİNE ÇEVRİLDİ 12.08.2026** — 11 marka eklendi (**Vestel ile 12**, 01.10.2026), tek kaynak `firma.json`, her cümle "… dahil bütün markalar" ile biter |
+| A6 | **TERSİNE ÇEVRİLDİ 12.08.2026** — 11 marka eklendi (**Vestel ile 12**, 01.10.2026; **televizyonun kendi listesi var** — `Hizmet.markalar`), tek kaynak `firma.json`, her cümle "… dahil bütün markalar" ile biter |
 | A2 | **Mahalle listesi yayımlanmayacak** (12.08.2026) — mahalle adı istemeyin |
 | A8 | Alan adı: `cagribeyazesyatamir.com` |
 | D2 | **Hero görseli yok** — fotoğraf istemeyin (profil fotoğrafı ayrı konu, G6) |

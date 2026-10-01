@@ -861,6 +861,7 @@
     "cihaz": "Televizyon",
     "ozet": "Açılmayan, görüntü vermeyen, sesi gitmeyen televizyonlarda yerinde tespit; gerekirse atölyede onarım.",
     "aktif": true,
+    "markalar": ["Samsung", "LG", "Vestel", "Arçelik", "Beko", "Grundig", "Sony", "Philips", "TCL", "Toshiba"],
     "ariza": [
       {
         "baslik": "Televizyon açılmıyor, ön ışık yanıp sönüyor",
@@ -933,6 +934,10 @@
       {
         "soru": "Ekranı kırık televizyon tamir edilir mi?",
         "cevap": "Teknik olarak panel değişir, ama panelin maliyeti çoğu modelde yeni bir televizyonun fiyatına yaklaşır. Böyle bir durumda tutarı olduğu gibi söyler ve zorlamayız; karşılığını almayacağınız bir onarımı size önermeyiz."
+      },
+      {
+        "soru": "Televizyon tamiri yeni televizyon almaktan ucuz mu?",
+        "cevap": "Çoğu arızada evet. Güç kartı, LED bar, T-CON kartı veya ses katı onarımı çoğu zaman yeni bir televizyonun fiyatının çok altında kalır. Panel kırığında durum tersine döner; bunu da açıkça söyleriz. Tutarı işe başlamadan söyleriz, onaylamazsanız işleme başlamayız."
       },
       {
         "soru": "Onarım ne kadar sürer?",

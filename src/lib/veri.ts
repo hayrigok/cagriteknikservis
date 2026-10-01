@@ -290,12 +290,21 @@ export function tumIlceler(): Ilce[] {
 }
 
 /**
+ * Hizmetin marka listesi: hizmete özgü liste varsa o, yoksa `firma.markalar`.
+ * Hizmet verilmezse genel liste (ana sayfa, llms.txt). Bkz. Hizmet.markalar.
+ */
+export function hizmetMarkalari(h?: Pick<Hizmet, 'markalar'>): string[] {
+  const ozel = degerListesi(h?.markalar);
+  return ozel.length > 0 ? ozel : degerListesi(firma.markalar);
+}
+
+/**
  * Marka adları, okunacak cümleye hazır: "Arçelik, Beko … ve Miele".
  * Liste boşsa null döner ve `{markalar}` taşıyan SSS hiç basılmaz —
  * {PLACEHOLDER} sözleşmesinin aynısı.
  */
-export function markaMetni(): string | null {
-  const liste = degerListesi(firma.markalar);
+export function markaMetni(h?: Pick<Hizmet, 'markalar'>): string | null {
+  const liste = hizmetMarkalari(h);
   if (liste.length === 0) return null;
   if (liste.length === 1) return liste[0] as string;
   return `${liste.slice(0, -1).join(', ')} ve ${liste[liste.length - 1]}`;
@@ -316,7 +325,7 @@ export function markaMetni(): string | null {
 */
 function sssCoz(h: Hizmet): Hizmet {
   if (!h.sss.some((s) => s.cevap.includes('{markalar}'))) return h;
-  const m = markaMetni();
+  const m = markaMetni(h);
   return {
     ...h,
     sss: h.sss.map((s) =>

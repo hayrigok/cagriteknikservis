@@ -106,7 +106,7 @@ const schema = [
     baslik={hizmet.arizaBaslik ?? `En sık çıkan ${cihaz} arızaları`}
     etiket={montaj ? 'Sık sorulanlar' : undefined}
   />
-  <Markalar cihaz={cihaz} />
+  <Markalar cihaz={cihaz} hizmet={hizmet} />
   <Surec tur={hizmet.tur} />
   <IlceBlogu ilce={ilce} hizmetAdi={hizmet.ad} />
   <Yorumlar />

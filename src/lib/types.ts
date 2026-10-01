@@ -84,6 +84,17 @@ export interface Hizmet {
   fiyatAraligi: FiyatSatiri[];
   sss: { soru: string; cevap: string }[];
   aktif: boolean;
+  /**
+   * Bu hizmete özgü marka listesi. Verilmezse `firma.markalar` kullanılır.
+   *
+   * 01.10.2026'da televizyon için doğdu: genel liste beyaz eşya markalarından
+   * oluşuyor ve TV sayfasında "Baktığımız televizyon markaları: Bosch, Miele…"
+   * basılıyordu — televizyon üretmeyen markalar. Doluysa marka şeridi,
+   * `{markalar}` SSS'i ve meta kalıbı bu listeyi kullanır. Kapanış yine
+   * "… dahil bütün markalar" (A6). Yalnızca o cihazı GERÇEKTEN üreten markalar
+   * yazılır; ilk dördü meta açıklamaya girer.
+   */
+  markalar?: string[];
 }
 
 export interface Firma {

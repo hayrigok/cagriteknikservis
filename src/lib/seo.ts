@@ -1,5 +1,5 @@
 import type { Hizmet, Ilce } from './types';
-import { degerListesi, firma } from './veri';
+import { degerListesi, hizmetMarkalari } from './veri';
 
 /**
  * Meta açıklamada kullanılacak ÖRNEK marka adları — tamamı değil.
@@ -10,12 +10,13 @@ import { degerListesi, firma } from './veri';
  * kapanışıyla birlikte hem marka aramasını yakalar hem yer bırakır.
  *
  * Liste `firma.json`'dan geliyor, burada elle yazılmıyor (A6 tek kaynak
- * kuralı). Sıra oradaki sıradır; en bilinen dördü başa konmuştur.
+ * kuralı). Sıra oradaki sıradır; en bilinen dördü başa konmuştur. Hizmetin
+ * kendi listesi varsa (Hizmet.markalar — örn. televizyon) o kullanılır.
  */
 const META_MARKA_ADEDI = 4;
 
-function metaMarkalar(): string | null {
-  const liste = degerListesi(firma.markalar).slice(0, META_MARKA_ADEDI);
+function metaMarkalar(hizmet: Hizmet): string | null {
+  const liste = hizmetMarkalari(hizmet).slice(0, META_MARKA_ADEDI);
   if (liste.length < 2) return null;
   return liste.join(', ');
 }
@@ -120,7 +121,7 @@ export function paraSayfasiDescription(hizmet: Hizmet, ilce: Ilce): string {
   */
   const ad = hizmet.ad.toLocaleLowerCase('tr-TR');
   const mahalle = degerListesi(ilce.mahalleler)[0];
-  const markalar = metaMarkalar();
+  const markalar = metaMarkalar(hizmet);
 
   /*
     Havuza yalnızca VERİSİ OLAN kalıp girer. Kapı sadece yerelNotlar'ı zorunlu

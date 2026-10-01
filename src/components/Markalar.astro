@@ -24,16 +24,19 @@
 */
 import Bolum from './Bolum.astro';
 import Ikon from './Ikon.astro';
-import { deger, degerListesi, firma } from '@/lib/veri';
+import { deger, firma, hizmetMarkalari } from '@/lib/veri';
+import type { Hizmet } from '@/lib/types';
 
 interface Props {
   /** Cihaz adı, küçük harfle ("çamaşır makinesi"). Başlığı somutlaştırır. */
   cihaz?: string;
+  /** Hizmetin kendi marka listesi varsa (Hizmet.markalar) o basılır. */
+  hizmet?: Hizmet;
 }
 
-const { cihaz } = Astro.props;
+const { cihaz, hizmet } = Astro.props;
 
-const markalar = degerListesi(firma.markalar);
+const markalar = hizmetMarkalari(hizmet);
 const parca = deger(firma.parcaPolitikasi);
 ---
 
