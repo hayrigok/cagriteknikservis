@@ -1,0 +1,6 @@
+# llms.txt Türkçe karakter taşıyor. Cloudflare .txt dosyasını charset'siz
+# "text/plain" olarak sunuyordu; Chrome "eşya"yı "eÅŸya" diye gösterdi
+# (01.10.2026'da ölçüldü). robots.txt ASCII, sitemap.xml kendi kodlamasını
+# bildiriyor — yalnızca bu dosya gerekiyor.
+/llms.txt
+  Content-Type: text/plain; charset=utf-8
