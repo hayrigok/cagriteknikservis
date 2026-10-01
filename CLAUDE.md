@@ -845,7 +845,7 @@ yapılınca yanan para geri gelmez (C6):
    karşılığı düşük, trafiğin nereden geldiğini de tam göremiyoruz.
 3. **Geniş eşleme ile başlanmaz** — tam/öbek eşleme + ilk günden negatif
    kelime listesi.
-4. **Reklam programı 08:00–20:00** (gerçek çalışma saatimiz). Gece gelen
+4. **Reklam programı 08:00–20:00** (çalışma saati 01.10.2026'da **23:00**'e çekildi; reklamı uzatmak ayrı karar, verilmedi). Gece gelen
    tıklama iki kere kayıp: hem bot yoğunluğu yüksek hem telefon açılmıyor.
 5. **Günlük bütçe düşük başlatılır.** Bütçe, bir saldırının bize
    verebileceği günlük zararın **tavanıdır** — asıl koruma budur.
@@ -1032,7 +1032,7 @@ fiyatı sahanın bilgisi.
 
 ### 🔁 Süregelen disiplin — biten iş değil, her gün geçerli
 
-- **G5 — kaçan çağrı = kaçan iş.** 08:00–20:00 arası açılmayan telefon,
+- **G5 — kaçan çağrı = kaçan iş.** 08:00–23:00 arası açılmayan telefon,
   hunideki **en pahalı sessiz kayıp**; hiçbir raporda görünmez.
 - **D4 akışı.** Yorum tek seferlik iş değil; tazelik de sinyal. Her iş bitiminde
   aynı mesaj, **herkese** (seçerek istemek politika ihlali).
@@ -1049,7 +1049,7 @@ fiyatı sahanın bilgisi.
 | A3 | **Fiyat yayımlanmayacak** — fiyat istemeyin |
 | A4 | **Künye yayımlanmayacak** — ünvan/adres/e-posta/vergi istemeyin (riski E2'de) |
 | A5 | Google işletme profili **bağlandı**; şema adı gerçek işletme adına çekildi |
-| A6 | **TERSİNE ÇEVRİLDİ 12.08.2026** — 11 marka eklendi, tek kaynak `firma.json`, her cümle "… dahil bütün markalar" ile biter |
+| A6 | **TERSİNE ÇEVRİLDİ 12.08.2026** — 11 marka eklendi (**Vestel ile 12**, 01.10.2026), tek kaynak `firma.json`, her cümle "… dahil bütün markalar" ile biter |
 | A2 | **Mahalle listesi yayımlanmayacak** (12.08.2026) — mahalle adı istemeyin |
 | A8 | Alan adı: `cagribeyazesyatamir.com` |
 | D2 | **Hero görseli yok** — fotoğraf istemeyin (profil fotoğrafı ayrı konu, G6) |
@@ -1305,8 +1305,11 @@ düşer.
         puanlarını arama sonucunda göstermiyor (aynı gerekçeyle `AggregateRating`
         de üretilmiyor). Yıldız çıkmaz. Sıfır kazanç, hesap kapatacak risk.
 
-      Gerçek çözüm uygulandı: profil **servis alanı işletmesi** olarak açıldı,
-      yani adres göstermiyor ve A4 kararıyla çelişmiyor.
+      ~~Profil **servis alanı işletmesi** olarak açıldı, adres göstermiyor.~~
+      **DÜZELTME 01.10.2026:** profilde Yüreğir'de bir **dükkân adresi** ve
+      harita iğnesi var; sahibi orada müşteri karşılanan bir dükkân olduğunu
+      doğruladı, yani adresin görünmesi kurala uygun. Sitede adres basılmıyor
+      (A4) — bu bir çelişki değil, eksik bilgi; A4 yine de tekrar sorulmaz.
 
       Sahibine ayrıca, yorum yerine geçmeyen ama uydurma da olmayan bir
       "verdiğimiz sözler" bloğu önerilmişti (aynı gün ~2 saat · parça garantisi
@@ -1331,6 +1334,8 @@ düşer.
       **Yapılanlar:**
       - `firma.markalar` geri eklendi: Arçelik · Beko · Bosch · Siemens ·
         Samsung · LG · Profilo · Altus · Grundig · Electrolux · Miele.
+        **Vestel 01.10.2026'da eklendi** (İşletme Profili açıklamasında vardı,
+        sitede yoktu; sahibi onayladı).
       - **11 hizmetin hepsine marka SSS'i** kondu (4'ü vardı, 7'si eklendi).
         Her cevap cihaza özgü ("… bütün markaların **çamaşır makinelerinde**")
         çünkü gerçek arama "beko çamaşır makinesi servisi" biçiminde yapılıyor,
@@ -1468,7 +1473,11 @@ düşer.
       Profili'ndeki numara aynı olmalı. Site ile profilin numarası ayrışırsa
       yerel sıralamada güven sinyali zayıflar (D4/G6 tam oradan yürüyor).
 - [x] Sitede görünecek kısa ad — "Adana Klima & Beyaz Eşya Servisi"
-- [x] Çalışma saatleri — "Her gün 08:00–20:00"
+- [x] Çalışma saatleri — **"Her gün 08:00–23:00"** (01.10.2026, sahibi). Önceki
+      "08:00–20:00" İşletme Profili'yle çelişiyordu (profilde 23:00 yazıyordu,
+      doğrusu oymuş). Saat yalnızca `firma.json`'da durur — Seyhan
+      `yerelNotlar`'ındaki elle yazılmış saat bu yüzden **kaldırıldı** (A1'deki
+      "ilçe notuna sayı yazma" dersinin üçüncü kez yaşanması).
 - [x] **WhatsApp hattı 7/24 — sahibi bildirdi, 12.08.2026.** Hero künye
       panelinde çalışma saatinin hemen altında ayrı kutu olarak duruyor
       (`firma.whatsappSaatleri`). **Ayrı olması şart:** aynı satıra
@@ -2677,8 +2686,21 @@ kapasite tahmin edilecek şey değildir.
         bildirdi (12.08.2026). Önemliydi: profildeki liste siteyle ayrışırsa
         Haritalar o hizmetlerde hiç çıkmaz. Yeni hizmet eklendiğinde profil de
         güncellenmeli — bu ikisi birlikte hareket eder.
-      - **Hizmet alanı** — G2'nin cevabıyla aynı ilçeler.
-      - **Çalışma saati** — 08:00–20:00, gerçek olan (bkz. G5).
+      - **Hizmet alanı** — G2'nin cevabıyla aynı ilçeler. **01.10.2026'da
+        yalnızca "Reşatbey" seçiliydi** — dört ilçe eklenecek.
+      - **Çalışma saati** — 08:00–23:00, profil ile site artık aynı (bkz. G5).
+
+      **Profil denetimi — 01.10.2026, ekran görüntüleriyle:**
+      | Alan | Profilde | Durum |
+      |---|---|---|
+      | Ana kategori | Beyaz Eşya Tamirhanesi | ✔ doğru, **dokunulmaz** |
+      | Açıklama | fırın · ocak · mikrodalga · davlumbaz vardı; TV ve kombi yoktu; koşulsuz "orijinal parça" | yeni metin verildi (663 kr.) — sahibi yapıştıracak |
+      | Hizmet bölgesi | yalnızca Reşatbey | 4 ilçe eklenecek |
+      | Sohbet | SMS | WhatsApp'a çevrilecek |
+      | Ek kategoriler | yok | klima · televizyon · kombi aranacak |
+      | Çalışma saati | 08:00–23:00 | ✔ doğruymuş, **site** düzeltildi |
+      | Adres | Yüreğir, dükkân | ✔ dükkân var, görünmesi doğru |
+      | Açılış tarihi | Ocak 2000 | ✔ sahibi doğruladı |
       - **Soru & cevap** — sitedeki SSS'lerden birkaçı.
       - **Gönderi** — ara ara kısa not; aktif profil daha üste çıkar.
 

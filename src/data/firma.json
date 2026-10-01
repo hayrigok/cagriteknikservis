@@ -9,7 +9,7 @@
   "eposta": "{PLACEHOLDER — KVKK başvuru e-postası}",
   "vergiDairesi": "{PLACEHOLDER — vergi dairesi}",
   "vergiNo": "{PLACEHOLDER — vergi no}",
-  "calismaSaatleri": "Her gün 08:00–20:00",
+  "calismaSaatleri": "Her gün 08:00–23:00",
   "whatsappSaatleri": "7/24 açık — gece de yazabilirsiniz",
   "googleIsletmeUrl": "https://share.google/8Kle71MrAvOuPlJS6",
   "garantiIfadesi": "Değişen parça garantili",
@@ -18,6 +18,7 @@
   "markalar": [
     "Arçelik",
     "Beko",
+    "Vestel",
     "Bosch",
     "Siemens",
     "Samsung",
