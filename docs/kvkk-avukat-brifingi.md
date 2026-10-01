@@ -1,13 +1,20 @@
-# KVKK metni — avukat inceleme brifingi
+# Hukuki metinler — avukat inceleme brifingi
 
-**Bu belge hukuki görüş değildir.** `/kvkk/` sayfasındaki metin, kanunun aradığı
-başlıkları karşılamak üzere yazılmış bir **taslaktır**. Avukatın neye bakması
-gerektiğini kolaylaştırmak için hazırlandı: metnin hangi varsayımlara dayandığı,
-hangi kısımlarının bilerek eksik bırakıldığı ve firmanın gerçek uygulamasıyla
-doğrulanması gereken noktalar aşağıda.
+**Bu belge hukuki görüş değildir.** Sitedeki hukuki metinler, kanunun aradığı
+başlıkları karşılamak üzere yazılmış **taslaklardır**. Avukatın neye bakması
+gerektiğini kolaylaştırmak için hazırlandı: metinlerin hangi varsayımlara
+dayandığı, hangi kısımlarının bilerek eksik bırakıldığı ve firmanın gerçek
+uygulamasıyla doğrulanması gereken noktalar aşağıda.
 
-Metnin canlı hâli: <https://cagribeyazesyatamir.com/kvkk/>
-Kaynak dosya: `src/pages/kvkk.astro`
+| Metin | Adres | Kaynak dosya |
+|---|---|---|
+| KVKK aydınlatma metni | <https://cagribeyazesyatamir.com/kvkk/> | `src/pages/kvkk.astro` |
+| Kullanım koşulları | <https://cagribeyazesyatamir.com/kullanim-kosullari/> | `src/pages/kullanim-kosullari.astro` |
+| Footer — yalnızca "Kullanım koşulları" ve "KVKK" bağlantıları | her sayfanın altı | `src/components/Footer.astro` |
+
+> **En önemli yeni konu 8. bölümde (01.10.2026):** işlerin bir kısmı dışarıdaki
+> ustalara veriliyor ve işletme sahibi bu işlerde sorumluluğun ustada
+> olduğunun yazılmasını istedi.
 
 ---
 
@@ -96,24 +103,25 @@ rıza aramak gereksiz ve karışıklık yaratıyor olabilir.
 
 ---
 
-## 4. Çerez ve ölçümleme bölümü — güncelliğini yitirebilir
+## 4. Çerez ve ölçümleme bölümü — 12.08.2026'da değişti
 
-Metin 5. bölümde: *"ölçümleme çerezleri **yalnızca siz onay verirseniz**
-çalışır."*
+Brifingin ilk hâlindeki bilgi artık geçerli değil. Bugünkü durum:
 
-Bu, sitenin kendi ölçüm katmanı için **doğru**: Consent Mode varsayılanı
-"denied", onay verilmeden hiçbir olay gönderilmiyor ve Google script'i
-**onaydan sonra** yükleniyor. Bu davranış test edildi.
+- **Cloudflare'in analitik script'i 29.07.2026'da kapatıldı.** Sitede onaydan
+  bağımsız çalışan başka bir üçüncü taraf script kalmadı.
+- **Google'ın ölçüm kodu 12.08.2026'dan beri her ziyaretçiye yükleniyor**,
+  onay verilmeden de. Bu, işletme sahibinin kararı; Google Ads'in etiket
+  doğrulaması başka türlü geçmiyordu. İzinler "reddedildi" durumunda başlıyor:
+  onay verilmeden **çerez yazılmıyor** ve tıklama olayı gönderilmiyor (ölçülerek
+  doğrulandı). Google'a yalnızca kimliksiz bir sayfa kaydı ulaşıyor. Metnin 5.
+  bölümü bunu açıkça yazıyor.
+- **Reklamdan gelen ziyaretlerde IP adresi 7 gün saklanıyor** (14.08.2026).
+  Amaç geçersiz tıklama tespiti; hukuki sebep olarak meşru menfaat (m.5/2-f)
+  gösterildi.
 
-**Ancak:** Cloudflare, sunucu tarafında sayfaya kendi analitik script'ini
-(`cloudflareinsights.com`) enjekte ediyor ve bu **onaydan bağımsız** çalışıyor.
-Çerezsiz olduğu ve cihazda veri saklamadığı belirtiliyor.
-
-**Avukata sorulacak:** Çerezsiz, cihazda veri saklamayan bu ölçüm için onay
-gerekir mi? Gerekmiyorsa bile metindeki "yalnızca onay verirseniz" ifadesi
-düzeltilmeli mi?
-
-> Bu script kapatılırsa (bkz. CLAUDE.md → B10) soru tamamen ortadan kalkar.
+**Avukata sorulacak:** Onay verilmeden yüklenen ama çerez yazmayan ölçüm kodu
+metinde doğru anlatılmış mı? IP kaydı için meşru menfaat dayanağı ve 7 günlük
+süre uygun mu?
 
 ---
 
@@ -135,9 +143,11 @@ düzeltilmeli mi?
 3. Saklama süresi nasıl yazılmalı — firmanın fiilî uygulaması nedir?
 4. Hukuki sebep olarak sözleşme mi, açık rıza mı, ikisi mi?
 5. WhatsApp'a yönlendirme "aktarım" olarak doğru tarif edilmiş mi?
-6. Çerezsiz analitik için onay ifadesi düzeltilmeli mi?
+6. Onaysız yüklenen ölçüm kodu ve 7 günlük IP kaydı metinde doğru anlatılmış mı?
 7. Sitede ayrıca **çerez politikası** ve **gizlilik politikası** gerekir mi,
    yoksa bu tek metin yeterli mi?
+8. **Dışarıya verilen işler — 8. bölümdeki yedi soru.** En öncelikli olanlar
+   bunlar.
 
 ---
 
@@ -151,3 +161,79 @@ düzeltilmeli mi?
   yalnızca servis talebi için kullanılıyor.
 
 Bu üçü gündeme gelirse metin yeniden ele alınmalıdır.
+
+---
+
+## 8. Yeni konu (01.10.2026): işlerin bir kısmı dışarıdaki ustalara veriliyor
+
+**İşletme sahibinin bildirdiği:** Servis işlerinin bir kısmını kendi ekibi
+yapıyor, bir kısmını dışarıdaki bağımsız ustalara veriyor. Sahibi, dışarı
+verilen işlerde sorumluluğun **firmada değil, işi yapan ustada** olduğunun
+sitede yazılmasını istedi.
+
+### 8.1 Sitede şu an yazan (taslak)
+
+- **`/kullanim-kosullari/`** — kapsam · işi kim yapar · sorumluluk · ücret ve
+  onay · marka adları · arıza rehberindeki bilgilerin niteliği · şikâyet yolları
+  (tüketici hakem heyeti / tüketici mahkemesi) · kişisel veriler. Sayfanın
+  özü: *"Firmamız aracı kurum olarak hizmet verir … Sorumluluk firmamıza
+  değil, işi yapan ustaya aittir."*
+- **Footer** — metin footer'da **görünmüyor**, her sayfanın altında yalnızca
+  "Kullanım koşulları" bağlantısı var (işletme sahibinin tercihi).
+- **`/kvkk/` 4. bölüm** — ustaya veri aktarımı paragrafı eklendi. Eski
+  *"verilerinizi hiçbir üçüncü kişiye devretmiyoruz"* cümlesi kaldırıldı;
+  usta müşterinin adını, telefonunu ve adresini aldığı için artık yanlıştı.
+
+### 8.2 İşletme sahibinin tercihleri
+
+Metin işletme sahibinin istediği ifadelerle yazıldı:
+
+- **"Aracı kurum" ifadesi** açıkça kullanılıyor.
+- **Sorumluluk reddi bütün işleri kapsıyor:** kendi ekibin yaptığı işler de
+  dahil, sorumluluk "işi yapan ustaya" bırakılıyor.
+- Metinde **"tüketici haklarınız saklıdır"** gibi bir çekince yok.
+
+### 8.3 Avukata sorulacak
+
+1. **Sorumluluk cümlesi müşteriye karşı hüküm doğurur mu?** Müşteri firmanın
+   numarasını arıyor, ustayı firma gönderiyor. Borçlar Kanunu m.116 (yardımcı
+   kişilerin fiillerinden sorumluluk), m.115 (sorumsuzluk anlaşmaları) ve 6502
+   sayılı Kanun m.5 (haksız şartlar) karşısında durumu nedir? Hüküm
+   doğurmuyorsa, sitede durması ayrı bir risk yaratır mı?
+2. **Ustalarla yazılı sözleşme** — sorumluluk, garanti, firmaya rücu, sigorta
+   ve kişisel verinin korunması nasıl düzenlenmeli? Asıl korumanın sitedeki
+   cümlede değil bu sözleşmede olduğunu düşünüyoruz.
+3. **KVKK:** Usta veri işleyen mi, ayrı veri sorumlusu mu? Aktarımın dayanağı
+   olarak m.5/2-c (sözleşmenin ifası) yeterli mi? Formdaki onay kutusu
+   (*"bilgilerimin bana dönüş yapılması amacıyla işlenmesini onaylıyorum"*)
+   ustaya aktarımı kapsayacak şekilde değişmeli mi?
+4. **Önceden bildirim:** Şu an müşteriye söylenmiyor; işletme sahibi
+   müşterinin bunu siteden öğrendiğini varsayıyor (bkz. 8.4). Footer'daki
+   bağlantının arkasındaki kullanım koşulları sayfası yeterli bir bildirim
+   sayılır mı? Siteyi hiç
+   görmeden, **Google reklamındaki arama düğmesinden veya Google Haritalar'dan
+   doğrudan arayan** müşteriler için durum nedir?
+5. **"Aracı kurum" ifadesi** başka bir yükümlülük doğurur mu? Bu terim
+   sermaye piyasası mevzuatında SPK lisanslı kuruluşlar için kullanılıyor;
+   6563 sayılı Kanun'da da "aracı hizmet sağlayıcı" tanımı var. Site üzerinden
+   sözleşme kurulmuyor, yalnızca WhatsApp'a yönlendiriliyor.
+   Kendi ekibin yaptığı işleri de kapsayan sorumluluk reddi ayrıca
+   değerlendirilmeli (1. soru).
+6. **Şikâyet yolları bölümü** (hakem heyeti / tüketici mahkemesi / e-Devlet)
+   doğru ve yeterli mi?
+7. **Komisyon:** Firma dışarı verilen işlerden yalnızca komisyon alıyor.
+   Sitede komisyon yazmıyor. Bunun müşteriye açıklanması gerekir mi?
+
+### 8.4 İşletme sahibinin cevapları (01.10.2026)
+
+| Soru | Cevap |
+|---|---|
+| Faturayı kim kesiyor? | **Usta.** Firma yalnızca komisyon alıyor. |
+| Parça garantisini kim veriyor? | **Usta.** Sitedeki *"Değişen parça garantili"* sözü bu yüzden dışarı verilen işlerde de doğru. |
+| Müşteriye dışarıdan usta geleceği söyleniyor mu? | **Hayır.** Müşterinin bunu siteden öğrendiği varsayılıyor. |
+
+**Hâlâ bilinmeyen:** Ustalarla **yazılı bir anlaşma** var mı?
+
+> **Kapsam dışı ama gündeme gelebilir:** komisyon gelirinin ve kendi ekibin
+> yaptığı işlerin fatura/vergi düzeni bu brifingin konusu değil. Mali
+> müşavirle ayrıca konuşulmalı.

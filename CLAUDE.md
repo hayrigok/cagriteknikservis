@@ -953,7 +953,7 @@ amaca (üst sıra → çalan telefon) hizmet ettikleri ölçüde yapıldı.
 | 2 | **İşletme profilini doldurmak** · G6 | Sahibi | **Televizyon + kombi eklendi** (sahibi bildirdi 12.08.2026) ✔ · kalan: fotoğraf · hizmet alanı · S&C · gönderi. |
 | 3 | **Blog yazısı eklemek** · D5 | Claude | 17 yazı · **10 hizmetin 10'u kapsandı** ✔ — yazısız hizmet kalmadı. Bundan sonrası derinleştirme; sıradaki adaylar D5'te. |
 | 4 | ~~İlçe listesi~~ · G2 | — | **CEVAPLANDI 12.08.2026:** dört ilçe (Seyhan · Yüreğir · Çukurova · Sarıçam), hepsinin **bütün mahalle ve semtleri**. Yeni ilçe açılmayacak. |
-| 5 | **KVKK metnini avukata okutmak** · E1 | Sahibi | Brifing hazır: `docs/kvkk-avukat-brifingi.md`. |
+| 5 | **Hukuki metinleri avukata okutmak** · E1 · **E3** | Sahibi | Brifing hazır: `docs/kvkk-avukat-brifingi.md` — **8. bölüm öncelikli** (dışarıya verilen işler, 01.10.2026). |
 
 **✅ REKLAM YAYINDA — 14.08.2026.** Standart Arama kampanyası kuruldu ve
 etkinleştirildi, **akıllı kampanya aynı anda duraklatıldı**. 11 reklam grubu ·
@@ -1052,7 +1052,7 @@ fiyatı sahanın bilgisi.
 | Ölçüt | Şu an | Hedef |
 |---|---|---|
 | Yayın | **canlı** — https://cagribeyazesyatamir.com | ✔ |
-| Üretilen sayfa | **73** (33 sabit/blog + 40 para sayfası) — fırın-ocak kapatıldı 14.08.2026 (G3) | ✔ |
+| Üretilen sayfa | **74** (34 sabit/blog + 40 para sayfası) — `/kullanim-kosullari/` eklendi 01.10.2026 (E3) | ✔ |
 | Kapsam | **4 ilçe × 10 hizmet** — ilçelerin **bütün mahalle ve semtleri** (G2 cevaplandı 12.08.2026) | ✔ sabitlendi |
 | Geçerli ilçe (`yerelNotlar`) | **4 / 4** ✔ | 4 / 4 |
 | Blog yazısı | **17** — **10 hizmetin 10'u kapsandı** ✔ (yazısız hizmet kalmadı) | — |
@@ -1063,7 +1063,7 @@ fiyatı sahanın bilgisi.
 |---|---|---|
 | Canlı SEO denetimi | **50/50 temiz · açık yok** ✔ | 0 açık |
 | Search Console | **doğrulandı** ✔ (DNS TXT) · **sitemap gönderildi, 60 adres** ✔ | rapor okumak (G1) — 1–2 hafta sonra |
-| Site haritası | **71 adres** (78 → 71: fırın-ocak kapatıldı, 14.08.2026) | push sonrası canlıda doğrulanacak |
+| Site haritası | **72 adres** (71 → 72: `/kullanim-kosullari/`, 01.10.2026) | push sonrası canlıda doğrulanacak |
 | Ölçümleme | **GA4 + Ads çalışıyor** — `G-818Z2EG00L` · `AW-18353257077` (12.08.2026, canlıda ölçüldü) | ✔ |
 | Google yorumu | **18** (12.08.2026, sahibi bildirdi) — ilk hedef (10–15) **aşıldı** ✔ | akışı sürdürmek (D4) |
 | **Google Ads** | **YAYINDA** — 11 grup · **250+ kelime** · bütçe **₺350/gün (₺100'e indirilecek)** · teklif stratejisi **öğrenme aşamasında** · 10 günde **₺1.915,63 · 149 tıklama · 0 dönüşüm** | C10 negatifleri uygulandı · 3 günlük temiz test bekliyor |
@@ -1116,7 +1116,7 @@ düşer.
 | **B** | Teknik işler | B5 |
 | **C** | Reklam tarafı — **ertelendi** | C1–C7 |
 | **D** | İçerik ve iyileştirme | D1 · D4 · D5 |
-| **E** | Hukuk | E1 · E2 |
+| **E** | Hukuk | E1 · E2 · E3 |
 | **G** | İş kapma: kapsam · ölçüm · operasyon | G1–G6 |
 | **F** | Yayına çıkış listesi | **arşiv** — yalnızca 20. madde açık |
 
@@ -2341,6 +2341,43 @@ Aşağıdakiler o gün için duruyor:
       açıkça yazıyor. Tebliğ m.5/2'nin istediği başvuru içeriği (ad soyad, imza,
       T.C. kimlik no, tebligat adresi, talep konusu) de sayfaya eklendi.
 
+- [ ] **E3. "ARACI KURUM" + SORUMLULUK REDDİ — `/kullanim-kosullari/` sayfası
+      eklendi, 01.10.2026. Metin SAHİBİNİN KARARI; avukat incelemesi sahibinde
+      (brifing 8. bölüm). Tekrar tartışmayın.**
+
+      Sahibi önce *"aracı kurum olduğumuzu yaz"* dedi, sorulunca netleşti:
+      *"hem biz yapıyoruz işi hem de dışarıya da veriyoruz"* ve *"sorumluluğun
+      bize ait olmadığını, gelen ustanın olduğunu"* yazılmasını istedi.
+      Riskler (Google İşletme Profili'nin yalnızca-yönlendirme yapan firmaları
+      kabul etmemesi · "aracı kurum"un SPK terimi olması · sorumluluk reddinin
+      TBK m.115–116 / 6502 m.5 karşısında müşteriye karşı tutmayabileceği ·
+      asıl korumanın ustalarla yazılı sözleşme olduğu) **bir kez anlatıldı**;
+      sahibinin cevabı: *"sen dediğimi yap, etik kısmını sorgulama, orayı ben
+      hallediyorum."* **Bu yüzden ifade sahibinin istediği gibi:** "aracı kurum"
+      açıkça yazılı, sorumluluk bütün işlerde "işi yapan ustada", "tüketici
+      haklarınız saklıdır" çekincesi yok.
+
+      **Yapılanlar:**
+      - **`/kullanim-kosullari/`** — yeni sayfa, sitemap'te (71 → 72). Kapsam ·
+        işi kim yapar · sorumluluk · ücret ve onay · marka adları · arıza rehberi
+        bilgilendirmesi · şikâyet yolları · kişisel veriler.
+      - **Footer'da METİN YOK, yalnızca bağlantı** — "Site" sütununda
+        "Kullanım koşulları". Sahibi: *"ana sayfada gözükmesin, tıklayıp
+        görsünler."* Önce footer'a görünür bir hukuk bloğu konmuştu, bu istekle
+        kaldırıldı; footer'ın alt şeridi eski hâline (marka reddi beyanı) döndü.
+      - `/kvkk/` 4. bölüm → **ustaya aktarım paragrafı.** Eski *"hiçbir üçüncü
+        kişiye devretmiyoruz"* cümlesi **yanlışa dönmüştü**, kaldırıldı. İkisi
+        BİRLİKTE hareket eder.
+
+      **Sahibinin verdiği bilgiler — sayfadaki iddialar bunlara dayanıyor:**
+      | Soru | Cevap | Sayfadaki karşılığı |
+      |---|---|---|
+      | Faturayı kim keser? | **Usta** — firma yalnızca **komisyon** alır | "faturayı usta keser" yazılı · komisyon **yazılmadı** |
+      | Parça garantisini kim verir? | **Usta** | "Değişen parça garantili" sözü dışarı verilen işte de **doğru kalıyor** |
+      | Müşteriye önceden söyleniyor mu? | **Hayır** — siteden öğrendiği varsayılıyor | — |
+
+      Bu cevaplardan biri değişirse `kullanim-kosullari.astro` 2. ve 3. bölüm
+      düzeltilir.
 ---
 
 ### G. İş kapma — kapsam, ölçüm ve operasyon (29.07.2026'da açıldı)

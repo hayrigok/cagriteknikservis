@@ -1,0 +1,175 @@
+---
+/*
+  Kullanım koşulları — 01.10.2026'da eklendi, sahibinin isteği ve ifadesiyle.
+
+  Metin sahibinin kararı: "aracı kurum" ifadesi ve sorumluluğun firmada değil
+  işi yapan ustada olduğu cümlesi sahibinin istediği gibi yazıldı. Hukuki
+  tarafı sahibi ve avukatı yürütüyor (CLAUDE.md → E3 · brifing:
+  docs/kvkk-avukat-brifingi.md → 8. bölüm).
+
+  Sahibinin verdiği bilgiler (01.10.2026) — metindeki iddialar BUNLARA dayanıyor:
+  dışarı verilen işte faturayı USTA keser · parça garantisini USTA verir ·
+  firma yalnızca komisyon alır (sitede yazılmıyor). Bunlardan biri değişirse
+  2. ve 3. bölüm düzeltilir.
+
+  Metin YALNIZCA bu sayfada durur; Footer'da sadece bağlantısı var (sahibi:
+  "ana sayfada gözükmesin"). Bu sayfa ile /kvkk/ 4. bölüm (ustaya veri
+  aktarımı) BİRLİKTE hareket eder.
+*/
+import BaseLayout from '@/layouts/BaseLayout.astro';
+import Bolum from '@/components/Bolum.astro';
+import StickyUstCubuk from '@/components/StickyUstCubuk.astro';
+import AltCta from '@/components/AltCta.astro';
+import Footer from '@/components/Footer.astro';
+import MobilBar from '@/components/MobilBar.astro';
+import YanButonlar from '@/components/YanButonlar.astro';
+import Ikon from '@/components/Ikon.astro';
+
+import { firma, deger } from '@/lib/veri';
+import { breadcrumb } from '@/lib/schema';
+
+const waMesaji = 'Merhaba, servis talebi için bilgi almak istiyorum.';
+
+// KVKK sayfasıyla aynı düşüş: ünvan yayımlanmıyor (A4), kısa ada düşülür.
+const firmaAdi = deger(firma.unvan) ?? firma.kisaAd;
+const telefon = deger(firma.telefon);
+
+const sorumluluk = [
+  {
+    baslik: 'Yapılan iş ve takılan parça',
+    metin: 'Sorumluluk firmamıza değil, işi yapan ustaya aittir.',
+  },
+  {
+    baslik: 'İş sırasında doğan zarar',
+    metin: 'Cihazda veya adreste doğabilecek zarardan işi yapan usta sorumludur.',
+  },
+  {
+    baslik: 'Fatura ve garanti',
+    metin:
+      'Dışarıya verilen işlerde faturayı işi yapan usta keser, değişen parçanın garantisini usta verir.',
+  },
+];
+---
+
+<BaseLayout
+  title="Kullanım Koşulları"
+  description="Servis işlerini kimin yaptığı, sorumluluğun kime ait olduğu, ücret ve onay, arıza rehberindeki bilgilerin niteliği ve şikâyet yolları."
+  yol="/kullanim-kosullari/"
+  schema={[
+    breadcrumb(Astro.site!, [
+      { ad: 'Ana sayfa', yol: '/' },
+      { ad: 'Kullanım Koşulları', yol: '/kullanim-kosullari/' },
+    ]),
+  ]}
+  sayfaKimligi="kullanim-kosullari"
+>
+  <StickyUstCubuk />
+
+  <main id="icerik">
+
+  <section class="koyu-blok bg-lacivert-900">
+    <div class="kap py-16 lg:py-20">
+      <p class="plaka text-turuncu-300">Yasal</p>
+      <h1 class="text-h1 mt-4 max-w-3xl leading-[1.05] font-bold tracking-tight text-white">
+        Kullanım Koşulları
+      </h1>
+      <p class="text-lead mt-5 max-w-2xl leading-relaxed text-lacivert-200">
+        Servis işlerini kimin yaptığını, sorumluluğun kime ait olduğunu ve bir sorun
+        çıkarsa nereye başvuracağınızı açıklıyoruz.
+      </p>
+    </div>
+  </section>
+
+  <Bolum etiket="1" baslik="Kapsam" zemin="zemin">
+    <p class="max-w-3xl leading-relaxed text-metin">
+      Bu koşullar, <strong class="text-lacivert-900">{firmaAdi}</strong> adıyla telefon,
+      WhatsApp veya bu sitedeki form üzerinden aldığımız servis talepleri için geçerlidir.
+    </p>
+  </Bolum>
+
+  <Bolum etiket="2" baslik="İşi kim yapar">
+    <p class="max-w-3xl leading-relaxed text-metin">
+      Firmamız <strong class="text-lacivert-900">aracı kurum</strong> olarak hizmet verir.
+      Servis işlerinin bir kısmını <strong class="text-lacivert-900">kendi ekibimizle</strong>
+      yapar, bir kısmını <strong class="text-lacivert-900">anlaşmalı çalıştığımız bağımsız
+      ustalara</strong> yönlendiririz. Bağımsız usta firmamızın çalışanı değildir; işini
+      kendi sorumluluğunda yapar.
+    </p>
+  </Bolum>
+
+  <Bolum etiket="3" baslik="Sorumluluk" zemin="zemin">
+    <ul class="grid max-w-3xl gap-3">
+      {
+        sorumluluk.map((s) => (
+          <li class="flex items-start gap-3 rounded-sm border-l-4 border-turuncu-600 bg-white px-5 py-4">
+            <Ikon ad="onay" boyut={18} class="mt-1 shrink-0 text-turuncu-600" />
+            <span>
+              <span class="font-bold text-lacivert-900">{s.baslik}</span>
+              <span class="text-metin-soluk"> — {s.metin}</span>
+            </span>
+          </li>
+        ))
+      }
+    </ul>
+  </Bolum>
+
+  <Bolum etiket="4" baslik="Ücret ve onay">
+    <p class="max-w-3xl leading-relaxed text-metin">
+      Ücret, cihaz görüldükten sonra ve işleme başlamadan önce söylenir.
+      <strong class="text-lacivert-900">Onayınız olmadan işlem yapılmaz.</strong>
+      Takılacak parçanın orijinal mi muadil mi olduğu ve varsa fiyat farkı da işleme
+      başlamadan önce söylenir.
+    </p>
+  </Bolum>
+
+  <Bolum etiket="5" baslik="Marka adları" zemin="zemin">
+    <p class="max-w-3xl leading-relaxed text-metin">
+      Bağımsız bir servis firmasıyız; hiçbir üreticiyle bayilik veya temsilcilik
+      ilişkimiz yoktur. Sitede anılan marka adları yalnızca hangi ürünlerde hizmet
+      verdiğimizi belirtmek için kullanılmıştır ve ilgili sahiplerine aittir.
+    </p>
+  </Bolum>
+
+  <Bolum etiket="6" baslik="Arıza rehberindeki bilgiler">
+    <p class="max-w-3xl leading-relaxed text-metin">
+      <a href="/blog/" class="font-semibold text-lacivert-700 underline">Arıza rehberindeki</a>
+      yazılar genel bilgilendirme amaçlıdır; cihazınızın yerinde görülerek yapılan
+      teşhisin yerine geçmez. Yazılardaki kontrolleri kendi sorumluluğunuzda yaparsınız.
+      Elektrik, gaz, su tesisatı ve sıcak yüzeylerle ilgili uyarılara uyun; emin
+      olmadığınız bir işlemi yapmayın.
+    </p>
+  </Bolum>
+
+  <Bolum etiket="7" baslik="Şikâyet ve başvuru yolları" zemin="zemin">
+    <div class="max-w-3xl space-y-4 leading-relaxed text-metin">
+      <p>
+        Bir sorun yaşarsanız önce bizi arayın{telefon && (
+          <>: <span class="rakam font-semibold text-lacivert-900">{telefon}</span></>
+        )}. Anlaşmalı bir ustanın yaptığı işlerde ustanın adı, onun kestiği faturada
+        yazar; bize sorarsanız da söyleriz.
+      </p>
+      <p>
+        Sorun çözülemezse, Ticaret Bakanlığı'nın her yıl belirlediği parasal sınırların
+        altındaki uyuşmazlıklarda <strong class="text-lacivert-900">tüketici hakem
+        heyetine</strong>, üzerindeki uyuşmazlıklarda <strong class="text-lacivert-900">tüketici
+        mahkemesine</strong> başvurabilirsiniz. Hakem heyeti başvurusu e-Devlet üzerinden
+        de yapılabilir.
+      </p>
+    </div>
+  </Bolum>
+
+  <Bolum etiket="8" baslik="Kişisel veriler">
+    <p class="max-w-3xl leading-relaxed text-metin">
+      Talebinizi anlaşmalı bir ustaya yönlendirdiğimizde, işin yapılabilmesi için gereken
+      bilgileriniz yalnızca o ustayla paylaşılır. Ayrıntılar
+      <a href="/kvkk/" class="font-semibold text-lacivert-700 underline">KVKK aydınlatma metninde</a>.
+    </p>
+  </Bolum>
+
+  <AltCta baslik="Sorunuz mu var?" waMesaji={waMesaji} />
+  </main>
+
+  <Footer />
+  <MobilBar waMesaji={waMesaji} />
+  <YanButonlar waMesaji={waMesaji} />
+</BaseLayout>
