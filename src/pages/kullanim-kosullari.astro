@@ -16,6 +16,13 @@
   KALDIRILDI — sahibinin isteği. Metni avukat yazmadan geri konmaz
   (brifing 8.3/6).
 
+  ARAMA MOTORLARINA KAPALI (noindex + sitemap'te yok) — 01.10.2026, sahibinin
+  isteği. Gerekçe: arama sonuçları ve yapay zekâ özetleri firmayı bu sayfadaki
+  "aracı kurum" ifadesiyle tanıtmasın; firma "beyaz eşya servisi" olarak
+  tanınsın. Sayfa footer bağlantısıyla herkese açık kalıyor. llms.txt de bu
+  sayfaya bağlantı VERMEZ. Açılırsa integrations/site-haritasi.mjs → HARIC
+  listesinden de çıkarılmalı.
+
   Metin YALNIZCA bu sayfada durur; Footer'da sadece bağlantısı var (sahibi:
   "ana sayfada gözükmesin"). Bu sayfa ile /kvkk/ 4. bölüm (ustaya veri
   aktarımı) BİRLİKTE hareket eder.
@@ -59,6 +66,7 @@ const sorumluluk = [
   title="Kullanım Koşulları"
   description="Servis işlerini kimin yaptığı, sorumluluğun kime ait olduğu, ücret ve onay ile arıza rehberindeki bilgilerin niteliği."
   yol="/kullanim-kosullari/"
+  dizinlenmesin
   schema={[
     breadcrumb(Astro.site!, [
       { ad: 'Ana sayfa', yol: '/' },

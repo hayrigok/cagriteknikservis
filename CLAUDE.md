@@ -588,6 +588,20 @@ adı değişen yakın-kopya başlıklar oluşmaz. Sınır aşılırsa build uyar
 JSON-LD: ana sayfada `HVACBusiness`, para sayfalarında `Service` + `FAQPage` +
 `BreadcrumbList`.
 
+**Yapay zekâ araçları için tanım — 01.10.2026, sahibinin isteği** (firma
+"beyaz eşya servisi / beyaz eşya tamiri" olarak tanınsın). Üç parça, üçü de
+**veriden** üretiliyor, elle tutulan kopya yok:
+- `hvacBusiness()` → **`description` + `knowsAbout`** — asıl işi yapan bu.
+- Ana sayfa "Hizmetler" giriş cümlesi: *"beyaz eşya servisi, beyaz eşya
+  tamiri ve klima servisi"*. "Beyaz eşya tamiri" o güne kadar ana sayfada
+  **hiç geçmiyordu** (yalnızca 4 blog sayfasında).
+- **`/llms.txt`** (`src/pages/llms.txt.ts`). **Beklenti düşük:** Google
+  kullanmadığını söyledi, diğerlerinin kullandığına kanıt yok; maliyeti sıfır
+  olduğu için duruyor. Sitemap dışı (`HARIC`).
+
+Yerel aramada yapay zekâ özetlerinin en güçlü kaynağı ise **Google İşletme
+Profili'nin kategorisi** — sitede değil panelde (G6).
+
 **`AggregateRating` şeması bilerek üretilmiyor.** Google kendi sitesine gömülen yerel
 işletme puanlarını göstermiyor, uydurma puan ise ceza riski. Eklemeyin.
 
@@ -1063,7 +1077,7 @@ fiyatı sahanın bilgisi.
 |---|---|---|
 | Canlı SEO denetimi | **50/50 temiz · açık yok** ✔ | 0 açık |
 | Search Console | **doğrulandı** ✔ (DNS TXT) · **sitemap gönderildi, 60 adres** ✔ | rapor okumak (G1) — 1–2 hafta sonra |
-| Site haritası | **72 adres** (71 → 72: `/kullanim-kosullari/`, 01.10.2026) | push sonrası canlıda doğrulanacak |
+| Site haritası | **71 adres** — `/kullanim-kosullari/` eklendi ama **noindex**, sitemap dışı (01.10.2026) | push sonrası canlıda doğrulanacak |
 | Ölçümleme | **GA4 + Ads çalışıyor** — `G-818Z2EG00L` · `AW-18353257077` (12.08.2026, canlıda ölçüldü) | ✔ |
 | Google yorumu | **18** (12.08.2026, sahibi bildirdi) — ilk hedef (10–15) **aşıldı** ✔ | akışı sürdürmek (D4) |
 | **Google Ads** | **YAYINDA** — 11 grup · **250+ kelime** · bütçe **₺350/gün (₺100'e indirilecek)** · teklif stratejisi **öğrenme aşamasında** · 10 günde **₺1.915,63 · 149 tıklama · 0 dönüşüm** | C10 negatifleri uygulandı · 3 günlük temiz test bekliyor |
@@ -2358,7 +2372,10 @@ Aşağıdakiler o gün için duruyor:
       haklarınız saklıdır" çekincesi yok.
 
       **Yapılanlar:**
-      - **`/kullanim-kosullari/`** — yeni sayfa, sitemap'te (71 → 72). Kapsam ·
+      - **`/kullanim-kosullari/`** — yeni sayfa. **Arama motorlarına KAPALI**
+        (`dizinlenmesin` → noindex · sitemap `HARIC`) — sahibinin isteği: arama
+        sonucu ve yapay zekâ özetleri firmayı "aracı kurum" diye değil
+        "beyaz eşya servisi" diye tanıtsın. `llms.txt` de bu sayfaya bağlanmaz. Kapsam ·
         işi kim yapar · sorumluluk · ücret ve onay · marka adları · arıza rehberi
         bilgilendirmesi · "bir sorun olursa önce bizi arayın" · kişisel veriler.
         **Hakem heyeti / tüketici mahkemesi paragrafı kaldırıldı** (sahibi:

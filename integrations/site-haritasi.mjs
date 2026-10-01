@@ -20,8 +20,10 @@ import { writeFile } from 'node:fs/promises';
  * noindex basan sayfalar sitemap'e girmez — ikisi çelişirse Google'a karışık
  * sinyal gider. tesekkurler: form sonrası dönüşüm adresi, arama sonucunda
  * görünmemeli; oraya organik trafik akarsa Ads dönüşüm raporu da kirlenir.
+ * kullanim-kosullari: sahibinin isteğiyle arama motorlarına kapalı (CLAUDE.md → E3).
+ * llms.txt: sayfa değil, yapay zekâ araçları için düz metin özet.
  */
-const HARIC = new Set(['404', 'tesekkurler']);
+const HARIC = new Set(['404', 'tesekkurler', 'kullanim-kosullari', 'llms.txt']);
 
 const kacir = (s) => s.replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/>/g, '&gt;');
 

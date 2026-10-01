@@ -1,5 +1,5 @@
 import type { Hizmet, Ilce } from './types';
-import { deger, doldurulmusMu, firma, tumIlceler } from './veri';
+import { aktifHizmetler, deger, doldurulmusMu, firma, tumIlceler } from './veri';
 
 // NOT: AggregateRating bilerek üretilmiyor. Google kendi sitesine gömülen
 // yerel işletme puanlarını göstermiyor; uydurma puan ise ceza riski taşıyor.
@@ -48,14 +48,36 @@ function calismaSaatiSemasi(metin: string) {
   };
 }
 
+/** "A, B ve C" — okunacak cümleye hazır liste. */
+function veIleBagla(liste: string[]): string {
+  if (liste.length < 2) return liste.join('');
+  return `${liste.slice(0, -1).join(', ')} ve ${liste[liste.length - 1]}`;
+}
+
 export function hvacBusiness(site: URL) {
-  const bolgeler = tumIlceler()
-    .filter((i) => i.aktif)
-    .map((i) => ({
-      '@type': 'AdministrativeArea',
-      name: i.ad,
-      containedInPlace: { '@type': 'City', name: i.sehir },
-    }));
+  const aktifIlceler = tumIlceler().filter((i) => i.aktif);
+  const bolgeler = aktifIlceler.map((i) => ({
+    '@type': 'AdministrativeArea',
+    name: i.ad,
+    containedInPlace: { '@type': 'City', name: i.sehir },
+  }));
+  const hizmetAdlari = aktifHizmetler().map((h) => h.ad);
+
+  /*
+    description + knowsAbout — 01.10.2026. "Ne iş yapıyoruz" sorusunun makine
+    okunur cevabı; Google ve yapay zekâ araçları firmayı buradan tanımlıyor.
+    İkisi de VERİDEN türüyor: hizmet kapatılınca (fırın-ocak gibi) buradan da
+    kendiliğinden düşer. Ana sayfada görünen metinle aynı şeyi söyler —
+    ekranda olmayan bir iddiayı şemaya yazmayın.
+  */
+  const tanim = [
+    `Beyaz eşya servisi ve beyaz eşya tamiri. Hizmetler: ${veIleBagla(hizmetAdlari)}.`,
+    aktifIlceler.length > 0 &&
+      `Hizmet bölgesi: ${veIleBagla(aktifIlceler.map((i) => i.ad))} (${firma.sehir}).`,
+    'Bağımsız servis; hiçbir üreticinin bayisi veya temsilcisi değildir.',
+  ]
+    .filter(Boolean)
+    .join(' ');
 
   return temiz({
     '@context': 'https://schema.org',
@@ -77,6 +99,8 @@ export function hvacBusiness(site: URL) {
     */
     name: deger(firma.isletmeAdi) ?? firma.kisaAd,
     alternateName: firma.kisaAd,
+    description: tanim,
+    knowsAbout: ['Beyaz eşya servisi', 'Beyaz eşya tamiri', ...hizmetAdlari],
     legalName: firma.unvan,
     telephone: firma.telefon,
     email: firma.eposta,
