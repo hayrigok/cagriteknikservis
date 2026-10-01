@@ -299,12 +299,20 @@ export function hizmetMarkalari(h?: Pick<Hizmet, 'markalar'>): string[] {
 }
 
 /**
+ * SSS cevabına giren en fazla marka adedi. Marka şeridi listenin TAMAMINI
+ * basar; cümle ise kısa kalır — 27 televizyon markasını tek cümlede saymak
+ * okunmaz ve anahtar kelime doldurma görünümü verir. Genel liste (12) bu
+ * sınırın içinde kaldığı için beyaz eşya sayfaları etkilenmez.
+ */
+const SSS_MARKA_ADEDI = 12;
+
+/**
  * Marka adları, okunacak cümleye hazır: "Arçelik, Beko … ve Miele".
  * Liste boşsa null döner ve `{markalar}` taşıyan SSS hiç basılmaz —
- * {PLACEHOLDER} sözleşmesinin aynısı.
+ * {PLACEHOLDER} sözleşmesinin aynısı. `adet` verilirse ilk o kadarı girer.
  */
-export function markaMetni(h?: Pick<Hizmet, 'markalar'>): string | null {
-  const liste = hizmetMarkalari(h);
+export function markaMetni(h?: Pick<Hizmet, 'markalar'>, adet?: number): string | null {
+  const liste = hizmetMarkalari(h).slice(0, adet);
   if (liste.length === 0) return null;
   if (liste.length === 1) return liste[0] as string;
   return `${liste.slice(0, -1).join(', ')} ve ${liste[liste.length - 1]}`;
@@ -325,7 +333,7 @@ export function markaMetni(h?: Pick<Hizmet, 'markalar'>): string | null {
 */
 function sssCoz(h: Hizmet): Hizmet {
   if (!h.sss.some((s) => s.cevap.includes('{markalar}'))) return h;
-  const m = markaMetni(h);
+  const m = markaMetni(h, SSS_MARKA_ADEDI);
   return {
     ...h,
     sss: h.sss.map((s) =>

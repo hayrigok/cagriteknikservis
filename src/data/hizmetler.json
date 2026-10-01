@@ -861,7 +861,7 @@
     "cihaz": "Televizyon",
     "ozet": "Açılmayan, görüntü vermeyen, sesi gitmeyen televizyonlarda yerinde tespit; gerekirse atölyede onarım.",
     "aktif": true,
-    "markalar": ["Samsung", "LG", "Vestel", "Arçelik", "Beko", "Grundig", "Sony", "Philips", "TCL", "Toshiba"],
+    "markalar": ["Samsung", "LG", "Vestel", "Arçelik", "Beko", "Grundig", "Sony", "Philips", "TCL", "Toshiba", "Regal", "Redline", "Next", "Hi-Level", "Axen", "Onvo", "Sunny", "Awox", "Altus", "Dijitsu", "Hisense", "Xiaomi", "Panasonic", "Telefunken", "JVC", "Saba", "Nordmende"],
     "ariza": [
       {
         "baslik": "Televizyon açılmıyor, ön ışık yanıp sönüyor",
