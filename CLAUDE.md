@@ -1049,7 +1049,7 @@ fiyatı sahanın bilgisi.
 | A3 | **Fiyat yayımlanmayacak** — fiyat istemeyin |
 | A4 | **Künye yayımlanmayacak** — ünvan/adres/e-posta/vergi istemeyin (riski E2'de) |
 | A5 | Google işletme profili **bağlandı**; şema adı gerçek işletme adına çekildi |
-| A6 | **TERSİNE ÇEVRİLDİ 12.08.2026** — 11 marka eklendi (**Vestel ile 12**, 01.10.2026; **televizyonun kendi listesi var** — `Hizmet.markalar`, 27 TV markası; şerit hepsini, SSS cümlesi ilk 12'sini basar — TV sayfasında marka yoğunluğu %3,3, **daha fazla uzatmayın**), tek kaynak `firma.json`, her cümle "… dahil bütün markalar" ile biter |
+| A6 | **TERSİNE ÇEVRİLDİ 12.08.2026** — 11 marka eklendi (**Vestel ile 12**, 01.10.2026; **televizyonun kendi listesi var** — `Hizmet.markalar`, 27 TV markası; şerit hepsini, SSS cümlesi ilk 12'sini basar — TV sayfasında marka yoğunluğu %3,3, **daha fazla uzatmayın**; **kombinin de kendi listesi var** — 16 kombi markası, Demirdöküm başta; klima hâlâ genel listeyi kullanıyor), tek kaynak `firma.json`, her cümle "… dahil bütün markalar" ile biter |
 | A2 | **Mahalle listesi yayımlanmayacak** (12.08.2026) — mahalle adı istemeyin |
 | A8 | Alan adı: `cagribeyazesyatamir.com` |
 | D2 | **Hero görseli yok** — fotoğraf istemeyin (profil fotoğrafı ayrı konu, G6) |

@@ -965,6 +965,7 @@
     "cihaz": "Kombi",
     "ozet": "Petek ısıtmayan, basınç düşüren, sıcak su vermeyen kombilerde bakım, onarım ve tesisat tadilatı.",
     "aktif": true,
+    "markalar": ["Demirdöküm", "ECA", "Vaillant", "Baymak", "Bosch", "Buderus", "Viessmann", "Daikin", "Airfel", "Ferroli", "Protherm", "Immergas", "Ariston", "Baxi", "Alarko", "Warmhaus"],
     "arizaBaslik": "Kombi ve peteklerde en sık çıkan şikâyetler",
     "ariza": [
       {
