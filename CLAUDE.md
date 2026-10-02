@@ -2239,7 +2239,8 @@ Aşağıdakiler o gün için duruyor:
       `klima taşıma` 6, `klima bakımı` 5, `buzdolabı tamir` 5, `adana …`
       kalıpları 5–8. **Puan 1–2 olan kelime hiçbir makul teklifle üste
       çıkamaz** (rakip puanı 7 ise aynı sıraya ~4–7 kat teklif gerekir).
-      Adım 2: Kalite Puanı 1–2 olanları duraklat.
+      Adım 2: Kalite Puanı 1–2 olanları duraklat — **yapıldı, 02.10** (sahibi).
+      Adım 3: öneri otomatik uygulamasını kapat (geniş eşleme geri gelmesin).
 
 ---
 
