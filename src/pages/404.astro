@@ -15,7 +15,7 @@ import Bolum from '@/components/Bolum.astro';
 import StickyUstCubuk from '@/components/StickyUstCubuk.astro';
 import Hero from '@/components/Hero.astro';
 import GuvenRozetleri from '@/components/GuvenRozetleri.astro';
-import HizmetKarti from '@/components/HizmetKarti.astro';
+import HizmetIzgarasi from '@/components/HizmetIzgarasi.astro';
 import AltCta from '@/components/AltCta.astro';
 import Footer from '@/components/Footer.astro';
 import MobilBar from '@/components/MobilBar.astro';
@@ -59,15 +59,7 @@ const kisayollar = [
     baslik="Hangi cihazda arıza var?"
     aciklama="Cihazı seçin, o cihazın arızaları ve fiyatlandırma şeklimiz için doğru sayfaya gidelim."
   >
-    <ul class="grid gap-4 sm:grid-cols-2 lg:grid-cols-4">
-      {
-        hizmetler.map((h) => (
-          <li>
-            <HizmetKarti hizmet={h} />
-          </li>
-        ))
-      }
-    </ul>
+    <HizmetIzgarasi hizmetler={hizmetler} />
   </Bolum>
 
   <Bolum baslik="Sık kullanılan sayfalar" zemin="zemin">

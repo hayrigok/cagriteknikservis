@@ -69,10 +69,10 @@ const yazilar = (await getCollection('yazilar')).sort((a, b) => a.data.sira - b.
               href={`/blog/${y.id}/`}
               class="group flex h-full flex-col rounded-md border border-lacivert-100 bg-white p-6 shadow-kart transition-[border-color,box-shadow] duration-150 hover:border-kobalt-600/40 hover:shadow-kart-ust"
             >
-              <span class="flex h-12 w-12 shrink-0 items-center justify-center rounded-sm bg-lacivert-900 text-white">
+              <span class="flex h-12 w-12 shrink-0 items-center justify-center rounded-sm bg-kobalt-50 text-kobalt-600">
                 <Ikon ad={y.data.hizmet ? hizmetIkonu(y.data.hizmet) : 'kart'} boyut={24} />
               </span>
-              <h3 class="text-h3 mt-4 leading-snug font-bold text-balance text-lacivert-900">
+              <h3 class="text-h3 mt-4 leading-snug font-extrabold text-balance text-lacivert-900">
                 {y.data.baslik}
               </h3>
               <p class="mt-2 leading-relaxed text-metin-soluk">{y.data.ozet}</p>

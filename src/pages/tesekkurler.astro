@@ -78,15 +78,7 @@ const adimlar: { ikon: IkonAdi; baslik: string; metin: string }[] = [
   <StickyUstCubuk />
 
   <main id="icerik">
-    <section class="koyu-blok relative overflow-hidden bg-lacivert-900">
-      {/* Doku: saf CSS nokta ızgarası, Hero ile aynı. Görsel indirilmiyor. */}
-      <div
-        aria-hidden="true"
-        class="pointer-events-none absolute inset-0"
-        style="background-image: radial-gradient(circle at 1px 1px, rgb(255 255 255 / .07) 1px, transparent 0); background-size: 26px 26px;"
-      >
-      </div>
-
+    <section class="koyu-blok isik relative overflow-hidden bg-lacivert-900">
       <div class="kap relative py-16 lg:py-24">
         <div class="max-w-2xl">
           <p class="etiket flex items-center gap-2 text-turuncu-300">
@@ -121,7 +113,7 @@ const adimlar: { ikon: IkonAdi; baslik: string; metin: string }[] = [
               data-konum="tesekkur"
               aria-disabled={waYedek ? undefined : 'true'}
               class:list={[
-                'inline-flex min-h-14 items-center justify-center gap-2 rounded-sm bg-yesil-600 px-6 text-lead font-bold text-white transition-colors duration-150 hover:bg-yesil-700',
+                'inline-flex min-h-14 items-center justify-center gap-2 rounded-md bg-yesil-600 px-6 text-lead font-bold text-white transition-colors duration-150 hover:bg-yesil-700',
                 !waYedek && 'pointer-events-none opacity-55',
               ]}
             >
@@ -135,7 +127,7 @@ const adimlar: { ikon: IkonAdi; baslik: string; metin: string }[] = [
               data-konum="tesekkur"
               aria-disabled={tel ? undefined : 'true'}
               class:list={[
-                'inline-flex min-h-12 items-center justify-center gap-2 rounded-sm border-2 border-white/35 px-6 font-semibold text-white transition-colors duration-150 hover:bg-white/10',
+                'inline-flex min-h-12 items-center justify-center gap-2 rounded-md border-[1.5px] border-white/30 px-6 font-semibold text-white transition-colors duration-150 hover:bg-white/10',
                 !tel && 'pointer-events-none opacity-55',
               ]}
             >
@@ -166,7 +158,7 @@ const adimlar: { ikon: IkonAdi; baslik: string; metin: string }[] = [
         {
           adimlar.map((a, i) => (
             <li class="rounded-md border border-lacivert-100 bg-white p-6">
-              <span class="flex h-11 w-11 items-center justify-center rounded-sm bg-lacivert-900 text-white">
+              <span class="flex h-11 w-11 items-center justify-center rounded-sm bg-kobalt-50 text-kobalt-600">
                 <Ikon ad={a.ikon} boyut={20} />
               </span>
               <p class="etiket mt-4 text-metin-soluk">Adım {i + 1}</p>

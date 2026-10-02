@@ -23,7 +23,7 @@ import Surec from '@/components/Surec.astro';
 import Yorumlar from '@/components/Yorumlar.astro';
 import Sss from '@/components/Sss.astro';
 import IletisimFormu from '@/components/IletisimFormu.astro';
-import HizmetKarti from '@/components/HizmetKarti.astro';
+import HizmetIzgarasi from '@/components/HizmetIzgarasi.astro';
 import AltCta from '@/components/AltCta.astro';
 import Footer from '@/components/Footer.astro';
 import MobilBar from '@/components/MobilBar.astro';
@@ -160,15 +160,7 @@ const schema = [
   <Sss sorular={hizmet.sss} />
 
   <Bolum etiket="Diğer hizmetler" baslik="Başka bir cihazınız mı var?" zemin="zemin">
-    <ul class="grid gap-4 sm:grid-cols-2 lg:grid-cols-4">
-      {
-        digerHizmetler.map((h) => (
-          <li>
-            <HizmetKarti hizmet={h} />
-          </li>
-        ))
-      }
-    </ul>
+    <HizmetIzgarasi hizmetler={digerHizmetler} />
   </Bolum>
 
   <AltCta baslik={`${hizmet.ad} için hemen arayın`} waMesaji={waMesaji} />
