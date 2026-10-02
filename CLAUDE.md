@@ -2485,7 +2485,14 @@ Aşağıdakiler o gün için duruyor:
       ₺137 (önceki gün 882 · 33). Sayaçta Google dışı **8 ücretli ziyaret**, Ads
       ile birebir — ama hepsi **08:29–12:46** arası; değişiklikten sonra 3+ saat
       **0 tıklama**. Saatlik gösterim istendi: gösterim ~0 ise negatif liste ya da
-      strateji reklamı kesiyor, gösterim varsa sorun konum/metin. "Dönüşüm sayısını en üst düzeye çıkarma" (Google'ın
+      strateji reklamı kesiyor, gösterim varsa sorun konum/metin.
+      **Sonuç (19:04): 12:00'den sonra gösterim 0.** Teşhis aracı (konum
+      "Adana, Adana, Türkiye" — "Adana, Türkiye" ili seçer, hedefimiz 4 ilçe,
+      "eşleşme yok" der): kelime eşleşiyor, sebep **"düşük reklam sıralaması"**
+      → negatif liste ve ödeme elendi; Hedef gösterim payı stratejisi
+      "öğreniyor" iken teklifi düşük tutup reklamı hiç sokmadı. **Ders: gösterim
+      payı stratejisine geçince ilk saatlerin saatlik gösterimine bakın.**
+      **Karar (sahibi, 02.10 akşam): Manuel TBM, reklam grubu başına ₺30.** "Dönüşüm sayısını en üst düzeye çıkarma" (Google'ın
       önerisi) **seçilmedi**: hesapta kayıtlı dönüşüm 0, algoritma neye göre
       teklif vereceğini bilmez. ₺40 tavanı ölçüme değil, akıllı kampanyada bu
       kelimelere ödenen ₺40–63'e dayanıyor (C9) — ilk hafta ortalama TBM ve
