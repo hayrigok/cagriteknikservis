@@ -1271,7 +1271,9 @@ hub sayfasına, eğik çizgili.** Buzdolabı yazım hatası da düzeldi. Görün
 yol (Yol 1) bakım · montaj · kurutma reklamlarında `klima-servisi` kalmıştı
 (kozmetik, sahibine verildi). **Açılış sayfası deneyimi puanının ~2–3
 hafta içinde değişip değişmediğine bakın** (Anahtar kelimeler → Sütunlar →
-Kalite Puanı) → **sıradaki:** ödeme ayarı (kredi ~16.10'da biter; manuelse reklam o gün durur) · fiyat
+Kalite Puanı) → ✅ ödeme ayarı: **manuel, sahibi bakiyeyi her gün
+kendisi izliyor** (03.10; kredi ~16.10'da biter, bakiye sıfırlanırsa reklam
+durur — sahibi biliyor, tekrar sormayın) → **sıradaki:** fiyat
 aramaları kararı (C10) · `Tıkla ve ara` dönüşümünün türü · **05.10
 okuması** (C13). Bütçe ₺500/gün; **TV grubu KAPALI kalıyor** (sahibinin
 kararı, 02.10).
