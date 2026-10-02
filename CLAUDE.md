@@ -229,8 +229,12 @@ bırakın, mekanizma zaten doğru davranıyor.
 `src/lib/analytics.ts` dört olay tanımlar: `tel_click{konum}`, `whatsapp_click{konum}`,
 `form_start{sayfa}`, `form_submit{sayfa}`.
 
-Consent Mode varsayılanı **denied**. Onay verilmeden hiçbir olay gönderilmez; onay
-öncesi tetiklenenler bellekte kuyruğa girer, kabul gelince akar, ret gelince atılır.
+Consent Mode varsayılanı **denied**. Onay verilmeden hiçbir olay **Google'a**
+gönderilmez; onay öncesi tetiklenenler bellekte kuyruğa girer, kabul gelince
+akar, ret gelince atılır. **Tek istisna (02.10.2026):** `izle()` ara /
+WhatsApp / form olayında kendi sunucumuza onaysız bir `sendBeacon` atar —
+tıklama sayacının "gerçek müşteri" işareti, ölçüm değil koruma. Gerekçesi
+"Ücretli tıklama sayacı → dört kademe"de.
 Tıklama olayları tek bir delege dinleyiciyle toplanır: bileşenlere `data-olay` ve
 `data-konum` nitelikleri konur, ayrı script yazılmaz. JS bütçesi bu şekilde korunuyor.
 
@@ -333,11 +337,12 @@ tıklamalarıdır. Google reklamdan geleni `?gclid=` ile gönderdiği için ikis
 ayırt edilebiliyor. **Bu koşulu gevşetmeyin:** gclid'siz istekleri saymaya
 başlarsanız sayaç gerçek müşterileri işaretler ve liste çöpe döner.
 
-**Pencere 7 gün, gün sınırı yok.** İlk tasarım "aynı gün 3 tıklama" arıyordu
-ve sahibi haklı olarak itiraz etti: günde bir kez tıklayan biri hiçbir zaman
-eşiğe ulaşmıyordu, oysa üç günde üç tıklama tam olarak sabırlı bir saldırganın
-deseni. Kayıt artık IP başına tutuluyor (`ip:<adres>`), içinde gün gün döküm
-var, 7 günden eski günler her yazımda budanıyor.
+**Pencere 7 gün, gün sınırı yok** (02.10.2026'dan beri yanına **30 günlük
+ikinci pencere** eklendi, aşağıda "dört kademe"). İlk tasarım "aynı gün 3
+tıklama" arıyordu ve sahibi haklı olarak itiraz etti: günde bir kez tıklayan
+biri hiçbir zaman eşiğe ulaşmıyordu, oysa üç günde üç tıklama tam olarak
+sabırlı bir saldırganın deseni. Kayıt adres başına tutuluyor, içinde gün gün
+döküm var, pencereden eski günler her yazımda budanıyor.
 
 **Dört sert kural — hiçbiri gevşetilmez:**
 
@@ -345,8 +350,8 @@ var, 7 günden eski günler her yazımda budanıyor.
 |---|---|
 | Sayma `try/catch` + `waitUntil` içinde, yanıt yolunda **hiç `await` yok** | Ölçüm asla siteyi bozmaz. Betikte ne olursa olsun ziyaretçi sayfayı görür |
 | `env.TIKLAMA` yoksa **sessizce geçilir** | Yapılandırma yarım kalırsa site düşmez, sadece sayaç çalışmaz |
-| Kayıtlar **7 gün** sonra silinir (`expirationTtl`) | IP kişisel veri; süre `/kvkk/` metninde de yazılı, **ikisi birlikte değişir** |
-| Rapor **mobil operatörleri ayrı bölüme** koyar | CGNAT: tek mobil IP'nin arkasında binlerce abone var. Engellemek gerçek müşteriyi keser |
+| Kayıtlar son tıklamadan **30 gün** sonra silinir (02.10.2026'ya kadar 7) | IP kişisel veri; süre `/kvkk/` metninde de yazılı, **ikisi birlikte değişir** |
+| Rapor **mobil ve paylaşımlı adresleri ayrı bölüme** koyar, hiç listeye almaz | CGNAT ve iPhone Özel Geçiş: tek IP'nin arkasında binlerce kişi var. Engellemek gerçek müşteriyi keser |
 
 **`run_worker_first: true` şart.** Varsayılan davranışta statik dosyaya eşleşen
 istek Worker'a hiç uğramaz; `gclid` bir **sorgu** parametresi olduğu için dosya
@@ -415,6 +420,62 @@ danıştığı kişi *"IP maskelenmesi gerekiyor"* dedi; aynı gün canlı rapor
   yazılmıyor · eski kayıt maskeli · işaretleme anahtarla, kötü anahtar 400 ·
   yanlış rapor anahtarı 404 · anahtarsız ve KV hatasında site çalışıyor.
 
+**02.10.2026 (akşam) — DÖRT KADEME, sahibinin isteği ve onayı.** Sahibi
+listedeki her adresi Ads'te engelliyor; sözleriyle *"ya şüpheliye ya gerçek
+müşteriyse bunu ayırt etmeyi çok iyi yapmamız lazım"*. Karar artık tek sayıya
+değil dört işarete bakıyor, **sıra öncelik sırasıdır:**
+
+| # | Kademe | Ölçüt | Listeye girer mi |
+|---|---|---|---|
+| 1 | **Gerçek müşteri** | Sitede ara / WhatsApp / form düğmesine bastı | **Asla** — tam IP de silinir |
+| 2 | **Kesin bot** | Sunucu merkezi (ASN + ad listesi) ya da yurt dışı | **Tek tıklamada**, tam IP |
+| 3 | **Sıralı blok** | Aynı /24'ten **60 dk'da 3 farklı adres** | `a.b.c.*` olarak — tam IP gerekmez |
+| 4 | **Tekrar** | **7 günde 3** ya da **30 günde 5** tıklama | Evet, tam IP (mobil/paylaşımlıda hayır) |
+
+Bilinçli kararlar — **gevşetmeyin:**
+- **1. kademenin haberi sitedeki `sendBeacon`'dan geliyor** (`analytics.ts`
+  → `gercekKisi()`, `/_t/e`'ye `tel`/`whatsapp`/`form`). **Onaydan bağımsız**,
+  çünkü ölçüm değil koruma: çerezi reddeden müşteri de müşteridir, onay şartı
+  onu engellenecekler listesinde bırakırdı. Çerez yok, kimlik yok, kendi alan
+  adımız; sunucu **yalnızca zaten reklam kaydı olan** adresi işaretliyor,
+  reklamsız ziyaretçi için hiçbir şey yazılmıyor. Bot telefon açmaz — iki
+  tarafı ayıran en güçlü işaret bu.
+- **iCloud Özel Geçiş (AS36183 Akamai, AS54113 Fastly) ve Cloudflare WARP
+  (AS13335) KORUNUR:** 2. kademeye hiç girmez (ülkesi de güvenilmez), tekrar
+  tıklarsa "paylaşımlı" bölümüne düşer. Arkalarında gerçek iPhone'lar var.
+  **"akamai" / "fastly" / "cloudflare" adını sunucu merkezi listesine
+  EKLEMEYİN** — o gün bütün iPhone müşterileri tek tıklamada listeye düşer.
+- **Blokta 30 gün içinde bir kez bile gerçek müşteri görüldüyse blok
+  işaretlenmez.** `a.b.c.*` yazmak o müşteriyi ve komşularını da keserdi;
+  oradaki bot adresleri yine 2. ve 4. kademeden tek tek yakalanıyor.
+  Mobil hatlar ve IPv6 blok kuralına girmez (aynı semtin müşterileri zaten
+  benzer adres taşır).
+- **30 gün = Google'a geçersiz tıklama incelemesi için geriye dönük kanıt.**
+  `/kvkk/` metni ve avukat brifingi aynı gün güncellendi.
+
+**⚠️ BU İŞTE CANLIDAKİ BİR HATA DA YAKALANDI — Turkcell hiç mobil
+sayılmıyordu.** Cloudflare operatör adını ASCII veriyor ("Turkcell
+**I**letisim"); kod `toLocaleLowerCase('tr-TR')` ile küçültünce "I" → "ı"
+oluyor ve `'turkcell iletisim'` araması **hiçbir zaman tutmuyordu.** Yani
+üç kez tıklayan Turkcell mobil müşterisi "engellenecek" listesine
+düşebiliyordu. Düzeltme: mobil operatörler artık **ASN'den** tanınıyor
+(Turkcell 16135 · Vodafone 15897 · TT Mobil 20978), ad karşılaştırması da
+`kucult()` ile ı → i katlanarak yapılıyor. **Ders: projenin "daima tr-TR
+küçült" kuralı Türkçe metin içindir; İngilizce veritabanından gelen ASCII
+adları tr-TR ile küçültmek tam tersini yapar.**
+
+**Test (02.10.2026): 37/37** (sahte KV, sayfalı listeleme, ileri sarılan
+saat; betik scratchpad'de). Kapsadıkları: dört kademenin her biri · AWS
+(ASN) ve Türk barındırma (ad) · yurt dışı · `XX` ülke bot değil · Özel
+Geçiş ülkesi DE iken bile bot değil · WARP paylaşımlı · 7g/3 ve 30g/5 ·
+Turkcell **adla** da mobil · Superonline sabit hat mobil değil · gerçek
+müşteri işareti tam IP'yi siliyor ve sonraki tıklamalarda listeye
+dönmüyor · reklamsız ziyaretçinin işareti hiçbir şey yazmıyor · bozuk gövde
+yok sayılıyor · blok 60 dk'da 3 adres ✔, 3 saate yayılmış ✘, mobil ✘,
+gerçek müşterili ✘, aynı adres 3 kez ✘ · blok işaretlenince listeden
+düşüyor · Telegram tek bildirim, tam IP yok · KV hatasında site ve işaret
+çalışıyor.
+
 **Bu sistem tıklamayı ENGELLEMEZ, kanıtlar.** Para tıklandığı anda ödeniyor;
 elde ettiğimiz şey Ads'in IP hariç tutma kutusuna yapıştırılacak liste ve
 Google'a geçersiz tıklama incelemesi açarken sunulacak desen. Aynı sebeple
@@ -422,8 +483,10 @@ reCAPTCHA ve Cloudflare Bot Fight Mode **reddedildi** — ikisi de sitede
 çalışır, para siteye varmadan önce gitmiştir; üstelik ikisi de sayfaya kod
 enjekte edip sıfır-dış-istek özelliğini bozar.
 
-**Tarayıcıya inen kod yok**, npm paketi eklenmedi, sayfa ağırlığı ve LCP
-değişmedi. Deploy sonrası dört kritik yüzey (telefon ×6 · WhatsApp ×4 ·
+**Tarayıcıya inen kod: yalnızca 1. kademenin birkaç satırlık `sendBeacon`
+çağrısı** (02.10.2026'ya kadar hiç yoktu). npm paketi eklenmedi, dış istek
+yok (beacon kendi alan adımıza), LCP'ye girmiyor — yalnızca düğmeye
+basılınca çalışıyor. Deploy sonrası dört kritik yüzey (telefon ×6 · WhatsApp ×4 ·
 `tel_click` ×6 · `whatsapp_click` ×4) canlıdan sayılarak doğrulandı, hepsi
 deploy öncesiyle birebir aynı.
 

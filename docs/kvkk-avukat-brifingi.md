@@ -115,20 +115,40 @@ Brifingin ilk hâlindeki bilgi artık geçerli değil. Bugünkü durum:
   onay verilmeden **çerez yazılmıyor** ve tıklama olayı gönderilmiyor (ölçülerek
   doğrulandı). Google'a yalnızca kimliksiz bir sayfa kaydı ulaşıyor. Metnin 5.
   bölümü bunu açıkça yazıyor.
-- **Reklamdan gelen ziyaretlerde IP kaydı 7 gün tutuluyor** (14.08.2026).
-  Amaç geçersiz tıklama tespiti; hukuki sebep olarak meşru menfaat (m.5/2-f)
-  gösterildi. **02.10.2026'dan beri veri en aza indirildi:** kayıtta IP'nin
-  yalnızca son bölümü silinmiş hâli (`88.242.196.*`) ve anahtarlı tek yönlü
-  özeti duruyor; tam adres yalnızca 7 günde 3+ ayrı reklam tıklaması gelen,
-  mobil şebeke olmayan adreste saklanıyor ve işletme sahibi bu adresi Google
-  Ads'in engelleme listesine yapıştırıyor (yani Google'a aktarılıyor — metin
-  bunu açıkça yazıyor). Kayıtlar Cloudflare'in (ABD merkezli) anahtar-değer
-  deposunda duruyor.
+- **Reklamdan gelen ziyaretlerde IP kaydı tutuluyor** (14.08.2026'dan beri;
+  süre **02.10.2026'da 7 günden 30 güne** çıktı). Amaç geçersiz tıklama
+  tespiti; hukuki sebep olarak meşru menfaat (m.5/2-f) gösterildi. Süre,
+  Google'a geçersiz tıklama incelemesi açarken geriye dönük kanıt gerektiği
+  için uzatıldı (işletme sahibinin isteği).
+- **Ne kaydediliyor:** geliş saati, açılan sayfa, ağın adı (internet
+  sağlayıcısı) ve yaklaşık konum (şehir/ülke), IP'nin son bölümü silinmiş
+  hâli (`88.242.196.*`) ve IP'nin anahtarlı tek yönlü özeti. Kayıt yalnızca
+  reklamdan gelen (`gclid` taşıyan) ziyaretlerde açılıyor.
+- **Tam IP yalnızca engellenecek adreste saklanıyor:** tıklama bir sunucu
+  merkezinden ya da yurt dışından geldiyse, veya aynı adresten 7 günde 3 /
+  30 günde 5 reklam tıklaması geldiyse. Mobil hat ve iPhone "Özel Geçiş"
+  gibi paylaşımlı adreslerde tekrar tıklamada da tam adres saklanmıyor.
+  İşletme sahibi listedeki adresi Google Ads'in engelleme listesine
+  yapıştırıyor (yani Google'a aktarılıyor; metin bunu açıkça yazıyor).
+  Kısa sürede aynı adres bloğundan çok tıklama gelirse bloğun kendisi
+  (`88.242.196.*`) listeye ekleniyor; bunun için tam adres gerekmiyor.
+- **Yeni (02.10.2026): "gerçek müşteri" işareti.** Ziyaretçi sitede arama,
+  WhatsApp veya form düğmesine basınca kendi sunucumuza yalnızca *basıldı*
+  bilgisi gidiyor (numara, mesaj veya kimlik gitmiyor, çerez yok). Sunucu bu
+  bilgiyi **yalnızca o adresin zaten bir reklam tıklaması kaydı varsa**
+  kullanıyor: kaydı "gerçek müşteri" diye işaretliyor ve tam IP saklanmışsa
+  siliyor. Reklamdan gelmemiş ziyaretçi için hiçbir şey yazılmıyor. Onaydan
+  bağımsız çalışıyor, çünkü amacı ölçüm değil müşteriyi yanlışlıkla
+  engellemekten korumak; metinde ayrı paragraf olarak yazılı.
+- Kayıtlar Cloudflare'in (ABD merkezli) anahtar-değer deposunda duruyor ve
+  son reklam tıklamasından 30 gün sonra kendiliğinden siliniyor.
 
 **Avukata sorulacak:** Onay verilmeden yüklenen ama çerez yazmayan ölçüm kodu
-metinde doğru anlatılmış mı? IP kaydı için meşru menfaat dayanağı ve 7 günlük
-süre uygun mu? Şüpheli adresin Google Ads'e girilmesi ve kaydın Cloudflare'de
-durması yurt dışına aktarım sayılır mı, dayanağı nasıl yazılmalı?
+metinde doğru anlatılmış mı? IP kaydı için meşru menfaat dayanağı ve **30
+günlük** süre uygun mu? "Gerçek müşteri" işaretinin onaysız gönderilmesi
+meşru menfaatle savunulabilir mi? Şüpheli adresin Google Ads'e girilmesi ve
+kaydın Cloudflare'de durması yurt dışına aktarım sayılır mı, dayanağı nasıl
+yazılmalı?
 
 ---
 
@@ -150,7 +170,8 @@ durması yurt dışına aktarım sayılır mı, dayanağı nasıl yazılmalı?
 3. Saklama süresi nasıl yazılmalı — firmanın fiilî uygulaması nedir?
 4. Hukuki sebep olarak sözleşme mi, açık rıza mı, ikisi mi?
 5. WhatsApp'a yönlendirme "aktarım" olarak doğru tarif edilmiş mi?
-6. Onaysız yüklenen ölçüm kodu ve 7 günlük IP kaydı metinde doğru anlatılmış mı?
+6. Onaysız yüklenen ölçüm kodu, 30 günlük IP kaydı ve "gerçek müşteri"
+   işareti metinde doğru anlatılmış mı?
 7. Sitede ayrıca **çerez politikası** ve **gizlilik politikası** gerekir mi,
    yoksa bu tek metin yeterli mi?
 8. **Dışarıya verilen işler — 8. bölümdeki yedi soru.** En öncelikli olanlar

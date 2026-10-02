@@ -126,7 +126,35 @@ function gonder(olay: Olay): void {
   gtag('event', ad, parametreler);
 }
 
+/*
+  Ücretli tıklama sayacına "bu kişi gerçek müşteri" haberi (worker/index.js,
+  1. kademe). ONAYDAN BAĞIMSIZ, çünkü bu ölçüm değil, müşteriyi koruma:
+  çerez yazmaz, kimlik taşımaz, yalnızca kendi alan adımıza gider ve sunucu
+  ancak o adresin zaten bir reklam tıklaması kaydı varsa işaret koyar. Çerezi
+  reddeden müşteri de gerçek müşteridir; onay şartı koysaydık onu Ads'te
+  engellenecekler listesinde bırakırdık. /kvkk/ metninde yazılı, birlikte
+  değişir. Sayfa başına bir kez gider; ikinci haberin söyleyeceği yeni bir şey yok.
+*/
+const GERCEK_TUR: Partial<Record<Olay['ad'], string>> = {
+  tel_click: 'tel',
+  whatsapp_click: 'whatsapp',
+  form_submit: 'form',
+};
+let gercekGitti = false;
+
+function gercekKisi(ad: Olay['ad']): void {
+  const tur = GERCEK_TUR[ad];
+  if (!tur || gercekGitti) return;
+  gercekGitti = true;
+  try {
+    navigator.sendBeacon?.('/_t/e', tur);
+  } catch {
+    /* Haber gitmezse yalnızca sayaç eksik kalır; düğme yine çalışır. */
+  }
+}
+
 export function izle(olay: Olay): void {
+  gercekKisi(olay.ad);
   if (onayDurumu() !== 'kabul') {
     // Onay yoksa beklet. Kullanıcı bandı kapatmadan tıklamış olabilir.
     kuyruk.push(olay);
