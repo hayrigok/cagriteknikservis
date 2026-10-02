@@ -1956,8 +1956,8 @@ Aşağıdakiler o gün için duruyor:
       sınıflandırma"dan söz ediyor (answer/13768416) ama hesapta 2 ayda tek
       dönüşüm yok. **Sonuç: Ads'teki "Dönüşümler" sütunu bu hesapta aramayı
       göstermiyor; "0 dönüşüm" = "kimse aramadı" DEĞİL.** Aramanın ölçüsü:
-      (a) kampanya → Segment → Tıklama türü → telefon satırı (reklamdaki ara
-      düğmesine basma; tıklama olarak ücretlenir) · (b) sayaçtaki "Gerçek
+      (a) kampanya → Segment → Tıklama türü → **"Mobil tıkla ve ara"** satırı
+      (reklamdaki ara düğmesine basma; tıklama olarak ücretlenir) · (b) sayaçtaki "Gerçek
       müşteri" bölümü (sitedeki düğmeler) · (c) sahibinin "nereden buldunuz"
       sorusu. `Tıkla ve ara` dönüşümünün türü incelenecek: ara düğmesine
       basmayı sayan türse etkinleştirmek "Dönüşümler"i anlamlı yapar
@@ -2574,6 +2574,14 @@ Aşağıdakiler o gün için duruyor:
         notları. 1. kademe işareti canlıda doğrulandı (`analytics.*.js` →
         `sendBeacon('/_t/e')`); bugünkü 8 ücretli ziyaretçiden düğmeye basan
         olmadı.
+      - **Taban okundu (02.10, Tüm zamanlar, Segment → Tıklama türü):**
+        Başlık 1.199 · **Mobil tıkla ve ara 139** (11.753 göstr., TO %1,18)
+        · Site bağlantısı 114 · Mesajlar 0 (28 göstr.) — toplam 1.452 tık ·
+        ₺16.839,48. **Reklamdaki ara düğmesine 14.08'den beri 139 kez
+        basılmış (günde ~3, tıkların %9,6'sı); Ads bunlar için "0 dönüşüm"
+        yazıyordu.** Basışın kaçının aramaya döndüğü bilinmiyor (20.08'deki
+        5 basış → 2 arama tek örnek, genellenmez). Geçersiz tıklama **134**
+        (%8,4) — Google ücret almadı, filtre çalışıyor (C9 ders 3).
 
 ---
 
