@@ -2248,7 +2248,11 @@ Aşağıdakiler o gün için duruyor:
       `yetkili` · hizmet dışı şehirler · araç kliması · malzeme/satın alma ·
       "nasıl/neden" · hizmet dışı cihazlar). Her terim pozitif listede geçmiyor
       diye tek tek kontrol edildi; **`ikinci el` bilerek YOK** — `"ikinci el
-      klima montajı"` pozitif kelimesini öldürürdü.
+      klima montajı"` pozitif kelimesini öldürürdü. — **yapıldı, 02.10.**
+      Adım 6: bütçe **₺1.500 → ₺250** — teklif stratejisi değişmeden ÖNCE,
+      yoksa yükselen teklifle kredi günler içinde biterdi. ₺250 × ~28 gün ≈
+      kredi; **~29 Ekim'de kredi biter**, sonrası ödeme ayarına göre ya reklam
+      durur (manuel ödeme, C11) ya karttan çekilir. O tarihte karar verilecek.
 
 ---
 
