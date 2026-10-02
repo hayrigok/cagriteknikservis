@@ -1248,14 +1248,15 @@ etkinleştirildi, **akıllı kampanya aynı anda duraklatıldı**. 11 reklam gru
 112 kelime · ₺100 günlük bütçe · ₺5 maksimum TBM · çağrı dönüşümü 60 sn.
 Ayrıntı ve kurulan her ayar **C8**'de, teşhis geçmişi **C9**'da.
 
-**⏭ Bir sonraki oturumun ilk işi (02.10.2026): C13'ün son maddesi.**
-Sahibine **14 şikâyet/araştırma kelimesini duraklatma** adımı verildi
-(₺2.916 harcamış, ara düğmesine 0 basış). Yapıldıysa C13'e işleyin, sonra
-**tek tek** sırayla: `Tıkla ve ara` dönüşümünün türü (Hedefler → Dönüşümler
-→ Özet) · açılış sayfası deneyimi (her grubun reklam Nihai URL'si gerekiyor)
-· sayaç raporunun "kaldırın" bölümündeki adresleri Ads'in IP hariç tutma
-listesinden silmek · **05.10 okuması** (C13). Bütçe ₺500/gün, kredi
-~16.10'da biter; **TV grubu KAPALI kalıyor** (sahibinin kararı, 02.10).
+**⏭ Ads hazırlık listesi (02.10.2026 akşam, sahibiyle tek tek):**
+✅ 14 şikâyet kelimesi (9 duraklatıldı · 5 teklif kısıldı, C13) →
+**sıradaki:** IP hariç tutma listesinden 4 adresi silmek (sayaç "kaldırın"
+bölümündeki 3 + `178.246.27.45`) · aynı numaralı iki arama öğesinden birini
+duraklatmak (C12) · her grubun reklam Nihai URL'si (açılış sayfası deneyimi)
+· ödeme ayarı (kredi ~16.10'da biter; manuelse reklam o gün durur) · fiyat
+aramaları kararı (C10) · `Tıkla ve ara` dönüşümünün türü · **05.10
+okuması** (C13). Bütçe ₺500/gün; **TV grubu KAPALI kalıyor** (sahibinin
+kararı, 02.10).
 
 **⏭ Eski madde (20.08.2026, bayat) — 3 günlük temiz test.** Karar kuralı
 "₺100/gün × 3 gün = ₺300'e en az 1 iş" idi. O günkü üç ayar (bütçe ₺100 ·
@@ -2614,7 +2615,19 @@ Aşağıdakiler o gün için duruyor:
         ₺47. Bu aramalar blogun işi (C10). **Gözden kaçan yan etki:** 8'inin
         üst sıra tahmini ₺30'un altında — Manuel TBM bu kelimeleri ~₺12–19'luk
         tıklamadan **üst sıraya ve daha pahalı tıklamaya** taşıyordu. Teklif
-        önerirken bakılmadı. Sahibine duraklatma adımı verildi (02.10 akşam).
+        önerirken bakılmadı.
+        **UYGULANDI 02.10 akşam — iki kısım, hepsi duraklatılmadı.** Sahibi
+        "emin misin?" diye sordu; dürüst cevap: basış sıfır ama siteden
+        yapılan arama ölçülmüyor ve belirti yazanın bir kısmı usta arıyor.
+        Bu yüzden **9 bilgi kelimesi duraklatıldı** (`klima gazı ne kadar` ·
+        `klima bakımı ne kadar` · `çamaşır makinesi hata kodu` · `klima filtre
+        temizliği` · `çamaşır makinesi ses yapıyor` · `buzdolabı ses yapıyor`
+        · `buzdolabı hata veriyor` · `beyaz eşya arıza` · `klima gazı`),
+        **5 belirti kelimesinin teklifi kısıldı** (önerilen ₺12; tutarı
+        sahibi girdi) — `buzdolabı soğutmuyor` · `buzluk soğutmuyor` · `klima
+        soğutmuyor` · `klima çalışmıyor` · `klima arızası`. **~16.10'da
+        bakılır:** basış ya da "nereden buldunuz"da bu kelimeler çıkarsa
+        açık kalır, çıkmazsa duraklatılır.
         **Duraklatılmayacak:** `klima gaz dolumu` · `klima gaz dolum fiyatı`
         (1 basış) · `klima temizleme` (2 basış) · 0 basışlı hizmet kelimeleri.
         **Sınır:** basış, siteden yapılan aramayı içermez; ama hizmet
