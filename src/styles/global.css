@@ -53,9 +53,38 @@
   line-gap-override: 0%;
 }
 
+/*
+  Android'de Arial YOK (son incelemede yakalandı, 02.10.2026): yukarıdaki
+  local('Arial') orada çözülmez ve yedek ayarsız Roboto'ya düşerdi. Roboto,
+  Plus Jakarta Sans'tan 400'de %2,97, 700'de %6,16 dar — font gelince satırlar
+  yeniden kırılır, "Hemen Ara" düğmesi okurken kayabilir. Bu yüz Roboto'yu
+  eşitler. Değerler aynı Türkçe metin Google Fonts Roboto'su ile ölçülerek
+  bulundu (genişlik oranı 1.0297 / 1.0616); kontrolü scratchpad yedek-test.py.
+  Windows/iOS'ta Arial bulunduğu için bu yüze hiç sıra gelmez.
+*/
+@font-face {
+  font-family: 'Jakarta Yedek Roboto';
+  src: local('Roboto'), local('Roboto-Regular');
+  font-weight: 400 600;
+  size-adjust: 102.97%;
+  ascent-override: 101%;
+  descent-override: 21.37%;
+  line-gap-override: 0%;
+}
+
+@font-face {
+  font-family: 'Jakarta Yedek Roboto';
+  src: local('Roboto Bold'), local('Roboto-Bold');
+  font-weight: 700 800;
+  size-adjust: 106.16%;
+  ascent-override: 97.96%;
+  descent-override: 20.72%;
+  line-gap-override: 0%;
+}
+
 @theme {
   --font-sans:
-    'Plus Jakarta Sans', 'Jakarta Yedek', system-ui, -apple-system, 'Segoe UI', Roboto,
+    'Plus Jakarta Sans', 'Jakarta Yedek', 'Jakarta Yedek Roboto', system-ui, -apple-system, 'Segoe UI', Roboto,
     'Helvetica Neue', Arial, sans-serif;
 
   /*
