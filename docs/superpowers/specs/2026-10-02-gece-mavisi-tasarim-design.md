@@ -38,6 +38,7 @@ Hepsi WCAG oranı hesaplanarak seçildi (`kontrast.py`, 02.10.2026).
 | `lacivert-900` | `#0a1f44` | Koyu bloklar, başlıklar | beyaz metinle **16.25** |
 | `lacivert-800` | `#13306a` | Koyu blokta hover / ikinci zemin | beyaz metinle **12.66** |
 | `lacivert-700` | `#1b3f86` | Hero'daki ışık lekesi (yalnızca zemin) | — |
+| `lacivert-400` (yeni) | `#7a8ba8` | Form alanı kenarlığı | beyazda **3.45** (alan sınırı için gereken 3:1) |
 | `lacivert-300` | `#a9bedf` | Koyu zeminde soluk metin | lacivert-900'de **8.60** |
 | `lacivert-200` | `#c9d6ea` | Koyu zeminde gövde metni | lacivert-900'de **11.06** |
 | `lacivert-100` | `#dce4f0` | Açık zeminde çizgi | — |
@@ -117,11 +118,11 @@ kalır. **Uygulamadan sonra B8 yöntemiyle ölçülür ve CLAUDE.md'ye yazılır
 | `IletisimFormu` | Beyaz kart `rounded-lg shadow-kart`; alanlar 52 px, 1.5 px çizgi, odakta kobalt; gönder düğmesi yeşil; masaüstü yan paneli lacivert kalır, numara turuncu-300 |
 | `GuvenRozetleri` | İkon kabı `kobalt-50` + kobalt ikon |
 | `OlcuSeridi` | Rakam lacivert-900, birim kobalt-600 |
-| `Bolum` | Etiket `etiket` sınıfı; başlık 800 ağırlık |
+| `Bolum` | Etiket `etiket` sınıfı; başlık 800 ağırlık; mobilde dikey boşluk `py-16` → `py-12` (telefonda sayfa boyu kısalır) |
 | `HizmetKarti` | **Yatay satır kart:** ikon kabı · ad + özet · yuvarlak ok. `shadow-kart`, hover'da `shadow-kart-ust` + kobalt çizgi. **İlçe adı satırı kalkar** (bağlantı değil, düz metindi; ilçe bağlantıları "Bölgeler" bölümünde duruyor) |
-| Hizmet ızgarası (`index`, `404`) | `sm:grid-cols-2` — 10 hizmet 5+5, yetim kart yok |
+| **`HizmetIzgarasi`** (yeni) | Dört sayfadaki (ana sayfa, hub "Diğer hizmetler", iletişim, 404) kart ızgarası tek yerde. Sütun kart sayısına göre: 10 → 2 sütun (5+5), 9 → genişte 3 sütun (3+3+3); son satırda yetim kart yok |
 | `ArizaCozum` | Kart `shadow-kart`; ikon `kobalt-50` kabında |
-| `Markalar` | Marka hapları beyaz + çizgi; "ve diğer bütün markalar" hapı turuncu-500 + lacivert metin (A6 kapsayıcılık kuralının görsel hâli korunur) |
+| `Markalar` | Marka hapları beyaz + çizgi; "ve diğer bütün markalar" hapı **kobalt-600 + beyaz metin** (turuncu yalnızca arama eylemine ait; A6 kapsayıcılık kuralının görsel hâli korunur) |
 | `Surec` | Lacivert blok; adım numarası turuncu-500 daire, lacivert metin (adımlar gerçekten sıralı — numara kalır) |
 | `IlceBlogu` | Not kartı `shadow-kart`; sol turuncu kenar çubuğu kalkar |
 | `Yorumlar` | Tek kart: başlık + açıklama + "Google yorumlarımızı okuyun" düğmesi. **Yıldız, puan, yorum sayısı basılmaz** (yasak 3) |
@@ -130,7 +131,7 @@ kalır. **Uygulamadan sonra B8 yöntemiyle ölçülür ve CLAUDE.md'ye yazılır
 | `AltCta`, `Footer` | Lacivert; footer başlıkları `etiket`, bağlantılar lacivert-200 → hover beyaz |
 | `MobilBar` | Ara: turuncu-500 + lacivert metin; WhatsApp yeşil-600 |
 | `YanButonlar` | Aynı renk kuralı |
-| `CerezBandi` | Mobilde metin + iki düğme **yan yana**, yükseklik ~yarıya iner; işlevi değişmez |
+| `CerezBandi` | Mobilde daha kısa (küçük metin, iki düğme yan yana tek satırda). **Hata düzeltmesi:** bant mobilde alttan 3,5 rem beyaz dolguyla açılıyordu ve z-50 olduğu için `MobilBar`'ın "Hemen Ara" çubuğunu **örtüyordu** — ziyaretçi çerez kararı verene kadar alt çubuk görünmüyordu (02.10.2026 ekran görüntüsünde görüldü). Bant artık çubuğun **üstünde** duruyor (`bottom`, dolgu değil). Onay mantığı değişmez |
 | Sayfalar | Eski belirteç sınıfları yenileriyle değişir; `index.astro` → Bölgeler matrisi (§6) |
 | `public/favicon.svg`, `tools/og-uret.mjs` | Yeni lacivert + turuncu değerleri; `og.png` betikle yeniden üretilir |
 
@@ -142,7 +143,7 @@ Aramadan önce sorulan ilk soruya ("şu an açık mısınız?") cevap verir.
   Metin "Her gün" ile başlamıyorsa ya da kalıp tutmazsa **canlı çip basılmaz**,
   yalnızca düz saat metni kalır — `{PLACEHOLDER}` sözleşmesinin aynısı: emin
   olunmayan bilgi ekrana iddia olarak çıkmaz.
-- **İlk boyama (JS'siz):** saat ikonu + "Her gün 08:00–23:00". Yanlış olamaz.
+- **İlk boyama:** çip yeri **sabit genişlikte ayrılmış ve görünmez** (`invisible`); betik durumu yazınca görünür olur. Genişlik sabit olduğu için metin gelince hiçbir şey kaymaz (CLS 0). JS kapalıysa çip görünmez kalır — saat bilgisi künyede zaten yazılı.
 - **JS sonrası:** `Intl` ile **Europe/Istanbul** saati okunur (ziyaretçinin
   telefonunun saat dilimi değil). Açık: yeşil nokta + "Şu an açığız · kapanış 23:00".
   Kapalı: gri nokta + "Şu an kapalıyız · açılış 08:00". Gece yarısını aşan saat
