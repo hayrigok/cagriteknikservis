@@ -1354,7 +1354,7 @@ fiyatı sahanın bilgisi.
 | Site haritası | **71 adres** — `/kullanim-kosullari/` eklendi ama **noindex**, sitemap dışı (01.10.2026) | push sonrası canlıda doğrulanacak |
 | Ölçümleme | **GA4 + Ads çalışıyor** — `G-818Z2EG00L` · `AW-18353257077` (12.08.2026, canlıda ölçüldü) | ✔ |
 | Google yorumu | **18** (12.08.2026, sahibi bildirdi) — ilk hedef (10–15) **aşıldı** ✔ | akışı sürdürmek (D4) |
-| **Google Ads** | **YAYINDA** — **Manuel TBM** (grup ₺30 · 10 kelime ₺45–70, C13) · bütçe **₺500/gün** (kredi ₺7.113, ~16.10'da biter) · TV ve Kombi **duraklatılmış** · 01.08–02.10: ₺16.776,86 · 1.449 tıklama · **"0 dönüşüm" aramayı ölçmüyor** (C1 düzeltmesi, 02.10) | **ilk okuma 05.10** (C13) |
+| **Google Ads** | **YAYINDA** — **Manuel TBM** (grup ₺30 · 12 kelime satırı ₺45–74, C13) · bütçe **₺500/gün** (kredi ₺7.113, ~16.10'da biter) · TV ve Kombi **duraklatılmış** · 01.08–02.10: ₺16.776,86 · 1.449 tıklama · **"0 dönüşüm" aramayı ölçmüyor** (C1 düzeltmesi, 02.10) | **ilk okuma 05.10** (C13) |
 | Bot / click fraud savunması | **kurulum kapıları uygulandı** (C6) + **ücretli tıklama sayacı canlı** (`/_tiklama/`) | saldırı olursa C7 sırası |
 
 **Performans — ölçüldü, 29.07.2026**
@@ -2543,12 +2543,21 @@ Aşağıdakiler o gün için duruyor:
         boş). **Yapılmadı.**
       - ₺30'da **57 etkin kelime** "ilk sayfa teklifinin altında" (30 günde
         3.791 gösterim · ₺3.469); medyan ilk sayfa tahmini ₺55.
-      - **Teklif planı — sahibi onayladı (02.10 akşam), kelime düzeyinde:**
+      - **Kelime teklifleri — UYGULANDI 02.10 akşam, 12 satır, hepsi
+        "Uygun"** (ekran görüntüsüyle doğrulandı): `buzdolabı tamir`
+        ₺74,01 · `çamaşır makinesi tamiri` ₺65 · `bulaşık makinesi servisi`
+        ₺65 · `klima taşıma` ₺61 · `çamaşır makinesi servisi` ₺60 · `adana
+        beyaz eşya tamiri` (`"…"` + `[…]`) ₺60 · `klima sökme takma` ₺50 ·
         `beyaz eşya servisi` ₺50 · `beyaz eşya tamiri` ₺45 · `adana beyaz
-        eşya servisi` ₺45 · `adana beyaz eşya tamiri` ₺60 · `çamaşır makinesi
-        tamiri` ₺65 · `buzdolabı tamir` ₺70 · `klima sökme takma` ₺60 ·
-        `klima taşıma` ₺60 · `bulaşık makinesi servisi` ₺60 · `çamaşır
-        makinesi servisi` ₺60. Kalanlar grup teklifi ₺30.
+        eşya servisi` (`"…"` + `[…]`) ₺45. Kalanlar grup teklifi ₺30.
+        **Plandan sapan dördü sahibinin.** Üçünde planın rakamı Google'ın
+        **ilk sayfa** tahmininin altında kalıyordu (buzdolabı ₺70 < ₺73,81 ·
+        bulaşık ₺60 < ₺64,17 · klima taşıma ₺60 < ₺60,61); sahibi eşiği
+        geçecek kadar yükseltti, doğrusu buydu. **Ders: teklif önerirken
+        ilk sayfa tahminine de bakın — üst sıra tahmininin altında kalmak
+        bilinçli bir bütçe tercihi olabilir, ilk sayfa eşiğinin altında
+        kalmak kelimeyi "Sınırlı" bırakır.** `klima sökme takma` ₺50 (plan
+        ₺60): ilk sayfaya yetiyor (₺45,47), 05.10'da üst sıra oranına bakılır.
       - **İki "adana …" kelimesi hem `"…"` hem `[…]` olarak var — İKİSİ de
         yükseltilir.** Arama kelimeyle birebir aynıysa Google `[…]`'yı
         tercih eder; yalnız tırnaklıyı yükseltmek o aramada işe yaramaz.
