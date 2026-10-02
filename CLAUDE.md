@@ -1249,9 +1249,9 @@ etkinleştirildi, **akıllı kampanya aynı anda duraklatıldı**. 11 reklam gru
 Ayrıntı ve kurulan her ayar **C8**'de, teşhis geçmişi **C9**'da.
 
 **⏭ Ads hazırlık listesi (02.10.2026 akşam, sahibiyle tek tek):**
-✅ 14 şikâyet kelimesi (9 duraklatıldı · 5 teklif kısıldı, C13) →
-**sıradaki:** IP hariç tutma listesinden 4 adresi silmek (sayaç "kaldırın"
-bölümündeki 3 + `178.246.27.45`) · aynı numaralı iki arama öğesinden birini
+✅ 14 şikâyet kelimesi (9 duraklatıldı · 5 teklif kısıldı, C13) ·
+✅ IP hariç tutma listesinden 4 adres silindi (sayaç "kaldırın" bölümündeki
+3 + `178.246.27.45`, sahibi bildirdi 02.10) → **sıradaki:** aynı numaralı iki arama öğesinden birini
 duraklatmak (C12) · her grubun reklam Nihai URL'si (açılış sayfası deneyimi)
 · ödeme ayarı (kredi ~16.10'da biter; manuelse reklam o gün durur) · fiyat
 aramaları kararı (C10) · `Tıkla ve ara` dönüşümünün türü · **05.10
