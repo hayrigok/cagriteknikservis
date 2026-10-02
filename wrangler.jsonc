@@ -83,8 +83,9 @@
     tutar — yani ziyaretçi bozuk sayfa görmez. Bu bilinçli: yarım
     yapılandırmayla yayına çıkmaktansa yayının hiç güncellenmemesi iyidir.
 
-    Kayıtlar 7 gün sonra kendiliğinden siliniyor (worker/index.js →
-    SAKLAMA_SN). Süre /kvkk/ metninde de yazılı, ikisi birlikte değişir.
+    Kayıtlar son tıklamadan 30 gün sonra kendiliğinden siliniyor
+    (worker/index.js → SAKLAMA_SN; 02.10.2026'ya kadar 7 gündü). Süre
+    /kvkk/ metninde de yazılı, ikisi birlikte değişir.
   */
   /*
     Rapor sayfasının (/_tiklama/) erişim anahtarı. Yanlış veya eksikse sayfa
