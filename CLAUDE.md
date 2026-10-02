@@ -1274,9 +1274,12 @@ Hizmet bölgesi **tahmin edilmesi yasak** alandı; **G2 12.08.2026'da cevapland�
 (dört ilçe, hepsinin bütün mahalle ve semtleri) ve kapsam sabitlendi.
 **G4 kapandı** (30.07.2026): kapasite yeterli.
 
+**G3 kapandı** (02.10.2026): aday hizmetlerin hiçbiri yapılmıyor, kapsam
+10 hizmette sabit.
+
 | Soru | Madde | Cevabın etkisi |
 |---|---|---|
-| Aday listesinden hangi hizmetleri **gerçekten yapıyorsunuz**? | G3 | Her hizmet **1 hub + 4 para sayfası**, kod yazılmadan. |
+| Fiyat aramaları kesilsin mi, siteye aralık mı konsun? | C10 | Reklamda fiyat arayan kişiye fiyatsız sayfa gösteriliyor. |
 
 **R22 CEVAPLANDI — 12.08.2026, sahibi: *"basıyoruz."*** `/klima-gaz-dolumu/`
 sayfalarındaki "R22 gaz dolumu" satırı artık **doğrulanmış** bir hizmet;
@@ -1332,6 +1335,7 @@ fiyatı sahanın bilgisi.
 | A2 | **Mahalle listesi yayımlanmayacak** (12.08.2026) — mahalle adı istemeyin |
 | A8 | Alan adı: `cagribeyazesyatamir.com` |
 | D2 | **Hero görseli yok** — fotoğraf istemeyin (profil fotoğrafı ayrı konu, G6) |
+| G3 | **Yeni hizmet yok** (02.10.2026) — ticari soğutma, termosifon, davlumbaz, mikrodalga, küçük ev aletleri, fırın-ocak yapılmıyor; aday sormayın |
 | D3 | Marka yüzeyi gereksiz (A6'nın sonucu) |
 | B1–B4 · B6–B10 | Teknik iş bitti: alan adı · sitemap/robots · gtag yükleyici · 404 · deploy · HTTPS · performans ölçümü · RUM beacon kapatıldı |
 | F | Yayına çıkış listesi — **madde 20 (E1) hariç** hepsi kapandı |
@@ -3033,9 +3037,21 @@ kapasite tahmin edilecek şey değildir.
 
       </details>
 
-- [ ] **G3. `klima-montaji` (30.07.2026) · `televizyon-tamiri` +
-      `kombi-bakim-onarim` (12.08.2026) EKLENDİ. Kalan adaylar için cevap
-      bekleniyor.**
+- [x] **G3. KAPSAM SABİTLENDİ — 02.10.2026, sahibi: *"bunlar yok, ocak
+      falan yok, sil onları."*** Aday listesinin tamamı kapandı, yeni hizmet
+      **sorulmaz.** Yapılan: `firin-ocak-tamiri` kaydı `hizmetler.json`'dan
+      **tamamen silindi** (ikonu da üç yerden: `types.ts` · `Ikon.astro` ·
+      `veri.ts`) · ana sayfa "Hangi cihazlara bakıyorsunuz?" cevabındaki
+      **"Küçük ev aletleri (mikrodalga, süpürge, ütü)" maddesi silindi**:
+      sahibi bunlara bakmıyor, ana sayfa ve FAQPage şeması bunu vaat
+      ediyordu (yasak 1). Cevap artık cihazları tek tek sayıyor ve "fırın,
+      ocak, davlumbaz ve küçük ev aletlerine bakmıyoruz" diyor; eski "klima
+      ve beyaz eşyanın **tamamına**" ifadesi fırını da kapsadığı için
+      kaldırıldı. **Ev tipi derin dondurucu VERİLEN hizmet** (sahibi
+      doğruladı), buzdolabı sayfalarında kalıyor.
+
+      *Eski başlık:* `klima-montaji` (30.07.2026) · `televizyon-tamiri` +
+      `kombi-bakim-onarim` (12.08.2026) eklendi.
 
       Yayındaki **10 hizmet**: `klima-servisi` · `klima-bakimi` ·
       `klima-gaz-dolumu` · `klima-montaji` · `camasir-makinesi-tamiri` ·
@@ -3049,8 +3065,8 @@ kapasite tahmin edilecek şey değildir.
       organik olarak düşüp arayabilirdi — gelen çağrıya "biz ona bakmıyoruz"
       demek en pahalı kayıp türüdür.
 
-      Yapılanlar: `hizmetler.json` → `aktif: false` (kayıt **silinmedi**, iş
-      bir gün yapılırsa tek satırla geri açılır) · iki blog yazısı
+      Yapılanlar: `hizmetler.json` → `aktif: false` (kayıt 02.10.2026'da
+      sahibinin isteğiyle **tamamen silindi**, git geçmişinde duruyor) · iki blog yazısı
       (`firin-isinmiyor`, `ocak-atesleme-yapmiyor`) **silindi** · Sarıçam
       `yerelNotlar` aralığı "klima montajından **kombi bakımına**" oldu ·
       ana sayfa cihaz listesinden ve `OlcuSeridi` notundan çıkarıldı.
@@ -3086,21 +3102,16 @@ kapasite tahmin edilecek şey değildir.
          yakaladı, `ozet` kısaltıldı. Uyarıyı görmezden gelseydik arama
          sonucunda "…" ile biten açıklama çıkacaktı.
 
-      **Sahibine sunulan aday listesinin kalanı — hâlâ soru, hiçbiri onaysız
-      eklenmez.** Bunlar bu iş kolunda yaygın hizmetler, firmanın yaptığının
-      iddiası değil:
+      **Aday listesi — KAPANDI 02.10.2026.** Eklenen üçü dışında hiçbiri
+      yapılmıyor; sahibine tekrar sormayın:
 
-      | Aday | Not |
+      | Aday | Sonuç |
       |---|---|
-      | ~~Klima montajı / demontajı / taşıma~~ | **EKLENDİ** — 1 hub + 4 para sayfası. |
-      | ~~Televizyon tamiri~~ | **EKLENDİ** 12.08.2026 — 1 hub + 4 para sayfası. |
-      | ~~Kombi bakım ve onarım~~ | **EKLENDİ** 12.08.2026 — gaz devresi HARİÇ, aşağıya bakın. |
-      | **Ticari soğutma** (vitrin dolabı, soğuk oda, sanayi tipi bulaşık makinesi) | Farklı müşteri (işletme), yüksek bilet, düşük rekabet. |
-      | **Şofben / termosifon (elektrikli su ısıtıcısı)** | Beyaz eşya servislerinin sık yaptığı iş. |
-      | **Davlumbaz / aspiratör** | Fırın-ocak ile aynı mutfakta, doğal ek. |
-      | **Ankastre set montajı** | Montaj işi; tamirle aynı ekip. |
-      | **Mikrodalga fırın** · **derin dondurucu** | Küçük hacim; ayrı sayfa değeri düşük olabilir. |
-      | **Su arıtma / su sebili** | Ayrı uzmanlık; yapılıyorsa eklenir. |
+      | Klima montajı / demontajı / taşıma | **EKLENDİ** 30.07.2026 |
+      | Televizyon tamiri | **EKLENDİ** 12.08.2026 |
+      | Kombi bakım ve onarım | **EKLENDİ** 12.08.2026 — gaz devresi HARİÇ, aşağıya bakın |
+      | Ticari soğutma · şofben/termosifon · davlumbaz/aspiratör · ankastre set montajı · mikrodalga · küçük ev aletleri · su arıtma/sebil | **YAPILMIYOR** (02.10.2026) |
+      | Ev tipi derin dondurucu | Ayrı hizmet değil, **buzdolabı hizmetine dahil** |
 
       **⚠️ KOMBİ — GAZ DEVRESİ HARİÇ AÇILDI. Sınırı gevşetmeyin.**
 
@@ -3136,9 +3147,6 @@ kapasite tahmin edilecek şey değildir.
       açabilir. Sahibi bilgilendirildi ve devam dedi; A4/E2 gibi **kabul
       edilmiş risk** olarak kayda geçti. Belge alınırsa kapsam genişletilebilir
       — o zaman bu madde yeniden açılır.
-
-      **⚠️ Şofben / termosifon adayında aynı ayrım geçerli:** elektrikli
-      su ısıtıcısı sorunsuz, **gazlı şofben** kombiyle aynı sınıra girer.
 
       **Televizyon — sahibinin cevabıyla yazıldı.** Site her yerde "aynı gün,
       2 saatte yerinde" diyor; TV'de bu çoğu zaman böyle işlemiyor, o yüzden

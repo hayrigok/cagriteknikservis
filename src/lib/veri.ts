@@ -19,7 +19,6 @@ const IKONLAR: Record<string, IkonAdi> = {
   'bulasik-makinesi-tamiri': 'bulasik',
   'buzdolabi-tamiri': 'buzdolabi',
   'kurutma-makinesi-tamiri': 'kurutma',
-  'firin-ocak-tamiri': 'firin',
   'televizyon-tamiri': 'televizyon',
   'kombi-bakim-onarim': 'kombi',
 };
