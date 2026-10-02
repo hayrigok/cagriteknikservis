@@ -79,7 +79,14 @@ const { ga: gaKimlik, ads: adsKimlik } = olcumKimlikleri();
     <meta property="og:image:alt" content={`${firma.kisaAd} — ${firma.telefon}`} />
     <meta name="twitter:card" content="summary_large_image" />
 
-    <meta name="theme-color" content="#0b2942" />
+    <meta name="theme-color" content="#0a1f44" />
+    {/*
+      İki yazı tipi dilimi de her Türkçe sayfada gerekiyor (ğ ı ş İ latin-ext'te).
+      Preload, CSS ayrıştırılmadan indirmeyi başlatır; swap sayesinde metin
+      bunu beklemeden boyanır. crossorigin şart — yoksa dosya iki kez iner.
+    */}
+    <link rel="preload" href="/fonts/plus-jakarta-sans-latin.woff2" as="font" type="font/woff2" crossorigin />
+    <link rel="preload" href="/fonts/plus-jakarta-sans-latin-ext.woff2" as="font" type="font/woff2" crossorigin />
     <link rel="icon" href="/favicon.svg" type="image/svg+xml" />
 
     {

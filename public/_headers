@@ -4,3 +4,8 @@
 # bildiriyor — yalnızca bu dosya gerekiyor.
 /llms.txt
   Content-Type: text/plain; charset=utf-8
+
+# Yazı tipi dosyalarının adı sürüm taşımıyor ama içerikleri değişmiyor.
+# Bir gün değiştirilirse DOSYA ADI da değiştirilir (önbellek bir yıl).
+/fonts/*
+  Cache-Control: public, max-age=31536000, immutable

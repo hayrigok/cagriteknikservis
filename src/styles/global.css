@@ -1,66 +1,113 @@
 @import 'tailwindcss';
 
 /*
-  FONT — {PLACEHOLDER}
-  Bütçe: 2 varyant, self-hosted, font-display:swap.
-  Google Fonts CDN'i KULLANMIYORUZ: üçüncü taraf istek + KVKK riski + LCP'ye
-  ek RTT demek. Dosyalar public/fonts/ içine bırakılınca aşağıdaki blok açılıp
-  --font-sans başına 'Site' eklenecek. O güne kadar sistem yığını: sıfır byte,
-  sıfır CLS.
+  YAZI TİPİ — Plus Jakarta Sans, değişken ağırlık 400–800, SIL OFL 1.1
+  (public/fonts/OFL.txt). 02.10.2026, sahibinin onayıyla (D1 tersine döndü).
 
-  @font-face { font-family:'Site'; src:url('/fonts/site-400.woff2') format('woff2');
-               font-weight:400; font-display:swap; }
-  @font-face { font-family:'Site'; src:url('/fonts/site-700.woff2') format('woff2');
-               font-weight:700; font-display:swap; }
+  KENDİ SUNUCUMUZDAN: Google Fonts CDN'i KULLANMIYORUZ — üçüncü taraf istek,
+  KVKK riski ve LCP'ye ek RTT demek. İki dilim var çünkü ğ ı ş İ latin-ext'te;
+  Türkçe her sayfa ikisini de ister, BaseLayout ikisini de preload eder.
+
+  font-display: swap — metin yedek yazı tipiyle HEMEN boyanır (LCP beklemez),
+  font gelince yer değiştirir. Kaymayı önleyen şey aşağıdaki "Jakarta Yedek":
+  Arial'in genişliği ve dikey ölçüleri Plus Jakarta Sans'a eşitlendi. Değerler
+  tahmin değil, headless Chrome'da aynı Türkçe paragraf iki yazı tipiyle
+  ölçülerek bulundu (02.10.2026): genişlik oranı 400'de 1.0114, 800/700'de
+  1.0013; yükselme 1.04 em, alçalma 0.22 em.
 */
+@font-face {
+  font-family: 'Plus Jakarta Sans';
+  src: url('/fonts/plus-jakarta-sans-latin.woff2') format('woff2');
+  font-weight: 400 800;
+  font-style: normal;
+  font-display: swap;
+  unicode-range: U+0000-00FF, U+0131, U+0152-0153, U+02BB-02BC, U+02C6, U+02DA, U+02DC, U+0304, U+0308, U+0329, U+2000-206F, U+20AC, U+2122, U+2191, U+2193, U+2212, U+2215, U+FEFF, U+FFFD;
+}
+
+@font-face {
+  font-family: 'Plus Jakarta Sans';
+  src: url('/fonts/plus-jakarta-sans-latin-ext.woff2') format('woff2');
+  font-weight: 400 800;
+  font-style: normal;
+  font-display: swap;
+  unicode-range: U+0100-02BA, U+02BD-02C5, U+02C7-02CC, U+02CE-02D7, U+02DD-02FF, U+0304, U+0308, U+0329, U+1D00-1DBF, U+1E00-1E9F, U+1EF2-1EFF, U+2020, U+20A0-20AB, U+20AD-20C0, U+2113, U+2C60-2C7F, U+A720-A7FF;
+}
+
+@font-face {
+  font-family: 'Jakarta Yedek';
+  src: local('Arial'), local('ArialMT');
+  font-weight: 400 600;
+  size-adjust: 101.14%;
+  ascent-override: 102.83%;
+  descent-override: 21.75%;
+  line-gap-override: 0%;
+}
+
+@font-face {
+  font-family: 'Jakarta Yedek';
+  src: local('Arial Bold'), local('Arial-BoldMT');
+  font-weight: 700 800;
+  size-adjust: 100.13%;
+  ascent-override: 103.86%;
+  descent-override: 21.97%;
+  line-gap-override: 0%;
+}
 
 @theme {
   --font-sans:
-    system-ui, -apple-system, 'Segoe UI', Roboto, 'Helvetica Neue', Arial, sans-serif;
+    'Plus Jakarta Sans', 'Jakarta Yedek', system-ui, -apple-system, 'Segoe UI', Roboto,
+    'Helvetica Neue', Arial, sans-serif;
 
-  /* Damgalı etiket sesi — beyaz eşya arkasındaki model/seri plakasının dili */
+  /* GEÇİŞ — Görev 8'de silinir. Bileşenler taşındıkça kullanımı sıfıra iner. */
   --font-plaka:
     ui-monospace, 'Cascadia Mono', 'Segoe UI Mono', 'SF Mono', Menlo, Consolas, monospace;
 
   /*
-    RENK — ui-ux-pro-max `Home Services` kaydı: Trust Blue + Safety Orange +
-    Professional grey. Bütün değerler WCAG oranı HESAPLANARAK seçildi, gözle
-    değil; oranlar yanlarında yazılı. design-system/MASTER.md'ye bakın.
-
-    Hiyerarşi çizgiyle değil RENK BLOĞUYLA kuruluyor (DB: "Color creates all
-    hierarchy — color-blocking sections, not borders"). Saç teli çizgilerle
-    kurulan önceki düzen zayıf görünüyordu.
+    RENK — "Gece Mavisi" (02.10.2026, sahibinin seçimi). Bütün değerler WCAG
+    oranı HESAPLANARAK seçildi; oranlar yanlarında. Tek kaynak tablo:
+    design-system/MASTER.md.
   */
 
-  /* Lacivert — güven. Koyu bloklar, başlıklar, ikon kapları */
-  --color-lacivert-50: #eef4f9;
-  --color-lacivert-100: #d8e7f2;
-  --color-lacivert-200: #b9d4e8; /* lacivert-900 üzerinde 9.68:1 */
-  --color-lacivert-300: #93bcd9; /* lacivert-900 üzerinde 7.40:1 */
-  --color-lacivert-600: #0c5c96; /* beyaz metinle 7.03:1 */
-  --color-lacivert-700: #0a4a7a; /* beyaz zeminde link 9.24:1 */
-  --color-lacivert-800: #103958;
-  --color-lacivert-900: #0b2942; /* beyaz metinle 14.89:1 */
+  /* Lacivert — güven. Koyu bloklar, başlıklar. */
+  --color-lacivert-50: #eef3fb; /* açık zeminde hover — metin 15.51, kobalt 6.02 */
+  --color-lacivert-100: #dce4f0; /* açık zeminde çizgi */
+  --color-lacivert-200: #c9d6ea; /* lacivert-900 üzerinde gövde 11.06:1 */
+  --color-lacivert-300: #a9bedf; /* lacivert-900 üzerinde soluk metin 8.60:1 */
+  --color-lacivert-400: #7a8ba8; /* form alanı kenarı — beyazda 3.45:1 (sınır için 3:1) */
+  --color-lacivert-700: #1b3f86; /* yalnızca hero ışık lekesi */
+  --color-lacivert-800: #13306a; /* koyu blokta hover — beyaz metin 12.66:1 */
+  --color-lacivert-900: #0a1f44; /* beyaz metinle 16.25:1 */
 
-  /* Turuncu — birincil eylem. Tek vurgu rengi. */
-  --color-turuncu-300: #fb923c; /* lacivert-900 üzerinde METİN 6.58:1 */
-  --color-turuncu-400: #ea580c; /* yalnızca grafik/çizgi, beyazda 3.56:1 */
-  --color-turuncu-600: #9a3412; /* beyaz metinle 7.31:1 — CTA dolgusu */
-  --color-turuncu-700: #7c2d12; /* beyaz zeminde metin 9.37:1 */
+  /* Kobalt — açık zeminde bağlantı, ikon, odak halkası. */
+  --color-kobalt-50: #e8effd; /* ikon kabı — kobalt ikon 5.81:1 */
+  --color-kobalt-600: #1d4ed8; /* beyazda 6.70:1, zeminde 6.13:1 */
+  --color-kobalt-700: #1e40af; /* hover — beyazda 8.72:1 */
 
-  /* WhatsApp — platform rengi, vurgu değil. Yalnızca WhatsApp öğelerinde. */
-  --color-yesil-600: #0e6f64; /* beyaz metinle 6.04:1 */
-  --color-yesil-700: #0a574e;
+  /* Turuncu — YALNIZCA arama eylemi (CTA dolgusu, lacivert metinle). */
+  --color-turuncu-300: #ffb27a; /* lacivert-900 üzerinde vurgu metni 9.21:1 */
+  --color-turuncu-400: #ff8f3f; /* CTA hover — lacivert metin 7.16:1 */
+  --color-turuncu-500: #ff7a1a; /* CTA dolgusu — lacivert-900 metin 6.23:1 */
+  --color-turuncu-700: #b4410f; /* açık zeminde hata metni — beyazda 5.67, zeminde 5.19 */
 
-  --color-zemin: #f4f7fa; /* açık blok */
-  --color-metin: #14212b; /* zeminde 15.23:1 */
-  --color-metin-soluk: #4a5b68; /* zeminde 6.54:1, beyazda 7.03:1 */
+  /* GEÇİŞ — Görev 8'de silinir. */
+  --color-turuncu-600: #9a3412;
+  --color-lacivert-600: #0c5c96;
 
-  /*
-    TİPOGRAFİ — modüler ölçek. "Primary headlines much larger than body."
-    Başlıklar bilerek iri: sayfanın gücü tipografiden geliyor, görsel yok.
-  */
-  --text-plaka: 0.6875rem; /* 11 */
+  /* WhatsApp — platform rengi, vurgu değil. */
+  --color-yesil-600: #0e7a4f; /* beyaz metinle 5.36:1 */
+  --color-yesil-700: #0b6341; /* hover — 7.30:1 */
+
+  /* Açık/kapalı çipi (Hero) — yalnızca orada. */
+  --color-durum: #22c55e; /* nokta, lacivert-900'de 7.13:1 */
+  --color-durum-metin: #bbf7d0; /* lacivert-900'de 13.41:1 */
+
+  --color-zemin: #f2f5fa;
+  --color-metin: #0f1b2d; /* zeminde 15.82:1 */
+  --color-metin-soluk: #4b5a70; /* beyazda 7.01:1, zeminde 6.42:1 */
+
+  /* TİPOGRAFİ — başlıklar 800 ağırlıkla, sayfanın gücü tipografiden. */
+  --text-etiket: 0.8125rem; /* 13 — bölüm etiketi, küçük açıklama */
+  --text-plaka: 0.6875rem; /* GEÇİŞ — Görev 8'de silinir */
   --text-kucuk: 0.875rem; /* 14 */
   --text-govde: 1rem; /* 16 — taban, altına inilmez */
   --text-lead: 1.125rem; /* 18 */
@@ -70,12 +117,30 @@
   --text-numara: clamp(1.5rem, 4.4vw, 2.5rem); /* 24 → 40 */
   --text-dev: clamp(2.25rem, 5vw, 3rem); /* istatistik rakamı */
 
-  /* Köşe — DB: 6 / 12. Üçüncü bir değer kullanılmaz. */
-  --radius-sm: 6px;
-  --radius-md: 12px;
+  /* Köşe — üç değer: düğme/alan/ikon kabı · kart · büyük panel. */
+  --radius-sm: 10px;
+  --radius-md: 16px;
+  --radius-lg: 20px;
+
+  /* Gölge — ROLÜNE GÖRE: tıklanan kart, form kartı, büyük CTA, üst çubuk.
+     Her kutuya basılmaz; sahibi düz kutuları "boş" buldu, gölgesiz
+     kural 02.10.2026'da kalktı. */
+  --shadow-kart: 0 1px 2px rgb(10 31 68 / 0.05), 0 6px 20px -12px rgb(10 31 68 / 0.18);
+  --shadow-kart-ust: 0 2px 4px rgb(10 31 68 / 0.06), 0 14px 32px -14px rgb(10 31 68 / 0.28);
+  --shadow-cta: 0 10px 28px -10px rgb(255 122 26 / 0.55);
+  --shadow-ust-cubuk: 0 1px 0 rgb(10 31 68 / 0.08), 0 4px 16px -8px rgb(10 31 68 / 0.12);
 }
 
-/* Damgalı etiket: bölüm üstü, tablo başlığı, veri alanı adı */
+/* Bölüm etiketi, künye alan adı, footer başlığı. Renk ayrıca verilir:
+   açık zeminde kobalt-600, koyu zeminde turuncu-300 veya lacivert-300. */
+@utility etiket {
+  font-size: var(--text-etiket);
+  line-height: 1.3;
+  font-weight: 600;
+  letter-spacing: 0.01em;
+}
+
+/* GEÇİŞ — Görev 8'de silinir. */
 @utility plaka {
   font-family: var(--font-plaka);
   font-size: var(--text-plaka);
@@ -83,6 +148,17 @@
   font-weight: 600;
   letter-spacing: 0.1em;
   text-transform: uppercase;
+}
+
+/* Koyu blokta sağ üstte tek yumuşak ışık lekesi. bg-lacivert-900 ile birlikte
+   kullanılır. Saf CSS: sıfır byte, sıfır istek. Yalnızca hero, alt CTA, form
+   yan paneli ve yasal sayfaların başlığında. */
+@utility isik {
+  background-image: radial-gradient(
+    120% 70% at 100% 0%,
+    var(--color-lacivert-700) 0%,
+    rgb(27 63 134 / 0) 62%
+  );
 }
 
 /* Telefon ve fiyat gibi hizalanması gereken rakamlar */
@@ -138,10 +214,10 @@ a,
 button,
 summary,
 [role='button'] {
-  -webkit-tap-highlight-color: rgb(12 92 150 / 0.15);
+  -webkit-tap-highlight-color: rgb(29 78 216 / 0.15);
 }
 
-/* Hareket yalnızca renk geçişi, 150 ms. Konum/boyut animasyonu yok. */
+/* Hareket yalnızca renk/gölge geçişi, 150 ms. Konum/boyut animasyonu yok. */
 @media (prefers-reduced-motion: reduce) {
   html {
     scroll-behavior: auto;
@@ -154,11 +230,12 @@ summary,
   }
 }
 
-/* Klavye erişilebilirliği — hiçbir yerde kaldırılmaz */
+/* Klavye erişilebilirliği — hiçbir yerde kaldırılmaz. Açık zeminde kobalt:
+   turuncu-500 beyazda 2.61:1, halka için gereken 3:1'in altında kalıyordu. */
 :where(a, button, input, textarea, select, summary, [tabindex]):focus-visible {
-  outline: 3px solid var(--color-turuncu-400);
+  outline: 3px solid var(--color-kobalt-600);
   outline-offset: 2px;
-  border-radius: 2px;
+  border-radius: 4px;
 }
 
 /* Koyu blok içindeki odak halkası zeminde kaybolmasın */
@@ -195,8 +272,8 @@ summary,
   margin-top: 2.5em;
   font-size: var(--text-h2);
   line-height: 1.15;
-  font-weight: 700;
-  letter-spacing: -0.01em;
+  font-weight: 800;
+  letter-spacing: -0.015em;
   text-wrap: balance;
   color: var(--color-lacivert-900);
 }
@@ -223,7 +300,7 @@ summary,
 }
 
 .yazi li::marker {
-  color: var(--color-turuncu-600);
+  color: var(--color-kobalt-600);
   font-weight: 700;
 }
 
@@ -237,23 +314,23 @@ summary,
 }
 
 .yazi a {
-  color: var(--color-lacivert-700);
+  color: var(--color-kobalt-600);
   font-weight: 600;
   text-decoration: underline;
   text-underline-offset: 2px;
 }
 
 .yazi a:hover {
-  color: var(--color-turuncu-700);
+  color: var(--color-kobalt-700);
 }
 
 /*
   Uyarı kutusu — markdown'da "> " ile yazılır. Güvenlik notları için:
   elektrik, gaz ve su tesisatına dokunma sınırını burada çiziyoruz.
-  Sol kenar çubuğu tek istisna: gerisi renk bloğuyla kurulu.
+  Sol turuncu kenar çubuğu bilinçli: bu bir UYARI, çubuk anlam taşıyor.
 */
 .yazi blockquote {
-  border-left: 4px solid var(--color-turuncu-600);
+  border-left: 4px solid var(--color-turuncu-500);
   background: var(--color-zemin);
   border-radius: 0 var(--radius-sm) var(--radius-sm) 0;
   padding: 1.25rem 1.5rem;
