@@ -58,10 +58,6 @@
     'Plus Jakarta Sans', 'Jakarta Yedek', system-ui, -apple-system, 'Segoe UI', Roboto,
     'Helvetica Neue', Arial, sans-serif;
 
-  /* GEÇİŞ — Görev 8'de silinir. Bileşenler taşındıkça kullanımı sıfıra iner. */
-  --font-plaka:
-    ui-monospace, 'Cascadia Mono', 'Segoe UI Mono', 'SF Mono', Menlo, Consolas, monospace;
-
   /*
     RENK — "Gece Mavisi" (02.10.2026, sahibinin seçimi). Bütün değerler WCAG
     oranı HESAPLANARAK seçildi; oranlar yanlarında. Tek kaynak tablo:
@@ -89,10 +85,6 @@
   --color-turuncu-500: #ff7a1a; /* CTA dolgusu — lacivert-900 metin 6.23:1 */
   --color-turuncu-700: #b4410f; /* açık zeminde hata metni — beyazda 5.67, zeminde 5.19 */
 
-  /* GEÇİŞ — Görev 8'de silinir. */
-  --color-turuncu-600: #9a3412;
-  --color-lacivert-600: #0c5c96;
-
   /* WhatsApp — platform rengi, vurgu değil. */
   --color-yesil-600: #0e7a4f; /* beyaz metinle 5.36:1 */
   --color-yesil-700: #0b6341; /* hover — 7.30:1 */
@@ -107,7 +99,6 @@
 
   /* TİPOGRAFİ — başlıklar 800 ağırlıkla, sayfanın gücü tipografiden. */
   --text-etiket: 0.8125rem; /* 13 — bölüm etiketi, küçük açıklama */
-  --text-plaka: 0.6875rem; /* GEÇİŞ — Görev 8'de silinir */
   --text-kucuk: 0.875rem; /* 14 */
   --text-govde: 1rem; /* 16 — taban, altına inilmez */
   --text-lead: 1.125rem; /* 18 */
@@ -138,16 +129,6 @@
   line-height: 1.3;
   font-weight: 600;
   letter-spacing: 0.01em;
-}
-
-/* GEÇİŞ — Görev 8'de silinir. */
-@utility plaka {
-  font-family: var(--font-plaka);
-  font-size: var(--text-plaka);
-  line-height: 1;
-  font-weight: 600;
-  letter-spacing: 0.1em;
-  text-transform: uppercase;
 }
 
 /* Koyu blokta sağ üstte tek yumuşak ışık lekesi. bg-lacivert-900 ile birlikte
