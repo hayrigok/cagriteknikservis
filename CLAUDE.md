@@ -819,7 +819,12 @@ Tools** — **YAPILDI 02.10.2026**: site eklendi, sitemap gönderildi (sahibi
 bildirdi). **"AI Performance" (beta) menüsü Copilot cevaplarında anılma
 sayısını gösteriyor — ölçüm buradan, ~2–3 hafta sonra** · (3) G6'nın kalanları (açıklama ·
 WhatsApp · ek kategoriler) — **YAPILDI 02.10.2026**, metinler
-`docs/google-isletme-profili.md` · (4) Apple Business Connect · (5) Yandex Haritalar.
+`docs/google-isletme-profili.md` · (4) Apple Business Connect — **ATLANDI
+02.10.2026, sahibinin kararı:** resmî belge istiyor (kayıtlı işletme yok, bkz.
+C11); Türkiye'de Apple Haritalar az kullanıldığı için kaybı küçük, tekrar
+önermeyin · (5) Yandex Haritalar — isteğe bağlı, yapılmadı. **Ölçüm ~23.10.2026:**
+Bing → AI Performance · GA4 → Trafik edinme → oturum kaynağı (`chatgpt.com` ·
+`perplexity.ai` · `copilot.microsoft.com`) · telefonda "nereden buldunuz".
 Her kayıtta ad, telefon ve saat **birebir aynı**. İlk sıra garanti edilemez —
 cevap kişiye, konuma ve soruya göre değişir; sahibine söylendi.
 
