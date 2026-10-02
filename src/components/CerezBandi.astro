@@ -2,12 +2,19 @@
 // Consent Mode'un ön koşulu. Onay verilmeden hiçbir ölçüm olayı gönderilmez.
 // Pop-up DEĞİL: sayfayı örtmeyen, kapatılabilir alt bant. Giriş animasyonu yok.
 // hidden ile başlar, karar verilmemişse JS açar — bu yüzden CLS yaratmaz.
+//
+// Konum CSS ile: md altında bant, sabit alt çubuğun (MobilBar, 3.5rem +
+// güvenli alan) ÜSTÜNDE durur; md'de çubuk gizli, bant en altta.
+// 02.10.2026'ya kadar alttan beyaz dolgu veriliyordu ve bant z-50 olduğu için
+// o dolgu "Hemen Ara" çubuğunu ÖRTÜYORDU. Ara çözümde konum JS'le bir kez
+// hesaplandı; telefon çevrilince bayatlıyordu. Medya sorgusu her çevirmede
+// kendiliğinden doğru kalır.
 ---
 
 <div
   data-cerez
   hidden
-  class="fixed inset-x-0 bottom-0 z-50 border-t border-lacivert-100 bg-white py-3 shadow-[0_-8px_24px_-12px_rgb(10_31_68/0.25)] sm:py-4"
+  class="fixed inset-x-0 bottom-[calc(3.5rem+env(safe-area-inset-bottom))] z-50 border-t border-lacivert-100 bg-white py-3 shadow-[0_-8px_24px_-12px_rgb(10_31_68/0.25)] sm:py-4 md:bottom-0"
 >
   <div class="kap flex flex-col gap-3 sm:flex-row sm:items-center sm:justify-between sm:gap-6">
     <p class="text-[13px] leading-snug text-metin-soluk sm:text-kucuk sm:leading-relaxed">
@@ -41,14 +48,6 @@
   if (bant) {
     if (onayDurumu() === null) {
       bant.hidden = false;
-      /*
-        Mobilde bant, sabit alt çubuğun (MobilBar, 3.5rem + güvenli alan)
-        ÜSTÜNDE durur. 02.10.2026'ya kadar alttan dolgu veriliyordu: bant z-50
-        olduğu için o beyaz dolgu "Hemen Ara" çubuğunu ÖRTÜYORDU — ziyaretçi
-        çerez kararı verene kadar alt çubuk görünmüyordu.
-      */
-      const genis = window.matchMedia('(min-width: 768px)').matches;
-      if (!genis) bant.style.bottom = 'calc(3.5rem + env(safe-area-inset-bottom))';
     }
 
     bant.querySelector('[data-cerez-kabul]')?.addEventListener('click', () => {
