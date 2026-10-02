@@ -1248,13 +1248,18 @@ etkinleştirildi, **akıllı kampanya aynı anda duraklatıldı**. 11 reklam gru
 112 kelime · ₺100 günlük bütçe · ₺5 maksimum TBM · çağrı dönüşümü 60 sn.
 Ayrıntı ve kurulan her ayar **C8**'de, teşhis geçmişi **C9**'da.
 
-**⏭ Bir sonraki oturumun ilk işi: 3 GÜNLÜK TEMİZ TESTİN SONUCU.**
-20.08.2026'da kampanya ilk kez temiz hâle geldi (C10 negatifleri). Karar
-kuralı: **₺100/gün × 3 gün = ₺300'e en az 1 iş geliyor mu?** Gelmezse reklam
-durdurulup enerji Haritalar'a (D4 yorum akışı) yönlendirilir — ikisi de meşru
-karar. **Ölçüm yalnızca sahibinin çağrı kaydından gelebilir** (sebebi C12'de).
-Bekleyen üç ayar: **bütçe ₺350 → ₺100** · **Televizyon grubu duraklatılmış,
-açılacak** · **yeni ödeme profiline bakiye yüklenecek** (₺0 ise reklam durur).
+**⏭ Bir sonraki oturumun ilk işi (02.10.2026): C13'ün son maddesi.**
+Sahibine **14 şikâyet/araştırma kelimesini duraklatma** adımı verildi
+(₺2.916 harcamış, ara düğmesine 0 basış). Yapıldıysa C13'e işleyin, sonra
+**tek tek** sırayla: `Tıkla ve ara` dönüşümünün türü (Hedefler → Dönüşümler
+→ Özet) · açılış sayfası deneyimi (her grubun reklam Nihai URL'si gerekiyor)
+· sayaç raporunun "kaldırın" bölümündeki adresleri Ads'in IP hariç tutma
+listesinden silmek · **05.10 okuması** (C13). Bütçe ₺500/gün, kredi
+~16.10'da biter; **TV grubu KAPALI kalıyor** (sahibinin kararı, 02.10).
+
+**⏭ Eski madde (20.08.2026, bayat) — 3 günlük temiz test.** Karar kuralı
+"₺100/gün × 3 gün = ₺300'e en az 1 iş" idi. O günkü üç ayar (bütçe ₺100 ·
+TV'yi açmak · bakiye) **artık geçerli değil**, yukarıdaki maddeye bakın.
 
 **⏭ Eski madde — ilk haftanın rakamlarını okumak.** Sırasıyla:
 **(1)** arama gösterim payı — ₺5 teklif piyasanın altında kalıyorsa reklam hiç
@@ -2582,6 +2587,41 @@ Aşağıdakiler o gün için duruyor:
         yazıyordu.** Basışın kaçının aramaya döndüğü bilinmiyor (20.08'deki
         5 basış → 2 arama tek örnek, genellenmez). Geçersiz tıklama **134**
         (%8,4) — Google ücret almadı, filtre çalışıyor (C9 ders 3).
+      - **Kelime × tıklama türü (02.10, 01.08–02.10, CSV — kaldırılmış
+        kelimeler hariç 135 basış):**
+        | Grup | Ara basışı | ₺ / basış |
+        |---|---|---|
+        | Televizyon (duraklatılmış) | **47** | ~78 |
+        | Beyaz Eşya Servisi | 19 | **~53 — en verimli** |
+        | Klima Bakımı · Servisi · Montajı | 18 · 15 · 11 | ~126 · ~130 · ~89 |
+        | Kombi (duraklatılmış) · Çamaşır · Buzdolabı | 8 · 7 · 7 | ~229 · ~178 · ~266 |
+        | Klima Gaz · Bulaşık · Kurutma | 2 · 1 · 0 | ~507 · ~398 · — |
+        Kampanya ortalaması ~₺121/basış. En çok: `"televizyon tamircisi"` 28
+        · `"televizyon servisi"` 11 · `"beyaz eşya teknik servis"` 8 (başlık
+        tıklaması yalnızca 7 — siteye girmeden arıyorlar) · eski geniş
+        `adana klima temizleme` 8 · `kombi servis` 7.
+        **Şikâyet / araştırma / "ne kadar" kelimeleri: 14 kelime · ₺2.916 ·
+        0 basış** — `buzdolabı soğutmuyor` ₺926 · `klima gazı` ₺489 · `klima
+        arızası` ₺312 · `klima soğutmuyor` ₺225 · `buzluk soğutmuyor` ₺181 ·
+        `çamaşır makinesi hata kodu` ₺137 · `klima filtre temizliği` ₺115 ·
+        `klima gazı ne kadar` ₺113 · `beyaz eşya arıza` ₺100 · `buzdolabı
+        hata veriyor` ₺86 · `klima çalışmıyor` ₺71 · `çamaşır makinesi ses
+        yapıyor` ₺59 · `klima bakımı ne kadar` ₺55 · `buzdolabı ses yapıyor`
+        ₺47. Bu aramalar blogun işi (C10). **Gözden kaçan yan etki:** 8'inin
+        üst sıra tahmini ₺30'un altında — Manuel TBM bu kelimeleri ~₺12–19'luk
+        tıklamadan **üst sıraya ve daha pahalı tıklamaya** taşıyordu. Teklif
+        önerirken bakılmadı. Sahibine duraklatma adımı verildi (02.10 akşam).
+        **Duraklatılmayacak:** `klima gaz dolumu` · `klima gaz dolum fiyatı`
+        (1 basış) · `klima temizleme` (2 basış) · 0 basışlı hizmet kelimeleri.
+        **Sınır:** basış, siteden yapılan aramayı içermez; ama hizmet
+        kelimelerinde basış ≈ başlık tıklaması, şikâyet kelimelerinde 0 —
+        fark tesadüf değil. **TV** aramaların üçte birini getiriyordu;
+        sahibi "az iş" diye kapattı, karar duruyor — arayan çok, iş az ise
+        sebep reklam değil işin türü (tamire değmeyen kırık panel vb.).
+        Dönemin tek "Tüm dönş."ü `"led tv tamiri"` (1, başlık tıklaması;
+        hangi ikincil dönüşüm olduğu Hedefler → Dönüşümler'de bakılacak).
+        WhatsApp mesaj öğesi 28 gösterim · 0 tıklama. "Telefon çağrıları"
+        her satırda 0 — yönlendirme numarası yok (C1).
 
 ---
 
