@@ -818,7 +818,8 @@ yayına girmesi 7–12 gün · (2) **Bing Webmaster
 Tools** — **YAPILDI 02.10.2026**: site eklendi, sitemap gönderildi (sahibi
 bildirdi). **"AI Performance" (beta) menüsü Copilot cevaplarında anılma
 sayısını gösteriyor — ölçüm buradan, ~2–3 hafta sonra** · (3) G6'nın kalanları (açıklama ·
-WhatsApp · ek kategoriler) · (4) Apple Business Connect · (5) Yandex Haritalar.
+WhatsApp · ek kategoriler) — **YAPILDI 02.10.2026**, metinler
+`docs/google-isletme-profili.md` · (4) Apple Business Connect · (5) Yandex Haritalar.
 Her kayıtta ad, telefon ve saat **birebir aynı**. İlk sıra garanti edilemez —
 cevap kişiye, konuma ve soruya göre değişir; sahibine söylendi.
 
@@ -3078,7 +3079,7 @@ kapasite tahmin edilecek şey değildir.
       | Ana kategori | Beyaz Eşya Tamirhanesi | ✔ doğru, **dokunulmaz** |
       | Açıklama | fırın · ocak · mikrodalga · davlumbaz vardı; TV ve kombi yoktu; koşulsuz "orijinal parça" | ✔ **yeni metin girildi 02.10.2026** — `docs/google-isletme-profili.md` (746 kr.) |
       | Hizmet bölgesi | yalnızca Reşatbey | ✔ **4 ilçe eklendi** (sahibi bildirdi, 01.10.2026) |
-      | Sohbet | SMS | WhatsApp'a çevrilecek |
+      | Sohbet | SMS | ✔ **WhatsApp'a çevrildi 02.10.2026** |
       | Ek kategoriler | yok | ✔ **eklendi 02.10.2026:** Klima Tamir Servisi · Televizyon Tamir Servisi · Isıtma sistemleri (Google'da "kombi" kategorisi yok) |
       | Çalışma saati | 08:00–23:00 | ✔ doğruymuş, **site** düzeltildi |
       | Adres | Yüreğir, dükkân | ✔ dükkân var, görünmesi doğru |
