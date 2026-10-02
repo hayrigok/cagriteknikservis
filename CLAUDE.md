@@ -2265,6 +2265,13 @@ Aşağıdakiler o gün için duruyor:
       az iş getiriyor."* (Panelde "TV açılacak" maddesi bu yüzden düştü.) Not:
       bu, sahibinin **reklamdan gelen işi ayırt edebildiğini** gösteriyor —
       grup bazında iş sayısı sorulabilir. Adım 7: konum öğesi (İşletme Profili).
+      — **yapıldı, 02.10:** akıllı kampanyadan kalan `express_campaign_…`
+      yer grubu (1 konum, Yüreğir dükkânı) Search-5'e bağlandı.
+
+      **Kurulum bitti (02.10). İlk okuma: 05.10** — ortalama TBM, üst kısım
+      oranı, günlük bütçenin akşamdan önce bitip bitmediği ve sahibinin "bizi
+      nereden buldunuz" sayısı. ₺40 tavanı ve "en üst"e geçiş o gün konuşulur.
+      Kalan küçük iş: iki aynı arama öğesinden biri (C12) — değeri düşük.
 
 ---
 
