@@ -985,6 +985,15 @@ Sayfa gzip 20–22 KB, kendi JS'imiz 2,2 KB gzip.
 3. Betik `Network.emulateNetworkConditionsByRule`'u önce deniyor, eski komut
    yedek.
 
+**CLS 0,013 Windows'ta ölçüldü (yedek = Arial).** Android'de Arial yok; son
+incelemede yakalandı ve ölçülmüş bir **Roboto yedeği** (`Jakarta Yedek
+Roboto`) eklendi: genişlik farkı < %1, dikey ölçü birebir (Google Fonts
+Roboto'suyla masaüstünde doğrulandı). **Gerçek Android cihazda CLS
+ölçülmedi** — ilk fırsatta PageSpeed/CrUX mobil verisine bakın.
+
+Üst çubuktaki isim yeni yazı tipiyle 320 · 360 · 390 px'te **iki satıra
+sığıyor, kesilmiyor**; çubuk her genişlikte 64 px (02.10.2026, ölçüldü).
+
 **Sitenin önünde artık bir Worker var (14.08.2026) ama tarayıcı tarafında
 hiçbir maliyeti yok.** `worker/index.js` yalnızca sunucuda çalışıyor: inen
 kod yok, istek yok, sayfa ağırlığı ve LCP değişmiyor. Ölçülen CPU süresi
