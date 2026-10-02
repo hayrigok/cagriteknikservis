@@ -2479,8 +2479,13 @@ Aşağıdakiler o gün için duruyor:
       durur (manuel ödeme, C11) ya karttan çekilir. O tarihte karar verilecek.
       **DEĞİŞTİ — sahibi: *"3-4 tıklama istemiyorum, hemen işler aksın."***
       Bütçe **₺500/gün** (kredi ~14 günde, **~16 Ekim**'de biter). Teklif:
-      **Tıklamalar (sınırsız) → Hedef gösterim payı · Sayfanın üst kısmı · %80
-      · azami TBM ₺40.** "Dönüşüm sayısını en üst düzeye çıkarma" (Google'ın
+      **Tıklamalar (sınırsız) → Hedef gösterim payı · Sayfanın üst kısmı · %85
+      · azami TBM ₺45** (panelde girilen; ilk konuşulan %80 / ₺40 idi).
+      **İlk gün (02.10, saat 16:03'te okundu):** Ads 144 gösterim · 8 tıklama ·
+      ₺137 (önceki gün 882 · 33). Sayaçta Google dışı **8 ücretli ziyaret**, Ads
+      ile birebir — ama hepsi **08:29–12:46** arası; değişiklikten sonra 3+ saat
+      **0 tıklama**. Saatlik gösterim istendi: gösterim ~0 ise negatif liste ya da
+      strateji reklamı kesiyor, gösterim varsa sorun konum/metin. "Dönüşüm sayısını en üst düzeye çıkarma" (Google'ın
       önerisi) **seçilmedi**: hesapta kayıtlı dönüşüm 0, algoritma neye göre
       teklif vereceğini bilmez. ₺40 tavanı ölçüme değil, akıllı kampanyada bu
       kelimelere ödenen ₺40–63'e dayanıyor (C9) — ilk hafta ortalama TBM ve
