@@ -1273,8 +1273,8 @@ yol (Yol 1) bakım · montaj · kurutma reklamlarında `klima-servisi` kalmışt
 hafta içinde değişip değişmediğine bakın** (Anahtar kelimeler → Sütunlar →
 Kalite Puanı) → ✅ ödeme ayarı: **manuel, sahibi bakiyeyi her gün
 kendisi izliyor** (03.10; kredi ~16.10'da biter, bakiye sıfırlanırsa reklam
-durur — sahibi biliyor, tekrar sormayın) → **sıradaki:** fiyat
-aramaları kararı (C10) · `Tıkla ve ara` dönüşümünün türü · **05.10
+durur — sahibi biliyor, tekrar sormayın) → ✅ fiyat aramaları: 16.10'a
+kadar dokunulmuyor (C10) → **kalan:** `Tıkla ve ara` dönüşümünün türü · **05.10
 okuması** (C13). Bütçe ₺500/gün; **TV grubu KAPALI kalıyor** (sahibinin
 kararı, 02.10).
 
@@ -1298,9 +1298,8 @@ Hizmet bölgesi **tahmin edilmesi yasak** alandı; **G2 12.08.2026'da cevapland�
 **G3 kapandı** (02.10.2026): aday hizmetlerin hiçbiri yapılmıyor, kapsam
 10 hizmette sabit.
 
-| Soru | Madde | Cevabın etkisi |
-|---|---|---|
-| Fiyat aramaları kesilsin mi, siteye aralık mı konsun? | C10 | Reklamda fiyat arayan kişiye fiyatsız sayfa gösteriliyor. |
+**C10 fiyat sorusu cevaplandı** (03.10.2026): şimdilik dokunulmuyor, ~16.10'da
+arama terimleriyle karar verilecek. **Açık soru kalmadı.**
 
 **R22 CEVAPLANDI — 12.08.2026, sahibi: *"basıyoruz."*** `/klima-gaz-dolumu/`
 sayfalarındaki "R22 gaz dolumu" satırı artık **doğrulanmış** bir hizmet;
@@ -2346,7 +2345,16 @@ Aşağıdakiler o gün için duruyor:
       **Kapatılmamış çelişki:** `"adana klima temizliği fiyatları"` 3 tıklama ·
       ₺44,68 aldı, ama A3 kararıyla sitede **fiyat yok**. Parayla getirilen
       kişi aradığını bulamadan çıkıyor. Ya fiyat aramaları kesilecek ya siteye
-      aralık konacak; sahibine soruldu, karar bekliyor.
+      aralık konacak; sahibine soruldu.
+      **Karar (03.10.2026, sahibi): şimdilik DOKUNULMUYOR, ~16.10'da veriyle
+      karar.** Gerekçe: `klima gaz dolum fiyatı` 1 ara basışı getirdi (C13),
+      yani fiyat soranın bir kısmı müşteri; sayfadaki "telefonda yaklaşık
+      aralık veririz" SSS'i de bu kişiye bir cevap veriyor. A3 (fiyat
+      yayımlanmaz) duruyor. **16.10'da:** arama terimleri raporunda "fiyat ·
+      fiyatları · ne kadar" geçen terimler süzülür; harcama var, ara basışı
+      (Segment → Tıklama türü) yoksa bu ifadeler kampanya negatifi olur.
+      Negatif yazmadan önce `klima gaz dolum fiyatı` pozitif kelimesiyle
+      çakışma kontrol edilir (C8 kuralı).
 
 - [x] **C11. HESAP KİMLİĞİ BABANIN FİRMASINDAN SAHİBİNİN KENDİ ADINA
       TAŞINDI — 20.08.2026.**
