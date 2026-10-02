@@ -65,19 +65,19 @@ const menu = MENU_TANIMI.map((m) => {
 ---
 
 <header
-  class="sticky top-0 z-40 border-b border-lacivert-100 bg-white/95 backdrop-blur supports-[backdrop-filter]:bg-white/85"
+  class="sticky top-0 z-40 bg-white/95 shadow-ust-cubuk backdrop-blur supports-[backdrop-filter]:bg-white/85"
 >
   <div class="kap flex items-center justify-between gap-4 py-2.5">
     <a
       href="/"
-      class="flex min-w-0 items-center gap-2.5 text-lacivert-900 transition-colors duration-150 hover:text-lacivert-700"
+      class="flex min-w-0 items-center gap-2.5 text-lacivert-900 transition-colors duration-150 hover:text-kobalt-700"
     >
       <span
-        class="flex h-9 w-9 shrink-0 items-center justify-center rounded-sm bg-lacivert-900 text-white"
+        class="flex h-9 w-9 shrink-0 items-center justify-center rounded-sm bg-lacivert-900 text-turuncu-300"
       >
         <Ikon ad="arac" boyut={20} />
       </span>
-      <span class="line-clamp-2 text-[13px] leading-tight font-bold text-balance sm:text-[15px]">{ad}</span>
+      <span class="line-clamp-2 text-[13px] leading-tight font-extrabold text-balance sm:text-[15px]">{ad}</span>
     </a>
 
     <nav aria-label="Hizmetler" class="hidden lg:block">
@@ -88,7 +88,7 @@ const menu = MENU_TANIMI.map((m) => {
             <li class:list={[i >= 3 && 'hidden xl:block']}>
               <a
                 href={`/${m.slug}/`}
-                class="text-kucuk font-medium text-metin-soluk transition-colors duration-150 hover:text-lacivert-700"
+                class="text-kucuk font-medium whitespace-nowrap text-metin-soluk transition-colors duration-150 hover:text-kobalt-600"
               >
                 {m.etiket}
               </a>
@@ -98,7 +98,7 @@ const menu = MENU_TANIMI.map((m) => {
         <li>
           <a
             href="/#hizmetler"
-            class="text-kucuk font-semibold text-lacivert-700 transition-colors duration-150 hover:text-turuncu-700"
+            class="text-kucuk font-bold whitespace-nowrap text-kobalt-600 transition-colors duration-150 hover:text-kobalt-700"
           >
             Tüm hizmetler
           </a>
@@ -106,7 +106,7 @@ const menu = MENU_TANIMI.map((m) => {
         <li>
           <a
             href="/blog/"
-            class="text-kucuk font-medium text-metin-soluk transition-colors duration-150 hover:text-lacivert-700"
+            class="text-kucuk font-medium whitespace-nowrap text-metin-soluk transition-colors duration-150 hover:text-kobalt-600"
           >
             Arıza rehberi
           </a>
@@ -120,8 +120,8 @@ const menu = MENU_TANIMI.map((m) => {
       data-konum="header"
       aria-disabled={tel ? undefined : 'true'}
       class:list={[
-        'inline-flex min-h-11 shrink-0 items-center gap-2 rounded-sm bg-turuncu-600 px-4',
-        'font-semibold text-white transition-colors duration-150 hover:bg-turuncu-700',
+        'inline-flex min-h-11 shrink-0 items-center gap-2 rounded-sm bg-turuncu-500 px-4',
+        'font-bold text-lacivert-900 transition-colors duration-150 hover:bg-turuncu-400',
         !tel && 'pointer-events-none opacity-55',
       ]}
     >

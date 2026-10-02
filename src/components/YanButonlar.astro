@@ -30,7 +30,7 @@ const numara = deger(firma.telefon);
 // 56 px: asgari dokunma hedefi 44, sitede kullanılan taban 48 — yan düğme
 // içerik üstünde durduğu için biraz daha büyük.
 const temel =
-  'flex h-14 w-14 items-center justify-center rounded-md text-white transition-colors duration-150';
+  'flex h-14 w-14 items-center justify-center rounded-full shadow-kart-ust transition-colors duration-150';
 const kapali = 'pointer-events-none opacity-55';
 ---
 
@@ -54,7 +54,7 @@ const kapali = 'pointer-events-none opacity-55';
     data-konum="yan_buton"
     aria-label={numara ? `Hemen ara: ${numara}` : 'Hemen ara'}
     aria-disabled={tel ? undefined : 'true'}
-    class:list={[temel, 'bg-turuncu-600 hover:bg-turuncu-700', !tel && kapali]}
+    class:list={[temel, 'bg-turuncu-500 text-lacivert-900 hover:bg-turuncu-400', !tel && kapali]}
   >
     <Ikon ad="telefon" boyut={24} />
   </a>
@@ -66,7 +66,7 @@ const kapali = 'pointer-events-none opacity-55';
     rel="noopener"
     aria-label="WhatsApp'tan yaz"
     aria-disabled={wa ? undefined : 'true'}
-    class:list={[temel, 'bg-yesil-600 hover:bg-yesil-700', !wa && kapali]}
+    class:list={[temel, 'bg-yesil-600 text-white hover:bg-yesil-700', !wa && kapali]}
   >
     <Ikon ad="whatsapp" boyut={24} />
   </a>

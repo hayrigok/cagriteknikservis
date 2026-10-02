@@ -2,20 +2,21 @@
 /*
   2, 3, 4 — Tek H1 + somut vaat + ana CTA. Hepsi kaydırmadan görünen alanda.
 
-  Koyu lacivert blok: sayfanın açılışı renk alanıyla kuruluyor, çizgiyle değil.
-  Beyaz metin lacivert üzerinde 14.89:1, turuncu vurgu 6.58:1 — ikisi de AAA/AA.
-  Zemin dokusu saf CSS radial-gradient: sıfır byte, sıfır istek, LCP metin kalır.
+  Gece laciverti blok + sağ üstte tek yumuşak ışık lekesi (`isik`, saf CSS:
+  sıfır byte, sıfır istek, LCP metin kalır). Beyaz metin lacivert-900 üzerinde
+  16.25:1. design-system/MASTER.md.
 */
 import AraButonu from './AraButonu.astro';
 import Ikon from './Ikon.astro';
 import { firma, tumIlceler, deger, doldurulmusMu } from '@/lib/veri';
+import { calismaAraligi } from '@/lib/acikDurum';
 import type { IkonAdi } from '@/lib/types';
 
 interface Props {
   h1: string;
   altBaslik: string;
   waMesaji: string;
-  /** Damgalı üst etiket — konumu söyler, süsleme değil. */
+  /** Konumu ya da sayfanın ne olduğunu söyleyen kısa etiket — süsleme değil. */
   etiket: string;
   /** Hizmet sayfalarında o cihazın silüeti. */
   ikon?: IkonAdi;
@@ -36,7 +37,7 @@ const kunye: { ikon: IkonAdi; etiket: string; metin: string }[] = [
   { ikon: 'saat', etiket: 'Çalışma saatleri', metin: deger(firma.calismaSaatleri) ?? '' },
   /*
     WhatsApp satırı çalışma saatinin HEMEN ALTINDA duruyor çünkü ikisi
-    birbirini tamamlıyor: "08:00–20:00 geliriz" ama "gece de yazabilirsiniz".
+    birbirini tamamlıyor: "çalışma saatinde geliriz" ama "gece de yazabilirsiniz".
     Ayrı kutu olması şart — aynı satıra sıkıştırılsa ziyaretçi 7/24 servise
     geliyoruz sanar (yasak 1).
 
@@ -50,38 +51,59 @@ const kunye: { ikon: IkonAdi; etiket: string; metin: string }[] = [
   },
   { ikon: 'konum', etiket: 'Hizmet bölgesi', metin: bolgeler ? `${firma.sehir} — ${bolgeler}` : '' },
 ].filter((k) => k.metin !== '');
+
+/*
+  Açık/kapalı çipi — aramadan önce sorulan "şu an açık mısınız?" sorusunun
+  cevabı. Saat metni "Her gün HH:MM–HH:MM" kalıbında değilse null döner ve
+  çip hiç basılmaz (lib/acikDurum.ts). Durumu tarayıcı yazar, Türkiye saatiyle.
+*/
+const aralik = calismaAraligi(deger(firma.calismaSaatleri) ?? '');
 ---
 
-{/* id="icerik" artık sayfalardaki <main> üzerinde — "İçeriğe atla" bağlantısı
-    oraya gidiyor. Bkz. BaseLayout. */}
-<section class="koyu-blok relative overflow-hidden bg-lacivert-900">
-  {/* Doku: saf CSS nokta ızgarası. Görsel indirilmiyor. */}
-  <div
-    aria-hidden="true"
-    class="pointer-events-none absolute inset-0"
-    style="background-image: radial-gradient(circle at 1px 1px, rgb(255 255 255 / .07) 1px, transparent 0); background-size: 26px 26px;"
-  >
-  </div>
-
+{/* id="icerik" sayfalardaki <main> üzerinde — "İçeriğe atla" oraya gidiyor. */}
+<section class="koyu-blok isik relative overflow-hidden bg-lacivert-900">
   {/* Mobilde üst boşluk bilerek az (py-10): acil arayan kişi telefon
       düğmesini kaydırmadan görsün. Masaüstünde yer bol, py-24 kalıyor. */}
   <div class="kap relative py-10 sm:py-16 lg:py-24">
     <div class:list={['grid items-start gap-8 lg:gap-12', kunye.length > 0 && 'lg:grid-cols-[1.15fr_1fr]']}>
       <div>
-        <p class="plaka flex items-center gap-2 text-turuncu-300">
-          {ikon && <Ikon ad={ikon} boyut={18} />}
-          {etiket}
-        </p>
+        <div class="flex flex-wrap items-center gap-x-4 gap-y-2">
+          {
+            /*
+              Genişlik SABİT ve çip betik çalışana kadar görünmez (invisible:
+              yer tutar, görünmez). Metin sonradan yazıldığı için genişlik
+              ona göre değişseydi yanındaki etiket ve alttaki H1 kayardı (CLS).
+              17.5rem iki metnin uzununu ("Şu an kapalıyız · açılış 08:00")
+              14 px'te taşıyor — Görev 4 Adım 6'da ölçüldü. JS kapalıysa çip
+              görünmez kalır; saat bilgisi künyede zaten yazılı.
+            */
+            aralik && (
+              <p
+                data-acik-durum
+                data-acilis-dk={aralik.acilisDk}
+                data-kapanis-dk={aralik.kapanisDk}
+                data-acilis={aralik.acilis}
+                data-kapanis={aralik.kapanis}
+                class="durum-cipi invisible inline-flex w-[17.5rem] max-w-full items-center gap-2 rounded-full border px-3 py-1.5 text-kucuk font-semibold whitespace-nowrap"
+              >
+                <span aria-hidden="true" class="durum-noktasi h-2 w-2 shrink-0 rounded-full"></span>
+                <span data-metin></span>
+              </p>
+            )
+          }
+          <p class="etiket flex items-center gap-2 text-turuncu-300">
+            {ikon && <Ikon ad={ikon} boyut={18} />}
+            {etiket}
+          </p>
+        </div>
 
-        <h1
-          class="text-h1 mt-4 leading-[1.03] font-bold tracking-tight text-balance text-white"
-        >
+        <h1 class="text-h1 mt-4 leading-[1.04] font-extrabold tracking-tight text-balance text-white">
           {h1}
         </h1>
 
-        <p class="text-lead mt-5 max-w-xl leading-relaxed text-lacivert-200">{altBaslik}</p>
+        <p class="text-lead mt-4 max-w-xl leading-relaxed text-lacivert-200">{altBaslik}</p>
 
-        <AraButonu konum="hero" mesaj={waMesaji} boyut="buyuk" zemin="koyu" class="mt-8 max-w-md" />
+        <AraButonu konum="hero" mesaj={waMesaji} boyut="buyuk" zemin="koyu" class="mt-7 max-w-md" />
 
         <p class="mt-4 flex items-start gap-2 text-kucuk leading-relaxed text-lacivert-300">
           <Ikon ad="onay" boyut={16} class="mt-0.5 shrink-0 text-turuncu-300" />
@@ -94,21 +116,16 @@ const kunye: { ikon: IkonAdi; etiket: string; metin: string }[] = [
         geliyor musunuz". Süs değil. Mobilde CTA'nın ALTINA yığılır.
 
         YAPI UYARISI: dt/dd, dl'in DOĞRUDAN altındaki div'in çocuğu olmak
-        ZORUNDA. Önce ikisi de `div.flex > div.min-w-0` içinde iki kat
-        gömülüydü; ekran okuyucu bunu tanım listesi olarak duyurmuyordu
-        (Lighthouse: dlitem). İkon dt'nin içine alınıp konumlandırmayla sola
-        çekildi — böylece sarmalayıcı div yalnızca dt+dd içeriyor. Ölçüler:
-        masaüstü pl-21 (84px) = p-6 (24) + ikon (44) + boşluk (16);
-        mobil pl-17 (68px) = p-4 (16) + ikon (36) + boşluk (16). Mobilde
-        sıkı çünkü panel CTA'nın altına yığılıyor ve formu aşağı itiyordu.
-        İkon aria-hidden, dokunma hedefi değil — 36 px'e inmesi sorun değil.
+        ZORUNDA (Lighthouse: dlitem). İkon dt'nin içinde, konumlandırmayla
+        sola çekili. Ölçüler: masaüstü pl-21 (84px) = p-6 (24) + ikon (44) +
+        boşluk (16); mobil pl-17 (68px) = p-4 (16) + ikon (36) + boşluk (16).
       */}
       {
         kunye.length > 0 && (
-          <dl class="grid gap-px overflow-hidden rounded-md bg-white/15">
-            {kunye.map((k) => (
-              <div class="relative bg-lacivert-900/95 p-4 pl-17 lg:p-6 lg:pl-21">
-                <dt class="plaka text-lacivert-300">
+          <dl class="grid overflow-hidden rounded-lg border border-white/10 bg-white/[0.06]">
+            {kunye.map((k, i) => (
+              <div class:list={['relative p-4 pl-17 lg:p-6 lg:pl-21', i > 0 && 'border-t border-white/10']}>
+                <dt class="etiket text-lacivert-300">
                   <span
                     aria-hidden="true"
                     class="absolute top-4 left-4 flex h-9 w-9 items-center justify-center rounded-sm bg-white/10 text-turuncu-300 lg:top-6 lg:left-6 lg:h-11 lg:w-11"
@@ -117,7 +134,7 @@ const kunye: { ikon: IkonAdi; etiket: string; metin: string }[] = [
                   </span>
                   {k.etiket}
                 </dt>
-                <dd class="mt-2 leading-relaxed font-semibold text-white">{k.metin}</dd>
+                <dd class="mt-1.5 leading-relaxed font-semibold text-white">{k.metin}</dd>
               </div>
             ))}
           </dl>
@@ -126,3 +143,51 @@ const kunye: { ikon: IkonAdi; etiket: string; metin: string }[] = [
     </div>
   </div>
 </section>
+
+<style>
+  /* Durum rengi betiğin yazdığı data-durum'a bağlı. Kapalıyken nötr (gri
+     nokta, beyaz yazı); açıkken yeşil — nokta 7.13:1, yazı 13.41:1. */
+  .durum-cipi {
+    border-color: rgb(255 255 255 / 0.15);
+    background: rgb(255 255 255 / 0.05);
+    color: #fff;
+  }
+  .durum-noktasi {
+    background: var(--color-lacivert-300);
+  }
+  .durum-cipi[data-durum='acik'] {
+    border-color: rgb(34 197 94 / 0.4);
+    background: rgb(34 197 94 / 0.1);
+    color: var(--color-durum-metin);
+  }
+  .durum-cipi[data-durum='acik'] .durum-noktasi {
+    background: var(--color-durum);
+    box-shadow: 0 0 0 4px rgb(34 197 94 / 0.18);
+  }
+</style>
+
+<script>
+  import { acikMi, durumMetni, istanbulDakikasi } from '@/lib/acikDurum';
+
+  const cip = document.querySelector<HTMLElement>('[data-acik-durum]');
+  const metin = cip?.querySelector<HTMLElement>('[data-metin]');
+
+  function yaz() {
+    if (!cip || !metin) return;
+    const d = cip.dataset;
+    const aralik = {
+      acilisDk: Number(d.acilisDk),
+      kapanisDk: Number(d.kapanisDk),
+      acilis: d.acilis ?? '',
+      kapanis: d.kapanis ?? '',
+    };
+    const acik = acikMi(istanbulDakikasi(), aralik);
+    cip.dataset.durum = acik ? 'acik' : 'kapali';
+    metin.textContent = durumMetni(acik, aralik);
+    cip.classList.remove('invisible');
+  }
+
+  yaz();
+  // Sayfa açık kalırsa durum dakikada bir tazelenir (08:00 / 23:00 geçişi).
+  if (cip) setInterval(yaz, 60_000);
+</script>

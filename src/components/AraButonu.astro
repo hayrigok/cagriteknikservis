@@ -32,8 +32,10 @@ const numara = deger(firma.telefon);
 const koyu = zemin === 'koyu';
 
 // Dokunma hedefi hiçbir yerde 48 px'in altına inmez (asgari kural 44).
+// Köşe bilerek burada YOK: her varyant kendi köşesini verir. rounded-sm ile
+// rounded-md aynı öğede olursa hangisinin kazanacağı CSS üretim sırasına kalır.
 const temel =
-  'inline-flex min-h-12 items-center justify-center gap-2 rounded-sm px-6 font-semibold transition-colors duration-150';
+  'inline-flex min-h-12 items-center justify-center gap-2 px-6 font-semibold transition-colors duration-150';
 const kapali = 'pointer-events-none opacity-55';
 ---
 
@@ -46,12 +48,12 @@ const kapali = 'pointer-events-none opacity-55';
         data-konum={konum}
         aria-disabled={tel ? undefined : 'true'}
         class:list={[
-          'group flex items-center gap-4 rounded-md px-6 py-5 transition-colors duration-150',
-          'bg-turuncu-600 hover:bg-turuncu-700',
+          'group flex items-center gap-4 rounded-lg px-5 py-4 transition-colors duration-150 sm:px-6 sm:py-5',
+          'bg-turuncu-500 text-lacivert-900 shadow-cta hover:bg-turuncu-400',
           !tel && kapali,
         ]}
       >
-        <span class="flex h-12 w-12 shrink-0 items-center justify-center rounded-sm bg-white/15 text-white">
+        <span class="flex h-12 w-12 shrink-0 items-center justify-center rounded-sm bg-lacivert-900/10">
           <Ikon ad="telefon" boyut={26} />
         </span>
         {/* Numara sayfadaki en büyük tipografik nesne. Yoksa hiç basılmaz:
@@ -59,13 +61,13 @@ const kapali = 'pointer-events-none opacity-55';
         <span class="min-w-0">
           {numara ? (
             <>
-              <span class="plaka block text-white/85">Hemen Ara</span>
-              <span class="rakam text-numara mt-1 block leading-none font-bold tracking-tight whitespace-nowrap text-white">
+              <span class="etiket block opacity-80">Hemen Ara</span>
+              <span class="rakam text-numara mt-1 block leading-none font-extrabold tracking-tight whitespace-nowrap">
                 {numara}
               </span>
             </>
           ) : (
-            <span class="text-h3 block leading-none font-bold text-white">Hemen Ara</span>
+            <span class="text-h3 block leading-none font-extrabold">Hemen Ara</span>
           )}
         </span>
       </a>
@@ -79,10 +81,10 @@ const kapali = 'pointer-events-none opacity-55';
         aria-disabled={wa ? undefined : 'true'}
         class:list={[
           temel,
-          'py-3',
+          'rounded-lg py-3',
           koyu
-            ? 'border-2 border-white/35 text-white hover:bg-white/10'
-            : 'border-2 border-yesil-600 text-yesil-700 hover:bg-yesil-600 hover:text-white',
+            ? 'border-[1.5px] border-white/30 text-white hover:bg-white/10'
+            : 'bg-yesil-600 text-white hover:bg-yesil-700',
           !wa && kapali,
         ]}
       >
@@ -97,7 +99,7 @@ const kapali = 'pointer-events-none opacity-55';
         data-olay="tel_click"
         data-konum={konum}
         aria-disabled={tel ? undefined : 'true'}
-        class:list={[temel, 'bg-turuncu-600 text-white hover:bg-turuncu-700', !tel && kapali]}
+        class:list={[temel, 'rounded-sm bg-turuncu-500 font-bold text-lacivert-900 hover:bg-turuncu-400', !tel && kapali]}
       >
         <Ikon ad="telefon" boyut={20} />
         Hemen Ara
@@ -110,7 +112,7 @@ const kapali = 'pointer-events-none opacity-55';
         data-konum={konum}
         rel="noopener"
         aria-disabled={wa ? undefined : 'true'}
-        class:list={[temel, 'bg-yesil-600 text-white hover:bg-yesil-700', !wa && kapali]}
+        class:list={[temel, 'rounded-sm bg-yesil-600 text-white hover:bg-yesil-700', !wa && kapali]}
       >
         <Ikon ad="whatsapp" boyut={20} />
         WhatsApp'tan Yaz
