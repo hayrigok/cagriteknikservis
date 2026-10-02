@@ -240,9 +240,12 @@ düğmeleri, `YanButonlar.astro`) · `tesekkur` (`/tesekkurler/` sayfasındaki i
 düğme). **`tesekkur` bir teşhis sinyali:** oradaki tıklama, WhatsApp'ın
 kendiliğinden açılmadığı anlamına gelir. Sayısı artıyorsa otomatik açma
 bozulmuş demektir — o yüzden ayrı tutuluyor, `hero`'ya karıştırmayın.
-**`yan_buton` yalnızca md ve üstünde görünür:**
-mobilde `MobilBar` zaten aynı iki eylemi tam genişlikte basıyor, üstte de
+**`yan_buton` yalnızca 1344 px ve üstünde görünür** (02.10.2026'ya kadar
+md idi): mobilde `MobilBar` zaten aynı iki eylemi tam genişlikte basıyor, üstte de
 `StickyUstCubuk`'un Ara düğmesi var; üçüncü kopya küçük ekranda içeriği kapatır.
+768–1343 px arasında düğme sütunu içerikle kenar arasındaki boşluğa sığmıyor,
+hero künyesinin ve form panelinin üstüne biniyordu; hesap `YanButonlar.astro`
+başında. O aralıkta tek sabit arama yüzeyi üst çubuktaki numaralı düğme.
 Reklam raporlarında hangi yüzeyin çalıştığını bu ayrımla göreceksiniz.
 
 Google Ads tarafında birincil dönüşüm form + 60 sn üzeri çağrı olacak, `tel_click`
@@ -482,8 +485,8 @@ form ~130 px yukarı çıktı; (3) `IlceBlogu` yan kartı notun boyuna
 esnemiyor (`self-start`). Doğrulama: 5 sayfa × 6 genişlik (320–1280) yatay
 taşma **0** · tel 6 / WhatsApp 4 / `tel_click` 6 / `whatsapp_click` 4 —
 değişiklik öncesiyle **birebir aynı** · `f-ad` her sayfada tek.
-**Bilinen, önceden var olan çakışma:** 1024 px'te `YanButonlar` sağ kenardaki
-içeriğin (yeni panel, hero künyesi) üstüne biniyor; ayrı iş.
+Aynı gün `YanButonlar`'ın 1024 px'te içeriğin üstüne binmesi de giderildi
+(görünme eşiği md → 1344 px, bkz. "Ölçümleme" → `yan_buton`).
 
 **İki sayfada form İKİ KEZ basılıyordu** (yeni yer + eski yer); alttakiler
 kaldırıldı. Aynı sayfada iki form = tekrarlanan `id="f-ad"` demek ve

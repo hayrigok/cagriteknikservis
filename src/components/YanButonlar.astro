@@ -2,7 +2,7 @@
 /*
   Sağ kenarda sabit duran arama ve WhatsApp düğmeleri.
 
-  Yalnızca md ve üstünde görünür. Mobilde MobilBar zaten aynı iki eylemi tam
+  Yalnızca geniş ekranda (1344 px ve üstü, gerekçesi aşağıda) görünür. Mobilde MobilBar zaten aynı iki eylemi tam
   genişlikte basıyor; oraya bir de yan düğme koymak aynı eylemin üçüncü kopyası
   olur (üstte StickyUstCubuk'un Ara düğmesi de var) ve küçük ekranda içeriğin
   üstünü kapatır.
@@ -34,9 +34,19 @@ const temel =
 const kapali = 'pointer-events-none opacity-55';
 ---
 
-{/* z-30: çerez bandı (z-50) ve sticky çubuklar (z-40) bunun üstünde kalır. */}
+{/*
+  z-30: çerez bandı (z-50) ve sticky çubuklar (z-40) bunun üstünde kalır.
+
+  GÖRÜNME EŞİĞİ 1344 px — md değil (02.10.2026). Düğme sütunu sağ kenardan
+  16 + 56 + 16 = 88 px yer istiyor. İçerik ile ekran kenarı arasındaki boşluk
+  (genişlik − kaydırma çubuğu ~15 − .kap 1200) / 2 + 32 px; 88'e ancak
+  ~1312 px'te ulaşıyor. md'den itibaren gösterilince 768–1300 arasında hero
+  künyesinin ve form panelinin ÜSTÜNE biniyordu (ekran görüntüsüyle görüldü).
+  Bu aralıkta sticky üst çubuğun numaralı Ara düğmesi zaten hep görünür.
+  Kaydırma çubuğu payı için eşik biraz yukarıda tutuldu.
+*/}
 <div
-  class="fixed top-1/2 right-4 z-30 hidden -translate-y-1/2 flex-col gap-3 md:flex"
+  class="fixed top-1/2 right-4 z-30 hidden -translate-y-1/2 flex-col gap-3 min-[1344px]:flex"
 >
   <a
     href={tel ?? '#'}
