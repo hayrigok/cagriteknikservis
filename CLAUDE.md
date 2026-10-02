@@ -804,6 +804,20 @@ JSON-LD: ana sayfada `HVACBusiness`, para sayfalarında `Service` + `FAQPage` +
 Yerel aramada yapay zekâ özetlerinin en güçlü kaynağı ise **Google İşletme
 Profili'nin kategorisi** — sitede değil panelde (G6).
 
+**02.10.2026 — "yapay zekâ bizi önersin" isteği, site tarafı kontrol edildi:**
+canlıda GPTBot · OAI-SearchBot · PerplexityBot · ClaudeBot · Google-Extended
+ana sayfadan **200** alıyor, robots.txt herkese açık (Cloudflare'in yapay zekâ
+botu engeli **devrede değil** — açılırsa sitemiz yapay zekâ cevaplarından
+sessizce düşer, kontrol edin). **Sitede yapılacak iş kalmadı.** "Bana beyaz
+eşya servisi öner" sorusunda yapay zekâ işletmeyi **harita kayıtlarından ve
+yorumlardan** seçiyor: Gemini → Google İşletme Profili · ChatGPT / Copilot →
+büyük ölçüde Bing · Siri → Apple Haritalar. Plan, sahibiyle adım adım:
+(1) **Bing Places** (Google profilinden içe aktarma) · (2) **Bing Webmaster
+Tools** (Search Console'dan içe aktarma) · (3) G6'nın kalanları (açıklama ·
+WhatsApp · ek kategoriler) · (4) Apple Business Connect · (5) Yandex Haritalar.
+Her kayıtta ad, telefon ve saat **birebir aynı**. İlk sıra garanti edilemez —
+cevap kişiye, konuma ve soruya göre değişir; sahibine söylendi.
+
 **`AggregateRating` şeması bilerek üretilmiyor.** Google kendi sitesine gömülen yerel
 işletme puanlarını göstermiyor, uydurma puan ise ceza riski. Eklemeyin.
 
