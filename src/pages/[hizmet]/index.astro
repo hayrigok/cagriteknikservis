@@ -128,13 +128,13 @@ const schema = [
             <li>
               <a
                 href={`/${hizmet.slug}/${i.slug}/`}
-                class="flex min-h-12 items-center justify-between gap-4 rounded-sm px-4 py-2.5 font-medium text-lacivert-700 transition-colors duration-150 hover:bg-lacivert-50 hover:text-lacivert-900"
+                class="flex min-h-12 items-center justify-between gap-4 rounded-sm px-4 py-2.5 font-medium text-kobalt-600 transition-colors duration-150 hover:bg-lacivert-50 hover:text-lacivert-900"
               >
                 <span class="flex items-center gap-3">
-                  <Ikon ad="konum" boyut={18} class="shrink-0 text-turuncu-600" />
+                  <Ikon ad="konum" boyut={18} class="shrink-0 text-kobalt-600" />
                   {i.ad} {hizmet.ad}
                 </span>
-                <Ikon ad="ok" boyut={18} class="shrink-0 text-turuncu-600" />
+                <Ikon ad="ok" boyut={18} class="shrink-0 text-kobalt-600" />
               </a>
             </li>
           ))}
@@ -147,7 +147,7 @@ const schema = [
         <ul class="mt-6 flex flex-wrap gap-2">
           {digerBolgeler.map((i) => (
             <li class="flex items-center gap-2 rounded-sm border border-lacivert-100 bg-white px-4 py-2 text-kucuk font-medium text-metin">
-              <Ikon ad="konum" boyut={15} class="text-turuncu-600" />
+              <Ikon ad="konum" boyut={15} class="text-kobalt-600" />
               {i.ad}
             </li>
           ))}

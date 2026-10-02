@@ -89,12 +89,12 @@ const adimlar: { ikon: IkonAdi; baslik: string; metin: string }[] = [
 
       <div class="kap relative py-16 lg:py-24">
         <div class="max-w-2xl">
-          <p class="plaka flex items-center gap-2 text-turuncu-300">
+          <p class="etiket flex items-center gap-2 text-turuncu-300">
             <Ikon ad="onay" boyut={18} />
             Talebiniz hazır
           </p>
 
-          <h1 class="text-h1 mt-4 leading-[1.03] font-bold tracking-tight text-balance text-white">
+          <h1 class="text-h1 mt-4 leading-[1.03] font-extrabold tracking-tight text-balance text-white">
             Son adım: mesajı gönderin
           </h1>
 
@@ -169,7 +169,7 @@ const adimlar: { ikon: IkonAdi; baslik: string; metin: string }[] = [
               <span class="flex h-11 w-11 items-center justify-center rounded-sm bg-lacivert-900 text-white">
                 <Ikon ad={a.ikon} boyut={20} />
               </span>
-              <p class="plaka mt-4 text-metin-soluk">Adım {i + 1}</p>
+              <p class="etiket mt-4 text-metin-soluk">Adım {i + 1}</p>
               <p class="mt-2 text-lead leading-snug font-bold text-lacivert-900">{a.baslik}</p>
               <p class="mt-2 leading-relaxed text-metin-soluk">{a.metin}</p>
             </li>

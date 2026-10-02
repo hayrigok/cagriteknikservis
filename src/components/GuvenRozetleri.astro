@@ -48,16 +48,16 @@ const sutun = rozetler.length === 3 ? 'sm:grid-cols-3' : 'sm:grid-cols-2';
 ---
 
 <section class="bg-white">
-  <ul class:list={['kap grid gap-6 py-12 lg:gap-8', sutun]}>
+  <ul class:list={['kap grid gap-5 py-10 sm:py-12 lg:gap-8', sutun]}>
     {
       rozetler.map((r) => (
         <li class="flex gap-4">
-          <span class="flex h-12 w-12 shrink-0 items-center justify-center rounded-sm bg-lacivert-900 text-white">
+          <span class="flex h-12 w-12 shrink-0 items-center justify-center rounded-sm bg-kobalt-50 text-kobalt-600">
             <Ikon ad={r.ikon} boyut={24} />
           </span>
           <div class="min-w-0">
             <p class="leading-snug font-bold text-lacivert-900">{r.baslik}</p>
-            <p class="mt-1.5 text-kucuk leading-relaxed text-metin-soluk">{r.aciklama}</p>
+            <p class="mt-1 text-kucuk leading-relaxed text-metin-soluk">{r.aciklama}</p>
           </div>
         </li>
       ))

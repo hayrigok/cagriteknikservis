@@ -30,15 +30,15 @@ const sutun = olculer.length === 4 ? 'lg:grid-cols-4' : 'lg:grid-cols-3';
 ---
 
 <section class="border-y border-lacivert-100 bg-zemin">
-  <dl class:list={['kap grid grid-cols-2 gap-8 py-12', sutun]}>
+  <dl class:list={['kap grid grid-cols-2 gap-x-6 gap-y-8 py-10 sm:py-12', sutun]}>
     {
       olculer.map((o) => (
         <div>
           <dt class="sr-only">{o.birim}</dt>
           <dd>
-            <span class="rakam text-dev block leading-none font-bold tracking-tight text-lacivert-900">
+            <span class="rakam text-dev block leading-none font-extrabold tracking-tight text-lacivert-900">
               {o.sayi}
-              <span class="text-h3 ml-1 font-bold text-turuncu-700">{o.birim}</span>
+              <span class="text-h3 ml-1.5 font-bold text-kobalt-600">{o.birim}</span>
             </span>
             <span class="mt-2 block text-kucuk text-metin-soluk">{o.not}</span>
           </dd>

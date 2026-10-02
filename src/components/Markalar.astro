@@ -50,22 +50,23 @@ const parca = deger(firma.parcaPolitikasi);
     >
       <ul class="flex flex-wrap gap-2">
         {markalar.map((m) => (
-          <li class="rounded-sm border border-lacivert-100 bg-zemin px-4 py-2.5 text-kucuk font-bold text-lacivert-900">
+          <li class="rounded-full border border-lacivert-100 bg-white px-4 py-2 text-kucuk font-semibold text-lacivert-900">
             {m}
           </li>
         ))}
-        <li class="rounded-sm border border-turuncu-600 bg-turuncu-600 px-4 py-2.5 text-kucuk font-bold text-white">
+        {/* Kapsayıcı kapanış — A6. Kobalt: turuncu yalnızca arama eylemine ait. */}
+        <li class="rounded-full bg-kobalt-600 px-4 py-2 text-kucuk font-bold text-white">
           ve diğer bütün markalar
         </li>
       </ul>
 
       {parca && (
-        <div class="mt-8 flex items-start gap-4 rounded-md bg-zemin p-6 lg:p-8">
-          <span class="flex h-11 w-11 shrink-0 items-center justify-center rounded-sm bg-lacivert-900 text-white">
+        <div class="mt-8 flex items-start gap-4 rounded-lg bg-zemin p-6 lg:p-8">
+          <span class="flex h-11 w-11 shrink-0 items-center justify-center rounded-sm bg-white text-kobalt-600 shadow-kart">
             <Ikon ad="kalkan" boyut={22} />
           </span>
           <div>
-            <p class="text-h3 font-bold text-lacivert-900">Yedek parça</p>
+            <p class="text-h3 font-extrabold text-lacivert-900">Yedek parça</p>
             <p class="mt-2 leading-relaxed text-metin">{parca}</p>
           </div>
         </div>

@@ -20,7 +20,7 @@ const komsular = komsuIlceler(ilce.slug);
 const digerHizmetler = aktifHizmetler().filter((h) => h.slug !== hizmet.slug);
 
 const satir =
-  'flex min-h-12 items-center justify-between gap-4 rounded-sm px-4 py-2.5 font-medium text-lacivert-700 transition-colors duration-150 hover:bg-lacivert-50 hover:text-lacivert-900';
+  'flex min-h-12 items-center justify-between gap-4 rounded-sm px-4 py-2.5 font-medium text-kobalt-600 transition-colors duration-150 hover:bg-lacivert-50 hover:text-lacivert-900';
 ---
 
 <Bolum etiket="Yakın sayfalar" baslik="Başka nereye bakabilirsiniz?" zemin="beyaz">
@@ -28,7 +28,7 @@ const satir =
     {
       komsular.length > 0 && (
         <nav aria-label="Yakın bölgeler">
-          <h3 class="plaka text-metin-soluk">
+          <h3 class="etiket text-metin-soluk">
             Yakın bölgelerde {hizmet.ad.toLocaleLowerCase('tr-TR')}
           </h3>
           <ul class="mt-4 grid gap-1">
@@ -36,10 +36,10 @@ const satir =
               <li>
                 <a href={`/${hizmet.slug}/${k.slug}/`} class={satir}>
                   <span class="flex items-center gap-3">
-                    <Ikon ad="konum" boyut={18} class="shrink-0 text-turuncu-600" />
+                    <Ikon ad="konum" boyut={18} class="shrink-0 text-kobalt-600" />
                     {k.ad} {hizmet.ad}
                   </span>
-                  <Ikon ad="ok" boyut={18} class="shrink-0 text-turuncu-600" />
+                  <Ikon ad="ok" boyut={18} class="shrink-0 text-kobalt-600" />
                 </a>
               </li>
             ))}
@@ -51,16 +51,16 @@ const satir =
     {
       digerHizmetler.length > 0 && (
         <nav aria-label="Diğer hizmetler">
-          <h3 class="plaka text-metin-soluk">{ilce.ad}'de diğer hizmetlerimiz</h3>
+          <h3 class="etiket text-metin-soluk">{ilce.ad}'de diğer hizmetlerimiz</h3>
           <ul class="mt-4 grid gap-1">
             {digerHizmetler.slice(0, 6).map((h) => (
               <li>
                 <a href={`/${h.slug}/${ilce.slug}/`} class={satir}>
                   <span class="flex items-center gap-3">
-                    <Ikon ad={hizmetIkonu(h.slug)} boyut={18} class="shrink-0 text-turuncu-600" />
+                    <Ikon ad={hizmetIkonu(h.slug)} boyut={18} class="shrink-0 text-kobalt-600" />
                     {ilce.ad} {h.ad}
                   </span>
-                  <Ikon ad="ok" boyut={18} class="shrink-0 text-turuncu-600" />
+                  <Ikon ad="ok" boyut={18} class="shrink-0 text-kobalt-600" />
                 </a>
               </li>
             ))}

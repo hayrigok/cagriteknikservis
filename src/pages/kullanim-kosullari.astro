@@ -81,8 +81,8 @@ const sorumluluk = [
 
   <section class="koyu-blok bg-lacivert-900">
     <div class="kap py-16 lg:py-20">
-      <p class="plaka text-turuncu-300">Yasal</p>
-      <h1 class="text-h1 mt-4 max-w-3xl leading-[1.05] font-bold tracking-tight text-white">
+      <p class="etiket text-turuncu-300">Yasal</p>
+      <h1 class="text-h1 mt-4 max-w-3xl leading-[1.05] font-extrabold tracking-tight text-white">
         Kullanım Koşulları
       </h1>
       <p class="text-lead mt-5 max-w-2xl leading-relaxed text-lacivert-200">
@@ -113,8 +113,8 @@ const sorumluluk = [
     <ul class="grid max-w-3xl gap-3">
       {
         sorumluluk.map((s) => (
-          <li class="flex items-start gap-3 rounded-sm border-l-4 border-turuncu-600 bg-white px-5 py-4">
-            <Ikon ad="onay" boyut={18} class="mt-1 shrink-0 text-turuncu-600" />
+          <li class="flex items-start gap-3 rounded-md bg-white px-5 py-4">
+            <Ikon ad="onay" boyut={18} class="mt-1 shrink-0 text-kobalt-600" />
             <span>
               <span class="font-bold text-lacivert-900">{s.baslik}</span>
               <span class="text-metin-soluk"> — {s.metin}</span>
@@ -144,7 +144,7 @@ const sorumluluk = [
 
   <Bolum etiket="6" baslik="Arıza rehberindeki bilgiler">
     <p class="max-w-3xl leading-relaxed text-metin">
-      <a href="/blog/" class="font-semibold text-lacivert-700 underline">Arıza rehberindeki</a>
+      <a href="/blog/" class="font-semibold text-kobalt-600 underline">Arıza rehberindeki</a>
       yazılar genel bilgilendirme amaçlıdır; cihazınızın yerinde görülerek yapılan
       teşhisin yerine geçmez. Yazılardaki kontrolleri kendi sorumluluğunuzda yaparsınız.
       Elektrik, gaz, su tesisatı ve sıcak yüzeylerle ilgili uyarılara uyun; emin
@@ -167,7 +167,7 @@ const sorumluluk = [
     <p class="max-w-3xl leading-relaxed text-metin">
       Talebinizi anlaşmalı bir ustaya yönlendirdiğimizde, işin yapılabilmesi için gereken
       bilgileriniz yalnızca o ustayla paylaşılır. Ayrıntılar
-      <a href="/kvkk/" class="font-semibold text-lacivert-700 underline">KVKK aydınlatma metninde</a>.
+      <a href="/kvkk/" class="font-semibold text-kobalt-600 underline">KVKK aydınlatma metninde</a>.
     </p>
   </Bolum>
 

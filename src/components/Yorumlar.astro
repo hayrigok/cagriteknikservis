@@ -19,21 +19,25 @@ const url = deger(firma.googleIsletmeUrl);
 
 {
   url && (
-    <Bolum
-      etiket="Yorumlar"
-      baslik="Müşteri yorumları"
-      aciklama="Yorumlarımızı kendi sitemize kopyalamıyoruz. Hepsi Google işletme profilimizde, tarih ve isimleriyle birlikte duruyor."
-    >
-      <a
-        href={url}
-        rel="noopener nofollow"
-        target="_blank"
-        class="inline-flex min-h-12 items-center gap-2 rounded-sm border-2 border-lacivert-900 px-6 font-semibold text-lacivert-900 transition-colors duration-150 hover:bg-lacivert-900 hover:text-white"
-      >
-        Google yorumlarımızı okuyun
-        <span class="sr-only">(yeni sekmede açılır)</span>
-        <Ikon ad="dis-link" boyut={18} />
-      </a>
+    <Bolum etiket="Yorumlar" baslik="Müşteri yorumları">
+      {/* Yıldız, puan, yorum sayısı BASILMAZ (yasak 3): Google bunları kendi
+          sitemize gömülü göstermiyor, uydurması ceza riski. Yalnızca bağlantı. */}
+      <div class="grid max-w-4xl gap-5 rounded-lg border border-lacivert-100 bg-zemin p-6 sm:grid-cols-[1fr_auto] sm:items-center lg:p-8">
+        <p class="text-lead leading-relaxed text-metin">
+          Yorumlarımızı kendi sitemize kopyalamıyoruz. Hepsi Google işletme profilimizde, tarih ve
+          isimleriyle birlikte duruyor.
+        </p>
+        <a
+          href={url}
+          rel="noopener nofollow"
+          target="_blank"
+          class="inline-flex min-h-12 items-center justify-center gap-2 rounded-sm bg-lacivert-900 px-6 font-semibold text-white transition-colors duration-150 hover:bg-lacivert-800"
+        >
+          Google yorumlarımızı okuyun
+          <span class="sr-only">(yeni sekmede açılır)</span>
+          <Ikon ad="dis-link" boyut={18} />
+        </a>
+      </div>
     </Bolum>
   )
 }

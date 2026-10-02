@@ -108,8 +108,8 @@ const haklar = [
 
   <section class="koyu-blok bg-lacivert-900">
     <div class="kap py-16 lg:py-20">
-      <p class="plaka text-turuncu-300">Yasal</p>
-      <h1 class="text-h1 mt-4 max-w-3xl leading-[1.05] font-bold tracking-tight text-white">
+      <p class="etiket text-turuncu-300">Yasal</p>
+      <h1 class="text-h1 mt-4 max-w-3xl leading-[1.05] font-extrabold tracking-tight text-white">
         KVKK Aydınlatma Metni
       </h1>
       <p class="text-lead mt-5 max-w-2xl leading-relaxed text-lacivert-200">
@@ -142,8 +142,8 @@ const haklar = [
     <ul class="grid max-w-3xl gap-3">
       {
         veriler.map((v) => (
-          <li class="flex items-start gap-3 rounded-sm border-l-4 border-turuncu-600 bg-zemin px-5 py-4">
-            <Ikon ad="onay" boyut={18} class="mt-1 shrink-0 text-turuncu-600" />
+          <li class="flex items-start gap-3 rounded-md bg-zemin px-5 py-4">
+            <Ikon ad="onay" boyut={18} class="mt-1 shrink-0 text-kobalt-600" />
             <span>
               <span class="font-bold text-lacivert-900">{v.ad}</span>
               <span class="text-metin-soluk"> — {v.neden}</span>
@@ -264,7 +264,7 @@ const haklar = [
       {
         haklar.map((h) => (
           <li class="flex items-start gap-3 px-6 py-4 leading-relaxed text-metin">
-            <Ikon ad="onay" boyut={18} class="mt-1 shrink-0 text-turuncu-600" />
+            <Ikon ad="onay" boyut={18} class="mt-1 shrink-0 text-kobalt-600" />
             {h}
           </li>
         ))
@@ -286,8 +286,8 @@ const haklar = [
         yaziliKanalVar ? (
           <ul class="grid gap-3">
             {adres && (
-              <li class="flex items-start gap-3 rounded-sm border-l-4 border-turuncu-600 bg-zemin px-5 py-4">
-                <Ikon ad="konum" boyut={18} class="mt-1 shrink-0 text-turuncu-600" />
+              <li class="flex items-start gap-3 rounded-md bg-zemin px-5 py-4">
+                <Ikon ad="konum" boyut={18} class="mt-1 shrink-0 text-kobalt-600" />
                 <span>
                   <span class="font-bold text-lacivert-900">Posta ile</span>
                   <span class="text-metin-soluk">
@@ -298,8 +298,8 @@ const haklar = [
               </li>
             )}
             {eposta && (
-              <li class="flex items-start gap-3 rounded-sm border-l-4 border-turuncu-600 bg-zemin px-5 py-4">
-                <Ikon ad="kart" boyut={18} class="mt-1 shrink-0 text-turuncu-600" />
+              <li class="flex items-start gap-3 rounded-md bg-zemin px-5 py-4">
+                <Ikon ad="kart" boyut={18} class="mt-1 shrink-0 text-kobalt-600" />
                 <span>
                   <span class="font-bold text-lacivert-900">E-posta ile</span>
                   <span class="text-metin-soluk">

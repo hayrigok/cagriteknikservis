@@ -13,19 +13,12 @@ interface Props {
 const { baslik, waMesaji } = Astro.props;
 ---
 
-<section class="koyu-blok relative overflow-hidden bg-lacivert-900">
-  <div
-    aria-hidden="true"
-    class="pointer-events-none absolute inset-0"
-    style="background-image: radial-gradient(circle at 1px 1px, rgb(255 255 255 / .07) 1px, transparent 0); background-size: 26px 26px;"
-  >
-  </div>
-
-  <div class="kap relative py-16 lg:py-24">
+<section class="koyu-blok isik relative overflow-hidden bg-lacivert-900">
+  <div class="kap relative py-14 lg:py-24">
     <div class="grid items-center gap-10 lg:grid-cols-[1.15fr_1fr]">
       <div>
-        <p class="plaka text-turuncu-300">Arıza hattı</p>
-        <p class="text-h2 mt-3 leading-[1.15] font-bold tracking-tight text-balance text-white">
+        <p class="etiket text-turuncu-300">Arıza hattı</p>
+        <p class="text-h2 mt-3 leading-[1.15] font-extrabold tracking-tight text-balance text-white">
           {baslik}
         </p>
         <p class="text-lead mt-4 max-w-xl leading-relaxed text-lacivert-200">

@@ -67,10 +67,10 @@ const bosAciklama =
         <table class="w-full min-w-80 border-collapse text-left">
           <thead>
             <tr class="bg-lacivert-900 text-white">
-              <th scope="col" class="plaka px-6 py-3.5">
+              <th scope="col" class="etiket px-6 py-3.5">
                 İşlem
               </th>
-              <th scope="col" class="plaka px-6 py-3.5 text-right">
+              <th scope="col" class="etiket px-6 py-3.5 text-right">
                 Aralık
               </th>
             </tr>
@@ -105,12 +105,12 @@ const bosAciklama =
         </table>
       </div>
     ) : (
-      <ul class="grid max-w-3xl gap-px overflow-hidden rounded-md border border-lacivert-100 bg-lacivert-100 sm:grid-cols-2">
+      <ul class="grid max-w-3xl gap-px overflow-hidden rounded-lg border border-lacivert-100 bg-lacivert-100 shadow-kart sm:grid-cols-2">
         {satirlar.map((s) => {
           const not = deger(s.not);
           return (
             <li class="flex gap-3 bg-white px-5 py-4">
-              <Ikon ad="onay" boyut={18} class="mt-0.5 shrink-0 text-turuncu-600" />
+              <Ikon ad="onay" boyut={18} class="mt-0.5 shrink-0 text-kobalt-600" />
               <span class="min-w-0">
                 <span class="font-semibold text-lacivert-900">{s.islem}</span>
                 {not && (

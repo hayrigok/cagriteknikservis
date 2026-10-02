@@ -1,0 +1,28 @@
+---
+/*
+  Hizmet kartı ızgarası — dört sayfada (ana sayfa, hub "Diğer hizmetler",
+  iletişim, 404) aynı. Sütun sayısı KART SAYISINA göre seçilir ki son satırda
+  tek başına kart kalmasın: 10 hizmet → 2 sütun (5+5); 9 hizmet (hub, kendisi
+  hariç) → geniş ekranda 3 sütun (3+3+3). Yatay kart 3 sütunda ancak lg'de
+  rahat sığıyor, o yüzden üçüncü sütun lg'de açılır.
+*/
+import HizmetKarti from './HizmetKarti.astro';
+import type { Hizmet } from '@/lib/types';
+
+interface Props {
+  hizmetler: Hizmet[];
+}
+
+const { hizmetler } = Astro.props;
+const ucSutun = hizmetler.length % 3 === 0 && hizmetler.length % 2 !== 0;
+---
+
+<ul class:list={['grid gap-3 sm:grid-cols-2 sm:gap-4', ucSutun && 'lg:grid-cols-3']}>
+  {
+    hizmetler.map((h) => (
+      <li>
+        <HizmetKarti hizmet={h} />
+      </li>
+    ))
+  }
+</ul>

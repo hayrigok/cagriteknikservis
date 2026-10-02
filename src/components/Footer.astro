@@ -44,7 +44,7 @@ const kunyeVar = Boolean(adres || vergiSatiri || saatler);
   <div class="kap grid gap-12 py-16 lg:grid-cols-12 lg:gap-8">
     <div class="lg:col-span-4">
       <p class="flex items-center gap-2.5 text-white">
-        <span class="flex h-9 w-9 shrink-0 items-center justify-center rounded-sm bg-white/10">
+        <span class="flex h-9 w-9 shrink-0 items-center justify-center rounded-sm bg-white/10 text-turuncu-300">
           <Ikon ad="arac" boyut={20} />
         </span>
         <span class="font-bold">{firma.kisaAd}</span>
@@ -78,7 +78,7 @@ const kunyeVar = Boolean(adres || vergiSatiri || saatler);
     </div>
 
     <nav aria-label="Hizmetler" class="lg:col-span-4">
-      <h2 class="plaka text-turuncu-300">Hizmetler</h2>
+      <h2 class="etiket text-turuncu-300">Hizmetler</h2>
       <ul class="mt-4 grid gap-2 text-kucuk sm:grid-cols-2 lg:grid-cols-1">
         {
           hizmetler.map((h) => (
@@ -96,7 +96,7 @@ const kunyeVar = Boolean(adres || vergiSatiri || saatler);
     </nav>
 
     <div class="lg:col-span-2">
-      <h2 class="plaka text-turuncu-300">Bölgeler</h2>
+      <h2 class="etiket text-turuncu-300">Bölgeler</h2>
       <ul class="mt-4 grid gap-2 text-kucuk">
         {
           linkliIlceler.length > 0 && ilkHizmet
@@ -116,7 +116,7 @@ const kunyeVar = Boolean(adres || vergiSatiri || saatler);
     </div>
 
     <nav aria-label="Kurumsal" class="lg:col-span-2">
-      <h2 class="plaka text-turuncu-300">Site</h2>
+      <h2 class="etiket text-turuncu-300">Site</h2>
       <ul class="mt-4 grid gap-2 text-kucuk">
         <li>
           <a href="/blog/" class="transition-colors duration-150 hover:text-white hover:underline">
@@ -143,7 +143,7 @@ const kunyeVar = Boolean(adres || vergiSatiri || saatler);
   </div>
 
   <div class="border-t border-white/10">
-    <p class="kap py-6 text-plaka leading-relaxed text-lacivert-300">
+    <p class="kap py-6 text-etiket leading-relaxed text-lacivert-300">
       Bağımsız bir servis firmasıyız ve hiçbir üreticiyle bayilik veya temsilcilik
       ilişkimiz yoktur. Marka ayrımı yapmadan, klima ve beyaz eşyanın bütün
       markalarında tamir ve bakım hizmeti veriyoruz. Sitede anılan marka adları

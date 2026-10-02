@@ -38,26 +38,26 @@ const yanSutun = ulasimVar || mahalleMetni !== null;
   baslik={`${ilce.ad}'de ${hizmetAdi.toLocaleLowerCase('tr-TR')}`}
   zemin="zemin"
 >
-  <div class:list={['grid gap-8', yanSutun && 'lg:grid-cols-[1.4fr_1fr]']}>
+  <div class:list={['grid gap-6 lg:gap-8', yanSutun && 'lg:grid-cols-[1.4fr_1fr]']}>
     {/* Sayfanın var olma gerekçesi bu paragraf. */}
-    <div class="rounded-md border-l-4 border-turuncu-600 bg-white p-6 lg:p-8">
+    <div class="rounded-lg border border-lacivert-100 bg-white p-6 shadow-kart lg:p-8">
       <p class="text-lead leading-relaxed text-metin">{ilce.yerelNotlar}</p>
     </div>
 
     {
       yanSutun && (
         /* self-start: tek satırlık kutu, yanındaki uzun notun boyuna esnemesin */
-        <dl class="grid gap-px self-start overflow-hidden rounded-md bg-lacivert-100">
+        <dl class="grid gap-px self-start overflow-hidden rounded-lg border border-lacivert-100 bg-lacivert-100 shadow-kart">
           {ulasimVar && (
             <div class="bg-white p-6">
-              <dt class="plaka flex items-center gap-2 text-metin-soluk">
-                <Ikon ad="saat" boyut={16} class="text-turuncu-600" />
+              <dt class="etiket flex items-center gap-2 text-metin-soluk">
+                <Ikon ad="saat" boyut={16} class="text-kobalt-600" />
                 Ortalama ulaşım
               </dt>
               <dd class="mt-2">
-                <span class="rakam text-dev leading-none font-bold text-lacivert-900">
+                <span class="rakam text-dev leading-none font-extrabold text-lacivert-900">
                   {ilce.ulasimDk}
-                  <span class="text-h3 ml-1 font-bold text-turuncu-700">dakika</span>
+                  <span class="text-h3 ml-1 font-bold text-kobalt-600">dakika</span>
                 </span>
               </dd>
             </div>
@@ -65,8 +65,8 @@ const yanSutun = ulasimVar || mahalleMetni !== null;
 
           {mahalleMetni && (
             <div class="bg-white p-6">
-              <dt class="plaka flex items-center gap-2 text-metin-soluk">
-                <Ikon ad="konum" boyut={16} class="text-turuncu-600" />
+              <dt class="etiket flex items-center gap-2 text-metin-soluk">
+                <Ikon ad="konum" boyut={16} class="text-kobalt-600" />
                 Gittiğimiz mahalleler
               </dt>
               <dd class="mt-2 leading-relaxed text-metin">

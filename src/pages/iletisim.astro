@@ -76,7 +76,7 @@ const kunye: Kunye[] = kunyeHam.filter((k): k is Kunye => k.metin !== null);
               <Ikon ad={k.ikon} boyut={20} />
             </span>
             <div class="min-w-0">
-              <dt class="plaka text-metin-soluk">{k.etiket}</dt>
+              <dt class="etiket text-metin-soluk">{k.etiket}</dt>
               <dd
                 class:list={['mt-2 leading-relaxed font-semibold text-lacivert-900', k.rakam && 'rakam']}
               >
@@ -98,7 +98,7 @@ const kunye: Kunye[] = kunyeHam.filter((k): k is Kunye => k.metin !== null);
       {
         bolgeler.map((i) => (
           <li class="flex items-center gap-2 rounded-sm border border-lacivert-100 bg-white px-5 py-3 font-semibold text-lacivert-900">
-            <Ikon ad="konum" boyut={18} class="text-turuncu-600" />
+            <Ikon ad="konum" boyut={18} class="text-kobalt-600" />
             {i.ad}
           </li>
         ))

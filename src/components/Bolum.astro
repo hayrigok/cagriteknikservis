@@ -5,6 +5,7 @@
   sections, not borders"). Bölümler tam genişlikte renk alanları olarak
   sıralanır: lacivert → beyaz → zemin → beyaz → lacivert.
 
+  Kartlar gölgeyle ayrışır, bölümler renk bloğuyla (02.10.2026).
   Saf CSS, sıfır JS, sıfır görsel. design-system/MASTER.md'ye bakın.
 */
 interface Props {
@@ -30,19 +31,19 @@ const zeminSinifi = {
 ---
 
 <section id={id} class={zeminSinifi}>
-  <div class="kap py-16 lg:py-24">
+  <div class="kap py-12 sm:py-16 lg:py-24">
     {
       (etiket || baslik || aciklama) && (
         <div class:list={['max-w-3xl', ortala && 'mx-auto text-center']}>
           {etiket && (
-            <p class:list={['plaka', koyu ? 'text-turuncu-300' : 'text-turuncu-700']}>
+            <p class:list={['etiket', koyu ? 'text-turuncu-300' : 'text-kobalt-600']}>
               {etiket}
             </p>
           )}
           {baslik && (
             <h2
               class:list={[
-                'text-h2 mt-3 leading-[1.15] font-bold tracking-tight text-balance',
+                'text-h2 mt-2.5 leading-[1.15] font-extrabold tracking-tight text-balance',
                 koyu ? 'text-white' : 'text-lacivert-900',
               ]}
             >
@@ -63,7 +64,7 @@ const zeminSinifi = {
       )
     }
 
-    <div class:list={[(etiket || baslik || aciklama) && 'mt-12']}>
+    <div class:list={[(etiket || baslik || aciklama) && 'mt-8 sm:mt-10']}>
       <slot />
     </div>
   </div>
