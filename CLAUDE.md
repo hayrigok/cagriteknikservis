@@ -2240,7 +2240,10 @@ Aşağıdakiler o gün için duruyor:
       kalıpları 5–8. **Puan 1–2 olan kelime hiçbir makul teklifle üste
       çıkamaz** (rakip puanı 7 ise aynı sıraya ~4–7 kat teklif gerekir).
       Adım 2: Kalite Puanı 1–2 olanları duraklat — **yapıldı, 02.10** (sahibi).
-      Adım 3: öneri otomatik uygulamasını kapat (geniş eşleme geri gelmesin).
+      Adım 3: öneri otomatik uygulaması — **zaten kapalıymış** (0/7 · 0/14,
+      02.10). Arama ortakları da kapalı (panel onu "öneri" olarak sunuyor).
+      Adım 4: geniş eşlemeleri duraklat · `"klima tamircisi"` öbek ekle
+      (`"klima temizleme"` öbeği `adana klima temizleme` aramasını zaten kapsıyor).
 
 ---
 
