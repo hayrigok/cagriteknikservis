@@ -63,8 +63,10 @@ const kunye: { ikon: IkonAdi; etiket: string; metin: string }[] = [
   >
   </div>
 
-  <div class="kap relative py-16 lg:py-24">
-    <div class:list={['grid items-start gap-12', kunye.length > 0 && 'lg:grid-cols-[1.15fr_1fr]']}>
+  {/* Mobilde üst boşluk bilerek az (py-10): acil arayan kişi telefon
+      düğmesini kaydırmadan görsün. Masaüstünde yer bol, py-24 kalıyor. */}
+  <div class="kap relative py-10 sm:py-16 lg:py-24">
+    <div class:list={['grid items-start gap-8 lg:gap-12', kunye.length > 0 && 'lg:grid-cols-[1.15fr_1fr]']}>
       <div>
         <p class="plaka flex items-center gap-2 text-turuncu-300">
           {ikon && <Ikon ad={ikon} boyut={18} />}
@@ -95,18 +97,21 @@ const kunye: { ikon: IkonAdi; etiket: string; metin: string }[] = [
         ZORUNDA. Önce ikisi de `div.flex > div.min-w-0` içinde iki kat
         gömülüydü; ekran okuyucu bunu tanım listesi olarak duyurmuyordu
         (Lighthouse: dlitem). İkon dt'nin içine alınıp konumlandırmayla sola
-        çekildi — böylece sarmalayıcı div yalnızca dt+dd içeriyor. Ölçüler
-        korundu: pl-21 (84px) = p-6 (24) + ikon (44) + boşluk (16).
+        çekildi — böylece sarmalayıcı div yalnızca dt+dd içeriyor. Ölçüler:
+        masaüstü pl-21 (84px) = p-6 (24) + ikon (44) + boşluk (16);
+        mobil pl-17 (68px) = p-4 (16) + ikon (36) + boşluk (16). Mobilde
+        sıkı çünkü panel CTA'nın altına yığılıyor ve formu aşağı itiyordu.
+        İkon aria-hidden, dokunma hedefi değil — 36 px'e inmesi sorun değil.
       */}
       {
         kunye.length > 0 && (
           <dl class="grid gap-px overflow-hidden rounded-md bg-white/15">
             {kunye.map((k) => (
-              <div class="relative bg-lacivert-900/95 p-6 pl-21">
+              <div class="relative bg-lacivert-900/95 p-4 pl-17 lg:p-6 lg:pl-21">
                 <dt class="plaka text-lacivert-300">
                   <span
                     aria-hidden="true"
-                    class="absolute top-6 left-6 flex h-11 w-11 items-center justify-center rounded-sm bg-white/10 text-turuncu-300"
+                    class="absolute top-4 left-4 flex h-9 w-9 items-center justify-center rounded-sm bg-white/10 text-turuncu-300 lg:top-6 lg:left-6 lg:h-11 lg:w-11"
                   >
                     <Ikon ad={k.ikon} boyut={22} />
                   </span>

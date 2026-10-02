@@ -46,7 +46,8 @@ const yanSutun = ulasimVar || mahalleMetni !== null;
 
     {
       yanSutun && (
-        <dl class="grid gap-px overflow-hidden rounded-md bg-lacivert-100">
+        /* self-start: tek satırlık kutu, yanındaki uzun notun boyuna esnemesin */
+        <dl class="grid gap-px self-start overflow-hidden rounded-md bg-lacivert-100">
           {ulasimVar && (
             <div class="bg-white p-6">
               <dt class="plaka flex items-center gap-2 text-metin-soluk">

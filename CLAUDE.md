@@ -471,6 +471,20 @@ kararsız ziyaretçiden ise henüz sebep vermeden bilgi ister. Hangisinin ağır
 bastığı **`form_submit` sayısıyla** görülür — GA4'te olay zaten hazır.
 Sayı düşerse eski yerine döndürmek tek satırlık iş.
 
+**02.10.2026 — form ve hero düzeni sıkılaştırıldı, blok sırası DEĞİŞMEDİ.**
+Sahibi "şık, sade, aramaya yönelik arayüz" istedi; baştan tasarım yerine
+ekran görüntüsünde görülen üç zayıflık düzeltildi: (1) masaüstünde formun
+sağ yarısı boştu → `lg` ve üstünde yanına lacivert **"Gönderince ne olur?"**
+paneli (3 adım + düz metin numara; `tel:` bağlantısı DEĞİL, yeni ölçülmeyen
+arama yüzeyi açmamak için), ad + telefon `sm` ve üstünde yan yana;
+(2) mobilde hero üst boşluğu `py-16 → py-10`, künye paneli sıkılaştı —
+form ~130 px yukarı çıktı; (3) `IlceBlogu` yan kartı notun boyuna
+esnemiyor (`self-start`). Doğrulama: 5 sayfa × 6 genişlik (320–1280) yatay
+taşma **0** · tel 6 / WhatsApp 4 / `tel_click` 6 / `whatsapp_click` 4 —
+değişiklik öncesiyle **birebir aynı** · `f-ad` her sayfada tek.
+**Bilinen, önceden var olan çakışma:** 1024 px'te `YanButonlar` sağ kenardaki
+içeriğin (yeni panel, hero künyesi) üstüne biniyor; ayrı iş.
+
 **İki sayfada form İKİ KEZ basılıyordu** (yeni yer + eski yer); alttakiler
 kaldırıldı. Aynı sayfada iki form = tekrarlanan `id="f-ad"` demek ve
 `<label for>` bağları bozulur. Formu taşırken bunu kontrol edin.

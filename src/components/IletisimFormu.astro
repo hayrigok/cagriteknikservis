@@ -33,11 +33,21 @@ const alan =
   aciklama="Üç bilgi yeterli. Gönderdiğinizde WhatsApp'ı hazır mesajla açıyoruz, siz bir şey yazmıyorsunuz."
   zemin={zemin}
 >
+  {/*
+    Masaüstünde form tek başına 2/3 genişlikte duruyor, sağ yarı boş kalıyordu
+    (02.10.2026'da ekran görüntüsüyle görüldü). Sağ sütuna "gönderince ne
+    olur?" paneli kondu: formun asıl sürtünmesi "bu formu doldurunca ne
+    olacak?" belirsizliği. Panel YALNIZCA lg ve üstünde: mobilde aynı bilgi
+    bölüm açıklamasında zaten var, tekrarı formu aşağı iter.
+
+    Ad ve telefon sm ve üstünde yan yana — form iki satır kısalıyor.
+  */}
+  <div class="grid items-start gap-8 lg:grid-cols-[1.5fr_1fr]">
   <form
     data-form
     data-numara={numara}
     data-baglam={baglam}
-    class="grid max-w-2xl gap-5 rounded-md border border-lacivert-100 bg-white p-6 lg:p-8"
+    class="grid max-w-2xl gap-5 rounded-md border border-lacivert-100 bg-white p-6 sm:grid-cols-2 lg:max-w-none lg:p-8"
     novalidate
   >
     <div>
@@ -59,7 +69,7 @@ const alan =
       />
     </div>
 
-    <div>
+    <div class="sm:col-span-2">
       <label for="f-ariza" class="block font-semibold text-lacivert-900">Arıza</label>
       <textarea id="f-ariza" name="ariza" required rows="3" class={alan}></textarea>
       <p class="mt-2 text-kucuk text-metin-soluk">
@@ -67,7 +77,7 @@ const alan =
       </p>
     </div>
 
-    <label class="flex cursor-pointer items-start gap-3 text-kucuk leading-relaxed text-metin-soluk">
+    <label class="flex cursor-pointer items-start sm:col-span-2 gap-3 text-kucuk leading-relaxed text-metin-soluk">
       <input
         id="f-kvkk"
         name="kvkk"
@@ -83,14 +93,14 @@ const alan =
 
     <p
       data-hata
-      class="hidden items-start gap-2 rounded-sm border-l-4 border-turuncu-600 bg-zemin px-4 py-3 text-kucuk font-semibold text-turuncu-700"
+      class="hidden items-start gap-2 rounded-sm border-l-4 sm:col-span-2 border-turuncu-600 bg-zemin px-4 py-3 text-kucuk font-semibold text-turuncu-700"
       role="alert"
     >
     </p>
 
     <button
       type="submit"
-      class="inline-flex min-h-14 w-full items-center justify-center gap-2 rounded-sm bg-yesil-600 px-6 text-lead font-bold text-white transition-colors duration-150 hover:bg-yesil-700 disabled:cursor-not-allowed disabled:opacity-55 sm:w-auto sm:justify-self-start"
+      class="inline-flex min-h-14 w-full items-center justify-center gap-2 rounded-sm bg-yesil-600 px-6 text-lead font-bold text-white transition-colors duration-150 hover:bg-yesil-700 disabled:cursor-not-allowed disabled:opacity-55 sm:col-span-2 sm:w-auto sm:justify-self-start"
       disabled={!numara}
     >
       <Ikon ad="whatsapp" boyut={20} />
@@ -101,7 +111,7 @@ const alan =
         ziyaretçiye işine yarayan tek şeyi söyleriz: nereden ulaşacağını. */}
     {
       !numara && (
-        <p class="text-kucuk leading-relaxed text-metin-soluk">
+        <p class="text-kucuk leading-relaxed text-metin-soluk sm:col-span-2">
           {telefon
             ? `Form şu an kapalı. Bize ${telefon} numarasından ulaşabilirsiniz.`
             : 'Form şu an kapalı.'}
@@ -109,6 +119,55 @@ const alan =
       )
     }
   </form>
+
+  {/*
+    Adımlar gerçek bir sıra (form → WhatsApp → dönüş), numara bu yüzden var.
+    Süre sözü YOK: "hemen ararız" denmiyor, çünkü gece gelen mesaja sabah
+    dönülüyor (WhatsApp hattı 7/24 açık ama servis 08:00–23:00).
+    Numara düz metin, bağlantı değil: panel yalnızca masaüstünde görünüyor,
+    orada `tel:` bağlantısı çoğu bilgisayarda hiçbir şey açmaz; ayrıca
+    ölçülmeyen yeni bir arama yüzeyi açmamış oluyoruz (konum listesi sabit).
+  */}
+  <aside
+    aria-labelledby="f-adimlar"
+    class="koyu-blok hidden rounded-md bg-lacivert-900 p-8 text-white lg:block"
+  >
+    <h3 id="f-adimlar" class="text-h3 font-bold">Gönderince ne olur?</h3>
+    <ol class="mt-6 grid gap-5">
+      {
+        [
+          ['WhatsApp açılır', 'Yazdıklarınız hazır bir mesaj olarak gelir.'],
+          ["Gönder'e basarsınız", 'Başka bir şey yazmanız gerekmiyor.'],
+          ['Sizi ararız', 'Arızayı dinler, ne zaman gelebileceğimizi söyleriz.'],
+        ].map(([baslik, metin], i) => (
+          <li class="flex gap-4">
+            <span
+              aria-hidden="true"
+              class="rakam flex h-9 w-9 shrink-0 items-center justify-center rounded-sm bg-turuncu-600 font-bold"
+            >
+              {i + 1}
+            </span>
+            <div>
+              <p class="font-semibold">{baslik}</p>
+              <p class="mt-1 text-kucuk leading-relaxed text-lacivert-200">{metin}</p>
+            </div>
+          </li>
+        ))
+      }
+    </ol>
+
+    {
+      telefon && (
+        <div class="mt-8 border-t border-white/15 pt-6">
+          <p class="plaka text-lacivert-300">Beklemek istemezseniz</p>
+          <p class="rakam text-h2 mt-2 leading-none font-bold whitespace-nowrap text-turuncu-300">
+            {telefon}
+          </p>
+        </div>
+      )
+    }
+  </aside>
+  </div>
 </Bolum>
 
 <script>
