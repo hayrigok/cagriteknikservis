@@ -1266,8 +1266,12 @@ kombi · çamaşır da aynı uyarıyı alıyor). Doğru adresler hub sayfaları
 Var?" başlığı · Beyaz Eşya Servisi reklamının dört açıklaması da klima
 üzerine. **Ders: kurulumda reklam kopyalanıp çoğaltılırken Nihai URL
 kopyadan kalmış; yeni reklam grubu açınca URL'yi ayrıca kontrol edin.**
-Düzeltme sahibine verildi (02.10 akşam) → **sıradaki:** her grubun reklam Nihai URL'si (açılış sayfası deneyimi)
-· ödeme ayarı (kredi ~16.10'da biter; manuelse reklam o gün durur) · fiyat
+**✅ DÜZELTİLDİ 02.10 akşam, CSV ile doğrulandı: 11 reklamın 11'i kendi
+hub sayfasına, eğik çizgili.** Buzdolabı yazım hatası da düzeldi. Görünen
+yol (Yol 1) bakım · montaj · kurutma reklamlarında `klima-servisi` kalmıştı
+(kozmetik, sahibine verildi). **Açılış sayfası deneyimi puanının ~2–3
+hafta içinde değişip değişmediğine bakın** (Anahtar kelimeler → Sütunlar →
+Kalite Puanı) → **sıradaki:** ödeme ayarı (kredi ~16.10'da biter; manuelse reklam o gün durur) · fiyat
 aramaları kararı (C10) · `Tıkla ve ara` dönüşümünün türü · **05.10
 okuması** (C13). Bütçe ₺500/gün; **TV grubu KAPALI kalıyor** (sahibinin
 kararı, 02.10).
