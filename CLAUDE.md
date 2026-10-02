@@ -2244,6 +2244,11 @@ Aşağıdakiler o gün için duruyor:
       02.10). Arama ortakları da kapalı (panel onu "öneri" olarak sunuyor).
       Adım 4: geniş eşlemeleri duraklat · `"klima tamircisi"` öbek ekle
       (`"klima temizleme"` öbeği `adana klima temizleme` aramasını zaten kapsıyor).
+      — **yapıldı, 02.10.** Adım 5: kampanya negatif listesi (rakip adları ·
+      `yetkili` · hizmet dışı şehirler · araç kliması · malzeme/satın alma ·
+      "nasıl/neden" · hizmet dışı cihazlar). Her terim pozitif listede geçmiyor
+      diye tek tek kontrol edildi; **`ikinci el` bilerek YOK** — `"ikinci el
+      klima montajı"` pozitif kelimesini öldürürdü.
 
 ---
 
