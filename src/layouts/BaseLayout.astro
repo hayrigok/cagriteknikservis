@@ -81,12 +81,14 @@ const { ga: gaKimlik, ads: adsKimlik } = olcumKimlikleri();
 
     <meta name="theme-color" content="#0a1f44" />
     {/*
-      İki yazı tipi dilimi de her Türkçe sayfada gerekiyor (ğ ı ş İ latin-ext'te).
-      Preload, CSS ayrıştırılmadan indirmeyi başlatır; swap sayesinde metin
-      bunu beklemeden boyanır. crossorigin şart — yoksa dosya iki kez iner.
+      Yazı tipi için <link rel="preload"> BİLEREK YOK (02.10.2026, ölçüldü).
+      Chrome önceden yüklenen yazı tipini bekleyip ilk boyamayı geciktiriyor:
+      kısıtlı 4G'de preload'lu FCP 1,16–1,43 sn, preload'suz 0,66–1,00 sn.
+      Preload'suz metin hemen "Jakarta Yedek" ile boyanır, font gelince
+      değişir; bedeli CLS 0,013 (bütçe 0,1). Acil arayan kişi için metnin
+      yarım saniye erken görünmesi daha değerli. Geri eklemeden önce B8'i
+      yeniden koşun.
     */}
-    <link rel="preload" href="/fonts/plus-jakarta-sans-latin.woff2" as="font" type="font/woff2" crossorigin />
-    <link rel="preload" href="/fonts/plus-jakarta-sans-latin-ext.woff2" as="font" type="font/woff2" crossorigin />
     <link rel="icon" href="/favicon.svg" type="image/svg+xml" />
 
     {

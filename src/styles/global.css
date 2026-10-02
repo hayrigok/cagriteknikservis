@@ -6,7 +6,7 @@
 
   KENDİ SUNUCUMUZDAN: Google Fonts CDN'i KULLANMIYORUZ — üçüncü taraf istek,
   KVKK riski ve LCP'ye ek RTT demek. İki dilim var çünkü ğ ı ş İ latin-ext'te;
-  Türkçe her sayfa ikisini de ister, BaseLayout ikisini de preload eder.
+  Türkçe her sayfa ikisini de ister. Preload YOK — gerekçesi BaseLayout'ta.
 
   font-display: swap — metin yedek yazı tipiyle HEMEN boyanır (LCP beklemez),
   font gelince yer değiştirir. Kaymayı önleyen şey aşağıdaki "Jakarta Yedek":
