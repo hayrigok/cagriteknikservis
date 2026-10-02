@@ -2192,6 +2192,19 @@ Aşağıdakiler o gün için duruyor:
       `whatsapp_click` / `form_submit` · (5) sahibinin cevapsız çağrı listesi.
       **Tavsiye: teşhis bitene kadar bütçe ₺300.**
 
+      **(1) cevaplandı, 02.10.2026 — tıklamalar siteye ULAŞIYOR.** Ads son 7
+      gün (26.09–02.10): **114 tıklama · ₺1.514,89** (günde ~₺216; ₺1.500'lük
+      bütçe harcanmıyor, sınırı teklif tavanı koyuyor). Sayaç aynı dönemde
+      **~93 farklı gerçek ziyaretçi** gördü, çoğu Adana — kayıp normal
+      aralıkta. Yani sahte tıklama/bot teşhisi **elendi**; Adana'dan gerçek
+      insanlar siteye geliyor. Kombi (₺425, haftanın %28'i) ve TV grupları
+      hafta içinde duraklatılmış.
+
+      **Kör nokta:** Ads'in "0 dönüşüm"ü yalnızca reklamın içindeki ara
+      düğmesini sayıyor (C2). **Siteden yapılan arama hiçbir raporda yok**;
+      GA4 `tel_click` de onay bandını kabul etmeyen ziyaretçide gitmiyor.
+      Geriye tek ölçü kalıyor: **sahibinin telefon kaydı.** Sıradaki soru o.
+
 ---
 
 ### D. İçerik ve iyileştirme — sıralamayı buradan yükselteceğiz
