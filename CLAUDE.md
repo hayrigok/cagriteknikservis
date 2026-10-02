@@ -3076,10 +3076,10 @@ kapasite tahmin edilecek şey değildir.
       | Alan | Profilde | Durum |
       |---|---|---|
       | Ana kategori | Beyaz Eşya Tamirhanesi | ✔ doğru, **dokunulmaz** |
-      | Açıklama | fırın · ocak · mikrodalga · davlumbaz vardı; TV ve kombi yoktu; koşulsuz "orijinal parça" | yeni metin verildi (663 kr.) — sahibi yapıştıracak |
+      | Açıklama | fırın · ocak · mikrodalga · davlumbaz vardı; TV ve kombi yoktu; koşulsuz "orijinal parça" | yeni metin `docs/google-isletme-profili.md` (746 kr., 02.10.2026) — sahibi yapıştıracak |
       | Hizmet bölgesi | yalnızca Reşatbey | ✔ **4 ilçe eklendi** (sahibi bildirdi, 01.10.2026) |
       | Sohbet | SMS | WhatsApp'a çevrilecek |
-      | Ek kategoriler | yok | klima · televizyon · kombi aranacak |
+      | Ek kategoriler | yok | ✔ **eklendi 02.10.2026:** Klima Tamir Servisi · Televizyon Tamir Servisi · Isıtma sistemleri (Google'da "kombi" kategorisi yok) |
       | Çalışma saati | 08:00–23:00 | ✔ doğruymuş, **site** düzeltildi |
       | Adres | Yüreğir, dükkân | ✔ dükkân var, görünmesi doğru |
       | Açılış tarihi | Ocak 2000 | ✔ sahibi doğruladı |
