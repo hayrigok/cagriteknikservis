@@ -547,6 +547,12 @@ görüldü ki **sahibinin kendi bağlantısı**. Ayrıca konum verisi güvenilme
 aynı adres bir serviste İstanbul, Cloudflare'de Gaziantep görünüyor. **Türk
 operatörlerinin havuz adreslerinde şehir bilgisine dayanarak karar vermeyin.**
 
+**Test isteğine `gclid` EKLEMEYİN (02.10.2026).** Sayaç `gclid` taşıyan her
+isteği ücretli tıklama sayar. Claude bir AdsBot kontrolünde test isteklerine
+`?gclid=…` ekledi; "Şüphe yok" bölümündeki **02/10 19:52 `2a00:1d36:9856:*`
+(TTNet, "İskenderun")** kaydı odur — sahibin kendi bağlantısı, gerçek
+tıklama değil. 30 günde kendiliğinden silinir.
+
 ### Form → /tesekkurler/ → WhatsApp
 
 Backend yok. Form 3 alan + KVKK onayı toplar, doğrular, mesajı kurar — sonra
@@ -1348,7 +1354,7 @@ fiyatı sahanın bilgisi.
 | Site haritası | **71 adres** — `/kullanim-kosullari/` eklendi ama **noindex**, sitemap dışı (01.10.2026) | push sonrası canlıda doğrulanacak |
 | Ölçümleme | **GA4 + Ads çalışıyor** — `G-818Z2EG00L` · `AW-18353257077` (12.08.2026, canlıda ölçüldü) | ✔ |
 | Google yorumu | **18** (12.08.2026, sahibi bildirdi) — ilk hedef (10–15) **aşıldı** ✔ | akışı sürdürmek (D4) |
-| **Google Ads** | **YAYINDA** — bütçe **₺1.500/gün** (sahibi, Eylül sonu) · TV ve Kombi grupları **duraklatılmış** · 01.08–02.10: **₺16.776,86 · 1.449 tıklama · 0 dönüşüm** · gösterim payı %31 | **C13 teşhisi bekliyor** — tavsiye ₺300 |
+| **Google Ads** | **YAYINDA** — **Manuel TBM** (grup ₺30 · 10 kelime ₺45–70, C13) · bütçe **₺500/gün** (kredi ₺7.113, ~16.10'da biter) · TV ve Kombi **duraklatılmış** · 01.08–02.10: ₺16.776,86 · 1.449 tıklama · **"0 dönüşüm" aramayı ölçmüyor** (C1 düzeltmesi, 02.10) | **ilk okuma 05.10** (C13) |
 | Bot / click fraud savunması | **kurulum kapıları uygulandı** (C6) + **ücretli tıklama sayacı canlı** (`/_tiklama/`) | saldırı olursa C7 sırası |
 
 **Performans — ölçüldü, 29.07.2026**
@@ -1939,6 +1945,24 @@ Aşağıdakiler o gün için duruyor:
       Sıralama önemli: `tel_click` birincil yapılırsa akıllı teklif yanlış
       tıklamalara optimize eder.
 
+      **⚠️ DÜZELTME 02.10.2026 — bu dönüşüm Türkiye'de ARAMA SÜRESİNİ
+      ÖLÇEMİYOR; aşağıdaki "doğru ayarlı" yanlıştı.** 60 sn kuralı Google
+      yönlendirme numarasıyla ölçülür ve o numara **Türkiye'de yok**
+      (Google'ın listesi 30 ülke, Türkiye içinde değil —
+      support.google.com/google-ads/answer/2454052, 02.10.2026'da bakıldı).
+      Kanıt: 20.08'de reklamın ara düğmesinden 2 gerçek arama geldi, dönüşüm
+      0 kaldı (C12) · 01.09–02.10'da telefon gösterimi **6.440**, sayılan
+      arama **0**. Google süre ölçülemeyince "reklam etkileşimine göre
+      sınıflandırma"dan söz ediyor (answer/13768416) ama hesapta 2 ayda tek
+      dönüşüm yok. **Sonuç: Ads'teki "Dönüşümler" sütunu bu hesapta aramayı
+      göstermiyor; "0 dönüşüm" = "kimse aramadı" DEĞİL.** Aramanın ölçüsü:
+      (a) kampanya → Segment → Tıklama türü → telefon satırı (reklamdaki ara
+      düğmesine basma; tıklama olarak ücretlenir) · (b) sayaçtaki "Gerçek
+      müşteri" bölümü (sitedeki düğmeler) · (c) sahibinin "nereden buldunuz"
+      sorusu. `Tıkla ve ara` dönüşümünün türü incelenecek: ara düğmesine
+      basmayı sayan türse etkinleştirmek "Dönüşümler"i anlamlı yapar
+      (Manuel TBM'de teklifi etkilemez).
+
       **Çağrı dönüşümü hazır ve doğru ayarlı:** `Reklamlardan sesli arama
       yapma` · **arama süresi 60 saniye** · sayım **Bir** · **Birincil** ·
       30 gün · veriye dayalı ilişkilendirme.
@@ -2508,6 +2532,39 @@ Aşağıdakiler o gün için duruyor:
       oranı, günlük bütçenin akşamdan önce bitip bitmediği ve sahibinin "bizi
       nereden buldunuz" sayısı. ₺40 tavanı ve "en üst"e geçiş o gün konuşulur.
       Kalan küçük iş: iki aynı arama öğesinden biri (C12) — değeri düşük.
+
+      **02.10 akşam — 30 günlük kelime raporu derin inceleme (01.09–02.10 ·
+      14.481 gösterim · 884 tıklama · ₺10.216):**
+      - **Açılış sayfası deneyimi "Ortalamanın altında" — puanlı gösterimlerin
+        %99'u (12.109 / 12.216), 11 grubun hepsinde.** Beklenen TO %63'te
+        altında, reklam alaka %51'de üstünde. Üst sıranın ₺45–98 tutmasının
+        yapısal sebebi bu ve **siteden çözülebilecek tek kaldıraç**. İnceleme
+        için her grubun reklam Nihai URL'si gerekiyor (kelime düzeyinde URL
+        boş). **Yapılmadı.**
+      - ₺30'da **57 etkin kelime** "ilk sayfa teklifinin altında" (30 günde
+        3.791 gösterim · ₺3.469); medyan ilk sayfa tahmini ₺55.
+      - **Teklif planı — sahibi onayladı (02.10 akşam), kelime düzeyinde:**
+        `beyaz eşya servisi` ₺50 · `beyaz eşya tamiri` ₺45 · `adana beyaz
+        eşya servisi` ₺45 · `adana beyaz eşya tamiri` ₺60 · `çamaşır makinesi
+        tamiri` ₺65 · `buzdolabı tamir` ₺70 · `klima sökme takma` ₺60 ·
+        `klima taşıma` ₺60 · `bulaşık makinesi servisi` ₺60 · `çamaşır
+        makinesi servisi` ₺60. Kalanlar grup teklifi ₺30.
+      - **İki "adana …" kelimesi hem `"…"` hem `[…]` olarak var — İKİSİ de
+        yükseltilir.** Arama kelimeyle birebir aynıysa Google `[…]`'yı
+        tercih eder; yalnız tırnaklıyı yükseltmek o aramada işe yaramaz.
+      - `beyaz eşya teknik servis`: üst tahmini **₺25,83 < ₺30** — ₺30 ile
+        zaten üst sıraya aday. Ayda ~2.200 uygun arama, gösterim payı %14'tü.
+      - **Bütçe kuralı:** teklifler yükselince ₺500 yetmeyebilir. Kampanyada
+        "Bütçe nedeniyle sınırlı" görülürse bütçe artırılmaz; TO'su düşük
+        şikâyet kelimeleri (`çamaşır makinesi ses yapıyor` %1,8 · `çamaşır
+        makinesi hata kodu` %2,3 · `klima arızası` %2,6 · `beyaz eşya arıza`
+        %3,0 · `klima gazı` %3,5) ₺15'e indirilir.
+      - **Ölçüm:** Ads "Dönüşümler" aramayı göstermiyor (C1 düzeltmesi).
+        05.10 okumasına eklenir: Tıklama türü → telefon satırı (01.09'dan
+        bugüne, karşılaştırma tabanı) · sayaç "Gerçek müşteri" · sahibinin
+        notları. 1. kademe işareti canlıda doğrulandı (`analytics.*.js` →
+        `sendBeacon('/_t/e')`); bugünkü 8 ücretli ziyaretçiden düğmeye basan
+        olmadı.
 
 ---
 
