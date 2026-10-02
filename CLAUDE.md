@@ -2253,6 +2253,14 @@ Aşağıdakiler o gün için duruyor:
       yoksa yükselen teklifle kredi günler içinde biterdi. ₺250 × ~28 gün ≈
       kredi; **~29 Ekim'de kredi biter**, sonrası ödeme ayarına göre ya reklam
       durur (manuel ödeme, C11) ya karttan çekilir. O tarihte karar verilecek.
+      **DEĞİŞTİ — sahibi: *"3-4 tıklama istemiyorum, hemen işler aksın."***
+      Bütçe **₺500/gün** (kredi ~14 günde, **~16 Ekim**'de biter). Teklif:
+      **Tıklamalar (sınırsız) → Hedef gösterim payı · Sayfanın üst kısmı · %80
+      · azami TBM ₺40.** "Dönüşüm sayısını en üst düzeye çıkarma" (Google'ın
+      önerisi) **seçilmedi**: hesapta kayıtlı dönüşüm 0, algoritma neye göre
+      teklif vereceğini bilmez. ₺40 tavanı ölçüme değil, akıllı kampanyada bu
+      kelimelere ödenen ₺40–63'e dayanıyor (C9) — ilk hafta ortalama TBM ve
+      üst kısım oranı okunup ayarlanacak.
 
 ---
 
