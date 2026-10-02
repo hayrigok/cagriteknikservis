@@ -2261,6 +2261,10 @@ Aşağıdakiler o gün için duruyor:
       teklif vereceğini bilmez. ₺40 tavanı ölçüme değil, akıllı kampanyada bu
       kelimelere ödenen ₺40–63'e dayanıyor (C9) — ilk hafta ortalama TBM ve
       üst kısım oranı okunup ayarlanacak.
+      **TV grubu KAPALI KALIYOR — sahibinin kararı, 02.10:** *"çok para yiyor,
+      az iş getiriyor."* (Panelde "TV açılacak" maddesi bu yüzden düştü.) Not:
+      bu, sahibinin **reklamdan gelen işi ayırt edebildiğini** gösteriyor —
+      grup bazında iş sayısı sorulabilir. Adım 7: konum öğesi (İşletme Profili).
 
 ---
 
