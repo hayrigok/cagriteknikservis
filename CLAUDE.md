@@ -1124,7 +1124,7 @@ fiyatı sahanın bilgisi.
 | Site haritası | **71 adres** — `/kullanim-kosullari/` eklendi ama **noindex**, sitemap dışı (01.10.2026) | push sonrası canlıda doğrulanacak |
 | Ölçümleme | **GA4 + Ads çalışıyor** — `G-818Z2EG00L` · `AW-18353257077` (12.08.2026, canlıda ölçüldü) | ✔ |
 | Google yorumu | **18** (12.08.2026, sahibi bildirdi) — ilk hedef (10–15) **aşıldı** ✔ | akışı sürdürmek (D4) |
-| **Google Ads** | **YAYINDA** — 11 grup · **250+ kelime** · bütçe **₺350/gün (₺100'e indirilecek)** · teklif stratejisi **öğrenme aşamasında** · 10 günde **₺1.915,63 · 149 tıklama · 0 dönüşüm** | C10 negatifleri uygulandı · 3 günlük temiz test bekliyor |
+| **Google Ads** | **YAYINDA** — bütçe **₺1.500/gün** (sahibi, Eylül sonu) · TV ve Kombi grupları **duraklatılmış** · 01.08–02.10: **₺16.776,86 · 1.449 tıklama · 0 dönüşüm** · gösterim payı %31 | **C13 teşhisi bekliyor** — tavsiye ₺300 |
 | Bot / click fraud savunması | **kurulum kapıları uygulandı** (C6) + **ücretli tıklama sayacı canlı** (`/_tiklama/`) | saldırı olursa C7 sırası |
 
 **Performans — ölçüldü, 29.07.2026**
@@ -2159,6 +2159,38 @@ Aşağıdakiler o gün için duruyor:
       **İki arama öğesi var, ikisi de aynı numara** — 13 Ağu (TO %9,09) ve
       14 Ağu (TO %2,63). Gösterim ikiye bölünüyor; ölçüm yapan hangisiyse o
       kalmalı, diğeri duraklatılmalı.
+
+- [ ] **C13. ₺16.777 · 1.449 TIKLAMA · 0 ARAMA — 02.10.2026. Sahibi bütçeyi
+      ₺1.500/güne çıkardı, arama gelmedi.** Üç rapor (anahtar kelime · arama
+      terimleri · açık artırma, 01.08–02.10) okundu.
+
+      **Bu artık "veri az" durumu değil.** C8'deki eşik 30 tıklamaydı; 48 katı
+      geçildi. Kelime ayarıyla çözülecek bir sapma değil, zincirde kopuk bir
+      halka var. **Elenen:** site — canlıda telefon `tel:05453751108` ×6,
+      WhatsApp ×4, `tel_click` ×6, GA4 etiketi sayfada (02.10, üç sayfa).
+
+      **Ölçülen:**
+      | | |
+      |---|---|
+      | Arama terimi görünmeyen tıklama | **778 / 1.449 (%54) · ₺8.999** — C9'daki Görüntülü ağ belirtisinin aynısı, **ağ ayarı kontrol edilecek** |
+      | Gösterim payı | %44 → **%31** · üst kısım %51 · mutlak üst %21 — rakipler %66–91 üstte |
+      | Teklif tavanı | tıklama başı neredeyse hiç ₺15'i geçmiyor → bütçe artışı **konum satın almıyor**, dipte daha çok gösterim alıyor |
+      | Geniş eşleme geri gelmiş | `klima tamircisi` ₺462 · `adana klima temizleme` ₺603 · `kombi servis` ₺1.010 — otomatik uygulama hâlâ açık olabilir |
+      | Şikâyet/araştırma kelimeleri | ~₺4.700 (%29) — çoğu "Sınırlı · düşük kalite", TO %1–3 |
+      | Sayaç, son 7 gün | **~93 farklı gerçek ziyaretçi** (`gclid`'li) · Google'ın kendi denetimi 123 adres |
+
+      **Sayaç tuzağı:** neredeyse her ziyaretçi **aynı dakikada 2 ya da 4 kez**
+      sayılıyor (Google'ın denetim sunucuları da öyle). Bu, ayrı ücretli
+      tıklama değil; büyük ihtimalle tarayıcının ön yüklemesi ya da yenileme.
+      "Şüpheli" listesindeki 3–4'lük kayıtların hepsi tek dakikalık — yani
+      Ads'e eklenen 6 sabit hat IP'si **gerçek müşteri olabilir.** Eşik aynı
+      dakikadaki tekrarları birleştirmeden kullanılmamalı.
+
+      **Açık sorular — cevap gelince sırayla:** (1) Ads son 7 gün tıklama
+      sayısı ↔ sayaçtaki ~93 · (2) Segment → Ağ · (3) Segment → Tıklama türü
+      (telefon tıklaması var mı) · (4) GA4 → Etkinlikler: `tel_click` /
+      `whatsapp_click` / `form_submit` · (5) sahibinin cevapsız çağrı listesi.
+      **Tavsiye: teşhis bitene kadar bütçe ₺300.**
 
 ---
 
