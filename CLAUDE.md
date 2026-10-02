@@ -2224,6 +2224,11 @@ Aşağıdakiler o gün için duruyor:
       karta geçer) · (5) konum öğesi (İşletme Profili bağlantısı) · (6) TV
       grubunu aç. **Ölçü:** telefonda "bizi nereden buldunuz?" sorusu.
 
+      **Kredi:** kalan **₺7.113,15**, son kullanma **28.11.2026** (sahibi
+      bildirdi, 02.10). Kalan ~57 gün → krediyi tarihe kadar yaymak günde
+      ~₺125 demek. Bütçe kararı 4. adımda, teklif tahminleri görüldükten sonra.
+      **Sahibine adımlar TEK TEK veriliyor** — bir adım, "bitince haber ver".
+
 ---
 
 ### D. İçerik ve iyileştirme — sıralamayı buradan yükselteceğiz
