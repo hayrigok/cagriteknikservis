@@ -491,6 +491,12 @@ zaten Ads'te duruyor), kutunun işareti kaldırılınca bölümden düşer. Bu
 bölümün kutuları yapıştırma listesini beslemez (`data-liste` yalnızca
 "Engellenecek" tablosunda). Rapor süresi dolmuş olan 4. adres
 `178.246.27.45`'i göstermiyor — o Ads'ten elle silinmeli. **Test 43/43.**
+**Canlıda doğrulandı** (`0584151`, ~30 sn'de yayında): Engellenecek **5 → 0**,
+yapıştırma listesi **0**, "kaldırın" bölümünde **3** adres (Tellcom ·
+TT · TT, her biri 1 tıklama). Önceki yayında (`5271734`) site yüzeyleri
+gerçek Chrome ile 3 sayfada sayıldı: telefon 6 · WhatsApp 4 · `tel_click`
+6 · `whatsapp_click` 4 · form 1 — birebir; Ara/WhatsApp işareti canlıda
+gidiyor (istek tarayıcıda durduruldu, sayaca kayıt düşmedi).
 
 **Bu sistem tıklamayı ENGELLEMEZ, kanıtlar.** Para tıklandığı anda ödeniyor;
 elde ettiğimiz şey Ads'in IP hariç tutma kutusuna yapıştırılacak liste ve
