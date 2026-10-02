@@ -2205,6 +2205,25 @@ Aşağıdakiler o gün için duruyor:
       GA4 `tel_click` de onay bandını kabul etmeyen ziyaretçide gitmiyor.
       Geriye tek ölçü kalıyor: **sahibinin telefon kaydı.** Sıradaki soru o.
 
+      **DÜZELTME, aynı gün — sahibi açıkladı: "arama yok" telefonu değil,
+      ÜST SIRAYI kastediyordu.** *"Reklam çalışıyor fakat üst gösterimlerde
+      yer almıyoruz… beyaz eşya servisi yazınca önüme çok firma geçiyor."*
+      Ölçüm de bunu söylüyor: `"beyaz eşya servisi"` son 7 günde 22 gösterim,
+      **0 tıklama**. Sahibinin hedefi: **Google'ın yatırdığı ₺8.000 promosyon
+      kredisiyle** üst sıraya oynamak.
+
+      **Plan — "geniş ve alçak" yerine "dar ve yüksek":** açık artırmada en
+      üstte duranlar (`adanaklimabakimi` %91 üst · `aslanteknikservis` %85)
+      gösterim paylarının **%10'un altında** olduğu yerde bile tepede — az
+      kelimeye yüksek teklif veriyorlar. Biz %31 payla yayılıp dipte
+      kalıyoruz. Sıra: (1) kredi bitiş tarihi + kelimelerin "üst kısım
+      tahmini teklifi" · (2) düşük kaliteli şikâyet kelimelerini durdur,
+      geniş eşlemeleri öbeğe çevir · (3) teklif stratejisi → **Hedef gösterim
+      payı, sayfanın üst kısmı**, tavanlı · (4) **bütçe = kredi ÷ kalan gün**
+      (₺1.500'de bırakılırsa teklif yükselince kredi günler içinde biter ve
+      karta geçer) · (5) konum öğesi (İşletme Profili bağlantısı) · (6) TV
+      grubunu aç. **Ölçü:** telefonda "bizi nereden buldunuz?" sorusu.
+
 ---
 
 ### D. İçerik ve iyileştirme — sıralamayı buradan yükselteceğiz
