@@ -994,6 +994,14 @@ Roboto'suyla masaüstünde doğrulandı). **Gerçek Android cihazda CLS
 Üst çubuktaki isim yeni yazı tipiyle 320 · 360 · 390 px'te **iki satıra
 sığıyor, kesilmiyor**; çubuk her genişlikte 64 px (02.10.2026, ölçüldü).
 
+**Yayında, 02.10.2026** (`0584151..f82db46`, push'tan ~60 sn sonra canlı).
+Canlıda gerçek Chrome ile 5 sayfa (ana · Seyhan klima · buzdolabı hub ·
+iletişim · blog): telefon ×6 · WhatsApp ×4 · `tel_click` ×6 ·
+`whatsapp_click` ×4 · form tek (`f-ad` ×1) · numara `tel:05453751108` ·
+GA4 etiketi · açık/kapalı çipi · Plus Jakarta Sans yüklü — **beşi de
+birebir**. Dış host yalnızca kendi alan adımız + gtag'in üç Google adresi.
+**Canlıda hız ve gerçek Android CLS ölçülmedi.**
+
 **Sitenin önünde artık bir Worker var (14.08.2026) ama tarayıcı tarafında
 hiçbir maliyeti yok.** `worker/index.js` yalnızca sunucuda çalışıyor: inen
 kod yok, istek yok, sayfa ağırlığı ve LCP değişmiyor. Ölçülen CPU süresi
