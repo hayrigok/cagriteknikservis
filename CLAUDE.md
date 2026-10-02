@@ -2229,6 +2229,18 @@ Aşağıdakiler o gün için duruyor:
       ~₺125 demek. Bütçe kararı 4. adımda, teklif tahminleri görüldükten sonra.
       **Sahibine adımlar TEK TEK veriliyor** — bir adım, "bitince haber ver".
 
+      **Adım 1 sonucu (Kalite Puanı, 01.09–02.10, ₺10.154):** teklif tahmini
+      sütunları **boş** — otomatik teklif stratejisinde Google göstermiyor.
+      Kalite Puanı: arıza belirtisi kelimelerinin **hepsi 1–2** (çamaşır ×8,
+      bulaşık ×4, buzdolabı "çalışmıyor/su akıtıyor", `kombi servis` geniş
+      ₺840) → **₺1.912 (%19)** bu kelimelere. Hacimli ana kelimeler **3**
+      (`klima servisi`, `klima temizleme` ₺485, `buzdolabı soğutmuyor` ₺491,
+      `televizyon tamircisi` ₺1.419). 5–8 alanlar: `beyaz eşya servisi` 6,
+      `klima taşıma` 6, `klima bakımı` 5, `buzdolabı tamir` 5, `adana …`
+      kalıpları 5–8. **Puan 1–2 olan kelime hiçbir makul teklifle üste
+      çıkamaz** (rakip puanı 7 ise aynı sıraya ~4–7 kat teklif gerekir).
+      Adım 2: Kalite Puanı 1–2 olanları duraklat.
+
 ---
 
 ### D. İçerik ve iyileştirme — sıralamayı buradan yükselteceğiz
