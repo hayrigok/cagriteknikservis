@@ -223,6 +223,41 @@ function gunToplami(gunler, gun) {
   return Object.entries(gunler).reduce((t, [g, a]) => (g >= sinir ? t + a : t), 0);
 }
 
+/** Tıklama saatleri (ms), eskiden yeniye; TEKRAR_SN içindeki tekrarlar tek sayılır. */
+function ayriZamanlar(tiklamalar) {
+  const zamanlar = (tiklamalar || [])
+    .map((t) => Date.parse(t && t.z))
+    .filter(Number.isFinite)
+    .sort((a, b) => a - b);
+  const sonuc = [];
+  for (const z of zamanlar) {
+    if (!sonuc.length || z - sonuc[sonuc.length - 1] >= TEKRAR_SN * 1000) sonuc.push(z);
+  }
+  return sonuc;
+}
+
+/**
+ * Kaydın gün dökümü, kural 5'e göre ayıklanmış. 02.10.2026 öncesi kayıtlar
+ * çift sayımla yazıldı: tek ziyaret AYNI DAKİKADA 4 tıklama görünüyordu ve
+ * yeni kural yalnızca yeni yazımlara uygulandığı için o kayıtlar gerçek
+ * müşteriyi "engellenecek" listesine düşürüyordu (yayın günü canlıda 5
+ * satırın 5'i). Döküm bu yüzden tıklama saatlerinden yeniden kuruluyor.
+ * Saat listesi bütün tıklamaları taşımıyorsa (çok tıklamalı eski kayıt)
+ * gün dökümüne dokunulmaz — o kayıt zaten şüphelidir.
+ */
+function ayiklanmisGunler(kayit) {
+  const gunler = gunleriBudakla(kayit.gunler || {});
+  const toplam = Object.values(gunler).reduce((a, b) => a + b, 0);
+  const tumu = (kayit.tiklamalar || []).filter((t) => t && Number.isFinite(Date.parse(t.z)));
+  if (!tumu.length || tumu.length < toplam) return gunler;
+  const sonuc = {};
+  for (const z of ayriZamanlar(tumu)) {
+    const g = new Date(z).toISOString().slice(0, 10);
+    sonuc[g] = (sonuc[g] || 0) + 1;
+  }
+  return gunleriBudakla(sonuc);
+}
+
 /** Kaydın silineceği an: son tıklamadan UZUN_GUN gün sonra (mutlak). */
 function bitis(kayit) {
   const son = Date.parse(kayit.son || kayit.ilk) || Date.now();
@@ -327,7 +362,7 @@ function siniflandir(kayit) {
       return { kademe: 'bot', sebep: `Yurt dışı · ${kayit.ulke}` };
     }
   }
-  const gunler = gunleriBudakla(kayit.gunler || {});
+  const gunler = ayiklanmisGunler(kayit);
   const kisa = gunToplami(gunler, KISA_GUN);
   const uzun = gunToplami(gunler, UZUN_GUN);
   let sebep = '';
@@ -335,6 +370,14 @@ function siniflandir(kayit) {
   else if (uzun >= UZUN_ESIK) sebep = `${UZUN_GUN} günde ${uzun} tıklama`;
   if (!sebep) return { kademe: 'normal', sebep: '' };
   return { kademe: paylasimliMi(kayit) ? 'mobil' : 'tekrar', sebep };
+}
+
+/** "Ads'te engelli ama şüphe kalmadı" satırının sebep sütunu. */
+function kaldirmaSebebi(k) {
+  if (k.kademe === 'gercek') return `Gerçek müşteri · ${k.sebep}`;
+  if (k.kademe === 'mobil') return `Mobil hat ya da paylaşımlı adres · ${k.sebep}`;
+  if (k.kademe === 'google') return "Google'ın kendi denetimi";
+  return `${k.toplam} tıklama · şüphe yok`;
 }
 
 /** Listeye girip Ads'e TAM ADRESİYLE yapıştırılacak kademeler. */
@@ -584,7 +627,7 @@ async function rapor(env) {
 
   for (const [ad, veri] of okunan) {
     if (!veri) continue;
-    const gunler = gunleriBudakla(veri.gunler || {});
+    const gunler = ayiklanmisGunler(veri);
     const toplam = Object.values(gunler).reduce((a, b) => a + b, 0);
     if (toplam === 0) continue;
     const tamIp = veri.ip || (ad.startsWith('ip:') ? ad.slice(3) : null);
@@ -605,7 +648,9 @@ async function rapor(env) {
     satir.sebep = sebep;
     // Kural 4 rapor tarafında da geçerli: tam adres yalnızca Ads'e
     // yapıştırılacak satırda basılır, geri kalan her yerde kısaltılmış hâli.
-    satir.ip = ENGELLENECEK.has(kademe) ? tamIp : null;
+    // Tek istisna: daha önce Ads'e eklenmiş ama artık şüphe taşımayan adres.
+    // Tam adres onu Ads'ten SİLEBİLMEK için gerekiyor ve zaten Ads'te duruyor.
+    satir.ip = ENGELLENECEK.has(kademe) || veri.engellendi ? tamIp : null;
     satir.goster = satir.ip || satir.maske;
     kayitlar.push(satir);
   }
@@ -632,10 +677,22 @@ async function rapor(env) {
     .sort((a, b) => b.toplam - a.toplam || enYeniUstte(a, b));
   const engellenecek = [...tekler, ...bloklar.sort(enYeniUstte)];
 
-  const gercek = kayitlar.filter((k) => k.kademe === 'gercek').sort(enYeniUstte);
-  const mobil = kayitlar.filter((k) => k.kademe === 'mobil').sort(enYeniUstte);
-  const dogrulama = kayitlar.filter((k) => k.kademe === 'google').sort(enYeniUstte);
-  const normal = kayitlar
+  /*
+    Ads'te engelli ama şüphe kalmamış adresler. 02.10.2026'da yaşandı: çift
+    sayım yüzünden 4 sabit hat adresi "şüpheli" göründü ve sahibi onları Ads'te
+    engelledi; düzeltmeden sonra hepsi tek ziyaretlik gerçek müşteri çıktı.
+    Bu bölüm o yanlışı geri almanın yolu. Diğer bölümlerde tekrar basılmazlar.
+  */
+  const kaldirilacak = kayitlar
+    .filter((k) => k.engellendi && !ENGELLENECEK.has(k.kademe))
+    .map((k) => ({ ...k, sebep: kaldirmaSebebi(k) }))
+    .sort(enYeniUstte);
+  const kalanlar = kayitlar.filter((k) => !k.engellendi);
+
+  const gercek = kalanlar.filter((k) => k.kademe === 'gercek').sort(enYeniUstte);
+  const mobil = kalanlar.filter((k) => k.kademe === 'mobil').sort(enYeniUstte);
+  const dogrulama = kalanlar.filter((k) => k.kademe === 'google').sort(enYeniUstte);
+  const normal = kalanlar
     .filter((k) => k.kademe === 'normal' && !blokMaskeleri.has(k.maske))
     .sort(enYeniUstte);
 
@@ -663,7 +720,7 @@ async function rapor(env) {
            sonra <strong>“Ads'e eklendi”</strong> kutusunu işaretleyin: adres aşağıdaki
            yapıştırma listesinden düşer, satır soluklaşır. <code>*</code> ile biten satır
            bir adres bloğudur; Ads'e olduğu gibi yapıştırın.</p>
-           ${tablo(engellenecek, { secilebilir: true, sebep: true })}
+           ${tablo(engellenecek, { secilebilir: true, sebep: true, liste: true })}
            <h3>Ads'e yapıştırmaya hazır (<span id="kalanSayi">${kalan.length}</span>)</h3>
            <div id="listeKutusu"${kalan.length ? '' : ' hidden'}>
              <pre id="liste">${kalan.map((k) => kacir(k.ip)).join('\n')}</pre>
@@ -677,6 +734,17 @@ async function rapor(env) {
            Kampanya başına 500 satır sınırı var.
            ${eklenmis.length ? `Şu ana kadar <strong>${eklenmis.length}</strong> satırı eklediğinizi işaretlediniz.` : ''}</p>`
         : '<p class="not">Engellenecek adres yok.</p>'
+    }
+
+    ${
+      kaldirilacak.length
+        ? `<h2 class="uyari">Ads'te engelli ama şüphe kalmadı — kaldırın (${kaldirilacak.length})</h2>
+           <p class="not">Bu adresleri daha önce Ads'e eklendi diye işaretlediniz, ama artık
+           şüpheli görünmüyorlar; büyük ihtimalle <strong>gerçek müşteri</strong>. Ads'te
+           <strong>IP hariç tutmaları</strong> listesinden silin, sonra buradaki kutunun
+           işaretini kaldırın: satır bu bölümden düşer.</p>
+           ${tablo(kaldirilacak, { secilebilir: true, sebep: true })}`
+        : ''
     }
 
     ${
@@ -724,8 +792,10 @@ async function rapor(env) {
  * @param satirlar  kayıt listesi
  * @param secenek.secilebilir  "Ads'e eklendi" işaret sütunu basılır.
  * @param secenek.sebep  "Sebep" sütunu basılır.
+ * @param secenek.liste  kutular yapıştırma listesini besler (yalnızca
+ *   "Engellenecek" tablosu; "kaldırın" bölümündeki kutu listeye ekleme yapmaz).
  */
-function tablo(satirlar, { secilebilir = false, sebep = false } = {}) {
+function tablo(satirlar, { secilebilir = false, sebep = false, liste = false } = {}) {
   return `<div class="kaydir"><table>
     <tr>${secilebilir ? "<th>Ads'e eklendi</th>" : ''}<th>IP</th>${sebep ? '<th>Sebep</th>' : ''}<th>Son tıklama</th><th>Toplam</th><th>Gün</th><th>Tıklama saatleri</th><th>Operatör</th><th>Konum</th></tr>
     ${satirlar
@@ -735,7 +805,7 @@ function tablo(satirlar, { secilebilir = false, sebep = false } = {}) {
             !secilebilir
               ? ''
               : k.ip
-                ? `<td class="isaret"><label><input type="checkbox" data-ip="${kacir(k.ip)}" data-anahtar="${kacir(k.anahtar)}" data-eklenebilir${k.engellendi ? ' checked' : ''}><span>eklendi</span></label></td>`
+                ? `<td class="isaret"><label><input type="checkbox" data-ip="${kacir(k.ip)}" data-anahtar="${kacir(k.anahtar)}" data-eklenebilir${liste ? ' data-liste' : ''}${k.engellendi ? ' checked' : ''}><span>eklendi</span></label></td>`
                 : '<td class="kucuk">tam adres bir sonraki tıklamada</td>'
           }
           <td><code>${kacir(k.goster)}</code></td>
@@ -783,10 +853,15 @@ function saatDokumu(k) {
       .map(([g, a]) => `${kacir(g)}: ${a}`)
       .join('<br>');
   }
-  const gosterilen = liste.slice().reverse().slice(0, 8);
+  // Tek adresin saatleri kural 5'e göre birleştirilir (eski kayıtta aynı
+  // dakika 4 kez yazılıydı). Blok satırı farklı adreslerden oluşur, birleştirilmez.
+  const zamanlar = String(k.anahtar).startsWith('b:')
+    ? liste.map((t) => Date.parse(t.z)).sort((a, b) => a - b)
+    : ayriZamanlar(liste);
+  const gosterilen = zamanlar.reverse().slice(0, 8);
   const gizli = k.toplam - gosterilen.length;
   return (
-    gosterilen.map((t) => kacir(anBicimi(t.z))).join('<br>') +
+    gosterilen.map((z) => kacir(anBicimi(new Date(z).toISOString()))).join('<br>') +
     (gizli > 0 ? `<br><span class="soluk">+${gizli} daha</span>` : '')
   );
 }
@@ -833,7 +908,7 @@ const BETIK = `<script>
     var pre = document.getElementById('liste');
     if (!pre) return;
     var kalan = [];
-    document.querySelectorAll('input[data-eklenebilir]').forEach(function (k) {
+    document.querySelectorAll('input[data-liste]').forEach(function (k) {
       if (!k.checked) kalan.push(k.dataset.ip);
     });
     pre.textContent = kalan.join('\\n');

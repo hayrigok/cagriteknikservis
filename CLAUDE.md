@@ -476,6 +476,22 @@ gerçek müşterili ✘, aynı adres 3 kez ✘ · blok işaretlenince listeden
 düşüyor · Telegram tek bildirim, tam IP yok · KV hatasında site ve işaret
 çalışıyor.
 
+**Yayın günü canlıda yakalanan hata — eski kayıtlar gerçek müşteriyi
+listeye düşürüyordu (02.10.2026).** Dört kademe yayına çıkınca raporda 5
+"engellenecek" satır vardı ve **5'inin de 4 tıklaması aynı dakikadaydı**:
+çift sayım düzeltmesi (kural 5) yalnızca yeni yazımlara uygulanıyordu, eski
+`ip:` kayıtları şişik sayılarıyla duruyordu. Sahibine o 2 satırı
+eklememesi söylendi. Düzeltme: sayım artık gün toplamından değil **tıklama
+saatlerinden** kuruluyor (`ayiklanmisGunler()`, 2 dk içindeki tekrarlar
+tek). Saat listesi bütün tıklamaları taşımıyorsa gün toplamına güveniliyor
+(o kayıt zaten çok tıklamalı). Aynı anda **"Ads'te engelli ama şüphe
+kalmadı — kaldırın"** bölümü eklendi: daha önce engellenmiş ama artık
+şüphesiz adresler **tam IP'siyle** orada (Ads'ten silinebilsin diye; adres
+zaten Ads'te duruyor), kutunun işareti kaldırılınca bölümden düşer. Bu
+bölümün kutuları yapıştırma listesini beslemez (`data-liste` yalnızca
+"Engellenecek" tablosunda). Rapor süresi dolmuş olan 4. adres
+`178.246.27.45`'i göstermiyor — o Ads'ten elle silinmeli. **Test 43/43.**
+
 **Bu sistem tıklamayı ENGELLEMEZ, kanıtlar.** Para tıklandığı anda ödeniyor;
 elde ettiğimiz şey Ads'in IP hariç tutma kutusuna yapıştırılacak liste ve
 Google'a geçersiz tıklama incelemesi açarken sunulacak desen. Aynı sebeple
