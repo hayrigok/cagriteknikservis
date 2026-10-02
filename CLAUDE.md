@@ -1251,8 +1251,8 @@ Ayrıntı ve kurulan her ayar **C8**'de, teşhis geçmişi **C9**'da.
 **⏭ Ads hazırlık listesi (02.10.2026 akşam, sahibiyle tek tek):**
 ✅ 14 şikâyet kelimesi (9 duraklatıldı · 5 teklif kısıldı, C13) ·
 ✅ IP hariç tutma listesinden 4 adres silindi (sayaç "kaldırın" bölümündeki
-3 + `178.246.27.45`, sahibi bildirdi 02.10) → **sıradaki:** aynı numaralı iki arama öğesinden birini
-duraklatmak (C12) · her grubun reklam Nihai URL'si (açılış sayfası deneyimi)
+3 + `178.246.27.45`, sahibi bildirdi 02.10) · ✅ 14 Ağu arama öğesi kapatıldı, 13 Ağu kaldı
+(C12; 01.08–02.10 TO %6,04 / %5,47, fark küçüktü) → **sıradaki:** her grubun reklam Nihai URL'si (açılış sayfası deneyimi)
 · ödeme ayarı (kredi ~16.10'da biter; manuelse reklam o gün durur) · fiyat
 aramaları kararı (C10) · `Tıkla ve ara` dönüşümünün türü · **05.10
 okuması** (C13). Bütçe ₺500/gün; **TV grubu KAPALI kalıyor** (sahibinin
