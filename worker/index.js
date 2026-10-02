@@ -48,7 +48,7 @@
      ziyaretçi AYNI DAKİKADA 2 ya da 4 kez görünüyordu — Google'ın kendi
      denetim sunucuları dahil. Bu ayrı ücretli tıklama değil (tarayıcı ön
      yüklemesi, yenileme), ama eşiği tek ziyaretle aştırıyor ve gerçek
-     müşteriyi "şüpheli" listesine düşürüyordu; sahibi 6 sabit hat adresini
+     müşteriyi "şüpheli" listesine düşürüyordu; sahibi 4 sabit hat adresini
      bu yüzden Ads'te engelledi. Aynı adresten TEKRAR_SN içinde gelen
      istek yeni tıklama sayılmaz. Ön yükleme isteklerini atmak yerine
      birleştiriyoruz: ön yüklenen sayfa kullanılırsa ikinci istek hiç

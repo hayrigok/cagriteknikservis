@@ -387,7 +387,7 @@ danıştığı kişi *"IP maskelenmesi gerekiyor"* dedi; aynı gün canlı rapor
 çift sayım da görüldü.
 - **Çift sayım:** neredeyse her ziyaretçi aynı dakikada 2 ya da 4 kez
   sayılıyordu (Google'ın denetim sunucuları dahil) — tek ziyaret eşiği
-  aştırıyor, gerçek müşteri "şüpheli"ye düşüyordu; sahibi 6 sabit hat
+  aştırıyor, gerçek müşteri "şüpheli"ye düşüyordu; sahibi 4 sabit hat
   adresini bu yüzden engelledi. Artık aynı adresten **120 sn** içindeki
   tekrar yeni tıklama sayılmıyor. Ön yükleme isteği atılmıyor, birleştiriliyor
   (atılsaydı ön yüklenen sayfa kullanıldığında tıklama hiç sayılmazdı).
@@ -2209,7 +2209,7 @@ Aşağıdakiler o gün için duruyor:
       sayılıyor (Google'ın denetim sunucuları da öyle). Bu, ayrı ücretli
       tıklama değil; büyük ihtimalle tarayıcının ön yüklemesi ya da yenileme.
       "Şüpheli" listesindeki 3–4'lük kayıtların hepsi tek dakikalık — yani
-      Ads'e eklenen 6 sabit hat IP'si **gerçek müşteri olabilir.** Eşik aynı
+      Ads'e eklendi diye işaretlenen 4 sabit hat IP'si **gerçek müşteri olabilir.** Eşik aynı
       dakikadaki tekrarları birleştirmeden kullanılmamalı.
 
       **Açık sorular — cevap gelince sırayla:** (1) Ads son 7 gün tıklama
