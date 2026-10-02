@@ -103,9 +103,13 @@ hâli G bölümünde.
 npm run dev       # geliştirme sunucusu
 npm run build     # statik çıktı → dist/  (ilçe kapısı uyarıları burada basılır)
 npm run preview   # dist/ önizleme
+npm test          # açık/kapalı çipi mantığı (node --test, paket yok, 8 test)
 ```
 
-Test altyapısı yok. `npm run check` tanımlı ama **`@astrojs/check` kurulu değil** —
+Test altyapısı yalnızca saf fonksiyonlar için: Node 24'ün yerleşik test
+koşucusu `.ts` dosyalarını doğrudan çalıştırıyor (`tests/*.test.ts`), paket
+kurulmadı. Test edilen modül `@/` takma adıyla import yapmamalı — Node'da takma
+ad yok. `npm run check` tanımlı ama **`@astrojs/check` kurulu değil** —
 çalıştırmak paket kurulumu ister, bu onay gerektirir (aşağıdaki paket kuralına bakın).
 Tip hataları şu an yalnızca build sırasında derleme düzeyinde yakalanır.
 
@@ -122,10 +126,16 @@ Bütün görsel kararlar **`design-system/MASTER.md`** içinde — renk oranlar�
 tip ölçeği, ölçü sistemi, ikon kuralları ve `ui-ux-pro-max`'in bu projede
 neden iki kez yanlış yön önerdiği orada yazılı. Bileşen yazmadan önce okuyun.
 
-Özet: **Flat Design + Trust & Authority.** Hiyerarşi çizgiyle değil **tam
-genişlikte renk bloklarıyla** kurulur (lacivert → beyaz → zemin → lacivert).
-Gölge yok, gradient yok, tek vurgu rengi (turuncu), köşe yalnızca 6/12 px,
-ikonlar dolu renk kaplarında.
+Özet: **"Gece Mavisi" (02.10.2026, sahibinin seçimi** — eski görünümü
+"kalitesiz" buldu). Bölümler hâlâ **tam genişlikte renk bloklarıyla** ayrılır
+(lacivert → beyaz → zemin → lacivert); kartlar **rolüne göre gölgeli**.
+Turuncu (`turuncu-500`) **yalnızca arama eyleminde** ve yazısı lacivert;
+açık zemindeki ikon/bağlantı/etiket **kobalt**. Köşe 10/16/20 px. Yazı tipi
+**Plus Jakarta Sans, kendi alan adımızdan** (preload bilerek yok, gerekçe
+BaseLayout'ta). Gradient yalnızca `isik` (koyu blokta tek ışık lekesi).
+Hero'da **açık/kapalı çipi** (`lib/acikDurum.ts`, Türkiye saati). Eski
+`turuncu-600` / `lacivert-600` / monospace `plaka` **silindi** — Tailwind
+bilinmeyen sınıfı sessizce yutar, geri yazmayın.
 
 Bölüm kabı `Bolum.astro`, sayfa kabı `.kap` yardımcı sınıfı. Elle `max-w-*`
 kabı yazılmaz. İkonlar `Ikon.astro` içinde tek yerde; hizmet → ikon eşlemesi
@@ -250,6 +260,24 @@ md idi): mobilde `MobilBar` zaten aynı iki eylemi tam genişlikte basıyor, üs
 768–1343 px arasında düğme sütunu içerikle kenar arasındaki boşluğa sığmıyor,
 hero künyesinin ve form panelinin üstüne biniyordu; hesap `YanButonlar.astro`
 başında. O aralıkta tek sabit arama yüzeyi üst çubuktaki numaralı düğme.
+
+**Hata kaydı — çerez bandı mobilde "Hemen Ara" çubuğunu örtüyordu ✅
+(02.10.2026).**
+- **Dosya:** `src/components/CerezBandi.astro`
+- **Belirti:** Telefonda çerez kararı verilmeden önce alttaki turuncu
+  "Hemen Ara / WhatsApp" çubuğu görünmüyordu; ilk ziyaretin tamamında
+  sayfanın en önemli sabit düğmesi kayıptı. Gece Mavisi çalışmasında ekran
+  görüntüsünde fark edildi.
+- **Kök neden:** Bant çubuğun üstüne çıksın diye **alttan 3,5 rem beyaz
+  dolgu** alıyordu; bant `z-50` olduğu için o beyaz dolgu çubuğun üstüne
+  biniyordu (bant 218 px).
+- **Çözüm:** Dolgu yerine bant mobilde `bottom: calc(3.5rem + güvenli alan)`
+  ile çubuğun **üstüne konumlanıyor**. Onay mantığı değişmedi.
+- **Doğrulama:** 390 px'te bant açıkken çubuğun ortasındaki noktada en üstteki
+  öğe sorgulandı: önce başka öğe (`araUstte:false`), sonra çubuğun kendisi
+  (`araUstte:true`); bant 218 → 135 px, çubuğun 56 px üstünde.
+- **Ders:** Sabit konumlu iki katmanı üst üste koyarken boşluğu dolguyla değil
+  konumla bırakın; dolgu görünmez sanılır ama arka planı boyar.
 Reklam raporlarında hangi yüzeyin çalıştığını bu ayrımla göreceksiniz.
 
 Google Ads tarafında birincil dönüşüm form + 60 sn üzeri çağrı olacak, `tel_click`
@@ -579,6 +607,18 @@ Sıra sabittir, her blok ayrı bileşendir: sticky üst çubuk → H1 → alt ba
 ana CTA → künye paneli → **form** → 3 güven rozeti → fiyat tablosu →
 arıza/çözüm → **marka şeridi** → 4 adım süreç → ilçeye özgü blok → yorumlar →
 SSS → alt CTA + footer → mobil sabit alt çubuk.
+
+**Hero'da açık/kapalı çipi (02.10.2026, Gece Mavisi — blok sırası
+değişmedi).** "Şu an açığız · kapanış 23:00" / "Şu an kapalıyız · açılış
+08:00". Saat **ziyaretçinin telefonundan değil Türkiye saatinden**
+hesaplanıyor, dakikada bir tazeleniyor. `firma.calismaSaatleri`
+`Her gün HH:MM–HH:MM` kalıbında değilse çip **hiç basılmaz** — yanlış
+"açığız" demek, hiç dememekten pahalı. Çip sabit genişlikte ve betik
+çalışana kadar görünmez (yoksa metin gelince H1 kayardı). Mantık
+`lib/acikDurum.ts`, `npm test` 8 test; tarayıcıda sahte saatle 07:59 ·
+08:00 · 22:59 · 23:00 × 320/390/1280 px = 12/12 doğrulandı.
+**Saat kalıbı değişirse** (ör. hafta içi/sonu farklı) çip kendiliğinden
+kaybolur; yeni kalıp `calismaAraligi()`'ya testle eklenir.
 Blok eklerken veya sıra değiştirirken önce sorun.
 
 **⚠️ FORM 12.08.2026'da YUKARI TAŞINDI — sahibinin isteği, hero'nun hemen
@@ -921,6 +961,30 @@ olmasaydı ilk üç turun sahte rakamları (TTFB 0,06–0,07 sn) doğru sanılac
 tekrar **429** verdi (anahtarsız kullanımda kota). Rakamlar bu yüzden yine
 CDP'den.
 
+### Gece Mavisi sonrası — ölçüldü, 02.10.2026
+
+Yerel önizlemede (Brotli yok — mutlak KB canlıdan büyük, karşılaştırma göreli),
+B8 yöntemiyle: kısıtlı 4G + 4× CPU, her ölçümde sıfırdan Chrome, 3 tekrar.
+
+| Sayfa | Önce (LCP · FCP · CLS) | Sonra (LCP · FCP · CLS) |
+|---|---|---|
+| Ana sayfa | 0,73–0,83 · 0,60–0,73 · 0,000 | **0,93–1,27 · 0,66–1,00 · 0,013** |
+| Seyhan klima | 1,14–1,50 · 0,58–0,84 · 0,000 | **1,49–1,65 · 0,76–1,04 · 0,013–0,014** |
+
+Bütçenin içinde (LCP < 2,0 · CLS < 0,1). Yükselişin kaynağı yazı tipi (49 KB,
+font bitişi ~1,2–1,4 sn). Seyhan'da LCP öğesi **çerez bandının metni** —
+betikle sonradan geldiği için iki durumda da en geç boyanan öğe o.
+Sayfa gzip 20–22 KB, kendi JS'imiz 2,2 KB gzip.
+
+**⚠️ Üç ölçüm tuzağı daha (Chrome 149):**
+1. **`127.0.0.1` adresinde ağ kısıtlaması HİÇ uygulanmıyor** (TTFB 0,00).
+   `localhost` adıyla uygulanıyor. Yerel ölçüm `http://localhost:…` ile yapılır.
+2. **Yazı tipi preload'u ilk boyamayı bekletiyor.** Preload'lu ölçümde FCP
+   yazı tipinin bitiş anıyla birebir aynıydı (1,16–1,43 sn). Preload kaldırıldı;
+   `swap` ancak preload'suz "metni hemen boya" sözünü tutuyor.
+3. Betik `Network.emulateNetworkConditionsByRule`'u önce deniyor, eski komut
+   yedek.
+
 **Sitenin önünde artık bir Worker var (14.08.2026) ama tarayıcı tarafında
 hiçbir maliyeti yok.** `worker/index.js` yalnızca sunucuda çalışıyor: inen
 kod yok, istek yok, sayfa ağırlığı ve LCP değişmiyor. Ölçülen CPU süresi
@@ -929,7 +993,8 @@ bir sonraki B8 ölçümünde **TTFB'ye ayrıca bakın** — bu satır o ölçüm
 yapılmadan "etkisi yok" diye kapatılmasın.
 
 **Kendi kaynaklarımızda dış istek sıfır**: CSS tamamen inline, yazı tipi
-indirilmiyor, ikonlar satır içi SVG. HTML içindeki tek `https://` referansı
+**kendi alan adımızdan** iniyor (02.10.2026'dan beri, 2 dosya, 49 KB, bir yıl
+önbellek), ikonlar satır içi SVG. HTML içindeki tek `https://` referansı
 canonical etiketi — o bir kaynak yüklemesi değil.
 
 **Tek istisna gtag.js ve 12.08.2026'dan beri KOŞULSUZ iniyor** (sahibinin
@@ -1190,7 +1255,7 @@ fiyatı sahanın bilgisi.
 | Bot / geçersiz tıklama savunması | **C6 · C7** | Kurulum kapıları **uygulandı** (ağlar kapalı · konum "bulunma" · tam/öbek eşleme · negatif liste · bütçe tavanı · IP hariç tutma hazır). Erken uyarı oranı C7'de: tıklama artarken `tel_click` artmıyorsa gelen insan değildir. |
 | ~~Performans ölçümünü tekrarlamak~~ | B8 | **YAPILDI** (11.08.2026): gtag.js LCP'yi geciktirmiyor, 0,54–0,84 sn. |
 | Tip denetimi | B5 | `@astrojs/check` kurulu değil; kurulum **onay ister**. |
-| Self-hosted font | D1 | **Tavsiye: yapmayın** — LCP metin, ölçülmüş avantajı bozar. Karar sahibinde. |
+| ~~Self-hosted font~~ | D1 | **YAPILDI 02.10.2026** (Gece Mavisi) — preload'suz, LCP bütçe içinde. |
 
 ### 🔁 Süregelen disiplin — biten iş değil, her gün geçerli
 
@@ -1249,10 +1314,10 @@ fiyatı sahanın bilgisi.
 
 | Ölçüt | Şu an | Sınır |
 |---|---|---|
-| Mobil LCP | **0,54–0,84 sn** ✔ (gtag.js ile birlikte, 11.08.2026) | < 2,0 sn |
-| Mobil CLS | **0,000** ✔ | < 0,1 |
-| Sayfa ağırlığı | **18,6–21,3 KB** ✔ | < 500 KB |
-| JS (gzip) | **2,07 KB** ✔ (kendi kodumuz) | < 40 KB |
+| Mobil LCP | **0,93–1,65 sn** ✔ (Gece Mavisi + yazı tipi, yerelde, 02.10.2026 — canlıda ölçülmedi) | < 2,0 sn |
+| Mobil CLS | **0,013** ✔ (yazı tipi değişimi) | < 0,1 |
+| Sayfa ağırlığı | **20–22 KB gzip + yazı tipi 49 KB** ✔ | < 500 KB |
+| JS (gzip) | **2,2 KB** ✔ (kendi kodumuz, açık/kapalı çipi dahil) | < 40 KB |
 | Dış istek | **yalnızca gtag.js** — 12.08.2026'dan beri koşulsuz iniyor (LCP'den sonra, izinler `denied`) | gtag.js dışında 0 |
 | HTTPS | `http://` → **301** → `https://` ✔ | — |
 
@@ -2395,9 +2460,16 @@ Aşağıdakiler o gün için duruyor:
 
 ### D. İçerik ve iyileştirme — sıralamayı buradan yükselteceğiz
 
-- [ ] **D1. Self-hosted font — ÖLÇÜM SONRASI TAVSİYE: YAPMAYIN.**
-      Sahibi 29.07.2026'da istedi, B8 ölçümü gerekçesiyle geri bildirildi;
-      karar sahibinde, ısrar ederse yapılır.
+- [x] **D1. Self-hosted font — YAPILDI 02.10.2026 (Gece Mavisi, sahibinin
+      kararı).** Plus Jakarta Sans, `public/fonts/`. Aşağıdaki "yapmayın"
+      tavsiyesinin gerekçesi ölçüldü ve **kısmen doğru çıktı:** preload'lu
+      kurulumda Chrome ilk boyamayı yazı tipine bekletti (ana sayfa FCP
+      0,6 → 1,2–1,4 sn). Preload kaldırılınca metin yine yedek yazı tipiyle
+      hemen boyanıyor (FCP 0,66–1,00 sn), bedeli CLS 0,013. Ölçüm tablosu
+      "Performans bütçesi → Gece Mavisi sonrası"nda.
+
+      *29.07.2026 kaydı:* Sahibi istedi, B8 ölçümü gerekçesiyle geri bildirildi;
+      karar sahibindeydi.
 
       Gerekçe rakamla: **LCP 0,50–0,91 sn ve LCP nesnesi METİN.** Web fontu
       eklenirse o metin fontun inmesini bekler — sitenin ölçülmüş en güçlü
