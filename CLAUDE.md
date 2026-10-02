@@ -812,7 +812,9 @@ sessizce düşer, kontrol edin). **Sitede yapılacak iş kalmadı.** "Bana beyaz
 eşya servisi öner" sorusunda yapay zekâ işletmeyi **harita kayıtlarından ve
 yorumlardan** seçiyor: Gemini → Google İşletme Profili · ChatGPT / Copilot →
 büyük ölçüde Bing · Siri → Apple Haritalar. Plan, sahibiyle adım adım:
-(1) **Bing Places** (Google profilinden içe aktarma) · (2) **Bing Webmaster
+(1) **Bing Places** (Google profilinden içe aktarma) — **YAPILDI 02.10.2026**:
+doğrulandı, haftalık Google eşitlemesi açık, ad/telefon/saat Google ile birebir;
+yayına girmesi 7–12 gün · (2) **Bing Webmaster
 Tools** (Search Console'dan içe aktarma) · (3) G6'nın kalanları (açıklama ·
 WhatsApp · ek kategoriler) · (4) Apple Business Connect · (5) Yandex Haritalar.
 Her kayıtta ad, telefon ve saat **birebir aynı**. İlk sıra garanti edilemez —
