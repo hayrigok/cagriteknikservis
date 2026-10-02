@@ -35,6 +35,25 @@
      değiştirirseniz KVKK metnini de değiştirin — biri değişip diğeri kalırsa
      site yanlış söz vermiş olur.
 
+  4. TAM IP YALNIZCA GEREKTİĞİNDE (02.10.2026, veri en aza indirme). Kayıt
+     anahtarı IP'nin kendisi değil, RAPOR_ANAHTARI ile alınmış tek yönlü
+     özeti (`h:<özet>`); kayıtta IP'nin yalnızca SON BÖLÜMÜ SİLİNMİŞ hâli
+     (`88.242.196.*`) durur. Tam adres, Ads'e yapıştırılması gereken tek
+     durumda yazılır: eşiği aşmış, mobil olmayan, Google'a ait olmayan
+     adres. Ziyaretçilerin neredeyse hepsi tek tıklamalı gerçek müşteri ve
+     onların tam IP'sine hiçbir iş için ihtiyaç yok. RAPOR_ANAHTARI
+     değişirse özetler de değişir: sayaç sıfırdan başlar, başka zararı yok.
+
+  5. AYNI TIKLAMA İKİ KEZ SAYILMAZ (02.10.2026). Canlı raporda neredeyse her
+     ziyaretçi AYNI DAKİKADA 2 ya da 4 kez görünüyordu — Google'ın kendi
+     denetim sunucuları dahil. Bu ayrı ücretli tıklama değil (tarayıcı ön
+     yüklemesi, yenileme), ama eşiği tek ziyaretle aştırıyor ve gerçek
+     müşteriyi "şüpheli" listesine düşürüyordu; sahibi 6 sabit hat adresini
+     bu yüzden Ads'te engelledi. Aynı adresten TEKRAR_SN içinde gelen
+     istek yeni tıklama sayılmaz. Ön yükleme isteklerini atmak yerine
+     birleştiriyoruz: ön yüklenen sayfa kullanılırsa ikinci istek hiç
+     gelmez, atsaydık o tıklamayı tamamen kaybederdik.
+
   RAPOR MOBİL UYARISI BASAR, çünkü asıl tehlike yanlış engellemedir. Turkcell
   gibi mobil şebekelerde tek genel IP'nin arkasında binlerce abone olabiliyor
   (CGNAT); o adresi Ads'te hariç tutmak gerçek müşterileri de keser. Operatör
@@ -68,6 +87,9 @@ const PENCERE_GUN = 7;
 
 /** Kayıtların yaşam süresi — /kvkk/ metnindeki süreyle aynı olmak zorunda. */
 const SAKLAMA_SN = PENCERE_GUN * 24 * 60 * 60;
+
+/** Aynı adresten bu kadar saniye içinde gelen istek aynı tıklamadır (kural 5). */
+const TEKRAR_SN = 120;
 
 /** Rapor sayfasının adresi. Sitemap'te yok, dist'te yok, noindex basılıyor. */
 const RAPOR_YOLU = '/_tiklama/';
@@ -115,7 +137,41 @@ export default {
 /* ---------------------------------------------------------------- sayaç */
 
 function bugun() {
-  return new Date().toISOString().slice(0, 10);
+  return new Date(Date.now()).toISOString().slice(0, 10);
+}
+
+/**
+ * IP'nin anahtarlı tek yönlü özeti — kayıt anahtarı bu. Aynı adres her
+ * seferinde aynı özeti verir (tekrar sayılabilsin), ama özetten adrese
+ * anahtar bilinmeden dönülemez.
+ */
+async function ozet(ip, gizli) {
+  const kodla = new TextEncoder();
+  const anahtar = await crypto.subtle.importKey(
+    'raw',
+    kodla.encode(gizli),
+    { name: 'HMAC', hash: 'SHA-256' },
+    false,
+    ['sign'],
+  );
+  const imza = new Uint8Array(await crypto.subtle.sign('HMAC', anahtar, kodla.encode(ip)));
+  return Array.from(imza.slice(0, 16), (b) => b.toString(16).padStart(2, '0')).join('');
+}
+
+/**
+ * Raporda ve bildirimde görünen kısaltılmış adres. IPv4'te son bölüm,
+ * IPv6'da ilk üç bölümden sonrası silinir — operatör ve bölge seçilir,
+ * kişi seçilmez.
+ */
+function maskele(ip) {
+  const s = String(ip || '');
+  if (!s) return '—';
+  if (s.includes(':')) {
+    const parcalar = s.split(':').filter(Boolean).slice(0, 3);
+    return `${parcalar.join(':')}:*`;
+  }
+  const p = s.split('.');
+  return p.length === 4 ? `${p[0]}.${p[1]}.${p[2]}.*` : '—';
 }
 
 /** Pencere dışına düşen günleri kayıttan atar. */
@@ -132,15 +188,22 @@ function gunleriBudakla(gunler) {
 
 async function sayacaEkle(request, url, env) {
   const ip = request.headers.get('CF-Connecting-IP');
-  if (!ip) return;
+  // Özet anahtarı yoksa sayaç çalışmaz — tam IP'yi anahtar yapmaya geri
+  // DÜŞMEYİZ; kural 4 yapılandırma eksik diye gevşemez.
+  if (!ip || !env.RAPOR_ANAHTARI) return;
 
-  const anahtar = `ip:${ip}`;
+  const anahtar = `h:${await ozet(ip, env.RAPOR_ANAHTARI)}`;
   const onceki = await env.TIKLAMA.get(anahtar, { type: 'json' });
+
+  const an = Date.now();
+  // Kural 5: az önce sayılmış bir tıklamanın tekrarı. Kayda dokunulmaz;
+  // pencere son SAYILAN tıklamadan ölçülür.
+  if (onceki && an - (Date.parse(onceki.son || '') || 0) < TEKRAR_SN * 1000) return;
 
   const kayit = onceki ?? {
     gunler: {},
     tiklamalar: [],
-    ilk: new Date().toISOString(),
+    ilk: new Date(an).toISOString(),
     bildirildi: false,
   };
 
@@ -148,7 +211,8 @@ async function sayacaEkle(request, url, env) {
   kayit.gunler = gunleriBudakla(kayit.gunler || {});
   kayit.gunler[g] = (kayit.gunler[g] || 0) + 1;
 
-  kayit.son = new Date().toISOString();
+  kayit.maske = maskele(ip);
+  kayit.son = new Date(an).toISOString();
   kayit.ulke = request.cf?.country ?? '';
   kayit.sehir = request.cf?.city ?? '';
   kayit.asn = request.cf?.asn ?? '';
@@ -161,12 +225,17 @@ async function sayacaEkle(request, url, env) {
     tutuluyor, penceresi geçenler her yazımda düşüyor (gün dökümüyle aynı
     kural — saklama süresi tek yerden yönetiliyor).
   */
-  const zamanSiniri = new Date(Date.now() - PENCERE_GUN * 86400000).toISOString();
+  const zamanSiniri = new Date(an - PENCERE_GUN * 86400000).toISOString();
   kayit.tiklamalar = (kayit.tiklamalar || []).filter((t) => t && t.z >= zamanSiniri).slice(-19);
   kayit.tiklamalar.push({ z: kayit.son, y: url.pathname });
   delete kayit.sayfalar; // eski biçim; hiçbir yerde basılmıyordu
 
   const toplam = Object.values(kayit.gunler).reduce((a, b) => a + b, 0);
+
+  // Kural 4: tam adres yalnızca Ads'e yapıştırılacaksa. Pencere daralıp
+  // eşiğin altına inen kayıttan da silinir.
+  if (toplam >= ESIK && !mobilMi(kayit.operator) && !googleMi(kayit)) kayit.ip = ip;
+  else delete kayit.ip;
 
   // Bildirim eşiği bir kez geçerken gider. Her tıklamada göndermek, saldırı
   // sürerken telefonu kilitler ve uyarı okunmaz hâle gelir.
@@ -177,10 +246,14 @@ async function sayacaEkle(request, url, env) {
     expirationTtl: SAKLAMA_SN,
   });
 
-  if (bildirilecek) await bildir(ip, kayit, toplam, env);
+  if (bildirilecek) await bildir(kayit, toplam, env);
 }
 
-async function bildir(ip, kayit, toplam, env) {
+/*
+  Bildirim tam IP TAŞIMAZ: Telegram üçüncü taraf ve yurt dışında. Kısaltılmış
+  adres operatörü gösterir, tam adres rapor sayfasında durur.
+*/
+async function bildir(kayit, toplam, env) {
   if (!env.TELEGRAM_TOKEN || !env.TELEGRAM_CHAT) return;
 
   const gunDokumu = Object.entries(kayit.gunler)
@@ -190,7 +263,7 @@ async function bildir(ip, kayit, toplam, env) {
 
   const metin =
     `⚠️ Şüpheli reklam tıklaması\n\n` +
-    `IP: ${ip}\n` +
+    `IP: ${kayit.maske || '—'} (tam adres rapor sayfasında)\n` +
     `${PENCERE_GUN} günlük toplam: ${toplam}\n${gunDokumu}\n\n` +
     `Operatör: ${kayit.operator || '—'}\n` +
     `Konum: ${kayit.sehir || '—'} / ${kayit.ulke || '—'}\n` +
@@ -233,10 +306,14 @@ async function isaretle(request, env) {
   if (!env.TIKLAMA) return new Response('kv-yok', { status: 503 });
 
   const gelen = new URLSearchParams(await request.text());
-  const ip = gelen.get('ip');
-  if (!ip) return new Response('eksik', { status: 400 });
+  // Kayıt anahtarı doğrudan geliyor (`h:<özet>`, ya da 02.10.2026 öncesinin
+  // `ip:<adres>` kayıtları). Başka bir KV anahtarına yazdırılamasın diye
+  // biçim sınırlı.
+  const anahtar = gelen.get('anahtar') || '';
+  if (!/^(h|ip):[0-9a-fA-F.:]{1,64}$/.test(anahtar)) {
+    return new Response('eksik', { status: 400 });
+  }
 
-  const anahtar = `ip:${ip}`;
   const kayit = await env.TIKLAMA.get(anahtar, { type: 'json' });
   if (!kayit) return new Response('kayit-yok', { status: 404 });
 
@@ -265,26 +342,41 @@ async function rapor(env) {
     return sayfa('<h1>Tıklama sayacı</h1><p>KV bağlanmamış. wrangler.jsonc → kv_namespaces kaydını kontrol edin.</p>');
   }
 
-  const liste = await env.TIKLAMA.list({ prefix: 'ip:' });
+  /*
+    İki önek okunuyor: `h:` yeni kayıtlar (kural 4), `ip:` 02.10.2026 öncesinin
+    tam IP'li kayıtları. Eskiler 7 gün içinde kendiliğinden silinir; o zamana
+    kadar onlar da aşağıda aynı kuralla maskelenip basılıyor.
+  */
+  const anahtarlar = [
+    ...(await env.TIKLAMA.list({ prefix: 'h:' })).keys,
+    ...(await env.TIKLAMA.list({ prefix: 'ip:' })).keys,
+  ];
   const kayitlar = [];
 
-  for (const k of liste.keys) {
+  for (const k of anahtarlar) {
     const veri = await env.TIKLAMA.get(k.name, { type: 'json' });
     if (!veri) continue;
     const gunler = gunleriBudakla(veri.gunler || {});
     const toplam = Object.values(gunler).reduce((a, b) => a + b, 0);
     if (toplam === 0) continue;
+    const eski = k.name.startsWith('ip:');
+    const tamIp = veri.ip || (eski ? k.name.slice(3) : null);
     // Spread ÖNCE: sonra gelirse veri.gunler budanmış listenin üzerine yazar
     // ve döküm sütunu pencere dışındaki günleri gösterir.
-    kayitlar.push({
+    const satir = {
       ...veri,
-      ip: k.name.slice(3),
+      anahtar: k.name,
       gunler,
       toplam,
       gunSayisi: Object.keys(gunler).length,
       mobil: mobilMi(veri.operator),
       google: googleMi(veri),
-    });
+    };
+    // Kural 4 rapor tarafında da geçerli: tam adres yalnızca Ads'e
+    // yapıştırılacak satırda basılır, geri kalan her yerde kısaltılmış hâli.
+    satir.ip = toplam >= ESIK && !satir.mobil && !satir.google ? tamIp : null;
+    satir.goster = satir.ip || veri.maske || maskele(tamIp);
+    kayitlar.push(satir);
   }
 
   /*
@@ -311,7 +403,7 @@ async function rapor(env) {
   supheli.sort((a, b) => b.toplam - a.toplam || sonAn(b).localeCompare(sonAn(a)));
   normal.sort((a, b) => sonAn(b).localeCompare(sonAn(a)));
   dogrulama.sort((a, b) => sonAn(b).localeCompare(sonAn(a)));
-  const engellenebilir = supheli.filter((k) => !k.mobil);
+  const engellenebilir = supheli.filter((k) => !k.mobil && k.ip);
   const mobilSupheli = supheli.filter((k) => k.mobil);
 
   // Yapıştırma kutusunda YALNIZCA henüz Ads'e eklenmemiş adresler durur.
@@ -324,7 +416,11 @@ async function rapor(env) {
     <p class="not">Son <strong>${PENCERE_GUN} günün</strong> <code>gclid</code>
     taşıyan istekleri — yani reklamdan gelen ve <strong>parası ödenen</strong>
     tıklamalar. Normal sayfa ziyaretleri buraya girmez.
-    Eşik: aynı IP'den <strong>${ESIK}+</strong> tıklama (kaç güne yayıldığı fark etmez).</p>
+    Eşik: aynı IP'den <strong>${ESIK}+</strong> tıklama (kaç güne yayıldığı fark etmez).
+    Aynı adresten ${TEKRAR_SN / 60} dakika içinde gelen tekrarlar <strong>tek tıklama</strong> sayılır.</p>
+    <p class="not">Gizlilik: tam IP adresi yalnızca Ads'e eklenmesi gereken şüpheli
+    adreslerde tutulur. Diğer ziyaretçilerde son bölümü silinmiş hâli görünür
+    (<code>88.242.196.*</code>).</p>
 
     <h2>Şüpheli — ${supheli.length}</h2>
     ${
@@ -409,10 +505,12 @@ function tablo(satirlar, secilebilir = false) {
             secilebilir
               ? k.mobil
                 ? '<td class="kucuk uyari">engellemeyin</td>'
-                : `<td class="isaret"><label><input type="checkbox" data-ip="${kacir(k.ip)}" data-eklenebilir${k.engellendi ? ' checked' : ''}><span>eklendi</span></label></td>`
+                : k.ip
+                  ? `<td class="isaret"><label><input type="checkbox" data-ip="${kacir(k.ip)}" data-anahtar="${kacir(k.anahtar)}" data-eklenebilir${k.engellendi ? ' checked' : ''}><span>eklendi</span></label></td>`
+                  : '<td class="kucuk">—</td>'
               : ''
           }
-          <td><code>${kacir(k.ip)}</code></td>
+          <td><code>${kacir(k.goster)}</code></td>
           <td class="kucuk zaman">${kacir(anBicimi(k.son || k.ilk))}</td>
           <td class="adet">${k.toplam}</td>
           <td>${k.gunSayisi}</td>
@@ -490,7 +588,7 @@ const BETIK = `<script>
     fetch(yol, {
       method: 'POST',
       headers: { 'Content-Type': 'application/x-www-form-urlencoded' },
-      body: 'ip=' + encodeURIComponent(kutu.dataset.ip) + '&durum=' + (istenen ? '1' : '0')
+      body: 'anahtar=' + encodeURIComponent(kutu.dataset.anahtar) + '&durum=' + (istenen ? '1' : '0')
     }).then(function (y) {
       if (!y.ok) throw new Error(y.status);
       kutu.closest('tr').classList.toggle('eklendi', istenen);

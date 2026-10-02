@@ -382,6 +382,32 @@ süresini uzatmaz** — kayıt `expirationTtl` yerine **mutlak bitiş zamanıyla
 yazılıyor, yoksa her tik ömrü 7 gün öteler ve `/kvkk/` metnindeki süre
 yanlışlanırdı.
 
+**02.10.2026 — iki düzeltme: çift sayım ve IP maskeleme.** Sahibinin
+danıştığı kişi *"IP maskelenmesi gerekiyor"* dedi; aynı gün canlı raporda
+çift sayım da görüldü.
+- **Çift sayım:** neredeyse her ziyaretçi aynı dakikada 2 ya da 4 kez
+  sayılıyordu (Google'ın denetim sunucuları dahil) — tek ziyaret eşiği
+  aştırıyor, gerçek müşteri "şüpheli"ye düşüyordu; sahibi 6 sabit hat
+  adresini bu yüzden engelledi. Artık aynı adresten **120 sn** içindeki
+  tekrar yeni tıklama sayılmıyor. Ön yükleme isteği atılmıyor, birleştiriliyor
+  (atılsaydı ön yüklenen sayfa kullanıldığında tıklama hiç sayılmazdı).
+- **Maskeleme (veri en aza indirme):** kayıt anahtarı `h:<HMAC-SHA256(ip,
+  RAPOR_ANAHTARI)>`, kayıtta yalnızca `88.242.196.*`. **Tam IP yalnızca**
+  eşiği aşmış + mobil olmayan + Google olmayan adreste yazılıyor — Ads'e
+  yapıştırılacak tek durum. Rapor ve Telegram bildirimi de bu kurala uyuyor.
+  `RAPOR_ANAHTARI` yoksa sayaç çalışmıyor (tam IP'ye **geri düşülmez**);
+  anahtar değişirse sayaç sıfırlanır. Eski `ip:` kayıtları en geç 09.10'da
+  kendiliğinden silinir, o zamana kadar rapor onları da maskeli basıyor.
+- **`/kvkk/` aynı anda düzeltildi** — ve eski metindeki bir yanlış kapandı:
+  "hiçbir üçüncü tarafa aktarılmaz" deniyordu, oysa şüpheli adres Google
+  Ads'e giriliyor. Yeni metin bunu açıkça yazıyor. Avukat brifingine
+  Cloudflare/Google aktarım sorusu eklendi.
+- **Test:** sahte KV + ileri sarılan saatle 12 senaryo, 12/12 (betik
+  scratchpad'de, repoya girmedi): çift istek → 1 · eşik altı tam IP hiçbir
+  yerde yok (anahtar dahil) · eşikte tam IP yazılıyor · mobil/Google'da
+  yazılmıyor · eski kayıt maskeli · işaretleme anahtarla, kötü anahtar 400 ·
+  yanlış rapor anahtarı 404 · anahtarsız ve KV hatasında site çalışıyor.
+
 **Bu sistem tıklamayı ENGELLEMEZ, kanıtlar.** Para tıklandığı anda ödeniyor;
 elde ettiğimiz şey Ads'in IP hariç tutma kutusuna yapıştırılacak liste ve
 Google'a geçersiz tıklama incelemesi açarken sunulacak desen. Aynı sebeple

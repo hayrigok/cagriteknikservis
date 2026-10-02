@@ -115,13 +115,20 @@ Brifingin ilk hâlindeki bilgi artık geçerli değil. Bugünkü durum:
   onay verilmeden **çerez yazılmıyor** ve tıklama olayı gönderilmiyor (ölçülerek
   doğrulandı). Google'a yalnızca kimliksiz bir sayfa kaydı ulaşıyor. Metnin 5.
   bölümü bunu açıkça yazıyor.
-- **Reklamdan gelen ziyaretlerde IP adresi 7 gün saklanıyor** (14.08.2026).
+- **Reklamdan gelen ziyaretlerde IP kaydı 7 gün tutuluyor** (14.08.2026).
   Amaç geçersiz tıklama tespiti; hukuki sebep olarak meşru menfaat (m.5/2-f)
-  gösterildi.
+  gösterildi. **02.10.2026'dan beri veri en aza indirildi:** kayıtta IP'nin
+  yalnızca son bölümü silinmiş hâli (`88.242.196.*`) ve anahtarlı tek yönlü
+  özeti duruyor; tam adres yalnızca 7 günde 3+ ayrı reklam tıklaması gelen,
+  mobil şebeke olmayan adreste saklanıyor ve işletme sahibi bu adresi Google
+  Ads'in engelleme listesine yapıştırıyor (yani Google'a aktarılıyor — metin
+  bunu açıkça yazıyor). Kayıtlar Cloudflare'in (ABD merkezli) anahtar-değer
+  deposunda duruyor.
 
 **Avukata sorulacak:** Onay verilmeden yüklenen ama çerez yazmayan ölçüm kodu
 metinde doğru anlatılmış mı? IP kaydı için meşru menfaat dayanağı ve 7 günlük
-süre uygun mu?
+süre uygun mu? Şüpheli adresin Google Ads'e girilmesi ve kaydın Cloudflare'de
+durması yurt dışına aktarım sayılır mı, dayanağı nasıl yazılmalı?
 
 ---
 
