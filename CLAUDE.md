@@ -815,7 +815,9 @@ büyük ölçüde Bing · Siri → Apple Haritalar. Plan, sahibiyle adım adım:
 (1) **Bing Places** (Google profilinden içe aktarma) — **YAPILDI 02.10.2026**:
 doğrulandı, haftalık Google eşitlemesi açık, ad/telefon/saat Google ile birebir;
 yayına girmesi 7–12 gün · (2) **Bing Webmaster
-Tools** (Search Console'dan içe aktarma) · (3) G6'nın kalanları (açıklama ·
+Tools** — **YAPILDI 02.10.2026**: site eklendi, sitemap gönderildi (sahibi
+bildirdi). **"AI Performance" (beta) menüsü Copilot cevaplarında anılma
+sayısını gösteriyor — ölçüm buradan, ~2–3 hafta sonra** · (3) G6'nın kalanları (açıklama ·
 WhatsApp · ek kategoriler) · (4) Apple Business Connect · (5) Yandex Haritalar.
 Her kayıtta ad, telefon ve saat **birebir aynı**. İlk sıra garanti edilemez —
 cevap kişiye, konuma ve soruya göre değişir; sahibine söylendi.
