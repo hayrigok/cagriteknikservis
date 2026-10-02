@@ -398,6 +398,13 @@ danıştığı kişi *"IP maskelenmesi gerekiyor"* dedi; aynı gün canlı rapor
   `RAPOR_ANAHTARI` yoksa sayaç çalışmıyor (tam IP'ye **geri düşülmez**);
   anahtar değişirse sayaç sıfırlanır. Eski `ip:` kayıtları en geç 09.10'da
   kendiliğinden silinir, o zamana kadar rapor onları da maskeli basıyor.
+- **Yayında, 02.10.2026** (`8e9f215..964fe9f`, arayüz düzeltmeleriyle
+  birlikte). Canlıda gerçek Chrome ile 5 sayfa (ana · Seyhan klima ·
+  buzdolabı hub · iletişim · blog): telefon ×6 · WhatsApp ×4 · `tel_click` ×6
+  · `whatsapp_click` ×4 · form tek (`f-ad` ×1, doğru numara) · GA4 etiketi ·
+  yeni form paneli ve yan düğme eşiği — **beşi de birebir**. Rapor sayfası
+  yeni sürümde. Form gönderimi uçtan uca yeniden koşulmadı (form betiği
+  değişmedi, yalnızca yerleşim sınıfları).
 - **`/kvkk/` aynı anda düzeltildi** — ve eski metindeki bir yanlış kapandı:
   "hiçbir üçüncü tarafa aktarılmaz" deniyordu, oysa şüpheli adres Google
   Ads'e giriliyor. Yeni metin bunu açıkça yazıyor. Avukat brifingine
