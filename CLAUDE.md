@@ -1296,6 +1296,12 @@ Program her hafta yer değiştirir ki iki kampanya da haftanın her gününü
 bir kez alsın (04–17.10 = kişi başı 7 gün). Gün ayrımının asıl kazancı:
 sahibinin "nereden buldunuz" notu **tarihten** kampanyaya bağlanıyor.
 Yeni kampanyanın ilk günü **saatlik gösterime** bakılır (C13 dersi).
+Kopyadan sonra **kelime gözden geçirmesi** (sahibinin isteği): değişiklik
+**iki kampanyaya birden** uygulanır, yoksa deneme iki değişkenli olur.
+Dikkat: "Tıklamaları en üst düzeye çıkar" **ucuz tıklamaya** yönelir ve
+kelime teklifini yok sayar — C13'te ₺12'ye kısılan 5 belirti kelimesi
+ucuz kampanyada bütçeyi yiyebilir; orada duraklatılmaları değerlendirilir.
+Girdi: kelime raporu (Tıklama türü segmentli) + 02.10 sonrası arama terimleri.
 
 **⏭ Eski madde (20.08.2026, bayat) — 3 günlük temiz test.** Karar kuralı
 "₺100/gün × 3 gün = ₺300'e en az 1 iş" idi. O günkü üç ayar (bütçe ₺100 ·
