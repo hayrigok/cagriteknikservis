@@ -1299,10 +1299,16 @@ sahibinin "nereden buldunuz" notu **tarihten** kampanyaya bağlanıyor.
 Yeni kampanyanın ilk günü **saatlik gösterime** bakılır (C13 dersi).
 **Deneme DEĞİL — sahibi, 03.10:** *"karşılaştırma yapmak zorunda değiliz,
 az para ile çok iş; günde 2–3 iş yeter."* Az Bütçe kendi kelime setiyle
-çalışır: yalnızca ara basışı en ucuz 4 grup açık (Beyaz Eşya Servisi ~₺53 ·
-Klima Montajı ~₺89 · Klima Bakımı ~₺126 · Klima Servisi ~₺130 / basış,
-C13 tablosu); Gaz · Çamaşır · Bulaşık · Buzdolabı · Kurutma kapalı, TV ve
-Kombi zaten kapalı. Diğer cihazları tek tarihlerde Search-5 karşılıyor.
+çalışır. **Grup değil KELİME düzeyinde budandı** (01.08–02.10 CSV'si):
+grupların pahalılığı belirti kelimelerinden geliyordu, bu yüzden bütün
+gruplar açık, yalnızca belirti/kendin-yap kelimeleri (29 adet: `… soğutmuyor`
+· `… çalışmıyor` · `… arızası` · `klima temizleme/temizliği` · `… ses
+yapıyor` · `… kokuyor` …) **yalnızca Az Bütçe'de** duraklatıldı; "servis ·
+tamir · tamircisi · montaj · bakım" kelimeleri açık. TV ve Kombi grupları
+kapalı. En ucuz ara basışı: `[adana klima sökme takma]` ₺15 ·
+`"derin dondurucu servisi"` ₺21 · `"klima tamircisi adana"` ₺21 ·
+`"beyaz eşya teknik servis"` ₺22 · `"adana beyaz eşya servisi"` ₺26 —
+**"adana" geçen kelimeler daha ucuza aratıyor.**
 Dikkat: "Tıklamaları en üst düzeye çıkar" **ucuz tıklamaya** yönelir ve
 kelime teklifini yok sayar — C13'te ₺12'ye kısılan 5 belirti kelimesi
 ucuz kampanyada bütçeyi yiyebilir; orada duraklatılmaları değerlendirilir.
