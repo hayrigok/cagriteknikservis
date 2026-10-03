@@ -1277,6 +1277,15 @@ durur — sahibi biliyor, tekrar sormayın) → ✅ fiyat aramaları: 16.10'a
 kadar dokunulmuyor (C10) → **kalan:** `Tıkla ve ara` dönüşümünün türü · **05.10
 okuması** (C13). Bütçe ₺500/gün; **TV grubu KAPALI kalıyor** (sahibinin
 kararı, 02.10).
+**Kredi bitince (~16.10) eski düzene dönüş — sahibi sordu, 03.10: MÜMKÜN,
+aynı kampanyada.** İki ayar birlikte: bütçe ₺150–200 + teklif stratejisi
+**Tıklamaları en üst düzeye çıkar** (₺15–20 tavanla; eski düzende ort. TBM
+~₺13 → günde ~11–15 tıklama). Önceki tam ayar: Ads → **Değişiklik
+geçmişi**. Yalnız bütçeyi indirip ₺45–74'lük kelime tekliflerini bırakmak
+günde 3–4 tıklama demek. **"Birebir" dönülmez:** duraklatılan israf
+kelimeleri (C13: 9 bilgi kelimesi · KP 1–2 · geniş eşleme) ve TV grubu
+kapalı kalır. Hangisi: 16.10'da ara basışı başına ₺, 02.10 öncesi ↔ sonrası
+(Segment → Tıklama türü) + "nereden buldunuz" sayısı.
 
 **⏭ Eski madde (20.08.2026, bayat) — 3 günlük temiz test.** Karar kuralı
 "₺100/gün × 3 gün = ₺300'e en az 1 iş" idi. O günkü üç ayar (bütçe ₺100 ·
