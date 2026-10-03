@@ -1286,6 +1286,16 @@ günde 3–4 tıklama demek. **"Birebir" dönülmez:** duraklatılan israf
 kelimeleri (C13: 9 bilgi kelimesi · KP 1–2 · geniş eşleme) ve TV grubu
 kapalı kalır. Hangisi: 16.10'da ara basışı başına ₺, 02.10 öncesi ↔ sonrası
 (Segment → Tıklama türü) + "nereden buldunuz" sayısı.
+**PLAN DEĞİŞTİ, aynı gün — sahibi: iki kampanya, gün aşırı deneme.**
+04.10'da mevcut kampanya **kopyalanır** (gruplar, kelimeler, negatifler,
+URL'ler aynı kalsın diye sıfırdan kurulmaz), kopyada yalnızca bütçe
+(₺150–200) + strateji ("Tıklamaları en üst düzeye çıkar", tavanlı) değişir.
+Gün aşırı geçiş **elle aç/kapa ile değil, reklam programıyla** (gün seçimi)
+yapılır: unutulan bir aç/kapa iki kampanyayı aynı gün yayında bırakır.
+Program her hafta yer değiştirir ki iki kampanya da haftanın her gününü
+bir kez alsın (04–17.10 = kişi başı 7 gün). Gün ayrımının asıl kazancı:
+sahibinin "nereden buldunuz" notu **tarihten** kampanyaya bağlanıyor.
+Yeni kampanyanın ilk günü **saatlik gösterime** bakılır (C13 dersi).
 
 **⏭ Eski madde (20.08.2026, bayat) — 3 günlük temiz test.** Karar kuralı
 "₺100/gün × 3 gün = ₺300'e en az 1 iş" idi. O günkü üç ayar (bütçe ₺100 ·
