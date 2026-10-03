@@ -1290,10 +1290,11 @@ kapalı kalır. Hangisi: 16.10'da ara basışı başına ₺, 02.10 öncesi ↔ 
 04.10'da mevcut kampanya **kopyalanır** (gruplar, kelimeler, negatifler,
 URL'ler aynı kalsın diye sıfırdan kurulmaz), kopyada yalnızca bütçe
 (₺150–200) + strateji ("Tıklamaları en üst düzeye çıkar", tavanlı) değişir.
-Gün aşırı geçiş **elle aç/kapa ile değil, reklam programıyla** (gün seçimi)
-yapılır: unutulan bir aç/kapa iki kampanyayı aynı gün yayında bırakır.
-Program her hafta yer değiştirir ki iki kampanya da haftanın her gününü
-bir kez alsın (04–17.10 = kişi başı 7 gün). Gün ayrımının asıl kazancı:
+Kopyanın adı **"Az Bütçe"**, mevcut kampanya **"Search-5"**. Geçiş
+**elle aç/kapa — sahibinin kararı** (reklam programı önerildi, istemedi).
+Kural: **çift tarih Az Bütçe, tek tarih Search-5**; geçiş gece kapanıştan
+sonra, **önce açık olan duraklatılır**, sonra öteki açılır. Düz gün aşırı
+14 gün (04–17.10) her kampanyaya haftanın her gününü bir kez veriyor. Gün ayrımının asıl kazancı:
 sahibinin "nereden buldunuz" notu **tarihten** kampanyaya bağlanıyor.
 Yeni kampanyanın ilk günü **saatlik gösterime** bakılır (C13 dersi).
 Kopyadan sonra **kelime gözden geçirmesi** (sahibinin isteği): değişiklik
