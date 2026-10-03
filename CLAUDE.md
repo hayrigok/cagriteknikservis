@@ -2699,6 +2699,12 @@ Aşağıdakiler o gün için duruyor:
         fark tesadüf değil. **TV** aramaların üçte birini getiriyordu;
         sahibi "az iş" diye kapattı, karar duruyor — arayan çok, iş az ise
         sebep reklam değil işin türü (tamire değmeyen kırık panel vb.).
+        **Sebep netleşti (sahibi, 03.10): TV aramalarının çoğu SIFIR
+        cihazın ilk kurulumu için** — o işi yetkili servis yapıyor, biz
+        yapmıyoruz. TV grubu bir gün açılırsa önce **grup düzeyinde**
+        negatif: `kurulum` · `kurulumu` · `montaj` · `sıfır` · `duvara`
+        · `askı` · `ilk kurulum`. **Kampanya düzeyine YAZILMAZ** —
+        `"klima kurulumu"` ve klima montajı kelimelerini öldürür (C8 kuralı).
         Dönemin tek "Tüm dönş."ü `"led tv tamiri"` (1, başlık tıklaması;
         hangi ikincil dönüşüm olduğu Hedefler → Dönüşümler'de bakılacak).
         WhatsApp mesaj öğesi 28 gösterim · 0 tıklama. "Telefon çağrıları"
