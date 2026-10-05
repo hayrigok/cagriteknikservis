@@ -565,6 +565,13 @@ bölümünün adı "Reklamdan gelip düğmeye basmadan çıkanlar" oldu. **Sın�
 numarayı elle çevirip arayan "basmadan çıktı" görünür; reklamdaki ara
 düğmesi siteye uğramadığı için sayaca hiç düşmez (Ads → Tıklama türü).
 Test: sahte KV + ileri sarılan saat, 9/9 (betik scratchpad'de).
+**Yayında 05.10.2026** (`8240344`, push'tan ~35 sn sonra). Canlıda: rapor
+yeni sürümde · yanlış anahtar 404 · ana sayfa / Seyhan klima / blog 200,
+her birinde tel 6 · wa.me 4 · `data-olay` 10 (öncekiyle aynı; tarayıcı
+UA'lı istekle sayıldı, gerçek tarayıcı açılmadı). **İlk okuma:** 03.10
+33 gelen / 3 bastı · 04.10 13 / 2 · 05.10 (gün bitmeden) 22 / 7.
+**02.10 ve öncesindeki "0 bastı" ölçüm yokluğudur:** düğme işareti
+02.10 akşamı yayına girdi.
 
 ### Form → /tesekkurler/ → WhatsApp
 
