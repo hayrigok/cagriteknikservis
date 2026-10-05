@@ -777,16 +777,6 @@ async function rapor(env) {
         : ''
     }
 
-    ${
-      dogrulama.length
-        ? `<h2>Google'ın kendi denetimi — ${dogrulama.length}</h2>
-           <p class="not"><strong>Bunlar müşteri değil, Google'ın kendi sunucuları.</strong>
-           Reklam incelemesi sırasında sayfayı açıyorlar; <code>gclid</code> taşıdıkları için
-           sayaca düşüyorlar ama <strong>parasını ödemiyorsunuz</strong>. Engellemeyin.</p>
-           ${tablo(dogrulama)}`
-        : ''
-    }
-
     <h2>Reklamdan gelip düğmeye basmadan çıkanlar — şüphe yok (${normal.length})</h2>
     ${
       normal.length
@@ -796,6 +786,16 @@ async function rapor(env) {
            şüpheli olanlar yukarıdaki bölümlerde.</p>
            ${tablo(normal)}`
         : '<p class="not">Kayıt yok.</p>'
+    }
+
+    ${
+      dogrulama.length
+        ? `<h2>Google'ın kendi denetimi — ${dogrulama.length}</h2>
+           <p class="not"><strong>Bunlar müşteri değil, Google'ın kendi sunucuları.</strong>
+           Reklam incelemesi sırasında sayfayı açıyorlar; <code>gclid</code> taşıdıkları için
+           sayaca düşüyorlar ama <strong>parasını ödemiyorsunuz</strong>. Engellemeyin.</p>
+           ${tablo(dogrulama)}`
+        : ''
     }
   `);
 }

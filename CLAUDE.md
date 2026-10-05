@@ -561,7 +561,9 @@ kayıttaki UTC `gunler` dökümüyle DEĞİL — sahibi Az Bütçe / Search-5'i
 Türkiye tarihine göre gün aşırı açıyor, gece 00–03 tıklaması UTC'de önceki
 güne düşerdi. Düğme basışı ondan önceki son tıklamanın gününe yazılır.
 Yeni veri saklanmıyor (yalnızca gösterim) → `/kvkk/` değişmedi. "Şüphe yok"
-bölümünün adı "Reklamdan gelip düğmeye basmadan çıkanlar" oldu. **Sınır:**
+bölümünün adı "Reklamdan gelip düğmeye basmadan çıkanlar" oldu.
+"Google'ın kendi denetimi" bölümü **raporun en altında** (sahibinin isteği,
+05.10: kalabalık yapıyordu; müşteri değil, işlem gerektirmiyor). **Sınır:**
 numarayı elle çevirip arayan "basmadan çıktı" görünür; reklamdaki ara
 düğmesi siteye uğramadığı için sayaca hiç düşmez (Ads → Tıklama türü).
 Test: sahte KV + ileri sarılan saat, 9/9 (betik scratchpad'de).
