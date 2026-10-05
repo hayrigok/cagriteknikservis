@@ -553,6 +553,19 @@ isteği ücretli tıklama sayar. Claude bir AdsBot kontrolünde test isteklerine
 (TTNet, "İskenderun")** kaydı odur — sahibin kendi bağlantısı, gerçek
 tıklama değil. 30 günde kendiliğinden silinir.
 
+**Raporun başında GÜNLÜK ÖZET var (05.10.2026, sahibinin isteği:** *"gclid
+ile gelip aramayanları da görmek istiyorum"*). Her gün: reklamdan gelen
+farklı adres · sitede düğmeye basan · basmadan çıkan · oran. Aynı adres gün
+içinde tek kişi, Google denetimi hariç. **Gün Türkiye takvimiyle** (`trGunu`),
+kayıttaki UTC `gunler` dökümüyle DEĞİL — sahibi Az Bütçe / Search-5'i
+Türkiye tarihine göre gün aşırı açıyor, gece 00–03 tıklaması UTC'de önceki
+güne düşerdi. Düğme basışı ondan önceki son tıklamanın gününe yazılır.
+Yeni veri saklanmıyor (yalnızca gösterim) → `/kvkk/` değişmedi. "Şüphe yok"
+bölümünün adı "Reklamdan gelip düğmeye basmadan çıkanlar" oldu. **Sınır:**
+numarayı elle çevirip arayan "basmadan çıktı" görünür; reklamdaki ara
+düğmesi siteye uğramadığı için sayaca hiç düşmez (Ads → Tıklama türü).
+Test: sahte KV + ileri sarılan saat, 9/9 (betik scratchpad'de).
+
 ### Form → /tesekkurler/ → WhatsApp
 
 Backend yok. Form 3 alan + KVKK onayı toplar, doğrular, mesajı kurar — sonra

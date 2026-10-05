@@ -713,6 +713,16 @@ async function rapor(env) {
     <p class="not">Gizlilik: tam IP adresi yalnızca Ads'e eklenecek adreslerde tutulur.
     Diğer ziyaretçilerde son bölümü silinmiş hâli görünür (<code>88.242.196.*</code>).</p>
 
+    <h2>Günlük özet — reklamdan gelenler</h2>
+    <p class="not">Gün Türkiye saatiyle. Aynı adres gün içinde kaç kez tıklarsa tıklasın
+    <strong>bir kişi</strong> sayılır; Google'ın kendi denetimi sayılmaz.
+    <strong>Düğmeye bastı</strong> = sitede ara, WhatsApp ya da form düğmesine bastı.</p>
+    ${ozetTablosu(gunlukOzet(kayitlar))}
+    <p class="not"><strong>"Basmadan çıktı" her zaman "aramadı" demek değil:</strong>
+    numarayı ekrandan okuyup elle arayan burada basmamış görünür. Reklamdaki ara
+    düğmesiyle siteye hiç girmeden arayan ise sayaca hiç düşmez; onu Ads →
+    Segment → Tıklama türü → <em>Mobil cihazlarda tıkla ve ara</em> gösterir.</p>
+
     <h2>Engellenecek — ${engellenecek.length}</h2>
     ${
       engellenecek.length
@@ -777,11 +787,13 @@ async function rapor(env) {
         : ''
     }
 
-    <h2>Şüphe yok — ${normal.length}</h2>
+    <h2>Reklamdan gelip düğmeye basmadan çıkanlar — şüphe yok (${normal.length})</h2>
     ${
       normal.length
         ? `<p class="not"><strong>En yeni üstte.</strong> Saatler Türkiye saatiyle.
-           Buradakiler normal ziyaretçi sayılır; tek tıklama şüphe değildir.</p>
+           Reklama tıklayıp sitede ara, WhatsApp ya da form düğmesine basmamış adresler.
+           Normal ziyaretçi sayılırlar; tek tıklama şüphe değildir. Tekrar tıklayan ve
+           şüpheli olanlar yukarıdaki bölümlerde.</p>
            ${tablo(normal)}`
         : '<p class="not">Kayıt yok.</p>'
     }
@@ -838,6 +850,71 @@ const BICIM = new Intl.DateTimeFormat('tr-TR', {
 function anBicimi(iso) {
   const d = new Date(iso || '');
   return isNaN(d.getTime()) ? '—' : BICIM.format(d).replace(', ', ' · ');
+}
+
+/*
+  Günlük özet TÜRKİYE takvim gününe göre sayıyor, kayıttaki `gunler` dökümüne
+  (UTC günü) göre değil: gece 00:00–03:00 arasındaki tıklama UTC'de önceki
+  güne düşerdi. Sahibi kampanyaları Türkiye tarihine göre gün aşırı açıp
+  kapatıyor (03.10.2026); satır tarihi kampanyayla birebir eşleşmeli.
+*/
+const TR_GUN = new Intl.DateTimeFormat('en-CA', {
+  timeZone: 'Europe/Istanbul',
+  year: 'numeric',
+  month: '2-digit',
+  day: '2-digit',
+});
+const HAFTA_GUNU = new Intl.DateTimeFormat('tr-TR', { timeZone: 'UTC', weekday: 'short' });
+
+function trGunu(ms) {
+  return TR_GUN.format(new Date(ms));
+}
+
+/**
+ * Her gün için: reklamdan gelen farklı adres, sitede düğmeye basan, basmadan
+ * çıkan. Aynı adres gün içinde kaç kez tıklarsa tıklasın o gün BİR kişi
+ * sayılır. Google'ın kendi denetimi sayılmaz (parası ödenmiyor). Düğme
+ * basışı, ondan önceki son tıklamanın gününe yazılır: 23:58'de gelip 00:01'de
+ * arayan kişi iki ayrı günde görünmez.
+ */
+function gunlukOzet(kayitlar) {
+  const sinir = Date.now() - UZUN_GUN * 86400000;
+  const gunler = new Map();
+  const gun = (g) => gunler.get(g) ?? gunler.set(g, { gelen: 0, basan: 0 }).get(g);
+
+  for (const k of kayitlar) {
+    if (k.kademe === 'google') continue;
+    const zamanlar = ayriZamanlar(k.tiklamalar).filter((z) => z >= sinir);
+    // Saat verisi olmayan eski kayıt (02.10.2026 öncesi) UTC gün dökümüne düşer.
+    const gelinen = zamanlar.length ? new Set(zamanlar.map(trGunu)) : new Set(Object.keys(k.gunler));
+    for (const g of gelinen) gun(g).gelen++;
+
+    const basis = Date.parse(k.etkilesim?.z || '');
+    if (!Number.isFinite(basis)) continue;
+    const once = zamanlar.filter((z) => z <= basis).pop();
+    const g = once !== undefined ? trGunu(once) : trGunu(basis);
+    if (gelinen.has(g)) gun(g).basan++;
+  }
+  return [...gunler].sort((a, b) => b[0].localeCompare(a[0]));
+}
+
+function ozetTablosu(satirlar) {
+  if (!satirlar.length) return '<p class="not">Kayıt yok.</p>';
+  const oran = (b, g) => (g ? `%${Math.round((b / g) * 100)}` : '—');
+  const toplam = satirlar.reduce((t, [, s]) => ({ gelen: t.gelen + s.gelen, basan: t.basan + s.basan }), { gelen: 0, basan: 0 });
+  const gunAdi = (g) => {
+    const [y, a, d] = g.split('-');
+    return `${d}.${a} ${HAFTA_GUNU.format(new Date(Date.UTC(+y, +a - 1, +d, 12)))}`;
+  };
+  return `<div class="kaydir"><table id="gunluk" class="dar">
+    <tr><th>Gün</th><th>Reklamdan gelen</th><th>Düğmeye bastı</th><th>Basmadan çıktı</th><th>Basma oranı</th></tr>
+    ${satirlar
+      .map(
+        ([g, s]) => `<tr><th scope="row" class="gun">${kacir(gunAdi(g))}</th><td class="adet">${s.gelen}</td><td>${s.basan}</td><td>${s.gelen - s.basan}</td><td>${oran(s.basan, s.gelen)}</td></tr>`,
+      )
+      .join('')}
+    <tr class="toplam"><th scope="row" class="gun">Toplam</th><td class="adet">${toplam.gelen}</td><td>${toplam.basan}</td><td>${toplam.gelen - toplam.basan}</td><td>${oran(toplam.basan, toplam.gelen)}</td></tr>
+  </table></div>`;
 }
 
 /**
@@ -942,6 +1019,9 @@ function sayfa(icerik) {
       .iyi{color:#166534}
       .kaydir{overflow-x:auto}
       table{border-collapse:collapse;width:100%;background:#fff;font-size:14px;min-width:640px}
+      table.dar{min-width:0;width:auto}
+      th.gun{background:#f1f5f9;color:#0f172a;white-space:nowrap}
+      tr.toplam td,tr.toplam th{border-top:2px solid #0f172a;font-weight:700}
       th,td{border:1px solid #e2e8f0;padding:8px 10px;text-align:left;vertical-align:top}
       th{background:#0f172a;color:#fff;font-weight:600}
       tr.mobil{background:#fff7ed}
